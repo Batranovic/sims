@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using WpfApp1.Model.Enums;
 using WpfApp1.Serializer;
 
+
 namespace WpfApp1.Model
 {
-    public abstract class User : WpfApp1.Serializer.ISerializable
+    public  class User : WpfApp1.Serializer.ISerializable
     {
         private int _id;
         private string _name;
@@ -24,12 +25,13 @@ namespace WpfApp1.Model
             get => _id;
             set
             {
-                if (value != null)
+                if(value != null)
                 {
                     _id = value;
                 }
             }
         }
+
         public string Name
         {
             get => _name;
@@ -118,7 +120,7 @@ namespace WpfApp1.Model
 
         }
 
-        public string[] ToCSV()
+        public virtual string[] ToCSV()
         {
             string[] csvValues =
             {
@@ -133,7 +135,7 @@ namespace WpfApp1.Model
             return csvValues;
         }
 
-        public void FromCSV(string[] values)
+        public virtual void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
             Name = values[1];
@@ -143,5 +145,9 @@ namespace WpfApp1.Model
             Email = values[5];
             UserKind = Enum.Parse<UserKind>(values[6]);
         }
+
+
+
+
     }
 }

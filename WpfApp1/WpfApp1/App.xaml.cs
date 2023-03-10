@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfApp1.Model;
+using WpfApp1.Repository;
 
 namespace WpfApp1
 {
@@ -13,5 +15,12 @@ namespace WpfApp1
     /// </summary>
     public partial class App : Application
     {
+        public OwnerRepository OwnerRepository {  get; set; }
+
+        public App()
+        {
+            OwnerRepository = new OwnerRepository();    
+        }
+
     }
 }

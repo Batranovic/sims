@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="View\" />
-    <Folder Include="Repository\" />
-    <Folder Include="Resources\" />
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
 
 </Project>
