@@ -12,9 +12,9 @@ namespace WpfApp1.Model
     {
         private int _id;
         private string _name;
-        private string _city;
-        private string _state;
-        private AccommodationKind _accommodationKind; 
+        private int _idLocation;
+        private Location _location;
+        private AccommodationKind _accommodationKind;
         private int _maxGuests;
         private int _minResevation;
         private int _cancelDay = 1;
@@ -27,7 +27,7 @@ namespace WpfApp1.Model
             get => _id;
             set
             {
-                if(value != null) 
+                if (value != null)
                 {
                     _id = value;
                 }
@@ -45,26 +45,26 @@ namespace WpfApp1.Model
             }
         }
 
-        public string City
+        public int IdLocation
         {
-            get => _city;
-            set
-            {
-                if (value != null)
-                {
-                    _city = value;
-                }
-            }
-        }
-
-        public string State
-        {
-            get => _state;
+            get => _idLocation;
             set
             {
                 if(value != null)
                 {
-                    _state = value;
+                    _idLocation = value;
+                }
+            }
+        }
+
+        public Location Location
+        {
+            get => _location;
+            set
+            {
+                if (value != null)
+                {
+                    _location = value;
                 }
             }
         }
@@ -141,12 +141,11 @@ namespace WpfApp1.Model
             }
         }
 
-        public Accommodation(int id, string name, string city, string state, AccommodationKind apartmentKind, int maxGuests, int minResevation, int cancelDay, List<string> images, int ownerId, Owner owner)
+        public Accommodation(int id, string name, int idLocation, AccommodationKind apartmentKind, int maxGuests, int minResevation, int cancelDay, List<string> images, int ownerId, Owner owner)
         {
             Id = id;
             Name = name;
-            City = city;
-            State = state;
+            IdLocation = idLocation;
             AccommodationKind = apartmentKind;
             MaxGuests = maxGuests;
             MinResevation = minResevation;
@@ -167,7 +166,7 @@ namespace WpfApp1.Model
             {
                 Id.ToString(),
                 Name,
-                City,
+                IdLocation.ToString(),
                 AccommodationKind.ToString(),
                 MaxGuests.ToString(),
                 MinResevation.ToString(),
@@ -181,7 +180,7 @@ namespace WpfApp1.Model
         {
             Id = Convert.ToInt32(values[0]);
             Name = values[1];
-            City = values[2];
+            IdLocation = Convert.ToInt32(values[2]);
             AccommodationKind = Enum.Parse<AccommodationKind>(values[3]);
             MaxGuests = Convert.ToInt32(values[4]);
             MinResevation = Convert.ToInt32(values[5]);

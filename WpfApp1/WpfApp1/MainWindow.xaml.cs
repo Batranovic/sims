@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Model;
+using WpfApp1.Repository;
 using WpfApp1.View;
 
 namespace WpfApp1
@@ -21,12 +23,19 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        OwnerRepository OwnerRepostiroy { get; set; }
         public MainWindow()
         {
             InitializeComponent();
 
-            UserView userView = new UserView();
-            userView.Show();
+            OwnerRepostiroy = new OwnerRepository();
+
+            User user = OwnerRepostiroy.Get(0);
+            SignInAccommodation signInAccommodation = new SignInAccommodation(user);
+            signInAccommodation.Show();
+
+            //UserView userView = new UserView();
+            //userView.Show();
 
         }
     }

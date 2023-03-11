@@ -16,11 +16,21 @@ namespace WpfApp1.Repository
 
         private List<Accommodation> _accommododations;
 
+        public LocationDAO LocationDAO { get;  set; }
+
         public AccommodationDAO()
         {
             _serializer = new Serializer<Accommodation>();
             _accommododations = new List<Accommodation>();
             _accommododations = _serializer.FromCSV(_filePath);
+        }
+
+        public void BindLocation()
+        {
+            foreach(Accommodation a in _accommododations)
+            {
+                a.Location = LocationDAO.Get(a.IdLocation);
+            }
         }
 
         public Accommodation Create(Accommodation entity)
@@ -31,9 +41,11 @@ namespace WpfApp1.Repository
             return entity;
         }
 
-        public void Delete(Accommodation entity)
+        public Accommodation Delete(Accommodation entity)
         {
             _accommododations.Remove(entity);
+            Save();
+            return entity;
         }
 
         public Accommodation Get(int id)
@@ -60,7 +72,7 @@ namespace WpfApp1.Repository
             return newId;
         }
 
-        private void Save()
+        public void Save()
         {
             _serializer.ToCSV(_filePath, _accommododations);
         }
