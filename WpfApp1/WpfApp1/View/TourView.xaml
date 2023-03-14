@@ -39,23 +39,37 @@
                 <Label Grid.Row="3" Grid.Column="0" Height="30">Language</Label>
                 <Label Grid.Row="4" Grid.Column="0" Height="30">MaxGuests</Label>
           
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=City}"  Height="30"></TextBox>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=State}"  Height="30"></TextBox>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Duration}"  Height="30"></TextBox>
-                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Language}" Height="30"></ComboBox>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=City, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=State, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
+                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Language, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
                 <TextBox Grid.Row="7" Grid.Column="1" Height="30"></TextBox>
             </Grid>
             <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
                 <Button Content="Search" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
               Click="Search"/>
-                <Button Content="Restart" IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
-               Click="Restart" />
+                
             </WrapPanel>
         </Grid>
     </Grid>
         </TextBlock>
-        <TextBlock Background="Lavender"
-                   DockPanel.Dock="Right"></TextBlock>
+        <TextBlock 
+                   DockPanel.Dock="Right">
+            <DockPanel Width="1037">
+        <DataGrid DockPanel.Dock="Bottom"
+                  ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  Width="1030" Height="720">
+            <DataGrid.Columns>
+                <DataGridTextColumn  Header="City" Binding="{Binding City}" Width="200"></DataGridTextColumn>
+                <DataGridTextColumn  Header="State" Binding="{Binding State}" Width="200"></DataGridTextColumn>
+                <DataGridTextColumn  Header="Duration" Binding="{Binding Duration}" Width="200"></DataGridTextColumn>
+                <DataGridTextColumn  Header="Language" Binding="{Binding Language}" Width="200"></DataGridTextColumn>
+                <DataGridTextColumn  Header="MaxGuest" Binding="{Binding MaxGuest}" Width="140"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+        </TextBlock>
     </DockPanel>
 </Window>
