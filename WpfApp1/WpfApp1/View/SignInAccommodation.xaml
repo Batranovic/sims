@@ -42,7 +42,7 @@
                 <Label Grid.Row="6" Grid.Column="0" Height="30">Cancel day</Label>
                 <Label Grid.Row="7" Grid.Column="0" Height="30">Link of images</Label>
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=NameAccommodation}"  Height="30"></TextBox>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=NameA}"  Height="30"></TextBox>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=City }"  Height="30"></TextBox>
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=State }"  Height="30"></TextBox>
                 <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>

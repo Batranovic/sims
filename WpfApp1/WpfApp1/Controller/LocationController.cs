@@ -24,7 +24,7 @@ namespace WpfApp1.Controller
 
         public List<Location> GetAll()
         {
-            return _locations.GetAll(); 
+            return _locations.GetAll();
         }
 
         public void Create(Location location)
@@ -42,5 +42,9 @@ namespace WpfApp1.Controller
             _locations.Update(location);
         }
 
+        public Location GetByCityAndState(string city, string state)
+        {
+            return _locations.GetByCityAndState(city, state);
+        }
     }
 }

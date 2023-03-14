@@ -47,7 +47,7 @@ namespace WpfApp1.View
         }
 
         private string _name;
-        public string NameAccommodation
+        public string NameA
         {
             get => _name;
             set
@@ -55,7 +55,7 @@ namespace WpfApp1.View
                 if (value != _name)
                 {
                     _name = value;
-                //    OnPropertyChanged("Name");
+                    OnPropertyChanged("NameA");
                 }
             }
         }
@@ -128,19 +128,28 @@ namespace WpfApp1.View
                 }
             }
         }
-
+        
         private void Confirm(object sender, RoutedEventArgs e)
         {
             Accommodation accommodation = new Accommodation();
-            accommodation.Name = NameAccommodation; 
-           
-            Location location = new Location();
-            location.City = City;
-            location.State = State;
-            LocationController.Create(location);
-            accommodation.IdLocation = location.Id;
-            accommodation.Location = location;
+            accommodation.Name = NameA;
 
+            Location location = LocationController.GetByCityAndState(City, State);
+            if (location != null)
+            {
+                accommodation.Location = location;
+                accommodation.IdLocation = location.Id;
+            }
+            else
+            {
+                location = new Location();
+                location.City = City;
+                location.State = State;
+                LocationController.Create(location);
+                accommodation.Location = location;
+                accommodation.IdLocation = location.Id;
+            }
+            
             accommodation.MaxGuests = MaxGuests;
             accommodation.CancelDay = CancelDay;
             accommodation.MinResevation = MinResevation;

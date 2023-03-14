@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class LocationDAO : IDAO<Location>
+    public class LocationDAO : IDAO<Location> 
     {
         private const string _filePath = "../../../Resources/Data/locations.csv";
 
@@ -30,6 +31,8 @@ namespace WpfApp1.Repository
             Save();
             return entity;
         }
+
+        
 
         public Location Delete(Location entity)
         {
@@ -73,6 +76,12 @@ namespace WpfApp1.Repository
             oldEntity = entity;
             Save();
             return oldEntity;
+        }
+
+      
+        public Location GetByCityAndState(string city, string state)
+        {
+            return _locations.Find(l => l.State.ToLower().Equals(state.ToLower()) && l.City.ToLower().Equals(city.ToLower()));
         }
 
         public void Save()
