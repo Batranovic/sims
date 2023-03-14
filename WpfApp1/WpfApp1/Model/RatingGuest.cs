@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Model.Enums
+namespace WpfApp1.Model
 {
-    public enum UserKind
+    public class RatingGuest
     {
-        owner, guest, guide, tourist
+        private int _id;
+        
     }
 }
