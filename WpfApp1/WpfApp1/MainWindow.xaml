@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Turisticke ture" Loaded="Window_Loaded" KeyDown="WindowKeyDown" ResizeMode="NoResize" 
+        Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="statusName" Text="{Binding ElementName=myTabControl, Path=SelectedItem.Header}"></TextBlock>
+            </StatusBarItem>
+            <StatusBarItem Grid.Row="1" Width="143" HorizontalAlignment="Right">
+                <TextBlock x:FieldModifier="private" x:Name="myDateTime"/>
+            </StatusBarItem>
+        </StatusBar>
 
-    </Grid>
+        <StackPanel DockPanel.Dock="Top">
+        </StackPanel>
+    </DockPanel>
 </Window>
