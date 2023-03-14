@@ -32,10 +32,44 @@ namespace WpfApp1.Repository
                 a.Location = LocationDAO.Get(a.IdLocation);
             }
         }
-
         public Tour Get(int id)
         {
             return _tours.Find(a => a.Id == id);
+        }
+        public Tour Create(Tour entity)
+        {
+            entity.Id = NextId();
+            _tours.Add(entity);
+            Save();
+            return entity;
+        }
+        public Tour Update(Tour entity)
+        {
+            var oldEntity = Get(entity.Id);
+            if(oldEntity == null)
+            {
+                return null;
+            }
+            oldEntity = entity;
+            Save();
+            return oldEntity;
+        }
+        public void Save()
+        {
+            _serializer.ToCSV(_filePath, _tours);
+        }
+        public int NextId()
+        {
+            if (_tours.Count == 0) return 0;
+            int newId = _tours[_tours.Count() - 1].Id + 1;
+            foreach(Tour a in _tours)
+            {
+                if (newId == a.Id)
+                {
+                    newId++;
+                }
+            }
+            return newId;
         }
 
         public List<Tour> GetAll()

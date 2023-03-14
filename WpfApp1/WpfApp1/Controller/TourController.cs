@@ -31,5 +31,15 @@ namespace WpfApp1.Controller
         {
             return _tours.Search(location, duration, language, maxGuests);
         }
+        public void Create(Tour tour)
+        {
+            _tours.Create(tour);
+        }
+        public void Update(Tour tour)
+        {
+            _tours.Update(tour);
+        }
+
     }
+
 }

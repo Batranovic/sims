@@ -10,13 +10,17 @@ namespace WpfApp1.Model
 {
     public class Tour : WpfApp1.Serializer.ISerializable
     {
-
         private int _id;
+        private string _name;
         private int _idLocation;
         private Location _location;
+        private string _description;
         private TimeSpan _duration;
         private string _language;        //Da li da se napravi kao enum?
         private int _maxGuests;
+        public List<string> KeyPoints { get; set; }
+        public List<string> Images { get; set; }
+        public List<DateTime> Date { get; set; }
 
         public int Id
         {
@@ -27,6 +31,18 @@ namespace WpfApp1.Model
                 if (value != null)
                 {
                     _id = value;
+                }
+            }
+        }
+        public string Name
+        {
+            get => _name;
+
+            set
+            {
+                if (value != null)
+                {
+                    _name = value;
                 }
             }
         }
@@ -54,7 +70,19 @@ namespace WpfApp1.Model
                 }
             }
         }
-        
+
+        public string Description
+        {
+            get => _description;
+
+            set
+            {
+                if (value != null)
+                {
+                    _description = value;
+                }
+            }
+        }
 
         public TimeSpan Duration
         {
@@ -91,19 +119,23 @@ namespace WpfApp1.Model
                 }
             }
         }
-
         public Tour()
         {
 
         }
 
-        public Tour(int id, int idLocation, TimeSpan duration, string  language, int  maxGuests)
+        public Tour(int id, string name, int idLocation, string description, TimeSpan duration, string  language, int maxGuests, List<string> keyPoints, List<string> images, List<DateTime> date)
         {
             Id = id;
+            Name = name;
             IdLocation = idLocation;
+            Description = description;
             Duration = duration;
             Language = language;
             MaxGuests = maxGuests;
+            KeyPoints = keyPoints;
+            Images = images;
+            Date = date;
         }
 
         public string[] ToCSV()
@@ -111,11 +143,12 @@ namespace WpfApp1.Model
             string[] csvValues =
            {
                     Id.ToString(),
-                    IdLocation.ToString(),   
+                    Name.ToString(),
+                    IdLocation.ToString(), 
+                    Description.ToString(),
                     Duration.ToString(),
                     Language,
-                    MaxGuests.ToString()
-
+                    MaxGuests.ToString(),
                 };
             return csvValues;
         }
@@ -123,12 +156,12 @@ namespace WpfApp1.Model
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            IdLocation = int.Parse(values[1]);
-            Duration = TimeSpan.Parse(values[2]);
-            Language = values[3];
-            MaxGuests = int.Parse(values[4]);
-
-            
+            Name = values[1];
+            IdLocation = int.Parse(values[2]);
+            Description = values[3];
+            Duration = TimeSpan.Parse(values[4]);
+            Language = values[5];
+            MaxGuests = int.Parse(values[6]);
         }
     }
 }
