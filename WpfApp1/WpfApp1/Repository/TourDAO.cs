@@ -8,7 +8,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class TourDAO
+    public class TourDAO : IDAO<Tour>
     {
         private const string _filePath = "../../../Resources/Data/tours.csv";
 
@@ -57,6 +57,13 @@ namespace WpfApp1.Repository
         public void Save()
         {
             _serializer.ToCSV(_filePath, _tours);
+        }
+
+        public Tour Delete(Tour entity)
+        {
+            _tours.Remove(entity);
+            Save();
+            return entity;
         }
         public int NextId()
         {

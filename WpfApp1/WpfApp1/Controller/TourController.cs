@@ -40,6 +40,11 @@ namespace WpfApp1.Controller
             _tours.Update(tour);
         }
 
+        public void Delete(Tour tour)
+        {
+            _tours.Delete(tour);
+        }
+
     }
 
 }
