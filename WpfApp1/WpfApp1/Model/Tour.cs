@@ -18,7 +18,7 @@ namespace WpfApp1.Model
         private TimeSpan _duration;
         private string _language;        //Da li da se napravi kao enum?
         private int _maxGuests;
-        public List<string> KeyPoints { get; set; }
+        public List<Location> KeyPoints { get; set; }
         public List<string> Images { get; set; }
         public List<DateTime> Date { get; set; }
 
@@ -124,7 +124,7 @@ namespace WpfApp1.Model
 
         }
 
-        public Tour(int id, string name, int idLocation, string description, TimeSpan duration, string  language, int maxGuests, List<string> keyPoints, List<string> images, List<DateTime> date)
+        public Tour(int id, string name, int idLocation, string description, TimeSpan duration, string  language, int maxGuests, List<Location> keyPoints, List<string> images, List<DateTime> date)
         {
             Id = id;
             Name = name;
