@@ -38,6 +38,12 @@ namespace WpfApp1.View
             var app = Application.Current as App;
             LocationController = app.LocationController;
         }
+
+        private void InitializeComponent()
+        {
+            throw new NotImplementedException();
+        }
+
         private string _name;
         public string Name
         {
