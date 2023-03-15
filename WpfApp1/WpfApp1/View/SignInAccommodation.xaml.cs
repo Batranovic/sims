@@ -16,13 +16,14 @@ using WpfApp1.Model;
 using System.Collections.ObjectModel;
 using WpfApp1.Controller;
 using System.ComponentModel;
+using WpfApp.Observer;
 
 namespace WpfApp1.View
 {
     /// <summary>
     /// Interaction logic for SignInAccommodation.xaml
     /// </summary>
-    public partial class SignInAccommodation : Window, INotifyPropertyChanged
+    public partial class SignInAccommodation : Window, INotifyPropertyChanged, IObserver
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -70,7 +71,7 @@ namespace WpfApp1.View
                 if(value != _city)
                 {
                     _city = value;
-                //    OnPropertyChanged("City");
+                    OnPropertyChanged("City");
                 }
             }
         }
@@ -84,7 +85,7 @@ namespace WpfApp1.View
                 if (value != _state)
                 {
                     _state = value;
-                //    OnPropertyChanged("State");
+                    OnPropertyChanged("State");
                 }
             }
         }
@@ -111,7 +112,7 @@ namespace WpfApp1.View
                 if(value != _minResevation)
                 {
                     _minResevation = value;
-                    OnPropertyChanged("MinResevation\r\n");
+                    OnPropertyChanged("MinResevation");
                 }
             }
         }
@@ -158,8 +159,7 @@ namespace WpfApp1.View
             accommodation.Owner = LogInOwner;
             AccommodationController.Create(accommodation);
             LogInOwner.Accommodations.Add(accommodation);
-
-
+            Close();
         }
 
         private void Reject(object sender, RoutedEventArgs e)
@@ -172,5 +172,9 @@ namespace WpfApp1.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void Update()
+        {
+
+        }
     }
 }

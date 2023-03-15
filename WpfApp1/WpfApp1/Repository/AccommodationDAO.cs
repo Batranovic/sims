@@ -15,7 +15,7 @@ namespace WpfApp1.Repository
         private readonly Serializer<Accommodation> _serializer;
 
         private List<Accommodation> _accommododations;
-
+        public OwnerRepository OwnerRepository { get; set; }
         public LocationDAO LocationDAO { get;  set; }
 
         public AccommodationDAO()
@@ -33,6 +33,14 @@ namespace WpfApp1.Repository
             }
         }
 
+        public void BindOwner()
+        {
+            foreach(Accommodation a in _accommododations)
+            {
+                a.Owner = OwnerRepository.Get(a.OwnerId);
+                a.Owner.Accommodations.Add(a);
+            }
+        }
         public Accommodation Create(Accommodation entity)
         {
             entity.Id = NextId();

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class TourDAO : IDAO<Tour>
+    public class TourDAO : IDAO<Tour>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/tours.csv";
-
+        private readonly List<IObserver> _observers;
         private readonly Serializer<Tour> _serializer;
 
         private List<Tour> _tours;
@@ -23,6 +24,7 @@ namespace WpfApp1.Repository
             _serializer = new Serializer<Tour>();
             _tours = new List<Tour>();
             _tours = _serializer.FromCSV(_filePath);
+            _observers = new List<IObserver>();
         }
 
         public void BindLocation()
@@ -100,6 +102,24 @@ namespace WpfApp1.Repository
                 }
             }
             return searchedTours;
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void NotifyObservers()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update();
+            }
         }
     }
 }

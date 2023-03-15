@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
+using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class LocationDAO : IDAO<Location> 
+    public class LocationDAO : IDAO<Location>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/locations.csv";
+        private readonly List<IObserver> _observers;
 
         private readonly Serializer<Location> _serializer;
 
         private List<Location> _locations;
-        
 
         public LocationDAO()
         {
@@ -31,8 +32,6 @@ namespace WpfApp1.Repository
             Save();
             return entity;
         }
-
-        
 
         public Location Delete(Location entity)
         {
@@ -87,6 +86,24 @@ namespace WpfApp1.Repository
         public void Save()
         {
             _serializer.ToCSV(_filePath, _locations);
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void NotifyObservers()
+        {
+            foreach(var observer in _observers)
+            {
+                observer.Update();
+            }
         }
     }
 }
