@@ -15,8 +15,6 @@ namespace WpfApp1.Model
             Tours = new List<Tour>();
         }
 
-       
-
         public override string[] ToCSV()
         {
             return base.ToCSV();
