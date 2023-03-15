@@ -20,7 +20,7 @@ namespace WpfApp1.Model
         private int _cancelDay = 1;
         private int _ownerId;
         private Owner _owner;
-        public List<string> Images { get; set; }
+        public List<Image> Images { get; set; }
 
         public int Id
         {
@@ -141,17 +141,16 @@ namespace WpfApp1.Model
             }
         }
 
-        public Accommodation(int id, string name, int idLocation, AccommodationKind apartmentKind, int maxGuests, int minResevation, int cancelDay, List<string> images, int ownerId, Owner owner)
+        public Accommodation(string name, Location location, AccommodationKind apartmentKind, int maxGuests, int minResevation, int cancelDay,  Owner owner)
         {
-            Id = id;
             Name = name;
-            IdLocation = idLocation;
+            IdLocation = location.Id;
             AccommodationKind = apartmentKind;
             MaxGuests = maxGuests;
             MinResevation = minResevation;
             CancelDay = cancelDay;
-            Images = images;
-            OwnerId = ownerId;
+            Images = new List<Image>();
+            OwnerId = owner.Id;
             Owner = owner;
         }
 

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class AccommodationDAO : IDAO<Accommodation>
+    public class AccommodationDAO : IDAO<Accommodation>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/accommodations.csv";
-
+        private readonly List<IObserver> _observers;
         private readonly Serializer<Accommodation> _serializer;
 
         private List<Accommodation> _accommododations;
@@ -23,6 +24,7 @@ namespace WpfApp1.Repository
             _serializer = new Serializer<Accommodation>();
             _accommododations = new List<Accommodation>();
             _accommododations = _serializer.FromCSV(_filePath);
+            _observers = new List<IObserver>();
         }
 
         public void BindLocation()
@@ -97,6 +99,22 @@ namespace WpfApp1.Repository
             return oldEntity;
         }
 
-      
+        public void Subscribe(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void NotifyObservers()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update();
+            }
+        }
     }
 }

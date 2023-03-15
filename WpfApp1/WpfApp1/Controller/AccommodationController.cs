@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
@@ -40,6 +41,16 @@ namespace WpfApp1.Controller
         public void Update(Accommodation accommodation)
         {
             _accommodations.Update(accommodation);
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _accommodations.Subscribe(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _accommodations.Unsubscribe(observer);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,12 +25,14 @@ namespace WpfApp1.Repository
             _locations = new List<Location>();
             _serializer = new Serializer<Location>();
             _locations = _serializer.FromCSV(_filePath);
+            _observers = new List<IObserver>();
         }
         public Location Create(Location entity)
         {
             entity.Id = NextId();
             _locations.Add(entity);
             Save();
+            NotifyObservers();
             return entity;
         }
 
@@ -37,6 +40,7 @@ namespace WpfApp1.Repository
         {
             _locations.Remove(entity);
             Save();
+            NotifyObservers();
             return entity;
         }
 
@@ -64,7 +68,14 @@ namespace WpfApp1.Repository
             }
             return nextId;
         }
-
+        public List<string> GetStates()
+        {
+            return _locations.Select(l => l.State).Distinct().ToList();
+        }
+        public List<string> GetCitiesFromStates(string state)
+        {
+            return _locations.FindAll(l => l.State.Equals(state)).Select(l => l.City).ToList();
+        }
         public Location Update(Location entity)
         {
             var oldEntity = Get(entity.Id);
@@ -74,6 +85,7 @@ namespace WpfApp1.Repository
             }
             oldEntity = entity;
             Save();
+            NotifyObservers();
             return oldEntity;
         }
 

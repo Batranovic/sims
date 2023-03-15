@@ -16,7 +16,7 @@
                 <DataGridTextColumn  Header="Surname" Binding="{Binding Surname}" Width="150"></DataGridTextColumn>
                 <DataGridTextColumn  Header="Username" Binding="{Binding Username}" Width="150"></DataGridTextColumn>
                 <DataGridTextColumn  Header="Password" Binding="{Binding Password}" Width="100"></DataGridTextColumn>
-                <DataGridTextColumn  Header="Email" Binding="{Binding Email}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn  Header="Email" Binding="{Binding Email}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>
