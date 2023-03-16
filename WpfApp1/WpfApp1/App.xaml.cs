@@ -20,6 +20,7 @@ namespace WpfApp1
         public LocationController LocationController { get; set; }
         public AccommodationController AccommodationController { get; set; }
 
+        public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
         public App()
         {
@@ -33,6 +34,9 @@ namespace WpfApp1
 
             TourDAO tourDAO = new TourDAO();
             TourController = new TourController(tourDAO);
+
+            ImageDAO imageDAO = new ImageDAO();
+            ImageController = new ImageController(imageDAO);
 
             LocationController = new LocationController(locationDAO);
 

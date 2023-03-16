@@ -17,34 +17,68 @@ using System.Collections.ObjectModel;
 using WpfApp1.Controller;
 using System.ComponentModel;
 using WpfApp.Observer;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
+using Application = System.Windows.Application;
 
 namespace WpfApp1.View
 {
     /// <summary>
     /// Interaction logic for SignInAccommodation.xaml
     /// </summary>
-    public partial class SignInAccommodation : Window, INotifyPropertyChanged, IObserver
+    public partial class SignInAccommodation : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
         public AccommodationKind SelectedAccommodationKind { get; set; }
-        
+
         public LocationController LocationController { get; set; }
         public AccommodationController AccommodationController { get; set; }
+
+        public ImageController ImageController { get; set; }
+
+        public ObservableCollection<string> States { get; set; }
+        public ObservableCollection<string> Cities { get; set; }
+
+        public string SelectedCity { get; set; }
         public Owner LogInOwner { get; set; }
         public SignInAccommodation(User user)
         {
             InitializeComponent();
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            LocationController = app.LocationController;
-            AccommodationController = app.AccommodationController;
+            InitialisationControllers();
+
+
+            States = new ObservableCollection<string>(LocationController.GetStates());
+            Cities = new ObservableCollection<string>();
 
             LogInOwner = (Owner)user;
             AccommodationKind = new ObservableCollection<AccommodationKind>(Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>());
 
+        }
+
+        private void InitialisationControllers()
+        {
+            var app = Application.Current as App;
+            LocationController = app.LocationController;
+            AccommodationController = app.AccommodationController;
+            ImageController = app.ImageController;
+        }
+
+        private string _state;
+        public string SelectedState
+        {
+            get => _state;
+            set
+            {
+                if (_state != value)
+                {
+                    _state = value;
+                    OnPropertyChanged(_state);
+                }
+            }
         }
 
         private string _name;
@@ -62,41 +96,13 @@ namespace WpfApp1.View
         }
 
 
-        private string _city;
-        public string City
-        {
-            get => _city;
-            set
-            {
-                if(value != _city)
-                {
-                    _city = value;
-                    OnPropertyChanged("City");
-                }
-            }
-        }
-
-        private string _state;
-        public string State
-        {
-            get => _state;
-            set
-            {
-                if (value != _state)
-                {
-                    _state = value;
-                    OnPropertyChanged("State");
-                }
-            }
-        }
-
         private int _maxGuests;
         public int MaxGuests
         {
             get => _maxGuests;
             set
             {
-                if(_maxGuests != value)
+                if (_maxGuests != value)
                 {
                     _maxGuests = value;
                     OnPropertyChanged("MaxGuests");
@@ -109,7 +115,7 @@ namespace WpfApp1.View
             get => _minResevation;
             set
             {
-                if(value != _minResevation)
+                if (value != _minResevation)
                 {
                     _minResevation = value;
                     OnPropertyChanged("MinResevation");
@@ -122,44 +128,50 @@ namespace WpfApp1.View
             get => _cancelDay;
             set
             {
-                if(value != _cancelDay)
+                if (value != _cancelDay)
                 {
                     _cancelDay = value;
                     OnPropertyChanged("CancelDay");
                 }
             }
         }
-        
+
+        private string _url;
+        public string Url
+        {
+            get => _url;
+            set
+            {
+                if(value != _url)
+                {
+                    _url = value;
+                    OnPropertyChanged("Url");
+                }
+            }
+        }
+
+
+        private List<Model.Image> MakeImages(Accommodation accommodation)
+        {
+            List<Model.Image> images = new List<Model.Image>();
+            foreach (string s in _urls)
+            {
+                images.Add(new Model.Image(s, accommodation.Id, ImageKind.accommodation));
+            }
+            foreach (Model.Image image in images)
+            {
+                ImageController.Create(image);
+            }
+            return images;
+        }
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            Accommodation accommodation = new Accommodation();
-            accommodation.Name = NameA;
-
-            Location location = LocationController.GetByCityAndState(City, State);
-            if (location != null)
-            {
-                accommodation.Location = location;
-                accommodation.IdLocation = location.Id;
-            }
-            else
-            {
-                location = new Location();
-                location.City = City;
-                location.State = State;
-                LocationController.Create(location);
-                accommodation.Location = location;
-                accommodation.IdLocation = location.Id;
-            }
-            
-            accommodation.MaxGuests = MaxGuests;
-            accommodation.CancelDay = CancelDay;
-            accommodation.MinResevation = MinResevation;
-            accommodation.AccommodationKind = SelectedAccommodationKind;
-            accommodation.OwnerId = LogInOwner.Id;
-            accommodation.Owner = LogInOwner;
+            Location location = LocationController.GetByCityAndState(SelectedCity, SelectedState);
+            Accommodation accommodation = new Accommodation(NameA, location, SelectedAccommodationKind, MaxGuests, MinResevation, CancelDay, LogInOwner);
             AccommodationController.Create(accommodation);
+            accommodation.Images = MakeImages(accommodation);
             LogInOwner.Accommodations.Add(accommodation);
-            Close();
+            this.Close();
         }
 
         private void Reject(object sender, RoutedEventArgs e)
@@ -172,9 +184,24 @@ namespace WpfApp1.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Update()
-        {
+      
 
+        private void ChosenState(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedState = (string)SelectState.SelectedItem;
+            Cities.Clear();
+            foreach (string city in LocationController.GetCitiesFromStates(SelectedState))
+            {
+                Cities.Add(city);
+            }
+        }
+
+        private List<string> _urls = new List<string>();
+
+        private void AddURL(object sender, RoutedEventArgs e)
+        {
+            _urls.Add(Url);
+            Url = "";
         }
     }
 }
