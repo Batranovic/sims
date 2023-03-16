@@ -15,12 +15,13 @@
                         <ColumnDefinition Width="230"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="350"></RowDefinition>
+                        <RowDefinition Height="450"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     
                     <Grid Grid.Row="0" Grid.Column="0" Margin="25,25,25,25" Grid.ColumnSpan="3">
                         <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
@@ -32,17 +33,19 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         
-                        <Label Grid.Row="0" Grid.Column="0" Height="30">Nesto</Label>
-                        <Label Grid.Row="1" Grid.Column="0" Height="30">Nesto</Label>
-                        <Label Grid.Row="2" Grid.Column="0" Height="30">Nesto</Label>
-                        <Label Grid.Row="3" Grid.Column="0" Height="30">Nesto</Label>
-                        <Label Grid.Row="4" Grid.Column="0" Height="30">Nesto</Label>
+                        <Label Grid.Row="0" Grid.Column="0" Height="30">Name</Label>
+                        <Label Grid.Row="1" Grid.Column="0" Height="30">State</Label>
+                        <Label Grid.Row="2" Grid.Column="0" Height="30">City</Label>
+                        <Label Grid.Row="3" Grid.Column="0" Height="30">Type</Label>
+                        <Label Grid.Row="4" Grid.Column="0" Height="30">Guest number</Label>
+                        <Label Grid.Row="5" Grid.Column="0" Height="30">Reservation days</Label>
                         
                         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
-                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
+                        <ComboBox Grid.Row="1" Grid.Column="1" Height="30" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
                         <ComboBox Grid.Row="2" Grid.Column="1" Height="30" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
-                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
+                        <ComboBox Grid.Row="3" Grid.Column="1" Height="30" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
                         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
+                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
                     </Grid>
                     <WrapPanel Grid.Row="1" FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0">
                         <Button Content="Search" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,10,10,10" />
@@ -55,6 +58,7 @@
             <DockPanel>
                 <DataGrid DockPanel.Dock="Right" Width="850" Height="650"
                           AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
                           Margin="25,25,20,25" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="100"></DataGridTextColumn>
