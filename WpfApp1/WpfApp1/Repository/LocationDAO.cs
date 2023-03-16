@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Navigation;
 using WpfApp.Observer;
 using WpfApp1.Model;

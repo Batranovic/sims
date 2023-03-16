@@ -20,6 +20,7 @@ namespace WpfApp1
         public LocationController LocationController { get; set; }
         public AccommodationController AccommodationController { get; set; }
 
+        public RatingGuestController RatingGuestController { get; set; }
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
         public App()
@@ -32,8 +33,14 @@ namespace WpfApp1
             accommodationDAO.BindLocation();
             accommodationDAO.BindOwner();
 
+            RatingGuestDAO ratingGuestDAO = new RatingGuestDAO();
+            RatingGuestController = new RatingGuestController(ratingGuestDAO);
+            ratingGuestDAO.AccommodationDAO = accommodationDAO;
+            ratingGuestDAO.BindAccommodation();
+
             TourDAO tourDAO = new TourDAO();
             TourController = new TourController(tourDAO);
+            
 
             ImageDAO imageDAO = new ImageDAO();
             ImageController = new ImageController(imageDAO);

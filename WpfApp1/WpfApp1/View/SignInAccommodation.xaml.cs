@@ -26,7 +26,7 @@ namespace WpfApp1.View
     /// <summary>
     /// Interaction logic for SignInAccommodation.xaml
     /// </summary>
-    public partial class SignInAccommodation : Window, INotifyPropertyChanged
+    public partial class SignInAccommodation : Window, INotifyPropertyChanged, IDataErrorInfo
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -49,9 +49,9 @@ namespace WpfApp1.View
             this.DataContext = this;
 
             InitialisationControllers();
+            SelectCity.IsEnabled = false;
 
-
-            States = new ObservableCollection<string>(LocationController.GetStates());
+           States = new ObservableCollection<string>(LocationController.GetStates());
             Cities = new ObservableCollection<string>();
 
             LogInOwner = (Owner)user;
@@ -166,6 +166,11 @@ namespace WpfApp1.View
         }
         private void Confirm(object sender, RoutedEventArgs e)
         {
+            if(IsValid)
+            {
+          
+                return;
+            }
             Location location = LocationController.GetByCityAndState(SelectedCity, SelectedState);
             Accommodation accommodation = new Accommodation(NameA, location, SelectedAccommodationKind, MaxGuests, MinResevation, CancelDay, LogInOwner);
             AccommodationController.Create(accommodation);
@@ -184,11 +189,10 @@ namespace WpfApp1.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-      
-
         private void ChosenState(object sender, SelectionChangedEventArgs e)
         {
             SelectedState = (string)SelectState.SelectedItem;
+            SelectCity.IsEnabled = true;
             Cities.Clear();
             foreach (string city in LocationController.GetCitiesFromStates(SelectedState))
             {
@@ -203,5 +207,89 @@ namespace WpfApp1.View
             _urls.Add(Url);
             Url = "";
         }
+
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "NameA")
+                {
+                    if (NameA == null)
+                    {
+                        return "Nije dodato ime smestaja";
+                    }
+                }
+
+                if (columnName == "SelectedState")
+                {
+                    if (SelectedState == null)
+                    {
+                        return "Nije izabrana drzava";
+                    }
+                }
+                if (columnName == "SelectedCity")
+                {
+                    if (SelectedCity == null)
+                    {
+                        return "Nije izabran grad";
+                    }
+                }
+                if (columnName == "SelectedAccommodationKind")
+                {
+                    if (SelectedAccommodationKind == null)
+                    {
+                        return "Nije izabrana vrsta smestaja";
+                    }
+                }
+                if (columnName == "MaxGuests")
+                {
+                    if (MaxGuests == 0)
+                    {
+                        return "Nije postavljen broj gostiju";
+                    }
+                }
+                if (columnName == "MinReservation")
+                {
+                    if (MinResevation == 0)
+                    {
+                        return "Nije postavljen najmanja rezervaciaj";
+                    }
+                }
+                if (columnName == "CancelDay")
+                {
+                    if (CancelDay == 0)
+                    {
+                        return "Nije postavljen najmanja rezervaciaj";
+                    }
+                }
+                if(columnName == "Url")
+                {
+                    if(_urls.Count == 0)
+                    {
+                        return "Nije postavljen ni jedan link";
+                    }
+                }
+                return null;
+            }
+        }
+      
+        private readonly string[] _validatedProperties = { "NameA", "SelectedState", "SelectedCity", "SelectedAccommodationKind", "MaxGuests", "MinResevation", "CancelDay", "_urls" };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+
     }
 }
