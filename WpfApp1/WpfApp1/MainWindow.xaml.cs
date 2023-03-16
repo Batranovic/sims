@@ -34,6 +34,9 @@ namespace WpfApp1
             SignInAccommodation signInAccommodation = new SignInAccommodation(user);
             signInAccommodation.Show();
 
+            AccommodationView accommodationView = new AccommodationView();
+            accommodationView.Show();
+
             //UserView userView = new UserView();
             //userView.Show();
 

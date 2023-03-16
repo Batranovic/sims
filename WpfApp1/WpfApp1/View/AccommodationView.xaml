@@ -1,0 +1,74 @@
+﻿<Window x:Class="WpfApp1.View.AccommodationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        Title="AccommodationView" Height="720" Width="1280">
+    <DockPanel>
+        <TextBlock Background="PaleTurquoise" DockPanel.Dock="Left">
+            <Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="155"/>
+                        <ColumnDefinition Width="230"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="350"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid Grid.Row="0" Grid.Column="0" Margin="25,25,25,25" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Label Grid.Row="0" Grid.Column="0" Height="30">Nesto</Label>
+                        <Label Grid.Row="1" Grid.Column="0" Height="30">Nesto</Label>
+                        <Label Grid.Row="2" Grid.Column="0" Height="30">Nesto</Label>
+                        <Label Grid.Row="3" Grid.Column="0" Height="30">Nesto</Label>
+                        <Label Grid.Row="4" Grid.Column="0" Height="30">Nesto</Label>
+                        
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
+                        <ComboBox Grid.Row="2" Grid.Column="1" Height="30" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
+                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
+                    </Grid>
+                    <WrapPanel Grid.Row="1" FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0">
+                        <Button Content="Search" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,10,10,10" />
+                        <Button Content="Reserve" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin=" 10,10,10,10"/>
+                    </WrapPanel>
+                </Grid>
+            </Grid>
+        </TextBlock>
+        <TextBlock Background="LightSalmon" DockPanel.Dock="Right">
+            <DockPanel>
+                <DataGrid DockPanel.Dock="Right" Width="850" Height="650"
+                          AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="25,25,20,25" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="100"></DataGridTextColumn>
+                        <DataGridTextColumn Header="State" Binding="{Binding Location.State}" Width="100"></DataGridTextColumn>
+                        <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="100"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Type" Binding="{Binding AccommodationKind}" Width="100"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="100"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Min days" Binding="{Binding MinResevation}" Width="100"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Cancel due date" Binding="{Binding CancelDay}" Width="100"></DataGridTextColumn>
+                        
+                        <DataGridTextColumn Header="Image Url" Binding="{Binding _minResevation}" Width="*"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </TextBlock>
+    </DockPanel>
+</Window>
