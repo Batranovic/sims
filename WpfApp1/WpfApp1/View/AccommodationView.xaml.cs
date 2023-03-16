@@ -32,6 +32,7 @@ namespace WpfApp1.View
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
+        public Accommodation SelectedAccommodation { get; set; }
         
 
         public AccommodationView()
