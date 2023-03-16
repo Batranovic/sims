@@ -22,30 +22,47 @@ namespace WpfApp1.View
     /// <summary>
     /// Interaction logic for TourView.xaml
     /// </summary>
-    public partial class TourView : Window
+    public partial class TourSearchAndOverview : Window
     {
         public LocationController LocationController { get; set; }
 
         public TourController TourController { get; set; }
 
-        public TourView()
+        public ObservableCollection<Tour> Tours { get; set; }
+
+        public Tour SelectedTour { get; set; }
+
+        public string State { get; set; }
+
+        public string City { get; set; }
+        public string Language { get; set; }
+        public string Duration { get; set; }
+
+        public string MaxGuests { get; set; }    
+
+        public TourSearchAndOverview()
         {
             InitializeComponent();
             this.DataContext = this;
 
             var app = Application.Current as App;
             LocationController = app.LocationController;
+            TourController = app.TourController;
+
+            Tours = new ObservableCollection<Tour>(TourController.GetAll());
+
+
+            State = "";
+            City = "";
+            Language = "";
+            Duration = "";
+            MaxGuests = "";
             
         }
 
-        private void Search(object sender, RoutedEventArgs e)
+        private void Search_Button_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void Restart(object sender, RoutedEventArgs e)
-        {
-
+            List<Tour> searchedTours = TourController.TourSearch(State, City, Language, MaxGuests, Duration);
         }
     }
 }

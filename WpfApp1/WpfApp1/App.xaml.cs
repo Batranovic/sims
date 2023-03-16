@@ -32,8 +32,10 @@ namespace WpfApp1
             accommodationDAO.BindLocation();
             accommodationDAO.BindOwner();
 
-            TourDAO tourDAO = new TourDAO();
-            TourController = new TourController(tourDAO);
+            TourDAO.GetInstance().LocationDAO = locationDAO;
+            TourDAO.GetInstance().BindLocation();
+            
+            TourController = new TourController();
 
             ImageDAO imageDAO = new ImageDAO();
             ImageController = new ImageController(imageDAO);
