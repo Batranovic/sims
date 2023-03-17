@@ -10,13 +10,20 @@ namespace WpfApp1.Model
     public class RatingGuest : ISerializable
     {
         private int _id;
-        private int _idAccommodation;
-        private Accommodation _accommodation;
         private int _idReservation;
         private Reservation _reservation;
         private string _comment;
         private int _cleanness;
         private int _followingRules;
+
+        public RatingGuest(Reservation reservation, string comment, int cleanness, int followingRules)
+        {
+            IdReservation = reservation.Id;
+            Reservation = reservation;
+            Comment = comment;
+            Cleanness = cleanness;
+            FollowingRules = followingRules;
+        }
 
         public int Id
         {
@@ -26,29 +33,6 @@ namespace WpfApp1.Model
                 if(value != null)
                 {
                     _id = value;
-                }
-            }
-        }
-        
-        public int IdAccommodation
-        {
-            get => _idAccommodation;
-            set
-            {
-                if (value != null)
-                {
-                    _idAccommodation = value;
-                }
-            }
-        }
-        public Accommodation Accommodation
-        {
-            get => _accommodation;
-            set
-            {
-                if (value != null)
-                {
-                    _accommodation = value;
                 }
             }
         }
@@ -65,6 +49,17 @@ namespace WpfApp1.Model
             }
         }
 
+        public Reservation Reservation
+        {
+            get => _reservation;    
+            set
+            {
+                if(_reservation != null)
+                {
+                    _reservation = value;
+                }
+            }
+        }
         public string Comment
         {
             get => _comment;
@@ -109,7 +104,6 @@ namespace WpfApp1.Model
             string[] result =
             {
                 Id.ToString(),
-                IdAccommodation.ToString(),
                 IdReservation.ToString(),
                 Comment,
                 Cleanness.ToString(),
@@ -121,11 +115,10 @@ namespace WpfApp1.Model
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            IdAccommodation = Convert.ToInt32(values[1]);
-            IdReservation = Convert.ToInt32(values[2]);
-            Comment = values[3];
-            Cleanness = Convert.ToInt32(values[4]);
-            FollowingRules = Convert.ToInt32(values[5]);
+            IdReservation = Convert.ToInt32(values[1]);
+            Comment = values[2];
+            Cleanness = Convert.ToInt32(values[3]);
+            FollowingRules = Convert.ToInt32(values[4]);
         }
     }
 }

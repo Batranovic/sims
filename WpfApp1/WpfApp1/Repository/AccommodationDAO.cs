@@ -16,9 +16,8 @@ namespace WpfApp1.Repository
         private readonly Serializer<Accommodation> _serializer;
 
         private List<Accommodation> _accommododations;
+        public LocationDAO LocationDAO { get; set; }
         public OwnerRepository OwnerRepository { get; set; }
-        public LocationDAO LocationDAO { get;  set; }
-
         public AccommodationDAO()
         {
             _serializer = new Serializer<Accommodation>();
@@ -34,6 +33,7 @@ namespace WpfApp1.Repository
                 a.Location = LocationDAO.Get(a.IdLocation);
             }
         }
+
 
         public void BindOwner()
         {

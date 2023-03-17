@@ -7,19 +7,24 @@
         mc:Ignorable="d"
         Title="OwnerAccount" Height="450" Width="800">
     <Grid>
+        <DockPanel Background="red" Width="800">
+            <DockPanel DockPanel.Dock="Left" Width="211" Background="black">
+                <StackPanel >
+                    <Button Click="SignInAccomodation">Sign in accommodation</Button>
+                    <Button x:Name="btnRatingGuest" Click="ViewExpiredReservation" >Rating guest</Button>
+                    <Button>Sign in accommodation</Button>
+                    <Button>Sign in accommodation</Button>
+                    <Button>Sign in accommodation</Button>
+                </StackPanel>
+            </DockPanel>
 
-        <WrapPanelHorizontalAlignment Background="Blue" HorizontalAlignment="Left" Orientation="Vertical" Width="200" >
+            <DockPanel DockPanel.Dock="Right">
+                <DataGrid>
 
-            <Button Click="SignInAccomodation" Content="Sign in accommodation" />
-            <Button Click="SignInAccomodation" Content="Sign in accommodation" />
-            <Button Click="SignInAccomodation" Content="Sign in accommodation" />
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
 
-
-        </WrapPanel>
-
-            <DataGrid HorizontalAlignment="Left"  Width="200" >
-
-        </DataGrid>
 
     </Grid>
 </Window>

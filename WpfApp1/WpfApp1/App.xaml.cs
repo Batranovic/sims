@@ -17,14 +17,16 @@ namespace WpfApp1
     public partial class App : Application
     {
         public OwnerRepository OwnerRepository {  get; set; }
+        public GuestRepository GuestRepository { get; set; }
         public LocationController LocationController { get; set; }
         public AccommodationController AccommodationController { get; set; }
-
+        public ReservationController ReservationController { get; set; }
         public RatingGuestController RatingGuestController { get; set; }
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
         public App()
         {
+            GuestRepository = new GuestRepository();
             OwnerRepository = new OwnerRepository();
             LocationDAO locationDAO = new LocationDAO();
             AccommodationDAO accommodationDAO = new AccommodationDAO();
@@ -33,10 +35,16 @@ namespace WpfApp1
             accommodationDAO.BindLocation();
             accommodationDAO.BindOwner();
 
+            ReservationDAO reservationDAO = new ReservationDAO();
+            ReservationController = new ReservationController(reservationDAO);
+            reservationDAO.AccommodationDAO = accommodationDAO;
+            reservationDAO.GuestRepository = GuestRepository;
+            reservationDAO.BindGuest();
+            reservationDAO.BindAccommodation();
             RatingGuestDAO ratingGuestDAO = new RatingGuestDAO();
             RatingGuestController = new RatingGuestController(ratingGuestDAO);
-            ratingGuestDAO.AccommodationDAO = accommodationDAO;
-            ratingGuestDAO.BindAccommodation();
+            ratingGuestDAO.ReservationDAO = reservationDAO;
+            ratingGuestDAO.BindReservation();
 
             TourDAO tourDAO = new TourDAO();
             TourController = new TourController(tourDAO);

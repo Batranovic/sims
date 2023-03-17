@@ -18,8 +18,7 @@ namespace WpfApp1.Repository
 
         private List<RatingGuest> _ratingGuests;
 
-        public AccommodationDAO AccommodationDAO { get;  set; }
-
+        public ReservationDAO ReservationDAO { get; set; }
         public RatingGuestDAO()
         {
             _serializer = new Serializer<RatingGuest>();
@@ -88,11 +87,13 @@ namespace WpfApp1.Repository
             return oldEntity;
         }
 
-        public void BindAccommodation()
+     
+
+        public void BindReservation()
         {
             foreach(RatingGuest r in _ratingGuests)
             {
-                r.Accommodation = AccommodationDAO.Get(r.IdAccommodation);
+                r.Reservation = ReservationDAO.Get(r.IdReservation);
             }
         }
 

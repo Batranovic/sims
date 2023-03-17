@@ -43,6 +43,11 @@ namespace WpfApp1.Controller
             _reservations.Update(reservation);
         }
 
+        public List<Reservation> GetUnratedById(int id)
+        {
+            return _reservations.GetUnratedById(id);
+        }
+
         public void Subscribe(IObserver observer)
         {
             _reservations.Subscribe(observer);

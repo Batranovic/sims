@@ -43,7 +43,7 @@ namespace WpfApp1.View
 
         public string SelectedCity { get; set; }
         public Owner LogInOwner { get; set; }
-        public SignInAccommodation(User user)
+        public SignInAccommodation(Owner owner)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -54,7 +54,7 @@ namespace WpfApp1.View
            States = new ObservableCollection<string>(LocationController.GetStates());
             Cities = new ObservableCollection<string>();
 
-            LogInOwner = (Owner)user;
+            LogInOwner = (Owner)owner;
             AccommodationKind = new ObservableCollection<AccommodationKind>(Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>());
 
         }

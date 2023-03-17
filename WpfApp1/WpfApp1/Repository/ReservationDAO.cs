@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
+using WpfApp1.Model.Enums;
 
 namespace WpfApp1.Repository
 {
@@ -21,14 +22,38 @@ namespace WpfApp1.Repository
 
         private List<Reservation> _reservations;
 
+        public AccommodationDAO AccommodationDAO { get; set; }
+        public GuestRepository GuestRepository { get; set; }
+        
         public ReservationDAO()
         {
             _reservations = new List<Reservation>();
             _serializer= new Serializer<Reservation>();
             _reservations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-
+            SetStatus();
         }
+
+        public void SetStatus()
+        {
+            foreach(Reservation reservation in _reservations)
+            {
+                if (reservation.Status == RatingGuestStatus.rated)
+                {
+                    continue;
+                }
+                else if (reservation.EndDate < DateTime.Now)
+                {
+                    reservation.Status = RatingGuestStatus.inprogres;
+                }
+                else if (reservation.EndDate > DateTime.Now.AddDays(-5))
+                {
+                    reservation.Status = RatingGuestStatus.expired;
+                }
+                reservation.Status = RatingGuestStatus.unrated;
+            }
+        }
+
         public Reservation Create(Reservation entity)
         {
             entity.Id = NextId();
@@ -36,6 +61,21 @@ namespace WpfApp1.Repository
             Save();
             NotifyObservers();
             return entity;
+        }
+
+        public void BindGuest()
+        {
+            foreach (Reservation r in _reservations)
+            {
+                r.Guest = GuestRepository.Get(r.IdGuest);
+            }
+        }
+        public void BindAccommodation()
+        {
+            foreach(Reservation r in _reservations)
+            {
+                r.Accommodation = AccommodationDAO.Get(r.IdAccommodation);
+            }
         }
 
         public Reservation Delete(Reservation entity)
@@ -92,6 +132,17 @@ namespace WpfApp1.Repository
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
+        }
+
+
+        public List<Reservation> GetUnratedById(int id)
+        {
+            var list = _reservations.FindAll(r => r.Status == RatingGuestStatus.unrated && r.Accommodation.OwnerId == id).ToList();
+            if (list == null)
+            {
+                return new List<Reservation>();
+            }
+            return list;
         }
 
         public Reservation Update(Reservation entity)
