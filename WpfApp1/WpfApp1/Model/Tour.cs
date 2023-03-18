@@ -96,7 +96,7 @@ namespace WpfApp1.Model
             }
         }
 
-        public string Language
+        public string Languages
         {
             get => _language;
             set
@@ -131,7 +131,7 @@ namespace WpfApp1.Model
             IdLocation = idLocation;
             Description = description;
             Duration = duration;
-            Language = language;
+            Languages = language;
             MaxGuests = maxGuests;
             KeyPoints = keyPoints;
             Images = images;
@@ -147,7 +147,7 @@ namespace WpfApp1.Model
                     IdLocation.ToString(), 
                     Description.ToString(),
                     Duration.ToString(),
-                    Language,
+                    Languages,
                     MaxGuests.ToString(),
                 };
             return csvValues;
@@ -160,7 +160,7 @@ namespace WpfApp1.Model
             IdLocation = int.Parse(values[2]);
             Description = values[3];
             Duration = Double.Parse(values[4]);
-            Language = values[5];
+            Languages = values[5];
             MaxGuests = int.Parse(values[6]);
         }
     }

@@ -17,8 +17,9 @@ namespace WpfApp1.Repository
 
         private List<TourBooking> _tourBookings;
 
-       
-        public TourBookingDAO()
+        private static TourBookingDAO instance = null;
+
+        private TourBookingDAO()
         {
             _serializer = new Serializer<TourBooking>();
             _tourBookings = new List<TourBooking>();
@@ -96,6 +97,15 @@ namespace WpfApp1.Repository
             {
                 observer.Update();
             }
+        }
+
+        public static TourBookingDAO GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new TourBookingDAO();
+            }
+            return instance;
         }
     }
 }

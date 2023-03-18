@@ -35,7 +35,7 @@ namespace WpfApp1.View
         public string State { get; set; }
 
         public string City { get; set; }
-        public string Language { get; set; }
+        public string Languages { get; set; }
         public string Duration { get; set; }
 
         public string MaxGuests { get; set; }    
@@ -49,20 +49,29 @@ namespace WpfApp1.View
             LocationController = app.LocationController;
             TourController = app.TourController;
 
+            TourController = new TourController();
             Tours = new ObservableCollection<Tour>(TourController.GetAll());
 
 
             State = "";
             City = "";
-            Language = "";
+            Languages = "";
             Duration = "";
             MaxGuests = "";
             
         }
-
+        private void RefreshTours(List<Tour> tours)
+        {
+            Tours.Clear();
+            foreach (Tour tour in tours)
+            {
+                Tours.Add(tour);
+            }
+        }
         private void Search_Button_Click(object sender, RoutedEventArgs e)
         {
-            List<Tour> searchedTours = TourController.TourSearch(State, City, Language, MaxGuests, Duration);
+            List<Tour> searchedTours = TourController.TourSearch(State, City, Languages, MaxGuests, Duration);
+            RefreshTours(searchedTours);
         }
     }
 }
