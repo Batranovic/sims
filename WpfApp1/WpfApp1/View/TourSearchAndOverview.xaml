@@ -60,7 +60,7 @@
                   ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True"
-                  Width="1020" Height="720">
+                  Width="1040" Height="720">
             <DataGrid.Columns>
                 <DataGridTextColumn  Header="City" Binding="{Binding Location.City}" Width="200"></DataGridTextColumn>
                 <DataGridTextColumn  Header="State" Binding="{Binding Location.State}" Width="200"></DataGridTextColumn>
