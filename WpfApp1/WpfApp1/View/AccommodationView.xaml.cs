@@ -171,6 +171,11 @@ namespace WpfApp1.View
             }
         }
 
+        private void Reserve(object sender, EventArgs e)
+        {
+            ReservationView reservationView = new ReservationView(SelectedAccommodation);
+        }
+
 
         private void ShowImage(object sender, RoutedEventArgs e)
         {

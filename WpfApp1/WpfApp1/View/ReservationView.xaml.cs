@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,36 +19,31 @@ using WpfApp1.Model;
 namespace WpfApp1.View
 {
     /// <summary>
-    /// Interaction logic for ImageView.xaml
+    /// Interaction logic for ReservationView.xaml
     /// </summary>
-    public partial class ImageView : Window, INotifyPropertyChanged
+    public partial class ReservationView : Window , INotifyPropertyChanged
     {
-        
-        public Accommodation Accommodation { get; set; }
-       // public Image Image { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public ImageController ImageController { get; set; }
-        
-        //public List<Image> Images { get; set; } 
-        public ImageView(Accommodation accommodation)
+        public ReservationController ReservationController { get; set; }
+
+        public DatePicker StartDate { get; set; }   
+
+        public DatePicker EndDate { get; set; } 
+
+
+
+        public ReservationView(Accommodation accommodation)
         {
             InitializeComponent();
             this.DataContext = this;
-
-            ListImages.ItemsSource = accommodation.Images;
-
+            
+            
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        private void Close(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-    }    
-     
+    }
 }
