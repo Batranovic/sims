@@ -21,17 +21,28 @@ namespace WpfApp1.Repository
         private readonly Serializer<Reservation> _serializer;
 
         private List<Reservation> _reservations;
+        private static ReservationDAO _instance = null;
 
         public AccommodationDAO AccommodationDAO { get; set; }
         public GuestRepository GuestRepository { get; set; }
         
-        public ReservationDAO()
+        public static ReservationDAO GetInstance()
+        {
+            if(_instance == null)
+            {
+                _instance = new ReservationDAO();
+            }
+            return _instance;
+        }
+        private ReservationDAO()
         {
             _reservations = new List<Reservation>();
             _serializer= new Serializer<Reservation>();
             _reservations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            SetStatus();
+            AccommodationDAO = AccommodationDAO.GetInstance();
+            GuestRepository = GuestRepository.GetInsatnce();
+            SetStatus();                                //Status trenutne rezervacije (da li je u toku, prosla, ocenja ili neocenjena
         }
 
         public void SetStatus()
@@ -88,7 +99,7 @@ namespace WpfApp1.Repository
 
         public Reservation Get(int id)
         {
-            return _reservations.Find(l => l.Id == id);
+            return _reservations.Find(r => r.Id == id);
         }
 
         public List<Reservation> GetAll()
@@ -134,16 +145,6 @@ namespace WpfApp1.Repository
             _observers.Remove(observer);
         }
 
-
-        public List<Reservation> GetUnratedById(int id)
-        {
-            var list = _reservations.FindAll(r => r.Status == RatingGuestStatus.unrated && r.Accommodation.OwnerId == id).ToList();
-            if (list == null)
-            {
-                return new List<Reservation>();
-            }
-            return list;
-        }
 
         public Reservation Update(Reservation entity)
         {

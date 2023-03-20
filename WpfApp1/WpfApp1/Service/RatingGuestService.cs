@@ -6,52 +6,52 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Repository;
-using WpfApp1.Service;
 
-namespace WpfApp1.Controller
+namespace WpfApp1.Service
 {
-    public class RatingGuestController
+    public class RatingGuestService
     {
-        private readonly RatingGuestService _ratingGuestService;
+        private  RatingGuestDAO _ratingGuestDAO;
 
-        public RatingGuestController()
+        public RatingGuestService()
         {
-            _ratingGuestService = new RatingGuestService();
+            _ratingGuestDAO = RatingGuestDAO.GetInstance();
         }
 
         public RatingGuest Get(int id)
         {
-            return _ratingGuestService.Get(id);
+            return _ratingGuestDAO.Get(id);
         }
 
         public List<RatingGuest> GetAll()
         {
-            return _ratingGuestService.GetAll();
+            return _ratingGuestDAO.GetAll();
         }
 
         public void Create(RatingGuest location)
         {
-            _ratingGuestService.Create(location);
+            _ratingGuestDAO.Create(location);
         }
 
         public void Delete(RatingGuest location)
         {
-            _ratingGuestService.Delete(location);
+            _ratingGuestDAO.Delete(location);
         }
 
         public void Update(RatingGuest image)
         {
-            _ratingGuestService.Update(image);
+            _ratingGuestDAO.Update(image);
         }
 
         public void Subscribe(IObserver observer)
         {
-            _ratingGuestService.Subscribe(observer);
+            _ratingGuestDAO.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _ratingGuestService.Unsubscribe(observer);
+            _ratingGuestDAO.Unsubscribe(observer);
         }
+
     }
 }

@@ -26,6 +26,9 @@ namespace WpfApp1.View
         public ObservableCollection<int> Scores { get; set; }
         public int SelectedCleanness { get; set; }
         public int SelectedFollowingRules { get; set; }
+        public int SelectedNoise { get; set; }
+        public int SelectedDamage { get; set; }
+        public int SelectedTimeliness { get; set; }
         public Reservation SelectedResevation { get; set; }
         public RatingGuestController RatingGuestController { get; set; }
         public ReservationController ReservationController { get; set; }
@@ -74,7 +77,7 @@ namespace WpfApp1.View
         {
             SelectedResevation.Status = Model.Enums.RatingGuestStatus.rated;
             ReservationController.Update(SelectedResevation);
-            RatingGuest  ratingGuest = new RatingGuest(SelectedResevation, Comment, SelectedCleanness, SelectedFollowingRules);
+            RatingGuest  ratingGuest = new RatingGuest(SelectedResevation, Comment, SelectedCleanness, SelectedFollowingRules, SelectedNoise, SelectedDamage, SelectedTimeliness);
             RatingGuestController.Create(ratingGuest);        
             this.Close();
         }

@@ -19,7 +19,7 @@ namespace WpfApp1.Repository
         
         private List<Image> _images;
 
-        public static ImageDAO getInsatnce()
+        public static ImageDAO GetInsatnce()
         {
             if(_instance == null)
             {
@@ -83,16 +83,6 @@ namespace WpfApp1.Repository
             oldEntity = entity;
             Save();
             return oldEntity;
-        }
-
-        public List<string> GetAccommodations()
-        {
-            return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.accommodation).Select(i => i.Path).ToList();
-        }
-
-        public List<string> GetTour()
-        {
-            return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.tour).Select(i => i.Path).ToList();
         }
 
         public void Save()

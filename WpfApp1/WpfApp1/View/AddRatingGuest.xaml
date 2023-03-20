@@ -23,6 +23,9 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -31,11 +34,17 @@
 
                 <Label Grid.Row="0" Grid.Column="0" Height="30">Cleannes</Label>
                 <Label Grid.Row="1" Grid.Column="0" Height="30">Following rules</Label>
-                <Label Grid.Row="2" Grid.Column="0" Height="30">Comment</Label>
+                <Label Grid.Row="2" Grid.Column="0" Height="30">Noise</Label>
+                <Label Grid.Row="3" Grid.Column="0" Height="30">Damage</Label>
+                <Label Grid.Row="4" Grid.Column="0" Height="30">Timeliness</Label>
+                <Label Grid.Row="5" Grid.Column="0" Height="30">Comment</Label>
 
                 <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedCleanness, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
                 <ComboBox  Grid.Row="1"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedFollowingRules, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
+                <ComboBox  Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedNoise, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
+                <ComboBox  Grid.Row="3"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedDamage, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
+                <ComboBox  Grid.Row="4"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedTimeliness, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
                  
 
             </Grid>

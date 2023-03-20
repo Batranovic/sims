@@ -26,38 +26,22 @@ namespace WpfApp1
         public TourController TourController { get; set; }
         public App()
         {
-            GuestRepository = new GuestRepository();
-            OwnerRepository = new OwnerRepository();
-            LocationDAO locationDAO = new LocationDAO();
-            AccommodationDAO accommodationDAO = new AccommodationDAO();
-            accommodationDAO.LocationDAO = locationDAO;
-            accommodationDAO.OwnerRepository = OwnerRepository;
-            accommodationDAO.BindLocation();
-            accommodationDAO.BindOwner();
-
-            ReservationDAO reservationDAO = new ReservationDAO();
-            ReservationController = new ReservationController(reservationDAO);
-            reservationDAO.AccommodationDAO = accommodationDAO;
-            reservationDAO.GuestRepository = GuestRepository;
-            reservationDAO.BindGuest();
-            reservationDAO.BindAccommodation();
-            RatingGuestDAO ratingGuestDAO = new RatingGuestDAO();
-            RatingGuestController = new RatingGuestController(ratingGuestDAO);
-            ratingGuestDAO.ReservationDAO = reservationDAO;
-            ratingGuestDAO.BindReservation();
-
-            TourDAO tourDAO = new TourDAO();
-            TourController = new TourController(tourDAO);
+            LocationController = new LocationController();
+            AccommodationController = new AccommodationController();
+            ImageController = new ImageController();
+            ReservationController = new ReservationController();    
+            RatingGuestController = new RatingGuestController();
             
+            ReservationDAO.GetInstance().BindAccommodation();
+            AccommodationDAO.GetInstance().BindLocation();
+            AccommodationDAO.GetInstance().BindOwner();
+            ReservationDAO.GetInstance().BindGuest();
+            RatingGuestDAO.GetInstance().BindReservation();
 
-            ImageDAO imageDAO = new ImageDAO();
-            ImageController = new ImageController(imageDAO);
-
-            LocationController = new LocationController(locationDAO);
-
-            AccommodationController = new AccommodationController(accommodationDAO);
 
         }
+
+      
 
     }
 }

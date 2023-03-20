@@ -28,9 +28,9 @@ namespace WpfApp1
         {
             InitializeComponent();
 
-            OwnerRepostiroy = new OwnerRepository();
+           
 
-            User user = OwnerRepostiroy.Get(0);
+            User user = OwnerRepository.GetInsatnce().Get(0);
             OwnerAccount ownerAccount = new OwnerAccount(user);
             ownerAccount.Show();
 

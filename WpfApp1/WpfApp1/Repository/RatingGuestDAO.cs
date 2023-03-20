@@ -17,16 +17,26 @@ namespace WpfApp1.Repository
         private readonly Serializer<RatingGuest> _serializer;
 
         private List<RatingGuest> _ratingGuests;
-
         public ReservationDAO ReservationDAO { get; set; }
-        public RatingGuestDAO()
+
+        private static RatingGuestDAO _instance = null;
+
+        public static RatingGuestDAO GetInstance()
+        {
+            if(_instance  == null)
+            {
+                _instance = new RatingGuestDAO();
+            }
+            return _instance;
+        }
+        private RatingGuestDAO()
         {
             _serializer = new Serializer<RatingGuest>();
             _observers = new List<IObserver>();
             _ratingGuests = new List<RatingGuest>();
             _ratingGuests = _serializer.FromCSV(_filePath);
+            ReservationDAO = ReservationDAO.GetInstance();
         }
-
         public RatingGuest Create(RatingGuest entity)
         {
             entity.Id = NextId();
@@ -35,7 +45,6 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return entity;
         }
-        
         public RatingGuest Delete(RatingGuest entity)
         {
             _ratingGuests.Remove(entity);
@@ -43,7 +52,6 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return entity;
         }
-
         public RatingGuest Get(int id)
         {
             return _ratingGuests.Find(r => r.Id == id);
@@ -53,7 +61,6 @@ namespace WpfApp1.Repository
         {
             return _ratingGuests;
         }
-
         public int NextId()
         {
             if (_ratingGuests.Count == 0)
@@ -68,8 +75,6 @@ namespace WpfApp1.Repository
             }
             return nextId;
         }
-
-
         public void Save()
         {
             _serializer.ToCSV(_filePath, _ratingGuests); 
@@ -86,9 +91,6 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return oldEntity;
         }
-
-     
-
         public void BindReservation()
         {
             foreach(RatingGuest r in _ratingGuests)
@@ -96,13 +98,10 @@ namespace WpfApp1.Repository
                 r.Reservation = ReservationDAO.Get(r.IdReservation);
             }
         }
-
-
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);
         }
-
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
@@ -114,6 +113,5 @@ namespace WpfApp1.Repository
                 observer.Update();
             }
         }
-
     }
 }

@@ -3,55 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Repository;
-using WpfApp1.Service;
 
-namespace WpfApp1.Controller
+namespace WpfApp1.Service
 {
-    public class ImageController
+    public class ImageService
     {
-        private readonly ImageService _imageService;
+        private ImageDAO _imageDAO;
 
-        public ImageController()
+        public ImageService()
         {
-            _imageService = new ImageService();
+            _imageDAO = ImageDAO.GetInsatnce();
         }
 
         public Image Get(int id)
         {
-            return _imageService.Get(id);
+            return _imageDAO.Get(id);
         }
 
         public List<Image> GetAll()
         {
-            return _imageService.GetAll();
+            return _imageDAO.GetAll();
         }
 
         public void Create(Image location)
         {
-            _imageService.Create(location);
+            _imageDAO.Create(location);
         }
 
         public void Delete(Image location)
         {
-            _imageService.Delete(location);
+            _imageDAO.Delete(location);
         }
 
         public void Update(Image image)
         {
-            _imageService.Update(image);
+            _imageDAO.Update(image);
         }
 
         public List<string> GetAccommodations()
         {
-            return _imageService.GetAccommodations();  //vraca putanje samo do slika smestaja
+            return _imageDAO.GetAll().FindAll(i => i.ImageKind == Model.Enums.ImageKind.accommodation).Select(i => i.Path).ToList();
         }
 
         public List<string> GetTour()
         {
-            return _imageService.GetTour();    //vraca putanje samo do slika ture
+            return _imageDAO.GetAll().FindAll(i => i.ImageKind == Model.Enums.ImageKind.tour).Select(i => i.Path).ToList();
         }
 
     }

@@ -21,7 +21,18 @@ namespace WpfApp1.Repository
 
         private List<Location> _locations;
 
-        public LocationDAO()
+        private static LocationDAO _instance = null;
+
+        public static LocationDAO GetInstance()
+        {
+            if(_instance == null)
+            {
+                _instance = new LocationDAO();
+            }
+            return _instance;
+        }
+
+        private LocationDAO()
         {
             _locations = new List<Location>();
             _serializer = new Serializer<Location>();
@@ -69,14 +80,7 @@ namespace WpfApp1.Repository
             }
             return nextId;
         }
-        public List<string> GetStates()
-        {
-            return _locations.Select(l => l.State).Distinct().ToList();
-        }
-        public List<string> GetCitiesFromStates(string state)
-        {
-            return _locations.FindAll(l => l.State.Equals(state)).Select(l => l.City).ToList();
-        }
+       
         public Location Update(Location entity)
         {
             var oldEntity = Get(entity.Id);
@@ -90,11 +94,6 @@ namespace WpfApp1.Repository
             return oldEntity;
         }
 
-      
-        public Location GetByCityAndState(string city, string state)
-        {
-            return _locations.Find(l => l.State.ToLower().Equals(state.ToLower()) && l.City.ToLower().Equals(city.ToLower()));
-        }
 
         public void Save()
         {

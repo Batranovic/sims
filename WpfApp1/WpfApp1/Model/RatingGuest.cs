@@ -15,14 +15,20 @@ namespace WpfApp1.Model
         private string _comment;
         private int _cleanness;
         private int _followingRules;
+        private int _noise;
+        private int _damage;
+        private int _timeliness;
 
-        public RatingGuest(Reservation reservation, string comment, int cleanness, int followingRules)
+        public RatingGuest(Reservation reservation, string comment, int cleanness, int followingRules, int noise, int damage, int timeliness)
         {
             IdReservation = reservation.Id;
             Reservation = reservation;
             Comment = comment;
             Cleanness = cleanness;
             FollowingRules = followingRules;
+            _noise = noise;
+            _damage = damage;
+            _timeliness = timeliness;
         }
 
         public int Id
@@ -54,7 +60,7 @@ namespace WpfApp1.Model
             get => _reservation;    
             set
             {
-                if(_reservation != null)
+                if(value != null)
                 {
                     _reservation = value;
                 }
@@ -93,7 +99,44 @@ namespace WpfApp1.Model
                     _followingRules = value;
                 }
             }
-        }    
+        }
+
+        public int Timeliness
+        {
+            get => _timeliness;
+            set
+            {
+                if (value != null)
+                {
+                    _timeliness = value;
+                }
+            }
+        }
+
+        public int Noise
+        {
+            get => _noise;
+            set
+            {
+                if (value != null)
+                {
+                    _noise = value;
+                }
+            }
+        }
+
+        public int Damage
+        {
+            get => _damage;
+            set
+            {
+                if (value != null)
+                {
+                    _damage = value;
+                }
+            }
+        }
+
         public RatingGuest()
         {
 
@@ -107,7 +150,10 @@ namespace WpfApp1.Model
                 IdReservation.ToString(),
                 Comment,
                 Cleanness.ToString(),
-                FollowingRules.ToString()
+                FollowingRules.ToString(),
+                Noise.ToString(),
+                Damage.ToString(),
+                Timeliness.ToString()
             };
             return result;
         }
@@ -119,6 +165,9 @@ namespace WpfApp1.Model
             Comment = values[2];
             Cleanness = Convert.ToInt32(values[3]);
             FollowingRules = Convert.ToInt32(values[4]);
+            Noise = Convert.ToInt32(values[5]);
+            Damage = Convert.ToInt32(values[6]);
+            Timeliness = Convert.ToInt32(values[7]);
         }
     }
 }
