@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.Controller;
@@ -24,8 +25,11 @@ namespace WpfApp1
         public RatingGuestController RatingGuestController { get; set; }
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
+
+       
         public App()
         {
+
             LocationController = new LocationController();
             AccommodationController = new AccommodationController();
             ImageController = new ImageController();

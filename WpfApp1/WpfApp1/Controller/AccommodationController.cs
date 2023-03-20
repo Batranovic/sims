@@ -39,10 +39,18 @@ namespace WpfApp1.Controller
             _accommodationService.Delete(accommodation);
         }
 
+
         public void Update(Accommodation accommodation)
         {
             _accommodationService.Update(accommodation);
         }
+
+        public List<Accommodation> SearchAccommodation(string name, string city, string state, string type, int guestsNumber, int reservationDays)
+        {
+           return _accommodations.SearchAccommodation(name, city,state,type,guestsNumber,reservationDays);
+        }
+
+       
 
         public void Subscribe(IObserver observer)
         {

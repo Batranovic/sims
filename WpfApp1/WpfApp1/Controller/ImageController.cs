@@ -44,7 +44,7 @@ namespace WpfApp1.Controller
             _imageService.Update(image);
         }
 
-        public List<string> GetAccommodations()
+        public List<Image> GetAccommodations()
         {
             return _imageService.GetAccommodations();  //vraca putanje samo do slika smestaja
         }

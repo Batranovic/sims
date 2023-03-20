@@ -24,6 +24,7 @@ namespace WpfApp1.Repository
         private static ReservationDAO _instance = null;
 
         public AccommodationDAO AccommodationDAO { get; set; }
+
         public GuestRepository GuestRepository { get; set; }
         
         public static ReservationDAO GetInstance()
@@ -62,6 +63,14 @@ namespace WpfApp1.Repository
                     reservation.Status = RatingGuestStatus.expired;
                 }
                 reservation.Status = RatingGuestStatus.unrated;
+            }
+        }
+
+        public void BindAccommodation()
+        {
+            foreach(Reservation r in _reservations)
+            {
+                r.Accommodation = AccommodationDAO.Get(r.IdAccommodation);
             }
         }
 

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Sources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -28,68 +29,153 @@ namespace WpfApp1.View
         public event PropertyChangedEventHandler PropertyChanged;
         //public LocationController LocationController { get; set; }
 
-        private readonly AccommodationController _accommodationController;
+        private readonly AccommodationController accommodationController;
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
+
+        public AccommodationKind SelectedAccommodationKind { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
         public Accommodation SelectedAccommodation { get; set; }
+
+        public LocationController LocationController { get; set; }
+
+        public ObservableCollection<string> States { get; set; }
+
+        public ObservableCollection<string> Cities { get; set; }
+
+        public string SelectedCity { get; set; }
         
 
         public AccommodationView()
         {
             InitializeComponent();
-            DataContext = this;
+            this.DataContext = this;
 
             var app = Application.Current as App;
-            _accommodationController = app.AccommodationController;
+            accommodationController = app.AccommodationController;
+            LocationController= app.LocationController; 
+
             var kind = Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>();
             AccommodationKind = new ObservableCollection<AccommodationKind>(kind);
 
-            Accommodations = new ObservableCollection<Accommodation>(_accommodationController.GetAll());
+            //States = new ObservableCollection<string>(LocationController.GetStates());
+            //Cities = new ObservableCollection<string>();
+
+            cbChoseState.Items.Add("");
+            cbChoseCity.Items.Add("");
+            cbChoseType.Items.Add("");
+
+            foreach(var state in LocationController.GetStates())
+            {
+                cbChoseState.Items.Add(state.ToString());
+            }
+
+            foreach(var type in AccommodationKind)
+            {
+                cbChoseType.Items.Add(type.ToString());
+            }
+
+
+            Accommodations = new ObservableCollection<Accommodation>(accommodationController.GetAll());
 
         }
 
-        public void Search(ObservableCollection<Accommodation> observe, string name, string city, string state, List<string> accommodationKind, string numberOfGuests, string minNumDaysOfReservation)
-        {
-            observe.Clear();
 
-            foreach (Accommodation accommodation in _accommodationController.GetAll())
+        
+        private string _state;
+
+        public string SelectedState
+        {
+            get => _state;
+            set
             {
-                if ((accommodation.Name.ToLower().Contains(name.ToLower()) || name.Equals(""))
-                    && (accommodation.Location.State.ToLower().Contains(state.ToLower()) || state.Equals(""))
-                        && (isEnumTrue(accommodation, accommodationKind))
-                           && (accommodation.Location.City.ToLower().Contains(city.ToLower()) || city.Equals(""))
-                              && (numberOfGuests.Equals("") || int.Parse(numberOfGuests) <= accommodation.MaxGuests))
+                if(_state != value)
                 {
-                    if (minNumDaysOfReservation.Equals("") || int.Parse(minNumDaysOfReservation) >= accommodation.MinResevation)
-                    {
-                        observe.Add(accommodation);
-                    }
+                    _state = value;
+                    OnPropertyChanged(_state);
                 }
             }
-
         }
 
-        public Boolean isEnumTrue(Accommodation accommodation, List<String> accommodationTypes)
-        {
-            Boolean info = false;
+        private string _name;
 
-            if (accommodationTypes.Count == 0)
+        public string NameE
+        {
+            get => _name;
+            set
             {
-                return true;
-            }
-            foreach (String type in accommodationTypes)
-            {
-                if (accommodation.AccommodationKind.ToString().Contains(type))
+                if(value != _name)
                 {
-                    info = true;
-                    break;
+                    _name = value;
+                    OnPropertyChanged("NameE");
                 }
             }
-            return info;
         }
+
+        private int _maxGuests;
+
+        public int MaxGuests
+        {
+            get => _maxGuests;
+            set
+            {
+                if (_maxGuests != value)
+                {
+                    _maxGuests = value;
+                    OnPropertyChanged("MaxGuests");
+                }
+            }
+        }
+
+        private int _reservationDays;
+
+        public int ReservationDays
+        {
+            get => _reservationDays;
+            set
+            {
+                if (_reservationDays != value)
+                {
+                    _reservationDays = value;
+                    OnPropertyChanged("ReservationDays");
+                }
+            }
+        }
+
 
         
 
+        private void Search(object sender, RoutedEventArgs e)
+        {
+            Accommodations.Clear();
+            foreach(Accommodation a in accommodationController.SearchAccommodation(NameE, SelectedCity, SelectedState, SelectedAccommodationKind.ToString(), MaxGuests, ReservationDays))
+            {
+                Accommodations.Add(a);
+            }
+
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ChosenState(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedState = (string)cbChoseState.SelectedItem;
+            //Cities.Clear();
+            foreach (string city in LocationController.GetCitiesFromStates(SelectedState))
+            {
+            //    Cities.Add(city);
+                  cbChoseCity.Items.Add(city);
+            }
+        }
+
+
+        private void ShowImage(object sender, RoutedEventArgs e)
+        {
+            ImageView p = new ImageView(SelectedAccommodation);
+            p.Show();
+        }
     }
 }

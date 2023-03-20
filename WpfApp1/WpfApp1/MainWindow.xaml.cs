@@ -30,16 +30,19 @@ namespace WpfApp1
 
            
 
+
+            //UserView userView = new UserView();
+            AccommodationView accommodationView = new AccommodationView();
+            accommodationView.Show();
+
             User user = OwnerRepository.GetInsatnce().Get(0);
             OwnerAccount ownerAccount = new OwnerAccount(user);
             ownerAccount.Show();
 
-           // UserView userView = new UserView();
-           // AccommodationView accommodationView = new AccommodationView();
-          //  accommodationView.Show();
+         
 
             //UserView userView = new UserView();
-            //userView.Show();
+           // userView.Show();
 
         }
     }
