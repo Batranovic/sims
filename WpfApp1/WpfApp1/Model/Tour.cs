@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -18,11 +18,19 @@ namespace WpfApp1.Model
         private double _duration;
         private string _language;        //Da li da se napravi kao enum?
         private int _maxGuests;
-        public List<string> KeyPoints { get; set; }
-        public List<string> Images { get; set; }
+        public List<Location> KeyPoints { get; set; }
+        public List<Image> Images { get; set; }
         public List<DateTime> Date { get; set; }
 
         public List<TourEvent> TourEvents { get; set; }
+        public User Guide { get; set; }
+        public Tour()
+        {
+            KeyPoints = new List<Location>();
+            Images = new List<Image>();
+            Date = new List<DateTime>();
+            TourEvents = new List<TourEvent>();
+        }
 
         public int Id
         {
@@ -121,12 +129,8 @@ namespace WpfApp1.Model
                 }
             }
         }
-        public Tour()
-        {
-            TourEvents = new List<TourEvent>();
-        }
 
-        public Tour(int id, string name, int idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<string> images, List<DateTime> date)
+        public Tour(int id, string name, int idLocation, string description, double duration, string  language, int maxGuests, List<Location> keyPoints, List<DateTime> date)
         {
             Id = id;
             Name = name;
@@ -136,7 +140,6 @@ namespace WpfApp1.Model
             Languages = language;
             MaxGuests = maxGuests;
             KeyPoints = keyPoints;
-            Images = images;
             Date = date;
         }
 
