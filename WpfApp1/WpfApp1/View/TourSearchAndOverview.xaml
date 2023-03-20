@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="TourSearchAndOverview" Height="720" Width="1280">
+        Title="TourSearchAndOverview" Height="500" Width="1117">
     <DockPanel>
         <TextBlock Background="LightBlue" 
                    DockPanel.Dock="Left">
@@ -35,16 +35,15 @@
 
                 <Label Grid.Row="0" Grid.Column="0" Height="30">State</Label>
                 <Label Grid.Row="1" Grid.Column="0" Height="30">City</Label>
-                <Label Grid.Row="2" Grid.Column="0" Height="30">Duration (min)</Label>
-                <Label Grid.Row="3" Grid.Column="0" Height="30">Languages</Label>
-                <Label Grid.Row="4" Grid.Column="0" Height="30">MaxGuests</Label>
+                <Label Grid.Row="2" Grid.Column="0" Height="30">Languages</Label>
+                <Label Grid.Row="3" Grid.Column="0" Height="30">MaxGuests</Label>
+                <Label Grid.Row="4" Grid.Column="0" Height="30">Duration</Label>
           
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=State, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=City, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
-                <TextBox Grid.Row="7" Grid.Column="1" Height="30"></TextBox>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
             </Grid>
             <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
                 <Button Content="Search" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
@@ -57,19 +56,21 @@
         <TextBlock Background="Lavender"
                    DockPanel.Dock="Right">
              <DataGrid DockPanel.Dock="Bottom"
+                       SelectionMode="Single"
+                       SelectionChanged="TourDataGrid_SelectionChanged"
                   ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True"
-                  Width="1040" Height="720">
+                  Width="865" Height="482">
             <DataGrid.Columns>
-                <DataGridTextColumn  Header="City" Binding="{Binding Location.City}" Width="200"></DataGridTextColumn>
                 <DataGridTextColumn  Header="State" Binding="{Binding Location.State}" Width="200"></DataGridTextColumn>
-                <DataGridTextColumn  Header="Duration" Binding="{Binding Duration}" Width="200"></DataGridTextColumn>
-                <DataGridTextColumn  Header="Language" Binding="{Binding Languages}" Width="200"></DataGridTextColumn>
-                <DataGridTextColumn  Header="MaxGuests" Binding="{Binding MaxGuests}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn  Header="City" Binding="{Binding Location.City}" Width="200"></DataGridTextColumn>
+                <DataGridTextColumn  Header="Languages" Binding="{Binding Languages}" Width="200"></DataGridTextColumn>
+                <DataGridTextColumn  Header="MaxGuests" Binding="{Binding MaxGuests}" Width="200"></DataGridTextColumn>
+                <DataGridTextColumn  Header="Duration" Binding="{Binding Duration}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         </TextBlock>
-        
+
     </DockPanel>
 </Window>

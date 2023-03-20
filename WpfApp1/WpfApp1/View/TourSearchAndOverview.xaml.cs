@@ -58,7 +58,9 @@ namespace WpfApp1.View
             Languages = "";
             Duration = "";
             MaxGuests = "";
+
             
+
         }
         private void RefreshTours(List<Tour> tours)
         {
@@ -71,7 +73,17 @@ namespace WpfApp1.View
         private void Search_Button_Click(object sender, RoutedEventArgs e)
         {
             List<Tour> searchedTours = TourController.TourSearch(State, City, Languages, MaxGuests, Duration);
-            RefreshTours(searchedTours);
+           RefreshTours(searchedTours);
+        }
+
+        private void TourDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                SelectedTour = e.AddedItems[0] as Tour;
+                TourBookingWindow tourReservationWindow = new TourBookingWindow(SelectedTour);
+                tourReservationWindow.Show();
+            }
         }
     }
 }
