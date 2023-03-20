@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.Controller;
@@ -22,20 +23,27 @@ namespace WpfApp1
 
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
+
+        public ReservationController ReservationController { get; set; }
         public App()
         {
             OwnerRepository = new OwnerRepository();
             LocationDAO locationDAO = new LocationDAO();
             AccommodationDAO accommodationDAO = new AccommodationDAO();
+            ReservationDAO reservationDAO = new ReservationDAO();
+            ImageDAO imageDAO = new ImageDAO();
             accommodationDAO.LocationDAO = locationDAO;
             accommodationDAO.OwnerRepository = OwnerRepository;
             accommodationDAO.BindLocation();
             accommodationDAO.BindOwner();
+            accommodationDAO.ImageDAO = imageDAO;
+            accommodationDAO.BindImage();
+            reservationDAO.AccommodationDAO = accommodationDAO;
+            reservationDAO.BindAccommodation();
 
             TourDAO tourDAO = new TourDAO();
             TourController = new TourController(tourDAO);
 
-            ImageDAO imageDAO = new ImageDAO();
             ImageController = new ImageController(imageDAO);
 
             LocationController = new LocationController(locationDAO);

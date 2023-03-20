@@ -31,15 +31,15 @@ namespace WpfApp1
             OwnerRepostiroy = new OwnerRepository();
 
             User user = OwnerRepostiroy.Get(0);
-            SignInAccommodation signInAccommodation = new SignInAccommodation(user);
-            signInAccommodation.Show();
+            //SignInAccommodation signInAccommodation = new SignInAccommodation(user);
+            //signInAccommodation.Show();
 
-           // UserView userView = new UserView();
+            //UserView userView = new UserView();
             AccommodationView accommodationView = new AccommodationView();
             accommodationView.Show();
 
             //UserView userView = new UserView();
-            //userView.Show();
+           // userView.Show();
 
         }
     }

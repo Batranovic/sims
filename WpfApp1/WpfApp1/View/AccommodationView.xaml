@@ -40,15 +40,18 @@
                         <Label Grid.Row="4" Grid.Column="0" Height="30">Guest number</Label>
                         <Label Grid.Row="5" Grid.Column="0" Height="30">Reservation days</Label>
                         
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
-                        <ComboBox Grid.Row="1" Grid.Column="1" Height="30" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
-                        <ComboBox Grid.Row="2" Grid.Column="1" Height="30" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
-                        <ComboBox Grid.Row="3" Grid.Column="1" Height="30" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
-                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
-                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=nesto}" Height="30"></TextBox>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=NameE, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
+                        <ComboBox x:Name="cbChoseState" SelectionChanged="ChosenState" Grid.Row="1" Grid.Column="1" Height="30" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                        <ComboBox x:Name="cbChoseCity" Grid.Row="2" Grid.Column="1" Height="30"  SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" ></ComboBox>
+                        <ComboBox x:Name="cbChoseType" Grid.Row="3" Grid.Column="1" Height="30" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
+                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=ReservationDays,UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
                     </Grid>
-                    <WrapPanel Grid.Row="1" FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0">
-                        <Button Content="Search" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,10,10,10" />
+                    <WrapPanel Grid.Row="1" FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="60,0,0,0">
+                        <Button Content="Show images" Click="ShowImage" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="1" FlowDirection="RightToLeft" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Margin="20,0,0,0">
+                        <Button Content="Search" Click="Search" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,10,10,10" />
                         <Button Content="Reserve" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin=" 10,10,10,10"/>
                     </WrapPanel>
                 </Grid>
@@ -69,7 +72,7 @@
                         <DataGridTextColumn Header="Min days" Binding="{Binding MinResevation}" Width="100"></DataGridTextColumn>
                         <DataGridTextColumn Header="Cancel due date" Binding="{Binding CancelDay}" Width="100"></DataGridTextColumn>
                         
-                        <DataGridTextColumn Header="Image Url" Binding="{Binding _minResevation}" Width="*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Image Url"  Width="*"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>

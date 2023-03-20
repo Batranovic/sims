@@ -156,7 +156,7 @@ namespace WpfApp1.Model
 
         public Accommodation()
         {
-
+            Images = new List<Image>();
         }
 
         public string[] ToCSV()

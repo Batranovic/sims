@@ -21,6 +21,8 @@ namespace WpfApp1.Repository
 
         private List<Reservation> _reservations;
 
+        public AccommodationDAO AccommodationDAO { get; set; }
+
         public ReservationDAO()
         {
             _reservations = new List<Reservation>();
@@ -29,6 +31,16 @@ namespace WpfApp1.Repository
             _observers = new List<IObserver>();
 
         }
+
+        public void BindAccommodation()
+        {
+            foreach(Reservation r in _reservations)
+            {
+                r.Accommodation = AccommodationDAO.Get(r.IdAccommodation);
+            }
+        }
+
+      
         public Reservation Create(Reservation entity)
         {
             entity.Id = NextId();

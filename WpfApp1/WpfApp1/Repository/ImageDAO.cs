@@ -31,6 +31,8 @@ namespace WpfApp1.Repository
             return entity;
         }
 
+        
+
         public Image Delete(Image entity)
         {
             _images.Remove(entity);
@@ -75,9 +77,9 @@ namespace WpfApp1.Repository
             return oldEntity;
         }
 
-        public List<string> GetAccommodations()
+        public List<Image> GetAccommodations()
         {
-            return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.accommodation).Select(i => i.Path).ToList();
+            return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.accommodation).ToList();
         }
 
         public List<string> GetTour()
