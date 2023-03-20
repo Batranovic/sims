@@ -6,52 +6,51 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Repository;
-using WpfApp1.Service;
 
-namespace WpfApp1.Controller
+namespace WpfApp1.Service
 {
-    public class AccommodationController
+    public class AccommodationService
     {
-        private readonly AccommodationService _accommodationService;
+        private  AccommodationDAO _accommodationDAO;
 
-        public AccommodationController()
+        public AccommodationService()
         {
-            _accommodationService = new AccommodationService();
+            _accommodationDAO = AccommodationDAO.GetInstance();
         }
 
         public List<Accommodation> GetAll()
         {
-            return _accommodationService.GetAll();
+            return _accommodationDAO.GetAll();
         }
 
         public Accommodation Get(int id)
         {
-            return _accommodationService.Get(id);
+            return _accommodationDAO.Get(id);
         }
 
         public void Create(Accommodation accommodation)
         {
-            _accommodationService.Create(accommodation);
+            _accommodationDAO.Create(accommodation);
         }
 
         public void Delete(Accommodation accommodation)
         {
-            _accommodationService.Delete(accommodation);
+            _accommodationDAO.Delete(accommodation);
         }
 
         public void Update(Accommodation accommodation)
         {
-            _accommodationService.Update(accommodation);
+            _accommodationDAO.Update(accommodation);
         }
 
         public void Subscribe(IObserver observer)
         {
-            _accommodationService.Subscribe(observer);
+            _accommodationDAO.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _accommodationService.Unsubscribe(observer);
+            _accommodationDAO.Unsubscribe(observer);
         }
     }
 }

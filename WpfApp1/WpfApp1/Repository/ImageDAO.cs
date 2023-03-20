@@ -15,9 +15,19 @@ namespace WpfApp1.Repository
  
         private readonly Serializer<Image> _serializer;
 
+        private static ImageDAO _instance = null;
+        
         private List<Image> _images;
 
-        public ImageDAO()
+        public static ImageDAO GetInsatnce()
+        {
+            if(_instance == null)
+            {
+                _instance = new ImageDAO();
+            }
+            return _instance;
+        }
+        private ImageDAO()
         {
             _images = new List<Image>();
             _serializer = new Serializer<Image>();
@@ -73,16 +83,6 @@ namespace WpfApp1.Repository
             oldEntity = entity;
             Save();
             return oldEntity;
-        }
-
-        public List<string> GetAccommodations()
-        {
-            return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.accommodation).Select(i => i.Path).ToList();
-        }
-
-        public List<string> GetTour()
-        {
-            return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.tour).Select(i => i.Path).ToList();
         }
 
         public void Save()

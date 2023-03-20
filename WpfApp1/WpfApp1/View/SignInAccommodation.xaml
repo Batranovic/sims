@@ -6,6 +6,16 @@
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
         Title="SignInAccommodation" Height="500" Width="800">
+    <Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+            </StackPanel>
+
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -42,15 +52,15 @@
                 <Label Grid.Row="6" Grid.Column="0" Height="30">Cancel day</Label>
                 <Label Grid.Row="7" Grid.Column="0" Height="30">Link of images</Label>
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=NameA}"  Height="30"></TextBox>
-                <ComboBox x:Name="SelectState" SelectionChanged="ChosenState" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=States}"  Height="30"></ComboBox>
-                <ComboBox Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Cities}" SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
-                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
-                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=MinResevation, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
-                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Path=CancelDay, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=NameA, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30"></TextBox>
+                <ComboBox x:Name="SelectState" SelectionChanged="ChosenState" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=States}" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
+                <ComboBox x:Name="SelectCity" Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Cities}" SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
+                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></TextBox>
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=MinResevation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30"></TextBox>
+                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Path=CancelDay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></TextBox>
                 <WrapPanel Grid.Row="7"  FlowDirection="LeftToRight" HorizontalAlignment="Left"  Grid.Column="1"  Width="370">
-                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Center" VerticalAlignment="Center"  Height="30" Margin="0, 10" Width="300"> </TextBox>
+                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  HorizontalAlignment="Center" VerticalAlignment="Center" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30" Margin="0, 10" Width="300"> </TextBox>
                     <Button Content="+ " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"   Click="AddURL" />
                 </WrapPanel>
                 

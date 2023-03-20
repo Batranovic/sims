@@ -15,16 +15,29 @@ namespace WpfApp1.Repository
         private readonly List<IObserver> _observers;
         private readonly Serializer<Accommodation> _serializer;
 
-        private List<Accommodation> _accommododations;
-        public OwnerRepository OwnerRepository { get; set; }
-        public LocationDAO LocationDAO { get;  set; }
+        private static AccommodationDAO _instance = null;
 
-        public AccommodationDAO()
+        private List<Accommodation> _accommododations;
+        public LocationDAO LocationDAO { get; set; }
+        public OwnerRepository OwnerRepository { get; set; }
+        
+        public static AccommodationDAO GetInstance()
+        {
+            if(_instance == null)
+            {
+                _instance = new AccommodationDAO();
+            }
+            return _instance;
+        }
+        
+        private AccommodationDAO()
         {
             _serializer = new Serializer<Accommodation>();
             _accommododations = new List<Accommodation>();
             _accommododations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
+            OwnerRepository = OwnerRepository.GetInsatnce();
+            LocationDAO = LocationDAO.GetInstance();
         }
 
         public void BindLocation()

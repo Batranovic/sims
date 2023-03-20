@@ -17,32 +17,31 @@ namespace WpfApp1
     public partial class App : Application
     {
         public OwnerRepository OwnerRepository {  get; set; }
+        public GuestRepository GuestRepository { get; set; }
         public LocationController LocationController { get; set; }
         public AccommodationController AccommodationController { get; set; }
-
+        public ReservationController ReservationController { get; set; }
+        public RatingGuestController RatingGuestController { get; set; }
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
         public App()
         {
-            OwnerRepository = new OwnerRepository();
-            LocationDAO locationDAO = new LocationDAO();
-            AccommodationDAO accommodationDAO = new AccommodationDAO();
-            accommodationDAO.LocationDAO = locationDAO;
-            accommodationDAO.OwnerRepository = OwnerRepository;
-            accommodationDAO.BindLocation();
-            accommodationDAO.BindOwner();
+            LocationController = new LocationController();
+            AccommodationController = new AccommodationController();
+            ImageController = new ImageController();
+            ReservationController = new ReservationController();    
+            RatingGuestController = new RatingGuestController();
+            
+            ReservationDAO.GetInstance().BindAccommodation();
+            AccommodationDAO.GetInstance().BindLocation();
+            AccommodationDAO.GetInstance().BindOwner();
+            ReservationDAO.GetInstance().BindGuest();
+            RatingGuestDAO.GetInstance().BindReservation();
 
-            TourDAO tourDAO = new TourDAO();
-            TourController = new TourController(tourDAO);
-
-            ImageDAO imageDAO = new ImageDAO();
-            ImageController = new ImageController(imageDAO);
-
-            LocationController = new LocationController(locationDAO);
-
-            AccommodationController = new AccommodationController(accommodationDAO);
 
         }
+
+      
 
     }
 }

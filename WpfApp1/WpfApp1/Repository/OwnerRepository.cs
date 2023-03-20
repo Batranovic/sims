@@ -17,7 +17,19 @@ namespace WpfApp1.Repository
 
         private List<Owner> _owners;
 
-        public OwnerRepository() 
+
+        private static OwnerRepository _instance = null;
+
+        public static OwnerRepository GetInsatnce()
+        {
+            if(_instance == null)
+            {
+                _instance = new OwnerRepository();
+            }
+            return _instance;
+        }
+
+        private OwnerRepository() 
         {
             _serializer = new Serializer<Owner>();
             _owners = new List<Owner>();
