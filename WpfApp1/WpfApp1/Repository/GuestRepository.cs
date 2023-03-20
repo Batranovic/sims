@@ -15,8 +15,18 @@ namespace WpfApp1.Repository
         private readonly Serializer<Guest> _serializer;
 
         private List<Guest> _guests;
+        private static GuestRepository _instance = null;
 
-        public GuestRepository()
+        public static GuestRepository GetInsatnce()
+        {
+            if(_instance == null)
+            {
+                _instance = new GuestRepository();
+            }
+            return _instance;
+        }
+
+        private GuestRepository()
         {
             _serializer = new Serializer<Guest>();
             _guests = new List<Guest>();

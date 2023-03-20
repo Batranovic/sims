@@ -26,6 +26,6 @@ namespace WpfApp1.Model
             base.FromCSV(values);
         }
 
-
+      
     }
 }

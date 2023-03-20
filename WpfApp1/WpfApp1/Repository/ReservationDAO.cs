@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
+using WpfApp1.Model.Enums;
 
 namespace WpfApp1.Repository
 {
@@ -20,16 +21,49 @@ namespace WpfApp1.Repository
         private readonly Serializer<Reservation> _serializer;
 
         private List<Reservation> _reservations;
+        private static ReservationDAO _instance = null;
 
         public AccommodationDAO AccommodationDAO { get; set; }
 
-        public ReservationDAO()
+        public GuestRepository GuestRepository { get; set; }
+        
+        public static ReservationDAO GetInstance()
+        {
+            if(_instance == null)
+            {
+                _instance = new ReservationDAO();
+            }
+            return _instance;
+        }
+        private ReservationDAO()
         {
             _reservations = new List<Reservation>();
             _serializer= new Serializer<Reservation>();
             _reservations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
+            AccommodationDAO = AccommodationDAO.GetInstance();
+            GuestRepository = GuestRepository.GetInsatnce();
+            SetStatus();                                //Status trenutne rezervacije (da li je u toku, prosla, ocenja ili neocenjena
+        }
 
+        public void SetStatus()
+        {
+            foreach(Reservation reservation in _reservations)
+            {
+                if (reservation.Status == RatingGuestStatus.rated)
+                {
+                    continue;
+                }
+                else if (reservation.EndDate < DateTime.Now)
+                {
+                    reservation.Status = RatingGuestStatus.inprogres;
+                }
+                else if (reservation.EndDate > DateTime.Now.AddDays(-5))
+                {
+                    reservation.Status = RatingGuestStatus.expired;
+                }
+                reservation.Status = RatingGuestStatus.unrated;
+            }
         }
 
         public void BindAccommodation()
@@ -40,7 +74,6 @@ namespace WpfApp1.Repository
             }
         }
 
-      
         public Reservation Create(Reservation entity)
         {
             entity.Id = NextId();
@@ -48,6 +81,14 @@ namespace WpfApp1.Repository
             Save();
             NotifyObservers();
             return entity;
+        }
+
+        public void BindGuest()
+        {
+            foreach (Reservation r in _reservations)
+            {
+                r.Guest = GuestRepository.Get(r.IdGuest);
+            }
         }
 
         public Reservation Delete(Reservation entity)
@@ -60,7 +101,7 @@ namespace WpfApp1.Repository
 
         public Reservation Get(int id)
         {
-            return _reservations.Find(l => l.Id == id);
+            return _reservations.Find(r => r.Id == id);
         }
 
         public List<Reservation> GetAll()
@@ -105,6 +146,7 @@ namespace WpfApp1.Repository
         {
             _observers.Remove(observer);
         }
+
 
         public Reservation Update(Reservation entity)
         {

@@ -18,22 +18,33 @@ namespace WpfApp1.Repository
         private readonly List<IObserver> _observers;
         private readonly Serializer<Accommodation> _serializer;
 
-        private List<Accommodation> _accommodations;
-        public OwnerRepository OwnerRepository { get; set; }
-        public LocationDAO LocationDAO { get;  set; }
-
         public ImageDAO ImageDAO { get; set; }
 
+        private static AccommodationDAO _instance = null;
 
+        private List<Accommodation> _accommodations;
+        public LocationDAO LocationDAO { get; set; }
+        public OwnerRepository OwnerRepository { get; set; }
         
+        public static AccommodationDAO GetInstance()
+        {
+            if(_instance == null)
+            {
+                _instance = new AccommodationDAO();
+            }
+            return _instance;
+        }
         
+        private AccommodationDAO()
 
-        public AccommodationDAO()
         {
             _serializer = new Serializer<Accommodation>();
             _accommodations = new List<Accommodation>();
             _accommodations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
+            OwnerRepository = OwnerRepository.GetInsatnce();
+            LocationDAO = LocationDAO.GetInstance();
+            ImageDAO = ImageDAO.GetInsatnce();
         }
 
         public void BindLocation()
@@ -57,10 +68,8 @@ namespace WpfApp1.Repository
         {
             foreach (Image i in ImageDAO.GetAccommodations())
             {
-                
                     Accommodation a = Get(i.ExternalId);
                     a.Images.Add(i);
-                
             }
         }
         public Accommodation Create(Accommodation entity)
@@ -137,17 +146,7 @@ namespace WpfApp1.Repository
             }
         }
 
-        public List<Accommodation> SearchAccommodation(string name,string city,string state, string type, int guestsNumber, int reservationDays)
-        {
-            if (name == null) name = "";        
-            return _accommodations.Where(a => a.Name.Contains(name) && a.Location.City.Contains(city) && a.Location.State.Contains(state) && a.AccommodationKind.ToString().Contains(type) && a.MaxGuests >= guestsNumber && a.MinResevation <= reservationDays).ToList();
-        }
 
-        //public List<Image> ShowImage(int id)
-        //{
-        //    return;
-        //   return _accommodations.FindAll(a => a.Id == id);
-        //}
 
         
     }

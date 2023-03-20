@@ -6,59 +6,58 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Repository;
+using WpfApp1.Service;
 
 namespace WpfApp1.Controller
 {
     public class AccommodationController
     {
-        private readonly AccommodationDAO _accommodations;
+        private readonly AccommodationService _accommodationService;
 
-        public AccommodationController(AccommodationDAO accommodationDAO)
+        public AccommodationController()
         {
-            _accommodations = accommodationDAO;
+            _accommodationService = new AccommodationService();
         }
 
         public List<Accommodation> GetAll()
         {
-            return _accommodations.GetAll();
+            return _accommodationService.GetAll();
         }
 
         public Accommodation Get(int id)
         {
-            return _accommodations.Get(id);
+            return _accommodationService.Get(id);
         }
 
         public void Create(Accommodation accommodation)
         {
-            _accommodations.Create(accommodation);
+            _accommodationService.Create(accommodation);
         }
 
         public void Delete(Accommodation accommodation)
         {
-            _accommodations.Delete(accommodation);
+            _accommodationService.Delete(accommodation);
         }
 
 
         public void Update(Accommodation accommodation)
         {
-            _accommodations.Update(accommodation);
+            _accommodationService.Update(accommodation);
         }
-
-        public List<Accommodation> SearchAccommodation(string name, string city, string state, string type, int guestsNumber, int reservationDays)
-        {
-           return _accommodations.SearchAccommodation(name, city,state,type,guestsNumber,reservationDays);
-        }
-
-       
 
         public void Subscribe(IObserver observer)
         {
-            _accommodations.Subscribe(observer);
+            _accommodationService.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _accommodations.Unsubscribe(observer);
+            _accommodationService.Unsubscribe(observer);
         }
+        public List<Accommodation> SearchAccommodation(string name, string city, string state, string type, int guestsNumber, int reservationDays)
+        {
+            return _accommodationService.SearchAccommodation(name, city, state, type, guestsNumber, reservationDays);
+        }
+
     }
 }

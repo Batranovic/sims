@@ -28,15 +28,18 @@ namespace WpfApp1
         {
             InitializeComponent();
 
-            OwnerRepostiroy = new OwnerRepository();
+           
 
-            User user = OwnerRepostiroy.Get(0);
-            //SignInAccommodation signInAccommodation = new SignInAccommodation(user);
-            //signInAccommodation.Show();
 
             //UserView userView = new UserView();
             AccommodationView accommodationView = new AccommodationView();
             accommodationView.Show();
+
+            User user = OwnerRepository.GetInsatnce().Get(0);
+            OwnerAccount ownerAccount = new OwnerAccount(user);
+            ownerAccount.Show();
+
+         
 
             //UserView userView = new UserView();
            // userView.Show();

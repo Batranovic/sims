@@ -6,51 +6,58 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Repository;
+using WpfApp1.Service;
 
 namespace WpfApp1.Controller
 {
     public class ReservationController
     {
-        private readonly ReservationDAO _reservations;
+        private readonly ReservationService _reservationService;
 
-        public ReservationController(ReservationDAO reservationDAO)
+        public ReservationController()
         {
-            _reservations = reservationDAO;
+            _reservationService = new ReservationService();
         }
 
         public Reservation Get(int id)
         {
-            return _reservations.Get(id);
+            return _reservationService.Get(id);
         }
 
         public List<Reservation> GetAll()
         {
-            return _reservations.GetAll();
+            return _reservationService.GetAll();
         }
 
         public void Create(Reservation reservation)
         {
-            _reservations.Create(reservation);  
+            _reservationService.Create(reservation);  
         }
 
         public void Delete(Reservation reservation)
         {
-            _reservations.Delete(reservation);
+            _reservationService.Delete(reservation);
         }
 
         public void Update(Reservation reservation)
         {
-            _reservations.Update(reservation);
+            _reservationService.Update(reservation);
         }
 
         public void Subscribe(IObserver observer)
         {
-            _reservations.Subscribe(observer);
+            _reservationService.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _reservations.Unsubscribe(observer);
+            _reservationService.Unsubscribe(observer);
         }
+
+        public List<Reservation> GetUnratedById(int id)
+        {
+            return _reservationService.GetUnratedById(id);
+        }
+
     }
 }

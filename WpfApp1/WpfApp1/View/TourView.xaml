@@ -8,7 +8,7 @@
         Title="TourView" Height="720" Width="1280">
     <DockPanel>
         <TextBlock Background="LightBlue" 
-                   DockPanel.Dock="Left">
+                   DockPanel.Dock="Left" Height="701">
             <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
