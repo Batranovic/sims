@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Model
 {
-    internal class Image : ISerializable
+    public class Image : ISerializable
     {
         public int Id { get; set; }
         public string Url { get; set; }

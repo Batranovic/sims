@@ -22,6 +22,7 @@ namespace WpfApp1.Model
         public List<Image> Images { get; set; }
         public List<DateTime> Date { get; set; }
 
+
         public User Guide { get; set; }
         public Tour()
         {

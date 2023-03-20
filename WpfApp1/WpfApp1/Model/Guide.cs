@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Model
 {
-    internal class Guide : User
+    public class Guide : User
     {
             
         public List<Tour> Tours { get; set; }

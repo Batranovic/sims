@@ -19,9 +19,18 @@ namespace WpfApp1
         public OwnerRepository OwnerRepository {  get; set; }
         public LocationController LocationController { get; set; }
         public AccommodationController AccommodationController { get; set; }
+
+        public TourController TourController { get; set; }
+
+        public TourDAO _tourDao { get; set; }
         public App()
         {
             LocationDAO locationDAO = new LocationDAO();
+            _tourDao = new TourDAO();
+            _tourDao.LocationDAO = locationDAO;
+            _tourDao.BindLocation();
+
+            TourController = new TourController(_tourDao);
             AccommodationDAO accommodationDAO = new AccommodationDAO();
             accommodationDAO.LocationDAO = locationDAO;
             accommodationDAO.BindLocation();

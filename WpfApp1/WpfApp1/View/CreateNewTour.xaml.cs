@@ -16,6 +16,7 @@ using WpfApp1.Model;
 using System.Collections.ObjectModel;
 using WpfApp1.Controller;
 using System.ComponentModel;
+using Image = WpfApp1.Model.Image;
 
 namespace WpfApp1.View
 {
@@ -23,69 +24,77 @@ namespace WpfApp1.View
     /// Interaction logic for TourView.xaml
     /// </summary>
     public partial class CreateNewTour : Window, INotifyPropertyChanged
-
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public LocationController LocationController { get; set; }
-        public ObservableCollection<Tour> Tours { get; set; }
-        public TourController TourController { get; set; }
+        public ObservableCollection<string> Countries { get; set; }
+        public ObservableCollection<string> Cities { get; set; }
+
+
+
+        private LocationController _locationController;
+
+        private TourController _tourController;
+
+        public string Image { get; set; }
 
         public CreateNewTour()
         {
             InitializeComponent();
             this.DataContext = this;
+            Tour Tour = new Tour();
 
             var app = Application.Current as App;
-            LocationController = app.LocationController;
+            _locationController = app.LocationController;
+
+            _tourController = app.TourController;
+
+
+            Countries = new ObservableCollection<string>(_locationController.GetAllStates());
+            Cities = new ObservableCollection<string>();
+
+
+
+
+
+            SelectedDate = DateTime.Now;
         }
 
-        private void InitializeComponent()
-        {
-            throw new NotImplementedException();
-        }
-
+        #region NotifyProperties
         private string _name;
-        public string Name
+        public string Namee
         {
             get => _name;
-
             set
             {
                 if (value != _name)
                 {
                     _name = value;
-                    OnPropertyChanged("Name");
+                    OnPropertyChanged("Namee");
                 }
             }
         }
-
-        private string _city;
-        public string City
+        private string _selectedCountry;
+        public string SelectedCountry
         {
-            get => _city;
-
+            get => _selectedCountry;
             set
             {
-                if (value != _city)
+                if (value != _selectedCountry)
                 {
-                    _city = value;
-                    OnPropertyChanged("City");
+                    _selectedCountry = value;
+                    OnPropertyChanged("SelectedCountry");
                 }
             }
         }
-
-        private string _state;
-
-        public string State
+        private string _selectedCity;
+        public string SelectedCity
         {
-            get => _state;
-
+            get => _selectedCity;
             set
             {
-                if (value != _state)
+                if (value != _selectedCity)
                 {
-                    _state = value;
-                    OnPropertyChanged("State");
+                    _selectedCity = value;
+                    OnPropertyChanged("SelectedCity");
                 }
             }
         }
@@ -94,52 +103,63 @@ namespace WpfApp1.View
         public string Description
         {
             get => _description;
-
             set
             {
                 if (value != _description)
                 {
-                    _city = value;
+                    _description = value;
                     OnPropertyChanged("Description");
                 }
             }
         }
 
-
-        private string _language;
-        public string Language
+        private string _languages;
+        public string Languages
         {
-            get => _language;
-
+            get => _languages;
             set
             {
-                if (value != _language)
+                if (value != _languages)
                 {
-                    _language = value;
-                    OnPropertyChanged("Language");
+                    _languages = value;
+                    OnPropertyChanged("Languages");
                 }
             }
         }
 
         private int _maxGuests;
-        public int MaxGuests
+        public int MaxGuestss
         {
             get => _maxGuests;
             set
             {
-                if (_maxGuests != value)
+                if (value != _maxGuests)
                 {
                     _maxGuests = value;
-                    OnPropertyChanged("MaxGuests");
+                    OnPropertyChanged("MaxGuestss");
                 }
             }
         }
 
-        private TimeSpan _duration;
-        public TimeSpan Duration
+        private DateTime _selectedDate;
+        public DateTime SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                if (value != _selectedDate)
+                {
+                    _selectedDate = value;
+                    OnPropertyChanged("SelectedDate");
+                }
+            }
+        }
+
+
+        private int _duration;
+        public int Duration
         {
             get => _duration;
-
             set
             {
                 if (value != _duration)
@@ -150,14 +170,112 @@ namespace WpfApp1.View
             }
         }
 
-        private void Search(object sender, RoutedEventArgs e)
+
+
+
+        #endregion
+
+        #region PropertyChangedNotifier
+        protected virtual void OnPropertyChanged(string name)
         {
-            // Tours = new ObservableCollection<Tour>(TourController.Search(Location, Duration, Language, MaxGuests));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
         }
 
-        protected void OnPropertyChanged(string propertyName)
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
+
+
+        private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Location location = _locationController.FindLocationByStateCity(SelectedCountry, SelectedCity);
+            User user = new User() { Id = 1 };
+
+            Tour tour = new Tour()
+            {
+                Name = Namee,
+                Location = location,
+                Description = Description,
+                Language = Languages,
+                MaxGuests = MaxGuestss,
+                Duration = new TimeSpan(Duration, 0, 0),
+                Guide = user,
+                Images = new List<Image>(),
+                KeyPoints = new List<Location>()
+            };
+
+            _tourController.Create(tour);
+
+            Close();
+
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void CountryComboBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+            List<string> cities = _locationController.GetCitiesByState(SelectedCountry);
+            Cities.Clear();
+            foreach (string city in cities)
+            {
+                Cities.Add(city);
+            }
+
+        }
+
+        private void CityComboBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        
+
+        private void LanguageComboBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (LanguageComboBox.SelectedIndex == 0)
+            {
+                Languages = "srpski";
+            }
+            else if (LanguageComboBox.SelectedIndex == 1)
+            {
+
+                Languages = "engleski";
+
+            }
+            else if (LanguageComboBox.SelectedIndex == 2)
+            {
+
+                Languages = "italijanski";
+
+            }
+            else if (LanguageComboBox.SelectedIndex == 3)
+            {
+                Languages = "korejski";
+            }
+            else if (LanguageComboBox.SelectedIndex == 4)
+            {
+                Languages = "japanski";
+            }
+
+
+        }
+
+
+
+       
+
+
+
+        private void datePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

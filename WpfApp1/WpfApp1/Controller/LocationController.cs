@@ -42,5 +42,20 @@ namespace WpfApp1.Controller
             _locations.Update(location);
         }
 
+        public List<string> GetAllStates()
+        {
+            return _locations.GetAllStates();
+        }
+
+        public List<string> GetCitiesByState(string state)
+        {
+            return _locations.GetCitiesByState(state);
+        }
+
+        public Location FindLocationByStateCity(string state, string city)
+        {
+            return _locations.FindLocationByStateCity(state, city);
+        }
+
     }
 }

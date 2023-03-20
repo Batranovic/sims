@@ -79,5 +79,42 @@ namespace WpfApp1.Repository
         {
             _serializer.ToCSV(_filePath, _locations);
         }
+
+        public List<string> GetAllStates()
+        {
+            List<string> states = new List<string>();
+            foreach(Location loc in _locations)
+            {
+                states.Add(loc.State);
+            }
+            return states;
+        }
+
+        public List<string> GetCitiesByState(string state)
+        {
+            List<string> cities = new List<string>();
+            foreach (Location loc in _locations)
+            {
+                if(loc.State == state)
+                {
+                    cities.Add(loc.City);
+                }
+            }
+            return cities;
+        }
+
+        public Location FindLocationByStateCity(string state, string city)
+        {
+            foreach(Location loc in _locations)
+            {
+                if(loc.State == state && loc.City == city)
+                {
+                    return loc;
+                }
+            }
+            return null;
+        }
+
+        
     }
 }
