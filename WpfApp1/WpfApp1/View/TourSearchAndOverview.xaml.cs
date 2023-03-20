@@ -81,8 +81,8 @@ namespace WpfApp1.View
             if (e.AddedItems.Count > 0)
             {
                 SelectedTour = e.AddedItems[0] as Tour;
-                TourBookingWindow tourReservationWindow = new TourBookingWindow(SelectedTour);
-                tourReservationWindow.Show();
+                TourBookingWindow tourBookingWindow = new TourBookingWindow(SelectedTour);
+                tourBookingWindow.Show();
             }
         }
     }

@@ -32,6 +32,7 @@ namespace WpfApp1.Repository
         {
             return _tourBookings.Find(t => t.Id == id);
         }
+
         public TourBooking Create(TourBooking entity)
         {
             entity.Id = NextId();
@@ -106,6 +107,23 @@ namespace WpfApp1.Repository
                 instance = new TourBookingDAO();
             }
             return instance;
+        }
+
+        public void BindTourBookingTourEvent()
+        {
+            foreach (TourBooking tourBooking in _tourBookings)
+            {
+                int tourEventId = tourBooking.TourEvent.Id;
+                TourEvent tourEvent = TourEventDAO.GetInstance().Get(tourEventId);
+                if (tourEvent != null)
+                {
+                    tourBooking.TourEvent = tourEvent;
+                }
+                else
+                {
+                    Console.WriteLine("Error in tourReservationTourEvent binding");
+                }
+            }
         }
     }
 }

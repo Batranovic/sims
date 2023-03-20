@@ -14,6 +14,8 @@ namespace WpfApp1.Model
 
         public User Tourist { get; set; }
 
+        public TourEvent TourEvent { get; set; }
+
         public int Id
         {
             get => _id;
@@ -43,10 +45,11 @@ namespace WpfApp1.Model
 
         }
 
-        public TourBooking(int id, int numberOfPeople,  User tourist)
+        public TourBooking(int id, int numberOfPeople,TourEvent tourEvent, User tourist)
         {
             Id = id;
             NumberOfGuests = numberOfPeople;
+            TourEvent = tourEvent;
             Tourist = tourist;
 
         }
@@ -57,6 +60,7 @@ namespace WpfApp1.Model
             {
                 Id.ToString(),
                 NumberOfGuests.ToString(),
+                TourEvent.Id.ToString(),
                 Tourist.Id.ToString()
             };
             return csvValues;
@@ -66,7 +70,8 @@ namespace WpfApp1.Model
         {
             Id = Convert.ToInt32(values[0]);
             NumberOfGuests = Convert.ToInt32(values[1]);
-           // Tourist = new User() { Id = Convert.ToInt32(values[3]) };
+            TourEvent = new TourEvent() { Id = Convert.ToInt32(values[2]) };
+            Tourist = new User() { Id = Convert.ToInt32(values[3]) };
         }
     }
 }

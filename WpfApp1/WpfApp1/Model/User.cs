@@ -104,7 +104,7 @@ namespace WpfApp1.Model
             }
         }
 
-        protected User(int id, string name, string surname, string username, string password, string email, UserKind userKind)
+        public User(int id, string name, string surname, string username, string password, string email, UserKind userKind)
         {
             Id = id;
             Name = name;
@@ -115,7 +115,7 @@ namespace WpfApp1.Model
             UserKind = userKind;
         }
 
-        protected User()
+        public User()
         {
 
         }

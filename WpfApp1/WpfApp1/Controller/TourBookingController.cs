@@ -5,40 +5,41 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Model;
 using WpfApp1.Repository;
+using WpfApp1.Service;
 
 namespace WpfApp1.Controller
 {
     public class TourBookingController
     {
-        private readonly TourBookingDAO _tourBookings;
+        private readonly TourBookingService _tourBookingServices;
 
-        public TourBookingController(TourBookingDAO tourBookingDAO)
+        public TourBookingController()
         {
-            _tourBookings = tourBookingDAO;
+            _tourBookingServices = new TourBookingService();
         }
 
         public List<TourBooking> GetAll()
         {
-            return _tourBookings.GetAll();
+            return _tourBookingServices.GetAll();
         }
 
         public TourBooking Get(int id)
         {
-            return _tourBookings.Get(id);
+            return _tourBookingServices.Get(id);
         }
 
         public void Create(TourBooking tourBooking)
         {
-            _tourBookings.Create(tourBooking);
+            _tourBookingServices.Create(tourBooking);
         }
         public void Update(TourBooking tourBooking)
         {
-            _tourBookings.Update(tourBooking);
+            _tourBookingServices.Update(tourBooking);
         }
 
         public void Delete(TourBooking tourBooking)
         {
-            _tourBookings.Delete(tourBooking);
+            _tourBookingServices.Delete(tourBooking);
         }
 
     }

@@ -20,6 +20,10 @@ namespace WpfApp1
         public LocationController LocationController { get; set; }
         public AccommodationController AccommodationController { get; set; }
 
+        public TourBookingController TourBookingController { get; set; }
+
+        public TourEventController TourEventController { get; set; }    
+
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
         public App()
@@ -27,6 +31,7 @@ namespace WpfApp1
             OwnerRepository = new OwnerRepository();
             LocationDAO locationDAO = new LocationDAO();
             AccommodationDAO accommodationDAO = new AccommodationDAO();
+            ImageDAO imageDAO = new ImageDAO();
             accommodationDAO.LocationDAO = locationDAO;
             accommodationDAO.OwnerRepository = OwnerRepository;
             accommodationDAO.BindLocation();
@@ -34,10 +39,15 @@ namespace WpfApp1
 
             TourDAO.GetInstance().LocationDAO = locationDAO;
             TourDAO.GetInstance().BindLocation();
-            
-            TourController = new TourController();
 
-            ImageDAO imageDAO = new ImageDAO();
+            TourBookingDAO.GetInstance().BindTourBookingTourEvent();
+            TourEventDAO.GetInstance().BindTourEventTour();
+
+            TourBookingController = new TourBookingController();
+            TourController = new TourController();
+            TourEventController = new TourEventController();
+
+
             ImageController = new ImageController(imageDAO);
 
             LocationController = new LocationController(locationDAO);

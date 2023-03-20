@@ -22,6 +22,8 @@ namespace WpfApp1.Model
         public List<string> Images { get; set; }
         public List<DateTime> Date { get; set; }
 
+        public List<TourEvent> TourEvents { get; set; }
+
         public int Id
         {
             get => _id;
@@ -121,7 +123,7 @@ namespace WpfApp1.Model
         }
         public Tour()
         {
-
+            TourEvents = new List<TourEvent>();
         }
 
         public Tour(int id, string name, int idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<string> images, List<DateTime> date)
