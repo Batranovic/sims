@@ -39,14 +39,7 @@ namespace WpfApp1.View
 
             ListImages.ItemsSource = accommodation.Images;
 
-
-
-
-
         }
-
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

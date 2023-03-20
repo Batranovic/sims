@@ -44,12 +44,12 @@ namespace WpfApp1.Service
 
         public List<Image> GetAccommodations()
         {
-            return _imageDAO.GetAll().FindAll(i => i.ImageKind == Model.Enums.ImageKind.accommodation).ToList();
+            return _imageDAO.GetAccommodations();
         }
 
         public List<string> GetTour()
         {
-            return _imageDAO.GetAll().FindAll(i => i.ImageKind == Model.Enums.ImageKind.tour).Select(i => i.Path).ToList();
+            return _imageDAO.GetTour();
         }
 
     }

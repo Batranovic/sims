@@ -174,8 +174,11 @@ namespace WpfApp1.View
 
         private void ShowImage(object sender, RoutedEventArgs e)
         {
-            ImageView p = new ImageView(SelectedAccommodation);
-            p.Show();
+            if(SelectedAccommodation != null)
+            { 
+                ImageView p = new ImageView(SelectedAccommodation);
+                p.Show();
+            }
         }
     }
 }

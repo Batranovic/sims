@@ -44,6 +44,7 @@ namespace WpfApp1.Repository
             _observers = new List<IObserver>();
             OwnerRepository = OwnerRepository.GetInsatnce();
             LocationDAO = LocationDAO.GetInstance();
+            ImageDAO = ImageDAO.GetInsatnce();
         }
 
         public void BindLocation()
@@ -67,10 +68,8 @@ namespace WpfApp1.Repository
         {
             foreach (Image i in ImageDAO.GetAccommodations())
             {
-                
                     Accommodation a = Get(i.ExternalId);
                     a.Images.Add(i);
-                
             }
         }
         public Accommodation Create(Accommodation entity)

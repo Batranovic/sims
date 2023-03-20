@@ -39,6 +39,7 @@ namespace WpfApp1
             ReservationDAO.GetInstance().BindAccommodation();
             AccommodationDAO.GetInstance().BindLocation();
             AccommodationDAO.GetInstance().BindOwner();
+            AccommodationDAO.GetInstance().BindImage();
             ReservationDAO.GetInstance().BindGuest();
             RatingGuestDAO.GetInstance().BindReservation();
 
