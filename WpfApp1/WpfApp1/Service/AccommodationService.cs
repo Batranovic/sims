@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Repository;
@@ -52,5 +53,13 @@ namespace WpfApp1.Service
         {
             _accommodationDAO.Unsubscribe(observer);
         }
+
+
+        public List<Accommodation> SearchAccommodation(string name, string city, string state, string type, int guestsNumber, int reservationDays)
+        {
+            if (name == null) name = "";
+            return _accommodationDAO.GetAll().Where(a => a.Name.Contains(name) && a.Location.City.Contains(city) && a.Location.State.Contains(state) && a.AccommodationKind.ToString().Contains(type) && a.MaxGuests >= guestsNumber && a.MinResevation <= reservationDays).ToList();
+        }
+
     }
 }

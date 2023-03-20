@@ -88,15 +88,7 @@ namespace WpfApp1.Repository
         }
 
 
-        public List<Image> GetAccommodations()
-        {
-            return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.accommodation).ToList();
-        }
-
-        public List<string> GetTour()
-        {
-            return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.tour).Select(i => i.Path).ToList();
-        }
+     
 
         public void Save()
         {

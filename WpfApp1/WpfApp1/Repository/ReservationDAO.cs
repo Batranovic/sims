@@ -90,13 +90,6 @@ namespace WpfApp1.Repository
                 r.Guest = GuestRepository.Get(r.IdGuest);
             }
         }
-        public void BindAccommodation()
-        {
-            foreach(Reservation r in _reservations)
-            {
-                r.Accommodation = AccommodationDAO.Get(r.IdAccommodation);
-            }
-        }
 
         public Reservation Delete(Reservation entity)
         {

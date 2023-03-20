@@ -42,9 +42,9 @@ namespace WpfApp1.Service
             _imageDAO.Update(image);
         }
 
-        public List<string> GetAccommodations()
+        public List<Image> GetAccommodations()
         {
-            return _imageDAO.GetAll().FindAll(i => i.ImageKind == Model.Enums.ImageKind.accommodation).Select(i => i.Path).ToList();
+            return _imageDAO.GetAll().FindAll(i => i.ImageKind == Model.Enums.ImageKind.accommodation).ToList();
         }
 
         public List<string> GetTour()

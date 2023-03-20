@@ -22,7 +22,7 @@ namespace WpfApp1.Repository
 
         private static AccommodationDAO _instance = null;
 
-        private List<Accommodation> _accommododations;
+        private List<Accommodation> _accommodations;
         public LocationDAO LocationDAO { get; set; }
         public OwnerRepository OwnerRepository { get; set; }
         
@@ -147,17 +147,7 @@ namespace WpfApp1.Repository
             }
         }
 
-        public List<Accommodation> SearchAccommodation(string name,string city,string state, string type, int guestsNumber, int reservationDays)
-        {
-            if (name == null) name = "";        
-            return _accommodations.Where(a => a.Name.Contains(name) && a.Location.City.Contains(city) && a.Location.State.Contains(state) && a.AccommodationKind.ToString().Contains(type) && a.MaxGuests >= guestsNumber && a.MinResevation <= reservationDays).ToList();
-        }
 
-        //public List<Image> ShowImage(int id)
-        //{
-        //    return;
-        //   return _accommodations.FindAll(a => a.Id == id);
-        //}
 
         
     }
