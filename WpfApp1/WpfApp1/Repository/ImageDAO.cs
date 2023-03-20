@@ -15,9 +15,19 @@ namespace WpfApp1.Repository
  
         private readonly Serializer<Image> _serializer;
 
+        private static ImageDAO _instance = null;
+        
         private List<Image> _images;
 
-        public ImageDAO()
+        public static ImageDAO GetInsatnce()
+        {
+            if(_instance == null)
+            {
+                _instance = new ImageDAO();
+            }
+            return _instance;
+        }
+        private ImageDAO()
         {
             _images = new List<Image>();
             _serializer = new Serializer<Image>();
@@ -76,6 +86,7 @@ namespace WpfApp1.Repository
             Save();
             return oldEntity;
         }
+
 
         public List<Image> GetAccommodations()
         {

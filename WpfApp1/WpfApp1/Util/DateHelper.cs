@@ -10,12 +10,12 @@ namespace WpfApp1.Util
     {
         public static DateTime StringToDate(string date)
         {
-            return DateTime.ParseExact(date, "dd/MM/yyyy.", null);
+            return DateTime.ParseExact(date, "dd/MM/yyyy", null);
         }
 
         public static string DateToString(DateTime date)
         {
-            return date.ToString("dd/MM/yyyy.");
+            return date.ToString("dd/MM/yyyy");
         }
     }
 }

@@ -9,7 +9,6 @@ namespace WpfApp1.Repository
 {
     public interface IDAO<T> : IRepository<T>
     {
-
         void Save();
 
         public T Create(T entity);

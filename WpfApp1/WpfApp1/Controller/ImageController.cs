@@ -6,51 +6,52 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Repository;
+using WpfApp1.Service;
 
 namespace WpfApp1.Controller
 {
     public class ImageController
     {
-        private readonly ImageDAO _images;
+        private readonly ImageService _imageService;
 
-        public ImageController(ImageDAO imageDAO)
+        public ImageController()
         {
-            _images = imageDAO;
+            _imageService = new ImageService();
         }
 
         public Image Get(int id)
         {
-            return _images.Get(id);
+            return _imageService.Get(id);
         }
 
         public List<Image> GetAll()
         {
-            return _images.GetAll();
+            return _imageService.GetAll();
         }
 
         public void Create(Image location)
         {
-            _images.Create(location);
+            _imageService.Create(location);
         }
 
         public void Delete(Image location)
         {
-            _images.Delete(location);
+            _imageService.Delete(location);
         }
 
         public void Update(Image image)
         {
-            _images.Update(image);
+            _imageService.Update(image);
         }
 
         public List<Image> GetAccommodations()
         {
-            return _images.GetAccommodations();  //vraca putanje samo do slika smestaja
+            return _imageService.GetAccommodations();  //vraca putanje samo do slika smestaja
         }
 
         public List<string> GetTour()
         {
-            return _images.GetTour();    //vraca putanje samo do slika ture
+            return _imageService.GetTour();    //vraca putanje samo do slika ture
         }
 
     }
