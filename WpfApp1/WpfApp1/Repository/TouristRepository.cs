@@ -40,7 +40,7 @@ namespace WpfApp1.Repository
 
         public Tourist Get(int id)
         {
-            return _tourists.Find(o => o.Id == id);
+            return _tourists.Find(t => t.Id == id);
         }
 
         public List<Tourist> GetAll()

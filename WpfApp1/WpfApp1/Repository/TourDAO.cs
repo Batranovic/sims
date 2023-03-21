@@ -38,7 +38,7 @@ namespace WpfApp1.Repository
         }
         public Tour Get(int id)
         {
-            return _tours.Find(a => a.Id == id);
+            return _tours.Find(t => t.Id == id);
         }
         public Tour Create(Tour entity)
         {

@@ -25,16 +25,16 @@ namespace WpfApp1.View
     {
         public ObservableCollection<TourEvent> TourEvents { get; set; }
 
-        public TourBookingController tourBookingController;
-        public TourEventController _tourEventController;
-
+        public TourBookingController TourBookingController;
+        public TourEventController TourEventController;
         public LocationController LocationController { get; set; }
 
         private string _availableSpotsText { get; set; }
         private int _availableSpots { get; set; }
 
-
         private TourEvent _selectedTourEvent;
+
+        public int NumberOfPeople { get; set; }
 
         public string AvailableSpotsText
         {
@@ -76,8 +76,6 @@ namespace WpfApp1.View
             }
         }
 
-        public int NumberOfPeople { get; set; }
-
 
 
         public TourBookingWindow(Tour tour)
@@ -87,34 +85,36 @@ namespace WpfApp1.View
 
             var app = Application.Current as App;
             LocationController = app.LocationController;
+            TourBookingController = app.TourBookingController;
+            TourEventController = app.TourEventController;
 
-
-            //NumberOfPeople = "";
-            _tourEventController = new TourEventController();
-            tourBookingController = new TourBookingController();
             TourEvents = new ObservableCollection<TourEvent>(tour.TourEvents);
+
+            // TourEventController = new TourEventController();
+            //TourBookingController = new TourBookingController();
+
         }
 
-        private void Reserve_Click(object sender, RoutedEventArgs e)
+        private void Reserve_Button(object sender, RoutedEventArgs e)
         {
-           User user = new User() { Id = 1 };
+            User user = new User() { Id = 1 };
             TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, user);
-            tourBookingController.Create(tourBooking);
+            TourBookingController.Create(tourBooking);
 
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        private void Cancel_Button(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void Check_Availability_Button_Click(object sender, RoutedEventArgs e)
+        private void Check_Availability_Button(object sender, RoutedEventArgs e)
         {
             if (SelectedTourEvent == null)
             {
                 return;
             }
-            int reservedSpots = _tourEventController.CheckAvailability(SelectedTourEvent);
+            int reservedSpots = TourEventController.CheckAvailability(SelectedTourEvent);
             AvailableSpots = SelectedTourEvent.Tour.MaxGuests - reservedSpots;
             if (AvailableSpots < NumberOfPeople)
             {
@@ -133,13 +133,13 @@ namespace WpfApp1.View
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void Suggest_More_Button_Click(object sender, RoutedEventArgs e)
+        private void Suggest_More_Button(object sender, RoutedEventArgs e)
         {
               if(SelectedTourEvent == null)
             {
                 return;
             }
-            List<TourEvent> tourEventsForLocation = _tourEventController.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
+            List<TourEvent> tourEventsForLocation = TourEventController.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
             RefreshTours(tourEventsForLocation);
         }
         private void RefreshTours(List<TourEvent> tourEvents)
@@ -151,10 +151,6 @@ namespace WpfApp1.View
             }
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 
 }
