@@ -54,22 +54,19 @@ namespace WpfApp1.Repository
                 {
                     reservation.Status = RatingGuestStatus.inprogres;
                 }
-                else if (reservation.Status == RatingGuestStatus.rated || reservation.Status == RatingGuestStatus.reserved)
+                else if (reservation.Status == RatingGuestStatus.rated)
                 {
                     continue;
                 }
                 else if (reservation.EndDate < DateTime.Now)
                 {
-                    reservation.Status = RatingGuestStatus.inprogres;
+                    reservation.Status = RatingGuestStatus.unrated;
                 }
                 else if (reservation.EndDate > DateTime.Now.AddDays(-5))
                 {
                     reservation.Status = RatingGuestStatus.expired;
                 }
-                else
-                {
-                    reservation.Status = RatingGuestStatus.unrated;
-                }
+                
             }
             Save();
         }
