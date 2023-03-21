@@ -12,9 +12,6 @@
                 <StackPanel >
                     <Button Click="SignInAccomodation">Sign in accommodation</Button>
                     <Button x:Name="btnRatingGuest" Click="ViewExpiredReservation" >Rating guest</Button>
-                    <Button>Sign in accommodation</Button>
-                    <Button>Sign in accommodation</Button>
-                    <Button>Sign in accommodation</Button>
                 </StackPanel>
             </DockPanel>
 

@@ -25,18 +25,13 @@ namespace WpfApp1.Model
 
         public string[] ToCSV()
         {
-
-
             string[] csvValues =
-           {
+            {
                Id.ToString(),
                Tour.Id.ToString(),
                StartTime.ToString(),
-
-           };
-
+            };
             return csvValues;
-
         }
 
         public void FromCSV(string[] values)
@@ -44,7 +39,6 @@ namespace WpfApp1.Model
             Id = Convert.ToInt32(values[0]);
             Tour = new Tour() { Id = Convert.ToInt32(values[1]) };
             StartTime = DateTime.Parse(values[2]);
-
         }
     }
 }
