@@ -25,13 +25,15 @@ namespace WpfApp1.Repository
             _tours = new List<Tour>();
             _tours = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
+            LocationDAO = LocationDAO.GetInstance();
         }
 
         public void BindLocation()
         {
-            foreach (Tour a in _tours)
+
+            foreach (Tour tour in _tours)
             {
-                a.Location = LocationDAO.Get(a.IdLocation);
+                tour.Location = LocationDAO.Get(tour.IdLocation);
             }
         }
         public Tour Get(int id)

@@ -49,10 +49,7 @@ namespace WpfApp1
             RatingGuestDAO.GetInstance().BindReservation();
 
 
-
-            TourDAO.GetInstance().LocationDAO = locationDAO;
             TourDAO.GetInstance().BindLocation();
-
             TourBookingDAO.GetInstance().BindTourEvent();
             TourEventDAO.GetInstance().BindTour();
 
