@@ -29,10 +29,10 @@ namespace WpfApp1
             InitializeComponent();
 
            
-
+            Guest guest = GuestRepository.GetInsatnce().Get(0);
 
             //UserView userView = new UserView();
-            AccommodationView accommodationView = new AccommodationView();
+            AccommodationView accommodationView = new AccommodationView(guest);
             accommodationView.Show();
 
             User user = OwnerRepository.GetInsatnce().Get(0);

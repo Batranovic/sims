@@ -8,6 +8,6 @@ namespace WpfApp1.Model.Enums
 {
     public enum RatingGuestStatus
     {
-        expired, unrated, rated, inprogres
+        expired, unrated, rated, inprogres, reserved
     }
 }

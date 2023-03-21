@@ -52,7 +52,7 @@
                     </WrapPanel>
                     <WrapPanel Grid.Row="1" FlowDirection="RightToLeft" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Margin="20,0,0,0">
                         <Button Content="Search" Click="Search" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,10,10,10" />
-                        <Button Content="Reserve" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin=" 10,10,10,10"/>
+                        <Button Content="Reserve" Click="Reserve"  Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin=" 10,10,10,10"/>
                     </WrapPanel>
                 </Grid>
             </Grid>
