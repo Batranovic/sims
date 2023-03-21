@@ -16,10 +16,10 @@ namespace WpfApp1.Repository
         private readonly Serializer<Tour> _serializer;
 
         private List<Tour> _tours;
-
+        private static TourDAO instance = null;
         public LocationDAO LocationDAO { get; set; }
 
-        public TourDAO()
+        private TourDAO()
         {
             _serializer = new Serializer<Tour>();
             _tours = new List<Tour>();
@@ -86,23 +86,15 @@ namespace WpfApp1.Repository
             return _tours;
         }
 
-        public List<Tour> Search(Location location, TimeSpan duration, string language, int maxGuests)
+        public static TourDAO GetInstance()
         {
-            List<Tour> searchedTours = new List<Tour>();
-
-            foreach (Tour tour in _tours)
+            if (instance == null)
             {
-                if (string.Equals(tour.Location.City, location.City, StringComparison.OrdinalIgnoreCase)
-                    && string.Equals(tour.Location.State, location.State, StringComparison.OrdinalIgnoreCase)
-                    && tour.Duration == duration
-                    && string.Equals(tour.Language, language, StringComparison.OrdinalIgnoreCase)
-                    && tour.MaxGuests >= maxGuests)
-                {
-                    searchedTours.Add(tour);
-                }
+                instance = new TourDAO();
             }
-            return searchedTours;
+            return instance;
         }
+
 
         public void Subscribe(IObserver observer)
         {
@@ -121,5 +113,6 @@ namespace WpfApp1.Repository
                 observer.Update();
             }
         }
+
     }
 }

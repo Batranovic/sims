@@ -43,6 +43,14 @@ namespace WpfApp1
 
             //UserView userView = new UserView();
            // userView.Show();
+            TourSearchAndOverview a = new TourSearchAndOverview();
+            a.Show();
+
+
+
+           // UserView userView = new UserView();
+           //userView.Show();
+
 
         }
     }
