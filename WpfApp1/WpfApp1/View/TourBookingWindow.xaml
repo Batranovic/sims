@@ -43,16 +43,16 @@
 
         <TextBlock Text="{Binding AvailableSpotsText, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Margin="0,16,4,26" Grid.Row="4"/>
         <TextBlock Text="{Binding AvailableSpots, UpdateSourceTrigger=PropertyChanged}" Margin="80,16,58,26" Grid.Row="4" Grid.ColumnSpan="2"/>
-                <Button Content="Check availability" Click="Check_Availability_Button" Margin="1,21,0,20" Grid.Row="3"/>
+                <Button Content="Check availability" Click="CheckAvailabilityButton" Margin="1,21,0,20" Grid.Row="3"/>
                 <Button x:Name="Reserve" Content="Reserve" IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Center"
-              Click="Reserve_Button" Height="32" Width="66" Grid.Column="1" Margin="34,0,0,0" Grid.Row="3"/>
+              Click="ReserveButton" Height="32" Width="66" Grid.Column="1" Margin="34,0,0,0" Grid.Row="3"/>
 
             </Grid>
             <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" />
             
             <Button x:Name="Cancel" Content="Cancel" IsCancel="True" HorizontalAlignment="Left" Margin="120,367,0,0" VerticalAlignment="Top"
-                    Click="Cancel_Button" Height="30" Width="66" Grid.Column="1" Grid.RowSpan="2"/>
-                <Button Content="Suggest more" Click="Suggest_More_Button"  HorizontalAlignment="Left" Margin="30,367,0,0" VerticalAlignment="Top" Height="30" Width="100" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                    Click="CancelButton" Height="30" Width="66" Grid.Column="1" Grid.RowSpan="2"/>
+                <Button Content="Suggest more" Click="SuggestMoreButton"  HorizontalAlignment="Left" Margin="30,367,0,0" VerticalAlignment="Top" Height="30" Width="100" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
         </Grid>
     </Grid>
         </TextBlock>

@@ -95,20 +95,30 @@ namespace WpfApp1.View
 
         }
 
-        private void Reserve_Button(object sender, RoutedEventArgs e)
+        private void ReserveButton(object sender, RoutedEventArgs e)
         {
-            User user = new User() { Id = 1 };
-            TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, user);
-            TourBookingController.Create(tourBooking);
+            if(AvailableSpots >= NumberOfPeople)
+            {
+                User user = new User() { Id = 1 };
+                TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, user);
+                TourBookingController.Create(tourBooking);
+                MessageBox.Show("Successful reservation!");
+
+            }
+            else
+            {
+                MessageBox.Show("Not enough available spots!");
+            }
+
 
         }
 
-        private void Cancel_Button(object sender, RoutedEventArgs e)
+        private void CancelButton(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void Check_Availability_Button(object sender, RoutedEventArgs e)
+        private void CheckAvailabilityButton(object sender, RoutedEventArgs e)
         {
             if (SelectedTourEvent == null)
             {
@@ -133,7 +143,7 @@ namespace WpfApp1.View
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void Suggest_More_Button(object sender, RoutedEventArgs e)
+        private void SuggestMoreButton(object sender, RoutedEventArgs e)
         {
               if(SelectedTourEvent == null)
             {
