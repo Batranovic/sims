@@ -60,7 +60,7 @@ namespace WpfApp1.Service
             return numOfPeople;
         }
 
-        public List<TourBooking> GetAllTourReservationForTourEvent(TourEvent tourEvent)
+        public List<TourBooking> GetAllTourBookingsForTourEvent(TourEvent tourEvent)
         {
             List<TourBooking> tourBookingList = new List<TourBooking>();
             foreach (TourBooking tourBooking in _tourBookingDAO.GetAll())

@@ -70,7 +70,7 @@ namespace WpfApp1.View
                 Tours.Add(tour);
             }
         }
-        private void Search_Button_Click(object sender, RoutedEventArgs e)
+        private void Search_Button(object sender, RoutedEventArgs e)
         {
             List<Tour> searchedTours = TourController.TourSearch(State, City, Languages, MaxGuests, Duration);
            RefreshTours(searchedTours);

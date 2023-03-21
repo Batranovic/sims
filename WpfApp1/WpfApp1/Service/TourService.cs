@@ -50,9 +50,9 @@ namespace WpfApp1.Service
             _tourDAO.Create(tour);
         }
 
-        private bool SearchCondition(Tour tour, string country, string city, string language, string numberOfPeople, string duration)
+        private bool SearchCondition(Tour tour, string state, string city, string language, string numberOfPeople, string duration)
         {
-            bool retVal = tour.Location.State.Contains(country, StringComparison.OrdinalIgnoreCase) && tour.Location.City.Contains(city, StringComparison.OrdinalIgnoreCase) && tour.Languages.Contains(language, StringComparison.OrdinalIgnoreCase);
+            bool retVal = tour.Location.State.Contains(state, StringComparison.OrdinalIgnoreCase) && tour.Location.City.Contains(city, StringComparison.OrdinalIgnoreCase) && tour.Languages.Contains(language, StringComparison.OrdinalIgnoreCase);
 
             if (numberOfPeople != null && numberOfPeople != "")
             {
@@ -69,11 +69,11 @@ namespace WpfApp1.Service
 
         }
 
-        public List<Tour> TourSearch(string country, string city, string language, string numberOfPeople, string duration)
+        public List<Tour> TourSearch(string state, string city, string language, string numberOfPeople, string duration)
         {
             try
             {
-                List<Tour> tours = TourSearchLogic(country, city, language, numberOfPeople, duration);
+                List<Tour> tours = TourSearchLogic(state, city, language, numberOfPeople, duration);
                 return tours;
             }
             catch (Exception e)
@@ -82,24 +82,24 @@ namespace WpfApp1.Service
             }
         }
 
-        private List<Tour> TourSearchLogic(string country, string city, string language, string numberOfPeople, string duration)
+        private List<Tour> TourSearchLogic(string state, string city, string language, string numberOfPeople, string duration)
         {
             List<Tour> tours = new List<Tour>();
 
             foreach (Tour tour in _tourDAO.GetAll())
             {
-                if (SearchCondition(tour, country, city, language, numberOfPeople, duration))
+                if (SearchCondition(tour, state, city, language, numberOfPeople, duration))
                 {
                     tours.Add(tour);
                 }
             }
             return tours;
         }
-
+        /*
         public IEnumerable<Tour> TourSearchLINQ(string country, string city, string language, string numberOfPeople, string duration)
         {
 
             return _tourDAO.GetAll().Where(t => SearchCondition(t, country, city, language, numberOfPeople, duration));
-        }
+        }*/
     }
 }
