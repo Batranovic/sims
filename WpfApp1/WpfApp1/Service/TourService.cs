@@ -95,11 +95,11 @@ namespace WpfApp1.Service
             }
             return tours;
         }
-
+        /*
         public IEnumerable<Tour> TourSearchLINQ(string country, string city, string language, string numberOfPeople, string duration)
         {
 
             return _tourDAO.GetAll().Where(t => SearchCondition(t, country, city, language, numberOfPeople, duration));
-        }
+        }*/
     }
 }

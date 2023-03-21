@@ -51,7 +51,7 @@ namespace WpfApp1.Controller
 
         public List<TourBooking> GetAllTourReservationForTourEvent(TourEvent tourEvent)
         {
-            return _tourEventService.GetAllTourReservationForTourEvent(tourEvent);
+            return _tourEventService.GetAllTourBookingsForTourEvent(tourEvent);
         }
 
         public List<TourEvent> GetAvailableTourEventsForLocation(Location location, int numberOfPeople)
