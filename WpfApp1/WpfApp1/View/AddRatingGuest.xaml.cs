@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -48,6 +49,11 @@ namespace WpfApp1.View
             Scores.Add(4);
             Scores.Add(5);
             SelectedResevation = reservation;
+            SelectedCleanness = 0;
+            SelectedDamage = 0;
+            SelectedNoise = 0;
+            SelectedTimeliness = 0;
+            SelectedFollowingRules = 0;
         }
 
         private string _comment;
@@ -86,5 +92,70 @@ namespace WpfApp1.View
         {
             this.Close();
         }
+
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            { 
+                if (columnName == "SelectedNoise")
+                {
+                    if (SelectedNoise == 0)
+                    {
+                        return "Nije dodata ocena";
+                    }
+                }
+
+                if (columnName == "SelectedTimeliness")
+                {
+                    if (SelectedTimeliness == 0)
+                    {
+                        return "Nije dodata ocena";
+
+                    }
+                }
+                if (columnName == "SelectedFollowingRules")
+                {
+                    if (SelectedFollowingRules == 0)
+                    {
+                        return "Nije dodata ocena";
+                    }
+                }
+                if (columnName == "SelectedDamage")
+                {
+                    if (SelectedDamage == 0)
+                    {
+                        return "Nije dodata ocena";
+                    }
+                }
+                if (columnName == "MaxGuests")
+                {
+                    if (SelectedCleanness == 0)
+                    {
+                        return "Nije dodata ocena";
+                    }
+                }
+                
+                return null;
+            }
+        }
+
+        private readonly string[] _validatedProperties = { "SelectedNoise", "SelectedTimeliness", "SelectedFollowingRules", "SelectedDamage", "SelectedCleanness" };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+
     }
 }

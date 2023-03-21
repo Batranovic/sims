@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using WpfApp.Observer;
 using WpfApp1.Model;
@@ -75,6 +76,28 @@ namespace WpfApp1.Service
             return date >= reservation.StartDate && date <= reservation.EndDate;
         }
 
+        private DateTime CheckDateAvailability(Reservation r, DateTime startDate, DateTime endDate, int duration)
+        {
+            while ((endDate - startDate).Days >= duration)
+            {
+                if (IsDateInRange(r, startDate))
+                {
+                    startDate = r.EndDate.AddDays(1);
+                }
+                else if (IsDateInRange(r, startDate.AddDays(duration)))
+                {
+                    startDate = r.EndDate.AddDays(1);
+                }
+                else
+                {
+                    return startDate;
+                }
+
+            }
+
+            return endDate;
+        }
+
         public DateTime IsReserved(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
         {
             if (GetAll().Find(r => r.IdAccommodation == idAccommodation) == null)
@@ -82,39 +105,24 @@ namespace WpfApp1.Service
                 return startDate;
             }
 
-            foreach (Reservation r in GetReservationsForAccommodation(idAccommodation))
+            foreach (Reservation r in GetAheadReservationsForAccommodation(idAccommodation))
             {
-                while ((endDate - startDate).Days >= duration)
-                {
-                    if (IsDateInRange(r, startDate))
-                    {
-                        startDate = r.EndDate.AddDays(1);
-                    }
-                    else if (IsDateInRange(r, startDate.AddDays(duration)))
-                    {
-                        startDate = r.EndDate.AddDays(1);
-                    }
-                    else
-                    {
-                        return startDate;
-                    }
-
-                }
+                return CheckDateAvailability(r, startDate, endDate, duration);
             }
 
             return endDate;
         }
 
-        public List<Reservation> GetReservationsForAccommodation(int idAccommodation)
+        public List<Reservation> GetAheadReservationsForAccommodation(int idAccommodation)
         {
-            return GetAll().Where(r => r.IdAccommodation == idAccommodation).ToList();
+            return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.RatingGuestStatus.inprogres || r.Status == Model.Enums.RatingGuestStatus.reserved )).ToList();
         }
 
         public bool IsDateFree(int idAccommodation, DateTime date)
         {
             bool retVal = true;
 
-            foreach (Reservation r in GetReservationsForAccommodation(idAccommodation))
+            foreach (Reservation r in GetAheadReservationsForAccommodation(idAccommodation))
             {
                 retVal = retVal && !IsDateInRange(r, date);
             }
@@ -124,7 +132,7 @@ namespace WpfApp1.Service
         public Dictionary<DateTime, DateTime> GetAvailableDates(int idAccommodation, DateTime endDate, int duration)
         {
 
-            Dictionary<DateTime, DateTime> retVal = new Dictionary<DateTime, DateTime>();
+            Dictionary<DateTime, DateTime> availableDates = new Dictionary<DateTime, DateTime>();
             DateTime temp = endDate;
             DateTime original = endDate;
 
@@ -132,12 +140,12 @@ namespace WpfApp1.Service
             {
                 if (IsDateFree(idAccommodation, endDate.AddDays(i)) && IsDateFree(idAccommodation, endDate.AddDays(duration)))
                 {
-                     retVal.Add(temp.AddDays(i), endDate);
+                    availableDates.Add(temp.AddDays(i), endDate);
                 }
                 temp = endDate;
                 endDate = original;
             }
-            return retVal;
+            return availableDates;
         }
 
     }

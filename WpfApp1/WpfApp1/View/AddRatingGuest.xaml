@@ -6,6 +6,16 @@
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
         Title="AddRatingGuest" Height="450" Width="800">
+    <Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+            </StackPanel>
+
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
 
         <Grid>
@@ -39,18 +49,18 @@
                 <Label Grid.Row="4" Grid.Column="0" Height="30">Timeliness</Label>
                 <Label Grid.Row="5" Grid.Column="0" Height="30">Comment</Label>
 
-                <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedCleanness, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
-                <ComboBox  Grid.Row="1"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedFollowingRules, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
-                <ComboBox  Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedNoise, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
-                <ComboBox  Grid.Row="3"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedDamage, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
-                <ComboBox  Grid.Row="4"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedTimeliness, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
-                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
+                <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedCleanness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
+                <ComboBox  Grid.Row="1"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedFollowingRules, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
+                <ComboBox  Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedNoise, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
+                <ComboBox  Grid.Row="3"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedDamage, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
+                <ComboBox  Grid.Row="4"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedTimeliness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30"></TextBox>
                  
 
             </Grid>
             <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
                 <Button Content=" Potvrdi " IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
-              Click="Confrim"/>
+              Click="Confrim" />
                 <Button Content="Odustani " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
                Click="Reject" />
             </WrapPanel>
