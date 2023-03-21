@@ -27,23 +27,26 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
+        }
 
-           
-            Guest guest = GuestRepository.GetInsatnce().Get(0);
+        private void TourSearchAndOverview(object sender, RoutedEventArgs e)
+        {
+            TourSearchAndOverview a = new TourSearchAndOverview();
+            a.Show();
+        }
 
-            //UserView userView = new UserView();
-            AccommodationView accommodationView = new AccommodationView(guest);
-            accommodationView.Show();
-
+        private void OwnerProfile(object sender, RoutedEventArgs e)
+        {
             User user = OwnerRepository.GetInsatnce().Get(0);
             OwnerAccount ownerAccount = new OwnerAccount(user);
             ownerAccount.Show();
+        }
 
-         
-
-            //UserView userView = new UserView();
-           // userView.Show();
-
+        private void AccommodationView(object sender, RoutedEventArgs e)
+        {
+            AccommodationView accommodationView = new AccommodationView();
+            accommodationView.Show();
         }
     }
 }

@@ -16,27 +16,29 @@ namespace WpfApp1.Repository
         private readonly Serializer<Tour> _serializer;
 
         private List<Tour> _tours;
-
+        private static TourDAO instance = null;
         public LocationDAO LocationDAO { get; set; }
 
-        public TourDAO()
+        private TourDAO()
         {
             _serializer = new Serializer<Tour>();
             _tours = new List<Tour>();
             _tours = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
+            LocationDAO = LocationDAO.GetInstance();
         }
 
         public void BindLocation()
         {
-            foreach (Tour a in _tours)
+
+            foreach (Tour tour in _tours)
             {
-                a.Location = LocationDAO.Get(a.IdLocation);
+                tour.Location = LocationDAO.Get(tour.IdLocation);
             }
         }
         public Tour Get(int id)
         {
-            return _tours.Find(a => a.Id == id);
+            return _tours.Find(t => t.Id == id);
         }
         public Tour Create(Tour entity)
         {
@@ -86,23 +88,15 @@ namespace WpfApp1.Repository
             return _tours;
         }
 
-        public List<Tour> Search(Location location, TimeSpan duration, string language, int maxGuests)
+        public static TourDAO GetInstance()
         {
-            List<Tour> searchedTours = new List<Tour>();
-
-            foreach (Tour tour in _tours)
+            if (instance == null)
             {
-                if (string.Equals(tour.Location.City, location.City, StringComparison.OrdinalIgnoreCase)
-                    && string.Equals(tour.Location.State, location.State, StringComparison.OrdinalIgnoreCase)
-                    && tour.Duration == duration
-                    && string.Equals(tour.Language, language, StringComparison.OrdinalIgnoreCase)
-                    && tour.MaxGuests >= maxGuests)
-                {
-                    searchedTours.Add(tour);
-                }
+                instance = new TourDAO();
             }
-            return searchedTours;
+            return instance;
         }
+
 
         public void Subscribe(IObserver observer)
         {
@@ -121,5 +115,6 @@ namespace WpfApp1.Repository
                 observer.Update();
             }
         }
+
     }
 }

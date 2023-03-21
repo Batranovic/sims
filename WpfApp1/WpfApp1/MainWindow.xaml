@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Grid Background="PapayaWhip">
+        <Button Click="TourSearchAndOverview" Margin="290,90,333,284">Tour search and overview</Button>
+        <Button Click="OwnerProfile" Margin="290,293,333,81">Owner profilw</Button>
+        <Button Click="AccommodationView" Margin="290,187,333,187">Accommodation view</Button>
     </Grid>
 </Window>

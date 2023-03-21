@@ -5,44 +5,59 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Model;
 using WpfApp1.Repository;
+using WpfApp1.Service;
+using WpfApp.Observer;
 
 namespace WpfApp1.Controller
 {
     public class TourController
     {
-        private readonly TourDAO _tours;
 
-        public TourController(TourDAO tourDAO)
+        private readonly TourService _tourService;
+
+        public TourController()
         {
-            _tours = tourDAO;
+            _tourService = new TourService();
         }
     
         public List<Tour> GetAll()
         {
-            return _tours.GetAll();
+            return _tourService.GetAll();
         }
 
         public Tour Get(int id)
         {
-            return _tours.Get(id);
+            return _tourService.Get(id);
         }
 
-        public List<Tour> Search(Location location, TimeSpan duration, string language, int maxGuests)
-        {
-            return _tours.Search(location, duration, language, maxGuests);
-        }
+       
         public void Create(Tour tour)
         {
-            _tours.Create(tour);
+            _tourService.Create(tour);
         }
         public void Update(Tour tour)
         {
-            _tours.Update(tour);
+            _tourService.Update(tour);
         }
 
         public void Delete(Tour tour)
         {
-            _tours.Delete(tour);
+            _tourService.Delete(tour);
+        }
+
+        public List<Tour> TourSearch(string state, string city, string language, string numberOfPeople, string duration)
+        {
+            return _tourService.TourSearch(state, city, language, numberOfPeople, duration);
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _tourService.Subscribe(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _tourService.Unsubscribe(observer);
         }
 
     }

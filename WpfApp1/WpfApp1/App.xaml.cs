@@ -23,6 +23,11 @@ namespace WpfApp1
         public AccommodationController AccommodationController { get; set; }
         public ReservationController ReservationController { get; set; }
         public RatingGuestController RatingGuestController { get; set; }
+
+        public TourBookingController TourBookingController { get; set; }
+
+        public TourEventController TourEventController { get; set; }    
+
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
 
@@ -42,6 +47,15 @@ namespace WpfApp1
             AccommodationDAO.GetInstance().BindImage();
             ReservationDAO.GetInstance().BindGuest();
             RatingGuestDAO.GetInstance().BindReservation();
+
+
+            TourDAO.GetInstance().BindLocation();
+            TourBookingDAO.GetInstance().BindTourEvent();
+            TourEventDAO.GetInstance().BindTour();
+
+            TourBookingController = new TourBookingController();
+            TourController = new TourController();
+            TourEventController = new TourEventController();
 
 
         }

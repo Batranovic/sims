@@ -15,12 +15,14 @@ namespace WpfApp1.Model
         private int _idLocation;
         private Location _location;
         private string _description;
-        private TimeSpan _duration;
-        private string _language;        //Da li da se napravi kao enum?
+        private double _duration;
+        private string _language;        
         private int _maxGuests;
         public List<string> KeyPoints { get; set; }
         public List<string> Images { get; set; }
         public List<DateTime> Date { get; set; }
+
+        public List<TourEvent> TourEvents { get; set; }
 
         public int Id
         {
@@ -84,7 +86,7 @@ namespace WpfApp1.Model
             }
         }
 
-        public TimeSpan Duration
+        public double Duration
         {
             get => _duration;
             set
@@ -96,7 +98,7 @@ namespace WpfApp1.Model
             }
         }
 
-        public string Language
+        public string Languages
         {
             get => _language;
             set
@@ -121,17 +123,17 @@ namespace WpfApp1.Model
         }
         public Tour()
         {
-
+            TourEvents = new List<TourEvent>();
         }
 
-        public Tour(int id, string name, int idLocation, string description, TimeSpan duration, string  language, int maxGuests, List<string> keyPoints, List<string> images, List<DateTime> date)
+        public Tour(int id, string name, int idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<string> images, List<DateTime> date)
         {
             Id = id;
             Name = name;
             IdLocation = idLocation;
             Description = description;
             Duration = duration;
-            Language = language;
+            Languages = language;
             MaxGuests = maxGuests;
             KeyPoints = keyPoints;
             Images = images;
@@ -147,7 +149,7 @@ namespace WpfApp1.Model
                     IdLocation.ToString(), 
                     Description.ToString(),
                     Duration.ToString(),
-                    Language,
+                    Languages,
                     MaxGuests.ToString(),
                 };
             return csvValues;
@@ -159,8 +161,8 @@ namespace WpfApp1.Model
             Name = values[1];
             IdLocation = int.Parse(values[2]);
             Description = values[3];
-            Duration = TimeSpan.Parse(values[4]);
-            Language = values[5];
+            Duration = Double.Parse(values[4]);
+            Languages = values[5];
             MaxGuests = int.Parse(values[6]);
         }
     }
