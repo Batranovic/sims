@@ -48,9 +48,13 @@ namespace WpfApp1.Repository
 
         public void SetStatus()
         {
-            foreach(Reservation reservation in _reservations)
+            foreach (Reservation reservation in _reservations)
             {
-                if (reservation.Status == RatingGuestStatus.rated)
+                if (reservation.Status == RatingGuestStatus.reserved && reservation.StartDate <= DateTime.Now)
+                {
+                    reservation.Status = RatingGuestStatus.inprogres;
+                }
+                else if (reservation.Status == RatingGuestStatus.rated || reservation.Status == RatingGuestStatus.reserved)
                 {
                     continue;
                 }
@@ -62,8 +66,12 @@ namespace WpfApp1.Repository
                 {
                     reservation.Status = RatingGuestStatus.expired;
                 }
-                reservation.Status = RatingGuestStatus.unrated;
+                else
+                {
+                    reservation.Status = RatingGuestStatus.unrated;
+                }
             }
+            Save();
         }
 
         public void BindAccommodation()

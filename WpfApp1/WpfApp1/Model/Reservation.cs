@@ -12,20 +12,33 @@ using WpfApp1.Util;
 
 namespace WpfApp1.Model
 {
-    public  class Reservation : WpfApp1.Serializer.ISerializable
+    public class Reservation : WpfApp1.Serializer.ISerializable
     {
         public int Id { get; set; }
         public int IdGuest { get; set; }
         public Guest Guest { get; set; }
         public Accommodation Accommodation { get; set; }
         public int IdAccommodation { get; set; }
-        public DateTime StartDate { get; set; } 
-        public DateTime EndDate { get; set; }   
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public RatingGuestStatus Status { get; set; }
+
 
         public Reservation()
         {
-            
+
+        }
+
+        public Reservation(Guest guest, Accommodation accommodation, DateTime startDate, DateTime endDate, RatingGuestStatus status)
+        {
+            IdGuest = guest.Id;
+            IdAccommodation = accommodation.Id;
+            EndDate = endDate;
+            Status = status;
+            this.Guest = guest;
+            this.Accommodation = accommodation;
+            this.StartDate = startDate;
+
         }
 
         public string[] ToCSV()

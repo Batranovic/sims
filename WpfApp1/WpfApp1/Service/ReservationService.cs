@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Model.Enums;
@@ -12,7 +14,7 @@ namespace WpfApp1.Service
 {
     public class ReservationService
     {
-        private  ReservationDAO _reservationDAO;
+        private ReservationDAO _reservationDAO;
 
         public ReservationService()
         {
@@ -64,6 +66,78 @@ namespace WpfApp1.Service
                 return new List<Reservation>();
             }
             return list;
+        }
+
+
+
+        public bool IsDateInRange(Reservation reservation, DateTime date)
+        {
+            return date >= reservation.StartDate && date <= reservation.EndDate;
+        }
+
+        public DateTime IsReserved(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
+        {
+            if (GetAll().Find(r => r.IdAccommodation == idAccommodation) == null)
+            {
+                return startDate;
+            }
+
+            foreach (Reservation r in GetReservationsForAccommodation(idAccommodation))
+            {
+                while ((endDate - startDate).Days >= duration)
+                {
+                    if (IsDateInRange(r, startDate))
+                    {
+                        startDate = r.EndDate.AddDays(1);
+                    }
+                    else if (IsDateInRange(r, startDate.AddDays(duration)))
+                    {
+                        startDate = r.EndDate.AddDays(1);
+                    }
+                    else
+                    {
+                        return startDate;
+                    }
+
+                }
+            }
+
+            return endDate;
+        }
+
+        public List<Reservation> GetReservationsForAccommodation(int idAccommodation)
+        {
+            return GetAll().Where(r => r.IdAccommodation == idAccommodation).ToList();
+        }
+
+        public bool IsDateFree(int idAccommodation, DateTime date)
+        {
+            bool retVal = true;
+
+            foreach (Reservation r in GetReservationsForAccommodation(idAccommodation))
+            {
+                retVal = retVal && !IsDateInRange(r, date);
+            }
+            return retVal;
+        }
+
+        public Dictionary<DateTime, DateTime> GetAvailableDates(int idAccommodation, DateTime endDate, int duration)
+        {
+
+            Dictionary<DateTime, DateTime> retVal = new Dictionary<DateTime, DateTime>();
+            DateTime temp = endDate;
+            DateTime original = endDate;
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (IsDateFree(idAccommodation, endDate.AddDays(i)) && IsDateFree(idAccommodation, endDate.AddDays(duration)))
+                {
+                     retVal.Add(temp.AddDays(i), endDate);
+                }
+                temp = endDate;
+                endDate = original;
+            }
+            return retVal;
         }
 
     }

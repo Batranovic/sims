@@ -59,5 +59,15 @@ namespace WpfApp1.Controller
             return _reservationService.GetUnratedById(id);
         }
 
+        public DateTime IsReserved(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
+        {
+            return _reservationService.IsReserved(idAccommodation,startDate, endDate, duration);
+        }
+
+        public Dictionary<DateTime,DateTime> GetAvailableDates(int idAccommodation, DateTime endDate, int duration)
+        {
+            return _reservationService.GetAvailableDates(idAccommodation, endDate, duration);
+        }
+
     }
 }
