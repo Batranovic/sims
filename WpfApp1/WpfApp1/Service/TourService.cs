@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 using System.Linq;
+using WpfApp.Observer;
 
 namespace WpfApp1.Service
 {
@@ -50,6 +51,15 @@ namespace WpfApp1.Service
             _tourDAO.Create(tour);
         }
 
+        public void Subscribe(IObserver observer)
+        {
+            _tourDAO.Subscribe(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _tourDAO.Unsubscribe(observer);
+        }
         private bool SearchCondition(Tour tour, string state, string city, string language, string numberOfPeople, string duration)
         {
             bool retVal = tour.Location.State.Contains(state, StringComparison.OrdinalIgnoreCase) && tour.Location.City.Contains(city, StringComparison.OrdinalIgnoreCase) && tour.Languages.Contains(language, StringComparison.OrdinalIgnoreCase);

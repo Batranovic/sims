@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Service;
 using WpfApp1.Model;
+using WpfApp.Observer;
 
 namespace WpfApp1.Controller
 {
@@ -42,6 +43,15 @@ namespace WpfApp1.Controller
             return _tourEventService.Update(tourEvent);
         }
 
+        public void Subscribe(IObserver observer)
+        {
+            _tourEventService.Subscribe(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _tourEventService.Unsubscribe(observer);
+        }
 
 
         public int CheckAvailability(TourEvent tourEvent)

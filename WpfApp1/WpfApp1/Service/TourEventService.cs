@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Repository;
 using WpfApp1.Model;
+using WpfApp.Observer;
 
 namespace WpfApp1.Service
 {
@@ -44,6 +45,16 @@ namespace WpfApp1.Service
             return _tourEventDAO.Update(tourEvent);
         }
 
+
+        public void Subscribe(IObserver observer)
+        {
+            _tourEventDAO.Subscribe(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _tourEventDAO.Unsubscribe(observer);
+        }
 
 
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 using WpfApp1.Service;
+using WpfApp.Observer;
 
 namespace WpfApp1.Controller
 {
@@ -47,6 +48,16 @@ namespace WpfApp1.Controller
         public List<Tour> TourSearch(string state, string city, string language, string numberOfPeople, string duration)
         {
             return _tourService.TourSearch(state, city, language, numberOfPeople, duration);
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _tourService.Subscribe(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _tourService.Unsubscribe(observer);
         }
 
     }
