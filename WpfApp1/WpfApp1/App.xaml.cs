@@ -40,8 +40,8 @@ namespace WpfApp1
             TourDAO.GetInstance().LocationDAO = locationDAO;
             TourDAO.GetInstance().BindLocation();
 
-            TourBookingDAO.GetInstance().BindTourBookingTourEvent();
-            TourEventDAO.GetInstance().BindTourEventTour();
+            TourBookingDAO.GetInstance().BindTourEvent();
+            TourEventDAO.GetInstance().BindTour();
 
             TourBookingController = new TourBookingController();
             TourController = new TourController();

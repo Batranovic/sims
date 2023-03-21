@@ -80,6 +80,33 @@ namespace WpfApp1.Repository
             return _tourEvents;
         }
 
+        public static TourEventDAO GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new TourEventDAO();
+            }
+            return instance;
+        }
+
+        public void BindTour()
+        {
+            foreach (TourEvent tourEvent in _tourEvents)
+            {
+                int tourId = tourEvent.Tour.Id;
+                Tour tour = TourDAO.GetInstance().Get(tourId);
+                if (tour != null)
+                {
+                    tourEvent.Tour = tour;
+                    tour.TourEvents.Add(tourEvent);
+                }
+                else
+                {
+                    Console.WriteLine("Error in accommodationLocation binding");
+                }
+            }
+        }
+
 
         public void Subscribe(IObserver observer)
         {
@@ -99,31 +126,5 @@ namespace WpfApp1.Repository
             }
         }
 
-        public static TourEventDAO GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new TourEventDAO();
-            }
-            return instance;
-        }
-
-        public void BindTourEventTour()
-        {
-            foreach (TourEvent tourEvent in _tourEvents)
-            {
-                int tourId = tourEvent.Tour.Id;
-                Tour tour = TourDAO.GetInstance().Get(tourId);
-                if (tour != null)
-                {
-                    tourEvent.Tour = tour;
-                    tour.TourEvents.Add(tourEvent);
-                }
-                else
-                {
-                    Console.WriteLine("Error in accommodationLocation binding");
-                }
-            }
-        }
     }
 }

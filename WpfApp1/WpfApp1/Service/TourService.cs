@@ -25,7 +25,7 @@ namespace WpfApp1.Service
             return _tourDAO.Get(id);
         }
 
-        public void Save()  //proveri
+        public void Save() 
         {
             _tourDAO.Save();
         }
@@ -52,18 +52,18 @@ namespace WpfApp1.Service
 
         private bool SearchCondition(Tour tour, string country, string city, string language, string numberOfPeople, string duration)
         {
-            bool retVal = tour.Location.State.Contains(country) && tour.Location.City.Contains(city) && tour.Languages.Contains(language);
+            bool retVal = tour.Location.State.Contains(country, StringComparison.OrdinalIgnoreCase) && tour.Location.City.Contains(city, StringComparison.OrdinalIgnoreCase) && tour.Languages.Contains(language, StringComparison.OrdinalIgnoreCase);
 
             if (numberOfPeople != null && numberOfPeople != "")
             {
                 int numberOfPeopleNum = Convert.ToInt32(numberOfPeople);
-                retVal = retVal && tour.MaxGuests > numberOfPeopleNum;
+                retVal = retVal && tour.MaxGuests >= numberOfPeopleNum;
             }
 
             if (duration != null && duration != "")
             {
                 int durationNum = Convert.ToInt32(duration);
-                retVal = retVal && tour.Duration > durationNum;
+                retVal = retVal && tour.Duration >= durationNum;
             }
             return retVal;
 

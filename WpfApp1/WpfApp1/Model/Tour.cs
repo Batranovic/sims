@@ -16,7 +16,7 @@ namespace WpfApp1.Model
         private Location _location;
         private string _description;
         private double _duration;
-        private string _language;        //Da li da se napravi kao enum?
+        private string _language;        
         private int _maxGuests;
         public List<string> KeyPoints { get; set; }
         public List<string> Images { get; set; }

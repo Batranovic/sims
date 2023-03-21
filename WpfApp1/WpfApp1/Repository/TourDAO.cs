@@ -86,7 +86,15 @@ namespace WpfApp1.Repository
             return _tours;
         }
 
-      
+        public static TourDAO GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new TourDAO();
+            }
+            return instance;
+        }
+
 
         public void Subscribe(IObserver observer)
         {
@@ -106,13 +114,5 @@ namespace WpfApp1.Repository
             }
         }
 
-        public static TourDAO GetInstance()
-        {
-            if(instance == null)
-            {
-                instance = new TourDAO();
-            }
-            return instance;
-        }
     }
 }

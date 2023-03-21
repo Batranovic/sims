@@ -81,6 +81,31 @@ namespace WpfApp1.Repository
             return _tourBookings;
         }
 
+        public static TourBookingDAO GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new TourBookingDAO();
+            }
+            return instance;
+        }
+
+        public void BindTourEvent()
+        {
+            foreach (TourBooking tourBooking in _tourBookings)
+            {
+                int tourEventId = tourBooking.TourEvent.Id;
+                TourEvent tourEvent = TourEventDAO.GetInstance().Get(tourEventId);
+                if (tourEvent != null)
+                {
+                    tourBooking.TourEvent = tourEvent;
+                }
+                else
+                {
+                    Console.WriteLine("Error in tourReservationTourEvent binding");
+                }
+            }
+        }
 
         public void Subscribe(IObserver observer)
         {
@@ -100,30 +125,5 @@ namespace WpfApp1.Repository
             }
         }
 
-        public static TourBookingDAO GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new TourBookingDAO();
-            }
-            return instance;
-        }
-
-        public void BindTourBookingTourEvent()
-        {
-            foreach (TourBooking tourBooking in _tourBookings)
-            {
-                int tourEventId = tourBooking.TourEvent.Id;
-                TourEvent tourEvent = TourEventDAO.GetInstance().Get(tourEventId);
-                if (tourEvent != null)
-                {
-                    tourBooking.TourEvent = tourEvent;
-                }
-                else
-                {
-                    Console.WriteLine("Error in tourReservationTourEvent binding");
-                }
-            }
-        }
     }
 }

@@ -150,6 +150,11 @@ namespace WpfApp1.View
                 TourEvents.Add(tourEvent);
             }
         }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 
 }
