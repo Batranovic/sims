@@ -107,7 +107,7 @@ namespace WpfApp1.View
             }
             else
             {
-                MessageBox.Show("Not enough available spots!");
+                MessageBox.Show("Not enough available spots!")
             }
 
 
