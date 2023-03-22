@@ -45,7 +45,8 @@ namespace WpfApp1
 
         private void AccommodationView(object sender, RoutedEventArgs e)
         {
-            AccommodationView accommodationView = new AccommodationView();
+            Guest guest = GuestRepository.GetInsatnce().Get(0);
+            AccommodationView accommodationView = new AccommodationView(guest);
             accommodationView.Show();
         }
     }

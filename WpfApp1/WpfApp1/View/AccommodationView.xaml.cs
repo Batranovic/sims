@@ -32,7 +32,7 @@ namespace WpfApp1.View
         private readonly AccommodationController accommodationController;
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
 
-        public AccommodationKind SelectedAccommodationKind { get; set; }
+        public AccommodationKind? SelectedAccommodationKind { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
         public Accommodation SelectedAccommodation { get; set; }
@@ -44,9 +44,11 @@ namespace WpfApp1.View
         public ObservableCollection<string> Cities { get; set; }
 
         public string SelectedCity { get; set; }
+
+        public Guest LogInGuest { get; set; }
         
 
-        public AccommodationView()
+        public AccommodationView(User user)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -57,6 +59,8 @@ namespace WpfApp1.View
 
             var kind = Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>();
             AccommodationKind = new ObservableCollection<AccommodationKind>(kind);
+
+            LogInGuest = (Guest)user;
 
             //States = new ObservableCollection<string>(LocationController.GetStates());
             //Cities = new ObservableCollection<string>();
@@ -164,11 +168,19 @@ namespace WpfApp1.View
         {
             SelectedState = (string)cbChoseState.SelectedItem;
             //Cities.Clear();
+            cbChoseCity.Items.Clear();
+            cbChoseCity.Items.Add("");
             foreach (string city in LocationController.GetCitiesFromStates(SelectedState))
             {
             //    Cities.Add(city);
                   cbChoseCity.Items.Add(city);
             }
+        }
+
+        private void Reserve(object sender, EventArgs e)
+        {
+            ReservationView reservationView = new ReservationView(SelectedAccommodation,LogInGuest);
+            reservationView.Show();
         }
 
 
