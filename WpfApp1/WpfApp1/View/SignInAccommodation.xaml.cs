@@ -166,9 +166,8 @@ namespace WpfApp1.View
         }
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            if(IsValid)
+            if(!IsValid)
             {
-          
                 return;
             }
             Location location = LocationController.GetByCityAndState(SelectedCity, SelectedState);

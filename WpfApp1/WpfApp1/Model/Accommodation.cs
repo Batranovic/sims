@@ -145,6 +145,7 @@ namespace WpfApp1.Model
         {
             Name = name;
             IdLocation = location.Id;
+            Location = location;
             AccommodationKind = apartmentKind;
             MaxGuests = maxGuests;
             MinResevation = minResevation;
