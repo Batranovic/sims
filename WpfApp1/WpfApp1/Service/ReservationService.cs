@@ -134,16 +134,16 @@ namespace WpfApp1.Service
 
             Dictionary<DateTime, DateTime> availableDates = new Dictionary<DateTime, DateTime>();
             DateTime temp = endDate;
-            DateTime original = endDate;
 
             for (int i = 0; i < 10; i++)
             {
+                endDate = temp.AddDays(duration);
+
                 if (IsDateFree(idAccommodation, endDate.AddDays(i)) && IsDateFree(idAccommodation, endDate.AddDays(duration)))
                 {
-                    availableDates.Add(temp.AddDays(i), endDate);
+                      availableDates.Add(endDate.AddDays(i), temp.AddDays(i)); //contra bind
                 }
-                temp = endDate;
-                endDate = original;
+
             }
             return availableDates;
         }
