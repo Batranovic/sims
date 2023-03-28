@@ -17,7 +17,7 @@ namespace WpfApp1
     /// </summary>
     public partial class App : Application
     {
-        public OwnerRepository OwnerRepository {  get; set; }
+        public OwnerController OwnerController {  get; set; }
         public GuestRepository GuestRepository { get; set; }
         public LocationController LocationController { get; set; }
         public AccommodationController AccommodationController { get; set; }
@@ -34,7 +34,7 @@ namespace WpfApp1
        
         public App()
         {
-
+            OwnerController = new OwnerController();
             LocationController = new LocationController();
             AccommodationController = new AccommodationController();
             ImageController = new ImageController();

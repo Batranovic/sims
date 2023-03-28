@@ -46,7 +46,9 @@ namespace WpfApp1.Repository
             SetStatus();                                //Status trenutne rezervacije (da li je u toku, prosla, ocenja ili neocenjena
         }
 
+        //INPROGRES RESERVED RATED UNRATED EXPIRED
         public void SetStatus()
+
         {
             foreach (Reservation reservation in _reservations)
             {
@@ -54,15 +56,15 @@ namespace WpfApp1.Repository
                 {
                     reservation.Status = RatingGuestStatus.inprogres;
                 }
-                else if (reservation.Status == RatingGuestStatus.rated)
+                else if (reservation.Status == RatingGuestStatus.rated || reservation.Status == RatingGuestStatus.expired)
                 {
                     continue;
                 }
-                else if (reservation.EndDate < DateTime.Now)
+                else if (reservation.Status == RatingGuestStatus.inprogres && reservation.EndDate < DateTime.Now)
                 {
                     reservation.Status = RatingGuestStatus.unrated;
                 }
-                else if (reservation.EndDate > DateTime.Now.AddDays(-5))
+                else if (reservation.Status == RatingGuestStatus.unrated && reservation.EndDate < DateTime.Now.AddDays(-5))
                 {
                     reservation.Status = RatingGuestStatus.expired;
                 }

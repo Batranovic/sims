@@ -24,7 +24,7 @@ namespace WpfApp1.Repository
 
         private List<Accommodation> _accommodations;
         public LocationDAO LocationDAO { get; set; }
-        public OwnerRepository OwnerRepository { get; set; }
+        public OwnerDAO OwnerDAO { get; set; }
         
         public static AccommodationDAO GetInstance()
         {
@@ -42,7 +42,7 @@ namespace WpfApp1.Repository
             _accommodations = new List<Accommodation>();
             _accommodations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            OwnerRepository = OwnerRepository.GetInsatnce();
+            OwnerDAO = OwnerDAO.GetInsatnce();
             LocationDAO = LocationDAO.GetInstance();
             ImageDAO = ImageDAO.GetInsatnce();
         }
@@ -59,7 +59,7 @@ namespace WpfApp1.Repository
         {
             foreach(Accommodation a in _accommodations)
             {
-                a.Owner = OwnerRepository.Get(a.OwnerId);
+                a.Owner = OwnerDAO.Get(a.OwnerId);
                 a.Owner.Accommodations.Add(a);
             }
         }

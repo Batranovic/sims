@@ -9,7 +9,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class OwnerRepository : IRepository<Owner>, ISubject
+    public class OwnerDAO : IDAO<Owner>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/owners.csv";
         private readonly List<IObserver> _observers;
@@ -18,18 +18,18 @@ namespace WpfApp1.Repository
         private List<Owner> _owners;
 
 
-        private static OwnerRepository _instance = null;
+        private static OwnerDAO _instance = null;
 
-        public static OwnerRepository GetInsatnce()
+        public static OwnerDAO GetInsatnce()
         {
             if(_instance == null)
             {
-                _instance = new OwnerRepository();
+                _instance = new OwnerDAO();
             }
             return _instance;
         }
 
-        private OwnerRepository() 
+        private OwnerDAO() 
         {
             _serializer = new Serializer<Owner>();
             _owners = new List<Owner>();
@@ -64,6 +64,31 @@ namespace WpfApp1.Repository
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Owner Create(Owner entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Owner Update(Owner entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Owner Delete(Owner entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int NextId()
+        {
+            throw new NotImplementedException();
         }
     }
 }

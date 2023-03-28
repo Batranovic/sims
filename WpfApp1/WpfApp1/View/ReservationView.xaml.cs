@@ -26,7 +26,7 @@ namespace WpfApp1.View
     public partial class ReservationView : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public ReservationController ReservationController { get; set; }
 
        // public string StartDate { get; set; }
