@@ -112,7 +112,7 @@ namespace WpfApp1.View
                 return;
             }
 
-            StartDateConverted = ReservationController.IsReserved(Accommodation.Id, StartlDay, EndDay, ReservationDays);
+            StartDateConverted = ReservationController.CheckAvailableDate(Accommodation.Id, StartlDay, EndDay, ReservationDays);
             if(DateTime.Compare(StartDateConverted,EndDay) == 0)
             {
                 var range = ReservationController.GetAvailableDate(Accommodation.Id, EndDay, ReservationDays);

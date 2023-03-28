@@ -62,17 +62,12 @@ namespace WpfApp1.View
 
             LogInGuest = (Guest)user;
 
-            //States = new ObservableCollection<string>(LocationController.GetStates());
-            //Cities = new ObservableCollection<string>();
-
-            cbChoseState.Items.Add("");
-            cbChoseCity.Items.Add("");
-            cbChoseType.Items.Add("");
-
             foreach(var state in LocationController.GetStates())
             {
                 cbChoseState.Items.Add(state.ToString());
             }
+
+            cbChoseType.Items.Add(string.Empty);
 
             foreach(var type in AccommodationKind)
             {
@@ -96,7 +91,7 @@ namespace WpfApp1.View
                 if(_state != value)
                 {
                     _state = value;
-                    OnPropertyChanged(_state);
+                    OnPropertyChanged("SelectedState");
                 }
             }
         }
@@ -167,12 +162,9 @@ namespace WpfApp1.View
         private void ChosenState(object sender, SelectionChangedEventArgs e)
         {
             SelectedState = (string)cbChoseState.SelectedItem;
-            //Cities.Clear();
             cbChoseCity.Items.Clear();
-            cbChoseCity.Items.Add("");
             foreach (string city in LocationController.GetCitiesFromStates(SelectedState))
             {
-            //    Cities.Add(city);
                   cbChoseCity.Items.Add(city);
             }
         }

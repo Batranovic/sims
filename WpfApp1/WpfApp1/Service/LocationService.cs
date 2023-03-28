@@ -55,11 +55,19 @@ namespace WpfApp1.Service
 
         public List<string> GetStates()
         {
-            return _locationDAO.GetAll().Select(l => l.State).Distinct().ToList();
+            List<string> temp = _locationDAO.GetAll().Select(l => l.State).Distinct().ToList();
+            var states = new List<string>();
+            states.Add(string.Empty);
+            return states.Concat(temp).ToList();
+
+
         }
         public List<string> GetCitiesFromStates(string state)
         {
-            return _locationDAO.GetAll().FindAll(l => l.State.Equals(state)).Select(l => l.City).ToList();
+            List<string> temp =_locationDAO.GetAll().FindAll(l => l.State.Equals(state)).Select(l => l.City).ToList();
+            var cities = new List<string>();
+            cities.Add(string.Empty);
+            return cities.Concat(temp).ToList();
         }
 
         public Location GetByCityAndState(string city, string state)
