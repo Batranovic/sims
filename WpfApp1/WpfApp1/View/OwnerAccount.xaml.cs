@@ -60,5 +60,11 @@ namespace WpfApp1.View
             ExpiredReservation expiredReservation = new ExpiredReservation(LogInOwner);
             expiredReservation.Show();
         }
+
+        private void ViewOwnerRatings(object sender, RoutedEventArgs e)
+        {
+            OwnerRatingView ownerRatingView = new OwnerRatingView(LogInOwner);
+            ownerRatingView.Show();
+        }
     }
 }

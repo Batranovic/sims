@@ -19,7 +19,7 @@ namespace WpfApp1.Repository
 
         private List<RatingOwner> _ratingOwners;
 
-        public AccommodationDAO AccommodationDAO { get; set; }
+        public ReservationDAO ReservationDAO { get; set; }
 
         private static RatingOwnerDAO _instance = null;
 
@@ -38,7 +38,15 @@ namespace WpfApp1.Repository
             _observers = new List<IObserver>();
             _ratingOwners = new List<RatingOwner>();
             _ratingOwners = _serializer.FromCSV(_filePath);
-            AccommodationDAO = AccommodationDAO.GetInstance();
+            ReservationDAO = ReservationDAO.GetInstance();
+        }
+
+        public void BindReservation()
+        {
+            foreach(RatingOwner r in GetAll())
+            {
+                r.Reservation = ReservationDAO.Get(r.IdReservation);
+            }
         }
 
         public RatingOwner Create(RatingOwner entity)

@@ -53,5 +53,16 @@ namespace WpfApp1.Service
         {
             _ratingOwnerDAO.Unsubscribe(observer);
         }
+
+        public RatingOwner GetByIdReservation(int idReservation)
+        {
+            return GetAll().Find(r => r.IdReservation == idReservation);
+        }
+
+        public List<RatingOwner> GetAllOwnerRewies(int idOwner)
+        {
+            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Reservation.Status == Model.Enums.RatingGuestStatus.rated);
+        }
+
     }
 }

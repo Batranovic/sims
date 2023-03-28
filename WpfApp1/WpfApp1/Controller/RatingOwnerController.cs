@@ -53,5 +53,17 @@ namespace WpfApp1.Controller
         {
             _ratingOwnerService.Unsubscribe(observer);
         }
+
+        public RatingOwner GetByIdReservation(int idReservation)
+        {
+            return _ratingOwnerService.GetByIdReservation(idReservation);
+        }
+
+        public List<RatingOwner> GetAllOwnerRewies(int idOwner)
+        {
+            return _ratingOwnerService.GetAllOwnerRewies(idOwner);
+        }
+
+
     }
 }

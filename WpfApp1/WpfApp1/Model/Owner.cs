@@ -10,10 +10,12 @@ namespace WpfApp1.Model
     public class Owner : User
     {
         public List<Accommodation> Accommodations { get; set; }
+        public List<RatingOwner> Ratings { get; set; }
 
         public Owner() : base()
         {
             Accommodations = new List<Accommodation>();
+            Ratings = new List<RatingOwner>();
         }
         
         public override string[] ToCSV() 

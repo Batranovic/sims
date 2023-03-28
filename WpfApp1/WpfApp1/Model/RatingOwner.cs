@@ -11,19 +11,19 @@ namespace WpfApp1.Model
     public class RatingOwner : WpfApp1.Serializer.ISerializable
     {
         private int _id;
-        private int _idAccommodation;
+        private int _idReservation;
         private string _comment;
-        private Accommodation _accommodation;
+        private Reservation _reservation;
         private int _cleanliness;
         private int _ownerCorrectness;
         private int _timeliness;
         //dodati jos nesto po potrebi(timeliness vec dodat)
 
 
-        public RatingOwner(Accommodation accommodation, string comment, int cleanliness, int ownerCorrectness, int timeliness)
+        public RatingOwner(Reservation reservation, string comment, int cleanliness, int ownerCorrectness, int timeliness)
         {
-            IdAccommodation = accommodation.Id;
-            Accommodation = accommodation;
+            IdReservation = reservation.Id;
+            Reservation = reservation;
             Comment = comment;
             Cleanliness = cleanliness;
             OwnerCorrectness = ownerCorrectness;
@@ -47,26 +47,26 @@ namespace WpfApp1.Model
             }
         }
 
-        public int IdAccommodation
+        public int IdReservation
         {
-            get => _idAccommodation;
+            get => _idReservation;
             set
             {
                 if (value != null)
                 {
-                    _idAccommodation = value;
+                    _idReservation = value;
                 }
             }
         }
 
-        public Accommodation Accommodation
+        public Reservation Reservation
         {
-            get => _accommodation;
+            get => _reservation;
             set
             {
                 if (value != null)
                 {
-                    _accommodation = value;
+                    _reservation = value;
                 }
             }
         }
@@ -106,8 +106,6 @@ namespace WpfApp1.Model
                 }
             }
         }
-
-
         public int Timeliness
         {
             get => _timeliness;
@@ -120,12 +118,19 @@ namespace WpfApp1.Model
             }
         }
 
+        public string ToString()
+        {
+            String result = Reservation.Accommodation.ToString();
+            result += " " + Timeliness + " " + OwnerCorrectness + " " + Cleanliness + " ";
+            return result;
+        }
+
         public string[] ToCSV()
         {
             string[] result =
             {
                 Id.ToString(),
-                IdAccommodation.ToString(),
+                IdReservation.ToString(),
                 Comment,
                 Cleanliness.ToString(),
                 OwnerCorrectness.ToString(),
@@ -134,12 +139,10 @@ namespace WpfApp1.Model
             };
             return result;
         }
-
-
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            IdAccommodation = Convert.ToInt32(values[1]);
+            IdReservation = Convert.ToInt32(values[1]);
             Comment = values[2];
             Cleanliness = Convert.ToInt32(values[3]);
             OwnerCorrectness = Convert.ToInt32(values[4]);
