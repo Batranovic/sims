@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Controller;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 using WpfApp1.View;
@@ -23,7 +24,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        OwnerRepository OwnerRepostiroy { get; set; }
+        OwnerController OwnerController { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +39,7 @@ namespace WpfApp1
 
         private void OwnerProfile(object sender, RoutedEventArgs e)
         {
-            User user = OwnerRepository.GetInsatnce().Get(0);
+            User user = OwnerController.Get(0);
             OwnerAccount ownerAccount = new OwnerAccount(user);
             ownerAccount.Show();
         }

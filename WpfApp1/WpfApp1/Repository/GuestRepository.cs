@@ -8,7 +8,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class GuestRepository : IRepository<Guest>
+    public class GuestRepository : IDAO<Guest>
     {
         private const string _filePath = "../../../Resources/Data/guests.csv";
 
@@ -41,6 +41,31 @@ namespace WpfApp1.Repository
         public List<Guest> GetAll()
         {
             return _guests;
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Guest Create(Guest entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Guest Update(Guest entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Guest Delete(Guest entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int NextId()
+        {
+            throw new NotImplementedException();
         }
     }
 }
