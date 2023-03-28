@@ -58,7 +58,7 @@ namespace WpfApp1.Controller
         {
             return _reservationService.GetUnratedById(id);
         }
-
+   
         public DateTime CheckAvailableDate(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
         {
             return _reservationService.CheckAvailableDate(idAccommodation,startDate, endDate, duration);
@@ -69,5 +69,6 @@ namespace WpfApp1.Controller
             return _reservationService.GetAvailableDates(idAccommodation, endDate, duration);
         }
 
+     
     }
 }

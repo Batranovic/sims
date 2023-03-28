@@ -26,7 +26,7 @@ namespace WpfApp1.View
     public partial class ReservationView : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public ReservationController ReservationController { get; set; }
 
        // public string StartDate { get; set; }
@@ -115,7 +115,7 @@ namespace WpfApp1.View
             StartDateConverted = ReservationController.CheckAvailableDate(Accommodation.Id, StartlDay, EndDay, ReservationDays);
             if(DateTime.Compare(StartDateConverted,EndDay) == 0)
             {
-                var range = ReservationController.GetAvailableDate(Accommodation.Id, EndDay, ReservationDays);
+                var range = ReservationController.GetAvailableDates(Accommodation.Id, EndDay, ReservationDays);
                 AvailableDays availableDays = new AvailableDays(range,Accommodation,Guest);
                 availableDays.Show();
                 return;

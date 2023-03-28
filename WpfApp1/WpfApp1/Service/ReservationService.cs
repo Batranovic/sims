@@ -100,7 +100,7 @@ namespace WpfApp1.Service
 
         public DateTime CheckAvailableDate(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
         {
-            if (GetAll().Find(r => r.IdAccommodation == idAccommodation) == null)
+            if(GetAheadReservationsForAccommodation(idAccommodation).Count == 0)
             {
                 return startDate;
             }
@@ -115,7 +115,14 @@ namespace WpfApp1.Service
 
         public List<Reservation> GetAheadReservationsForAccommodation(int idAccommodation)
         {
-            return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.RatingGuestStatus.inprogres || r.Status == Model.Enums.RatingGuestStatus.reserved )).ToList();
+            try
+            {
+                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.RatingGuestStatus.inprogres || r.Status == Model.Enums.RatingGuestStatus.reserved)).ToList();
+            }
+            catch
+            {
+                return new List<Reservation>();
+            }
         }
 
         public bool IsDateFree(int idAccommodation, DateTime date)

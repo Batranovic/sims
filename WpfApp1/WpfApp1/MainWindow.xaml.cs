@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,6 +30,10 @@ namespace WpfApp1
         {
             InitializeComponent();
             this.DataContext = this;
+
+            var app = Application.Current as  App;
+            OwnerController = app.OwnerController;
+
         }
 
         private void TourSearchAndOverview(object sender, RoutedEventArgs e)
