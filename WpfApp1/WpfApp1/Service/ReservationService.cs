@@ -98,7 +98,7 @@ namespace WpfApp1.Service
             return endDate;
         }
 
-        public DateTime IsReserved(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
+        public DateTime CheckAvailableDate(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
         {
             if (GetAll().Find(r => r.IdAccommodation == idAccommodation) == null)
             {
