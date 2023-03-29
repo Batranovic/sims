@@ -24,7 +24,7 @@ namespace WpfApp1.Repository
 
         private List<Accommodation> _accommodations;
         public LocationDAO LocationDAO { get; set; }
-        public OwnerDAO OwnerDAO { get; set; }
+        public OwnerDAO OwnerDAO { get; set; } //Setuje se App.xaml.cs jer se inace desi beskonacni poziv konstruktora
         
         public static AccommodationDAO GetInstance()
         {
@@ -42,7 +42,6 @@ namespace WpfApp1.Repository
             _accommodations = new List<Accommodation>();
             _accommodations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            OwnerDAO = OwnerDAO.GetInsatnce();
             LocationDAO = LocationDAO.GetInstance();
             ImageDAO = ImageDAO.GetInsatnce();
         }

@@ -11,6 +11,32 @@ namespace WpfApp1.Model
     {
         public List<Accommodation> Accommodations { get; set; }
         public List<RatingOwner> Ratings { get; set; }
+        private double _averageRating;
+        private OwnerKind _ownerKind;
+
+        public double AverageRating
+        {
+            get => _averageRating;
+            set
+            {
+                if(value != null)
+                {
+                    _averageRating = value;
+                }
+            }
+        }
+
+        public OwnerKind OwnerKind
+        {
+            get => _ownerKind;
+            set
+            {
+                if(_ownerKind != null)
+                {
+                    _ownerKind = value;
+                }
+            }
+        }
 
         public Owner() : base()
         {
@@ -20,12 +46,17 @@ namespace WpfApp1.Model
         
         public override string[] ToCSV() 
         {
-            return base.ToCSV();
+            String[] result = base.ToCSV() ;
+            result.Append(AverageRating.ToString());
+            result.Append(OwnerKind.ToString());
+            return result;
         }
 
         public override void FromCSV(string[] values)
         {
             base.FromCSV(values);
+            AverageRating = Convert.ToDouble(values[values.Length-2]);
+            OwnerKind = Enum.Parse<OwnerKind>(values[values.Length-1]);
         }
 
       

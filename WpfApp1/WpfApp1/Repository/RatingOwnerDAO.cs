@@ -18,7 +18,6 @@ namespace WpfApp1.Repository
         private readonly Serializer<RatingOwner> _serializer;
 
         private List<RatingOwner> _ratingOwners;
-
         public ReservationDAO ReservationDAO { get; set; }
 
         private static RatingOwnerDAO _instance = null;
@@ -40,6 +39,7 @@ namespace WpfApp1.Repository
             _ratingOwners = _serializer.FromCSV(_filePath);
             ReservationDAO = ReservationDAO.GetInstance();
         }
+
 
         public void BindReservation()
         {

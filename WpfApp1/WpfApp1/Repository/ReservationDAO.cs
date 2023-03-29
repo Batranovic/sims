@@ -15,7 +15,7 @@ namespace WpfApp1.Repository
     public class ReservationDAO : IDAO<Reservation>, ISubject
     {
 
-        private const string _filePath = "../../../Resources/data/reservations.csv";
+        private const string _filePath = "../../../Resources/Data/reservations.csv";
         private readonly List<IObserver> _observers;
 
         private readonly Serializer<Reservation> _serializer;

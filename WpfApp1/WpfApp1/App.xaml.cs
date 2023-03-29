@@ -38,8 +38,9 @@ namespace WpfApp1
             ReservationController = new ReservationController();    
             RatingGuestController = new RatingGuestController();
             RatingOwnerController = new RatingOwnerController();
-            
-         
+
+            AccommodationDAO.GetInstance().OwnerDAO = OwnerDAO.GetInsatnce();
+
             AccommodationDAO.GetInstance().BindLocation();
             AccommodationDAO.GetInstance().BindOwner();
             AccommodationDAO.GetInstance().BindImage();
@@ -47,7 +48,10 @@ namespace WpfApp1
             ReservationDAO.GetInstance().BindGuest();
             RatingOwnerDAO.GetInstance().BindReservation();
             RatingGuestDAO.GetInstance().BindReservation();
-
+            OwnerDAO.GetInsatnce().BindRating();
+            OwnerDAO.GetInsatnce().CalculateAverageRating();
+            OwnerDAO.GetInsatnce().SetKind();
+         
 
             TourDAO.GetInstance().BindLocation();
             TourBookingDAO.GetInstance().BindTourEvent();

@@ -75,7 +75,7 @@ namespace WpfApp1.View
             }
 
 
-            Accommodations = new ObservableCollection<Accommodation>(accommodationController.GetAll());
+            Accommodations = new ObservableCollection<Accommodation>(accommodationController.GetSortedListBySuperOwner());
 
         }
 

@@ -63,6 +63,11 @@ namespace WpfApp1.Service
             type ??= "";
             return _accommodationDAO.GetAll().Where(a => a.Name.Contains(name) && a.Location.City.Contains(city) && a.Location.State.Contains(state) && a.AccommodationKind.ToString().Contains(type) && a.MaxGuests >= guestsNumber && a.MinResevation <= reservationDays).ToList();
         }
+        
+        public List<Accommodation> GetSortedListBySuperOwner()
+        {
+            return GetAll().OrderBy(a => a.Owner.AverageRating).ToList();
+        }
 
     }
 }
