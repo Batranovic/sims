@@ -33,6 +33,8 @@ namespace WpfApp1.View
         public Reservation SelectedResevation { get; set; }
         public RatingGuestController RatingGuestController { get; set; }
         public ReservationController ReservationController { get; set; }
+
+        public RatingOwnerController RatingOwnerController { get; set; }
         public AddRatingGuest(Reservation reservation)
         {
             InitializeComponent();
@@ -41,6 +43,7 @@ namespace WpfApp1.View
             var app = Application.Current as App;
             RatingGuestController = app.RatingGuestController;
             ReservationController = app.ReservationController;
+            RatingOwnerController = app.RatingOwnerController;
 
             Scores = new ObservableCollection<int>();
             Scores.Add(1);
@@ -86,6 +89,17 @@ namespace WpfApp1.View
             RatingGuest  ratingGuest = new RatingGuest(SelectedResevation, Comment, SelectedCleanness, SelectedFollowingRules, SelectedNoise, SelectedDamage, SelectedTimeliness);
             RatingGuestController.Create(ratingGuest);        
             this.Close();
+
+            //OBRISATI KASNIJE KAD URADIS NORMALNO
+            RatingOwner ratingOwner = RatingOwnerController.GetByIdReservation(SelectedResevation.Id);
+            if(ratingOwner == null)
+            {
+                MessageBox.Show("Korisnik Vas jos uvek nije ocenio");
+            }
+            else
+            {
+                MessageBox.Show(ratingOwner.ToString());
+            }
         }
 
         private void Reject(object sender, RoutedEventArgs e)

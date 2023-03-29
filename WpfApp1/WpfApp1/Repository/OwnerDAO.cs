@@ -14,12 +14,9 @@ namespace WpfApp1.Repository
         private const string _filePath = "../../../Resources/Data/owners.csv";
         private readonly List<IObserver> _observers;
         private readonly Serializer<Owner> _serializer;
-
         private List<Owner> _owners;
-
-
         private static OwnerDAO _instance = null;
-
+        public RatingOwnerDAO RatingOwnerDAO { get; set; }
         public static OwnerDAO GetInsatnce()
         {
             if(_instance == null)
@@ -35,9 +32,46 @@ namespace WpfApp1.Repository
             _owners = new List<Owner>();
             _owners = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
+            RatingOwnerDAO = RatingOwnerDAO.GetInstance();
+        }
+        public void SetKind()
+        {
+            foreach(Owner o in _owners)
+            {
+                if(o.AverageRating >= 9.5)
+                {
+                    o.OwnerKind = Model.Enums.OwnerKind.super;
+                }
+                else
+                {
+                    o.OwnerKind = Model.Enums.OwnerKind.basic;
+                }
+            }
+        }
+        private double GetAverageRating(List<RatingOwner> ratings)
+        {
+            double avg = 0;
+            foreach(RatingOwner ro in ratings)
+            {
+                avg += (ro.Timeliness + ro.Cleanliness + ro.OwnerCorrectness) / 3;
+            }
+            return avg / ratings.Count;
+        }
+        public void CalculateAverageRating()
+        {
+            foreach(Owner o in _owners)
+            {
+                o.AverageRating = GetAverageRating(o.Ratings);
+            }
         }
 
-
+        public void BindRating()
+        {
+            foreach(RatingOwner ro in RatingOwnerDAO.GetAll())
+            {
+                Get(ro.Reservation.Accommodation.OwnerId).Ratings.Add(ro); 
+            }
+        }
         public  Owner Get(int id)
         {
             return _owners.Find(o => o.Id == id);

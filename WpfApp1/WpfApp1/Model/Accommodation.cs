@@ -160,6 +160,11 @@ namespace WpfApp1.Model
             Images = new List<Image>();
         }
 
+        public string ToString()
+        {
+            return Name + " " + Location.City + " " + Location.State + " " + AccommodationKind;
+        }
+
         public string[] ToCSV()
         {
             string[] csvValues =

@@ -55,7 +55,6 @@ namespace WpfApp1.Model
             return csvValues;
         }
 
-
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
