@@ -40,5 +40,10 @@ namespace WpfApp1.Controller
             _ownerService.Unsubscribe(observer);
         }
 
+        public Owner GetByUsernameAndPassword(string username, string password)
+        {
+            return _ownerService.GetByUsernameAndPassword(username, password);
+        }
+
     }
 }

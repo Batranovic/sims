@@ -25,7 +25,7 @@ namespace WpfApp1.Repository
 
         public AccommodationDAO AccommodationDAO { get; set; }
 
-        public GuestRepository GuestRepository { get; set; }
+        public GuestDAO GuestRepository { get; set; }
         
         public static ReservationDAO GetInstance()
         {
@@ -42,7 +42,7 @@ namespace WpfApp1.Repository
             _reservations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
             AccommodationDAO = AccommodationDAO.GetInstance();
-            GuestRepository = GuestRepository.GetInsatnce();
+            GuestRepository = GuestDAO.GetInsatnce();
             SetStatus();                                //Status trenutne rezervacije (da li je u toku, prosla, ocenja ili neocenjena
         }
 

@@ -25,7 +25,10 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        OwnerController OwnerController { get; set; }
+        public OwnerController OwnerController { get; set; }
+        public User LogInUser { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -54,6 +57,21 @@ namespace WpfApp1
             Guest guest = GuestRepository.GetInsatnce().Get(0);
             AccommodationView accommodationView = new AccommodationView(guest);
             accommodationView.Show();
+        }
+
+        private void LogIn(object sender, RoutedEventArgs e)
+        {
+            Password = passwordBox.Password;
+
+            LogInUser = OwnerController.GetByUsernameAndPassword(Username, Password);   
+            if(LogInUser != null)
+            {
+                OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
+                ownerAccount.Show();
+                this.Close();
+            }
+
+
         }
     }
 }
