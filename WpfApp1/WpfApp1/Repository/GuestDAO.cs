@@ -3,34 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class GuestRepository : IDAO<Guest>
+    public class GuestDAO : IDAO<Guest>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/guests.csv";
 
         private readonly Serializer<Guest> _serializer;
-
+        private List<IObserver> _observers;
         private List<Guest> _guests;
-        private static GuestRepository _instance = null;
+        private static GuestDAO _instance = null;
 
-        public static GuestRepository GetInsatnce()
+        public static GuestDAO GetInsatnce()
         {
             if(_instance == null)
             {
-                _instance = new GuestRepository();
+                _instance = new GuestDAO();
             }
             return _instance;
         }
 
-        private GuestRepository()
+        private GuestDAO()
         {
             _serializer = new Serializer<Guest>();
             _guests = new List<Guest>();
             _guests = _serializer.FromCSV(_filePath);
+            _observers = new List<IObserver>();
         }
 
         public Guest Get(int id)
@@ -66,6 +68,24 @@ namespace WpfApp1.Repository
         public int NextId()
         {
             throw new NotImplementedException();
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void NotifyObservers()
+        {
+            foreach(var o in _observers)
+            {
+                o.Update();
+            }
         }
     }
 }

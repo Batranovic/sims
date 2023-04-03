@@ -9,37 +9,36 @@ using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class OwnerService
+    public class GuestService
     {
-        private  OwnerDAO _ownerDAO;
-    
-        public OwnerService()
+        private GuestDAO _guestDAO;
+
+        public GuestService()
         {
-            _ownerDAO = OwnerDAO.GetInsatnce();
+            _guestDAO = GuestDAO.GetInsatnce();
         }
 
-        public Owner Get(int id)
+        public Guest Get(int id)
         {
-            return _ownerDAO.Get(id);
+            return _guestDAO.Get(id);
         }
 
-        public List<Owner> GetAll()
+        public List<Guest> GetAll()
         {
-            return _ownerDAO.GetAll();
+            return _guestDAO.GetAll();
         }
         public void Subscribe(IObserver observer)
         {
-            _ownerDAO.Subscribe(observer);
+            _guestDAO.Subscribe(observer);
         }
         public void Unsubscribe(IObserver observer)
         {
-            _ownerDAO.Unsubscribe(observer);
+            _guestDAO.Unsubscribe(observer);
         }
 
-        public Owner GetByUsernameAndPassword(string username, string password)
+        public Guest GetByUsernameAndPassword(string username, string password)
         {
             return GetAll().Find(o => o.Username.Equals(username) && o.Password.Equals(password));
         }
-
     }
 }

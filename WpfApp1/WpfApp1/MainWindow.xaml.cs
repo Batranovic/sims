@@ -25,7 +25,12 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        OwnerController OwnerController { get; set; }
+        public OwnerController OwnerController { get; set; }
+        public GuestController GuestController { get; set; }
+        public TouristController TouristController { get; set; }
+        public User LogInUser { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -33,6 +38,8 @@ namespace WpfApp1
 
             var app = Application.Current as  App;
             OwnerController = app.OwnerController;
+            GuestController = app.GuestController;
+            TouristController = app.TouristController;
 
         }
 
@@ -51,9 +58,36 @@ namespace WpfApp1
 
         private void AccommodationView(object sender, RoutedEventArgs e)
         {
-            Guest guest = GuestRepository.GetInsatnce().Get(0);
+            Guest guest = GuestDAO.GetInsatnce().Get(0);
             AccommodationView accommodationView = new AccommodationView(guest);
             accommodationView.Show();
+        }
+
+        private void LogIn(object sender, RoutedEventArgs e)
+        {
+            Password = passwordBox.Password;
+
+            LogInUser = OwnerController.GetByUsernameAndPassword(Username, Password);   
+            if(LogInUser != null)
+            {
+                OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
+                ownerAccount.Show();
+                this.Close();
+            }
+            LogInUser = TouristController.GetByUsernameAndPassword(Username, Password);
+            if(LogInUser != null)
+            {
+                TourSearchAndOverview tourSearchAndOverview = new TourSearchAndOverview();
+                tourSearchAndOverview.Show();
+                this.Close();
+            }
+            LogInUser = GuestController.GetByUsernameAndPassword(Username, Password);
+            if(LogInUser != null)
+            {
+                AccommodationView accommodationView = new AccommodationView(LogInUser);
+                accommodationView.Show();
+                this.Close();
+            }
         }
     }
 }
