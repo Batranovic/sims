@@ -31,7 +31,7 @@ namespace WpfApp1.View
         public int SelectedDamage { get; set; }
         public int SelectedTimeliness { get; set; }
         public Reservation SelectedResevation { get; set; }
-        public RatingGuestController RatingGuestController { get; set; }
+        public GuestRatingController RatingGuestController { get; set; }
         public ReservationController ReservationController { get; set; }
 
         public RatingOwnerController RatingOwnerController { get; set; }
@@ -86,7 +86,7 @@ namespace WpfApp1.View
         {
             SelectedResevation.Status = Model.Enums.RatingGuestStatus.rated;
             ReservationController.Update(SelectedResevation);
-            RatingGuest  ratingGuest = new RatingGuest(SelectedResevation, Comment, SelectedCleanness, SelectedFollowingRules, SelectedNoise, SelectedDamage, SelectedTimeliness);
+            GuestRating  ratingGuest = new GuestRating(SelectedResevation, Comment, SelectedCleanness, SelectedFollowingRules, SelectedNoise, SelectedDamage, SelectedTimeliness);
             RatingGuestController.Create(ratingGuest);        
             this.Close();
 

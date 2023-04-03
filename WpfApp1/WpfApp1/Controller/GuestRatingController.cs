@@ -10,36 +10,36 @@ using WpfApp1.Service;
 
 namespace WpfApp1.Controller
 {
-    public class RatingGuestController
+    public class GuestRatingController
     {
-        private readonly RatingGuestService _ratingGuestService;
+        private readonly GuestRatingService _ratingGuestService;
 
-        public RatingGuestController()
+        public GuestRatingController()
         {
-            _ratingGuestService = new RatingGuestService();
+            _ratingGuestService = new GuestRatingService();
         }
 
-        public RatingGuest Get(int id)
+        public GuestRating Get(int id)
         {
             return _ratingGuestService.Get(id);
         }
 
-        public List<RatingGuest> GetAll()
+        public List<GuestRating> GetAll()
         {
             return _ratingGuestService.GetAll();
         }
 
-        public void Create(RatingGuest location)
+        public void Create(GuestRating location)
         {
             _ratingGuestService.Create(location);
         }
 
-        public void Delete(RatingGuest location)
+        public void Delete(GuestRating location)
         {
             _ratingGuestService.Delete(location);
         }
 
-        public void Update(RatingGuest image)
+        public void Update(GuestRating image)
         {
             _ratingGuestService.Update(image);
         }
