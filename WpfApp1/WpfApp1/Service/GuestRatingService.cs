@@ -9,36 +9,36 @@ using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class RatingGuestService
+    public class GuestRatingService
     {
-        private  RatingGuestDAO _ratingGuestDAO;
+        private  GuestRatingDAO _ratingGuestDAO;
 
-        public RatingGuestService()
+        public GuestRatingService()
         {
-            _ratingGuestDAO = RatingGuestDAO.GetInstance();
+            _ratingGuestDAO = GuestRatingDAO.GetInstance();
         }
 
-        public RatingGuest Get(int id)
+        public GuestRating Get(int id)
         {
             return _ratingGuestDAO.Get(id);
         }
 
-        public List<RatingGuest> GetAll()
+        public List<GuestRating> GetAll()
         {
             return _ratingGuestDAO.GetAll();
         }
 
-        public void Create(RatingGuest location)
+        public void Create(GuestRating location)
         {
             _ratingGuestDAO.Create(location);
         }
 
-        public void Delete(RatingGuest location)
+        public void Delete(GuestRating location)
         {
             _ratingGuestDAO.Delete(location);
         }
 
-        public void Update(RatingGuest image)
+        public void Update(GuestRating image)
         {
             _ratingGuestDAO.Update(image);
         }
