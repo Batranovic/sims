@@ -8,6 +8,6 @@ namespace WpfApp1.Model.Enums
 {
     public enum ImageKind
     {
-        accommodation, tour
+        Accommodation, Tour
     }
 }

@@ -10,16 +10,11 @@ namespace WpfApp1.Repository
     public interface IDAO<T> 
     {
         void Save();
-
         public T Create(T entity);
-
         public T Update(T entity);
-
         public T Delete(T entity);
         public T Get(int id);
         public List<T> GetAll();
         public int NextId();
-
-
     }
 }

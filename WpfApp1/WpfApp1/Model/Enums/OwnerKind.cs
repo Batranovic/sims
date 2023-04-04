@@ -9,7 +9,7 @@ namespace WpfApp1.Model.Enums
     
     public enum OwnerKind
     {
-        super, basic
+        Super, Basic
     }
 
 }

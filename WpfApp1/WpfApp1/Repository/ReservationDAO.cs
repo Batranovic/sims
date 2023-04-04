@@ -52,21 +52,21 @@ namespace WpfApp1.Repository
         {
             foreach (Reservation reservation in _reservations)
             {
-                if (reservation.Status == RatingGuestStatus.reserved && reservation.StartDate <= DateTime.Now)
+                if (reservation.Status == GuestRatingStatus.Reserved && reservation.StartDate <= DateTime.Now)
                 {
-                    reservation.Status = RatingGuestStatus.inprogres;
+                    reservation.Status = GuestRatingStatus.Inprogres;
                 }
-                else if (reservation.Status == RatingGuestStatus.rated || reservation.Status == RatingGuestStatus.expired)
+                else if (reservation.Status == GuestRatingStatus.Rated || reservation.Status == GuestRatingStatus.Expired)
                 {
                     continue;
                 }
-                else if (reservation.Status == RatingGuestStatus.inprogres && reservation.EndDate < DateTime.Now)
+                else if (reservation.Status == GuestRatingStatus.Inprogres && reservation.EndDate < DateTime.Now)
                 {
-                    reservation.Status = RatingGuestStatus.unrated;
+                    reservation.Status = GuestRatingStatus.Unrated;
                 }
-                else if (reservation.Status == RatingGuestStatus.unrated && reservation.EndDate < DateTime.Now.AddDays(-5))
+                else if (reservation.Status == GuestRatingStatus.Unrated && reservation.EndDate < DateTime.Now.AddDays(-5))
                 {
-                    reservation.Status = RatingGuestStatus.expired;
+                    reservation.Status = GuestRatingStatus.Expired;
                 }
                 
             }
