@@ -17,7 +17,7 @@ namespace WpfApp1
     /// </summary>
     public partial class App : Application
     {
-        public OwnerController OwnerController {  get; set; }
+        public OwnerController OwnerController { get; set; }
         public GuestRepository GuestRepository { get; set; }
         public LocationController LocationController { get; set; }
         public AccommodationController AccommodationController { get; set; }
@@ -26,10 +26,12 @@ namespace WpfApp1
 
         public TourBookingController TourBookingController { get; set; }
 
-        public TourEventController TourEventController { get; set; }    
+        public TourEventController TourEventController { get; set; }
 
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
+
+        public ReservationPostponementController ReservationPostponementController {get; set;}
 
        
         public App()
@@ -40,6 +42,7 @@ namespace WpfApp1
             ImageController = new ImageController();
             ReservationController = new ReservationController();    
             RatingGuestController = new RatingGuestController();
+            ReservationPostponementController = new ReservationPostponementController();
             
             ReservationDAO.GetInstance().BindAccommodation();
             AccommodationDAO.GetInstance().BindLocation();
@@ -47,6 +50,7 @@ namespace WpfApp1
             AccommodationDAO.GetInstance().BindImage();
             ReservationDAO.GetInstance().BindGuest();
             RatingGuestDAO.GetInstance().BindReservation();
+            ReservationPostponementDAO.GetInstance().BindReservation();
 
 
             TourDAO.GetInstance().BindLocation();
