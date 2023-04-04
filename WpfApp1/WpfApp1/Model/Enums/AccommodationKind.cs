@@ -8,6 +8,6 @@ namespace WpfApp1.Model.Enums
 {
     public enum AccommodationKind
     {
-        apartman, kuca, koliba
+        Apartment, House, Hut
     }
 }

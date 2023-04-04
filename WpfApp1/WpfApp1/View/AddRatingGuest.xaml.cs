@@ -84,7 +84,7 @@ namespace WpfApp1.View
        
         private void Confrim(object sender, RoutedEventArgs e)
         {
-            SelectedResevation.Status = Model.Enums.RatingGuestStatus.rated;
+            SelectedResevation.Status = Model.Enums.GuestRatingStatus.Rated;
             ReservationController.Update(SelectedResevation);
             GuestRating  ratingGuest = new GuestRating(SelectedResevation, Comment, SelectedCleanness, SelectedFollowingRules, SelectedNoise, SelectedDamage, SelectedTimeliness);
             RatingGuestController.Create(ratingGuest);        

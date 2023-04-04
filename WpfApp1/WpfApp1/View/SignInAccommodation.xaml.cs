@@ -156,7 +156,7 @@ namespace WpfApp1.View
             List<Model.Image> images = new List<Model.Image>();
             foreach (string s in _urls)
             {
-                images.Add(new Model.Image(s, accommodation.Id, ImageKind.accommodation));
+                images.Add(new Model.Image(s, accommodation.Id, ImageKind.Accommodation));
             }
             foreach (Model.Image image in images)
             {

@@ -127,7 +127,7 @@ namespace WpfApp1.View
             if (result == MessageBoxResult.Yes)
             {
                 
-                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Model.Enums.RatingGuestStatus.reserved);
+                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Model.Enums.GuestRatingStatus.Reserved);
                 ReservationController.Create(reservation);
             }
 

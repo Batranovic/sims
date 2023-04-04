@@ -61,7 +61,7 @@ namespace WpfApp1.Service
 
         public List<Reservation> GetUnratedById(int id)
         {
-            List<Reservation> list = _reservationDAO.GetAll().FindAll(r => r.Status == RatingGuestStatus.unrated && r.Accommodation.OwnerId == id).ToList();
+            List<Reservation> list = _reservationDAO.GetAll().FindAll(r => r.Status == GuestRatingStatus.Unrated && r.Accommodation.OwnerId == id).ToList();
             if (list == null)
             {
                 return new List<Reservation>();
@@ -117,7 +117,7 @@ namespace WpfApp1.Service
         {
             try
             {
-                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.RatingGuestStatus.inprogres || r.Status == Model.Enums.RatingGuestStatus.reserved)).ToList();
+                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.GuestRatingStatus.Inprogres || r.Status == Model.Enums.GuestRatingStatus.Reserved)).ToList();
             }
             catch
             {

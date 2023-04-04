@@ -61,7 +61,7 @@ namespace WpfApp1.Service
 
         public List<RatingOwner> GetAllOwnerRewies(int idOwner)
         {
-            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Reservation.Status == Model.Enums.RatingGuestStatus.rated);
+            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Reservation.Status == Model.Enums.GuestRatingStatus.Rated);
         }
 
     }

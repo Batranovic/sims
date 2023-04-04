@@ -40,11 +40,11 @@ namespace WpfApp1.Repository
             {
                 if(o.AverageRating >= 9.5)
                 {
-                    o.OwnerKind = Model.Enums.OwnerKind.super;
+                    o.OwnerKind = Model.Enums.OwnerKind.Super;
                 }
                 else
                 {
-                    o.OwnerKind = Model.Enums.OwnerKind.basic;
+                    o.OwnerKind = Model.Enums.OwnerKind.Basic;
                 }
             }
         }
