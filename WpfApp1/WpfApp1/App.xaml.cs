@@ -24,7 +24,6 @@ namespace WpfApp1
         public AccommodationController AccommodationController { get; set; }
         public ReservationController ReservationController { get; set; }
         public GuestRatingController RatingGuestController { get; set; }
-        public RatingGuestController RatingGuestController { get; set; }
 
         public RatingTourAndGuideController RatingTourAndGuideController { get; set; }
         public TourBookingController TourBookingController { get; set; }
