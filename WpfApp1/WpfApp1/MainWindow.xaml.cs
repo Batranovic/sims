@@ -34,6 +34,7 @@ namespace WpfApp1
         {
             TourSearchAndOverview a = new TourSearchAndOverview();
             a.Show();
+
         }
 
         private void OwnerProfile(object sender, RoutedEventArgs e)
