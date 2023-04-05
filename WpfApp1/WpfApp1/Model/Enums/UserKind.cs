@@ -8,6 +8,6 @@ namespace WpfApp1.Model.Enums
 {
     public enum UserKind
     {
-        owner, guest, guide, tourist
+        Owner, Guest, Guide, Tourist
     }
 }

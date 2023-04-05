@@ -15,7 +15,7 @@ namespace WpfApp1.Repository
     public class ReservationDAO : IDAO<Reservation>, ISubject
     {
 
-        private const string _filePath = "../../../Resources/data/reservations.csv";
+        private const string _filePath = "../../../Resources/Data/reservations.csv";
         private readonly List<IObserver> _observers;
 
         private readonly Serializer<Reservation> _serializer;
@@ -25,7 +25,7 @@ namespace WpfApp1.Repository
 
         public AccommodationDAO AccommodationDAO { get; set; }
 
-        public GuestRepository GuestRepository { get; set; }
+        public GuestDAO GuestRepository { get; set; }
         
         public static ReservationDAO GetInstance()
         {
@@ -42,29 +42,31 @@ namespace WpfApp1.Repository
             _reservations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
             AccommodationDAO = AccommodationDAO.GetInstance();
-            GuestRepository = GuestRepository.GetInsatnce();
+            GuestRepository = GuestDAO.GetInsatnce();
             SetStatus();                                //Status trenutne rezervacije (da li je u toku, prosla, ocenja ili neocenjena
         }
 
+        //INPROGRES RESERVED RATED UNRATED EXPIRED
         public void SetStatus()
+
         {
             foreach (Reservation reservation in _reservations)
             {
-                if (reservation.Status == RatingGuestStatus.reserved && reservation.StartDate <= DateTime.Now)
+                if (reservation.Status == GuestRatingStatus.Reserved && reservation.StartDate <= DateTime.Now)
                 {
-                    reservation.Status = RatingGuestStatus.inprogres;
+                    reservation.Status = GuestRatingStatus.Inprogres;
                 }
-                else if (reservation.Status == RatingGuestStatus.rated)
+                else if (reservation.Status == GuestRatingStatus.Rated || reservation.Status == GuestRatingStatus.Expired)
                 {
                     continue;
                 }
-                else if (reservation.EndDate < DateTime.Now)
+                else if (reservation.Status == GuestRatingStatus.Inprogres && reservation.EndDate < DateTime.Now)
                 {
-                    reservation.Status = RatingGuestStatus.unrated;
+                    reservation.Status = GuestRatingStatus.Unrated;
                 }
-                else if (reservation.EndDate > DateTime.Now.AddDays(-5))
+                else if (reservation.Status == GuestRatingStatus.Unrated && reservation.EndDate < DateTime.Now.AddDays(-5))
                 {
-                    reservation.Status = RatingGuestStatus.expired;
+                    reservation.Status = GuestRatingStatus.Expired;
                 }
                 
             }

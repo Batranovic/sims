@@ -61,7 +61,7 @@ namespace WpfApp1.Service
 
         public List<Reservation> GetUnratedById(int id)
         {
-            List<Reservation> list = _reservationDAO.GetAll().FindAll(r => r.Status == RatingGuestStatus.unrated && r.Accommodation.OwnerId == id).ToList();
+            List<Reservation> list = _reservationDAO.GetAll().FindAll(r => r.Status == GuestRatingStatus.Unrated && r.Accommodation.OwnerId == id).ToList();
             if (list == null)
             {
                 return new List<Reservation>();
@@ -98,9 +98,9 @@ namespace WpfApp1.Service
             return endDate;
         }
 
-        public DateTime IsReserved(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
+        public DateTime CheckAvailableDate(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
         {
-            if (GetAll().Find(r => r.IdAccommodation == idAccommodation) == null)
+            if(GetAheadReservationsForAccommodation(idAccommodation).Count == 0)
             {
                 return startDate;
             }
@@ -115,7 +115,14 @@ namespace WpfApp1.Service
 
         public List<Reservation> GetAheadReservationsForAccommodation(int idAccommodation)
         {
-            return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.RatingGuestStatus.inprogres || r.Status == Model.Enums.RatingGuestStatus.reserved )).ToList();
+            try
+            {
+                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.GuestRatingStatus.Inprogres || r.Status == Model.Enums.GuestRatingStatus.Reserved)).ToList();
+            }
+            catch
+            {
+                return new List<Reservation>();
+            }
         }
 
         public bool IsDateFree(int idAccommodation, DateTime date)
@@ -134,16 +141,16 @@ namespace WpfApp1.Service
 
             Dictionary<DateTime, DateTime> availableDates = new Dictionary<DateTime, DateTime>();
             DateTime temp = endDate;
-            DateTime original = endDate;
 
             for (int i = 0; i < 10; i++)
             {
+                endDate = temp.AddDays(duration);
+
                 if (IsDateFree(idAccommodation, endDate.AddDays(i)) && IsDateFree(idAccommodation, endDate.AddDays(duration)))
                 {
-                    availableDates.Add(temp.AddDays(i), endDate);
+                      availableDates.Add(endDate.AddDays(i), temp.AddDays(i)); //contra bind
                 }
-                temp = endDate;
-                endDate = original;
+
             }
             return availableDates;
         }

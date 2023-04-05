@@ -7,7 +7,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Model
 {
-    public class RatingGuest : ISerializable
+    public class GuestRating : ISerializable
     {
         private int _id;
         private int _idReservation;
@@ -19,7 +19,7 @@ namespace WpfApp1.Model
         private int _damage;
         private int _timeliness;
 
-        public RatingGuest(Reservation reservation, string comment, int cleanness, int followingRules, int noise, int damage, int timeliness)
+        public GuestRating(Reservation reservation, string comment, int cleanness, int followingRules, int noise, int damage, int timeliness)
         {
             IdReservation = reservation.Id;
             Reservation = reservation;
@@ -137,7 +137,7 @@ namespace WpfApp1.Model
             }
         }
 
-        public RatingGuest()
+        public GuestRating()
         {
 
         }
