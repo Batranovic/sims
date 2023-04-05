@@ -21,15 +21,15 @@ using WpfApp1.View;
 namespace WpfApp1.View
 {
     /// <summary>
-    /// Interaction logic for ReservationView.xaml
+    /// Interaction logic for AddReservation.xaml
     /// </summary>
-    public partial class ReservationView : Window, INotifyPropertyChanged
+    public partial class AddReservation : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public ReservationController ReservationController { get; set; }
 
-       // public string StartDate { get; set; }
+        // public string StartDate { get; set; }
 
         //public string EndDate { get; set; }
 
@@ -41,16 +41,16 @@ namespace WpfApp1.View
 
         public int GuestsNumber { get; set; }
 
-       // public int GuestNumber { get; set; }
+        // public int GuestNumber { get; set; }
 
         public DateTime StartDateConverted { get; set; }
 
         public DateTime EndDateConverted { get; set; }
 
-        
 
 
-        public ReservationView(Accommodation accommodation,Guest guest)
+
+        public AddReservation(Accommodation accommodation, Guest guest)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -97,12 +97,12 @@ namespace WpfApp1.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void Confirm(object sender,RoutedEventArgs e)
-        { 
+        private void Confirm(object sender, RoutedEventArgs e)
+        {
 
-            if(Accommodation.MinResevation > ReservationDays)
+            if (Accommodation.MinResevation > ReservationDays)
             {
-                MessageBox.Show("You need to enter above " + Accommodation.MinResevation.ToString(),"Notification reservations");
+                MessageBox.Show("You need to enter above " + Accommodation.MinResevation.ToString(), "Notification reservations");
                 return;
             }
 
@@ -113,10 +113,10 @@ namespace WpfApp1.View
             }
 
             StartDateConverted = ReservationController.CheckAvailableDate(Accommodation.Id, StartlDay, EndDay, ReservationDays);
-            if(DateTime.Compare(StartDateConverted,EndDay) == 0)
+            if (DateTime.Compare(StartDateConverted, EndDay) == 0)
             {
                 var range = ReservationController.GetAvailableDates(Accommodation.Id, EndDay, ReservationDays);
-                AvailableDays availableDays = new AvailableDays(range,Accommodation,Guest);
+                AvailableDays availableDays = new AvailableDays(range, Accommodation, Guest);
                 availableDays.Show();
                 return;
             }
@@ -131,7 +131,7 @@ namespace WpfApp1.View
                 ReservationController.Create(reservation);
             }
 
-            
+
             this.Close();
         }
 

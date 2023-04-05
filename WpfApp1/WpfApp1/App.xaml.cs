@@ -28,6 +28,10 @@ namespace WpfApp1
         public TourEventController TourEventController { get; set; }    
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
+
+        public ReservationPostponementController ReservationPostponementController {get; set;}
+
+       
         public RatingOwnerController RatingOwnerController { get; set; }
        
         public App()

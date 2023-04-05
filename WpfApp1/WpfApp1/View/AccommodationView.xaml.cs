@@ -171,8 +171,8 @@ namespace WpfApp1.View
 
         private void Reserve(object sender, EventArgs e)
         {
-            ReservationView reservationView = new ReservationView(SelectedAccommodation,LogInGuest);
-            reservationView.Show();
+            AddReservation addReservation = new AddReservation(SelectedAccommodation,LogInGuest);
+            addReservation.Show();
         }
 
 
