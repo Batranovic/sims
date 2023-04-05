@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace WpfApp1.Model
 {
     public class Tourist : User
     {
         public List<Tour> Tours { get; set; }
+
+        public List<Voucher> Vouchers { get; set; }
 
         public Tourist() : base()
         {

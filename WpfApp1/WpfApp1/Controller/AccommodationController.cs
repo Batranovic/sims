@@ -59,5 +59,10 @@ namespace WpfApp1.Controller
             return _accommodationService.SearchAccommodation(name, city, state, type, guestsNumber, reservationDays);
         }
 
+        public List<Accommodation> GetSortedListBySuperOwner()
+        {
+            return _accommodationService.GetSortedListBySuperOwner();
+        }
+
     }
 }

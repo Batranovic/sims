@@ -145,6 +145,7 @@ namespace WpfApp1.Model
         {
             Name = name;
             IdLocation = location.Id;
+            Location = location;
             AccommodationKind = apartmentKind;
             MaxGuests = maxGuests;
             MinResevation = minResevation;
@@ -157,6 +158,11 @@ namespace WpfApp1.Model
         public Accommodation()
         {
             Images = new List<Image>();
+        }
+
+        public string ToString()
+        {
+            return Name + " " + Location.City + " " + Location.State + " " + AccommodationKind;
         }
 
         public string[] ToCSV()

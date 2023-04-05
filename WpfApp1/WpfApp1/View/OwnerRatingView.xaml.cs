@@ -12,29 +12,32 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Controller;
 using WpfApp1.Model;
-using WpfApp1.Repository;
 
 namespace WpfApp1.View
 {
     /// <summary>
-    /// Interaction logic for UserView.xaml
+    /// Interaction logic for OwnerRatingView.xaml
     /// </summary>
-    public partial class UserView : Window
+    public partial class OwnerRatingView : Window
     {
-        private readonly OwnerRepository _owner;
+        public ObservableCollection<RatingOwner> RatingOwners { get; set; }
+        public RatingOwnerController RatingOwnerController { get; set; }
 
-        public ObservableCollection<Owner> Owners { get; set; }
-        public UserView()
+        public Owner LogInOwner { get; set; }
+        public OwnerRatingView(Owner owner)
         {
             InitializeComponent();
             this.DataContext = this;
+
             var app = Application.Current as App;
+            RatingOwnerController = app.RatingOwnerController;
 
-            _owner = app.OwnerRepository;
-
-            Owners = new ObservableCollection<Owner>(_owner.GetAll());
-
+            RatingOwners = new ObservableCollection<RatingOwner>(RatingOwnerController.GetAllOwnerRewies(owner.Id));
+            LogInOwner = owner;
         }
+
+
     }
 }

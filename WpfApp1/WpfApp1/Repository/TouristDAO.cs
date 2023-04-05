@@ -9,7 +9,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class TouristRepository : IRepository<Tourist>, ISubject
+    public class TouristDAO : IDAO<Tourist>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/tourists.csv";
         private readonly List<IObserver> _observers;
@@ -18,18 +18,18 @@ namespace WpfApp1.Repository
         private List<Tourist> _tourists;
 
 
-        private static TouristRepository _instance = null;
+        private static TouristDAO _instance = null;
 
-        public static TouristRepository GetInsatnce()
+        public static TouristDAO GetInsatnce()
         {
             if (_instance == null)
             {
-                _instance = new TouristRepository();
+                _instance = new TouristDAO();
             }
             return _instance;
         }
 
-        private TouristRepository()
+        private TouristDAO()
         {
             _serializer = new Serializer<Tourist>();
             _tourists = new List<Tourist>();
@@ -64,6 +64,31 @@ namespace WpfApp1.Repository
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tourist Create(Tourist entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tourist Update(Tourist entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tourist Delete(Tourist entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int NextId()
+        {
+            throw new NotImplementedException();
         }
     }
 }

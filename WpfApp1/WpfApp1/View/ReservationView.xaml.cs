@@ -26,7 +26,7 @@ namespace WpfApp1.View
     public partial class ReservationView : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public ReservationController ReservationController { get; set; }
 
        // public string StartDate { get; set; }
@@ -112,7 +112,7 @@ namespace WpfApp1.View
                 return;
             }
 
-            StartDateConverted = ReservationController.IsReserved(Accommodation.Id, StartlDay, EndDay, ReservationDays);
+            StartDateConverted = ReservationController.CheckAvailableDate(Accommodation.Id, StartlDay, EndDay, ReservationDays);
             if(DateTime.Compare(StartDateConverted,EndDay) == 0)
             {
                 var range = ReservationController.GetAvailableDates(Accommodation.Id, EndDay, ReservationDays);
@@ -127,7 +127,7 @@ namespace WpfApp1.View
             if (result == MessageBoxResult.Yes)
             {
                 
-                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Model.Enums.RatingGuestStatus.reserved);
+                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Model.Enums.GuestRatingStatus.Reserved);
                 ReservationController.Create(reservation);
             }
 

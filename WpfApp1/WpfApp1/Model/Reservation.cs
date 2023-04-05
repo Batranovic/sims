@@ -21,7 +21,7 @@ namespace WpfApp1.Model
         public int IdAccommodation { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public RatingGuestStatus Status { get; set; }
+        public GuestRatingStatus Status { get; set; }
 
 
         public Reservation()
@@ -29,7 +29,7 @@ namespace WpfApp1.Model
 
         }
 
-        public Reservation(Guest guest, Accommodation accommodation, DateTime startDate, DateTime endDate, RatingGuestStatus status)
+        public Reservation(Guest guest, Accommodation accommodation, DateTime startDate, DateTime endDate, GuestRatingStatus status)
         {
             IdGuest = guest.Id;
             IdAccommodation = accommodation.Id;
@@ -55,7 +55,6 @@ namespace WpfApp1.Model
             return csvValues;
         }
 
-
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
@@ -63,7 +62,7 @@ namespace WpfApp1.Model
             EndDate = DateHelper.StringToDate(values[2]);
             IdAccommodation = Convert.ToInt32(values[3]);
             IdGuest = Convert.ToInt32(values[4]);
-            Status = Enum.Parse<RatingGuestStatus>(values[5]);
+            Status = Enum.Parse<GuestRatingStatus>(values[5]);
         }
 
     }

@@ -156,7 +156,7 @@ namespace WpfApp1.View
             List<Model.Image> images = new List<Model.Image>();
             foreach (string s in _urls)
             {
-                images.Add(new Model.Image(s, accommodation.Id, ImageKind.accommodation));
+                images.Add(new Model.Image(s, accommodation.Id, ImageKind.Accommodation));
             }
             foreach (Model.Image image in images)
             {
@@ -166,9 +166,8 @@ namespace WpfApp1.View
         }
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            if(IsValid)
+            if(!IsValid)
             {
-          
                 return;
             }
             Location location = LocationController.GetByCityAndState(SelectedCity, SelectedState);

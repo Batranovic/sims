@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Model.Enums
 {
-    public enum RatingGuestStatus
+    
+    public enum OwnerKind
     {
-        expired, unrated, rated, inprogres, reserved
+        Super, Basic
     }
+
 }
