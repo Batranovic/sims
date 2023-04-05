@@ -21,7 +21,6 @@ namespace WpfApp1.Model
         public List<string> KeyPoints { get; set; }
         public List<string> Images { get; set; }
         public List<DateTime> Date { get; set; }
-
         public List<TourEvent> TourEvents { get; set; }
 
         public int Id

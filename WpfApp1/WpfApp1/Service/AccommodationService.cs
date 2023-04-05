@@ -12,11 +12,11 @@ namespace WpfApp1.Service
 {
     public class AccommodationService
     {
-        private  AccommodationDAO _accommodationDAO;
+        private  AccommodationRepository _accommodationDAO;
 
         public AccommodationService()
         {
-            _accommodationDAO = AccommodationDAO.GetInstance();
+            _accommodationDAO = AccommodationRepository.GetInstance();
         }
 
         public List<Accommodation> GetAll()

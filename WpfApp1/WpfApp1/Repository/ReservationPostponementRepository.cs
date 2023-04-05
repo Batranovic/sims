@@ -9,7 +9,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class ReservationPostponementDAO : IDAO<ReservationPostponement>, ISubject
+    public class ReservationPostponementRepository : IRepository<ReservationPostponement>, ISubject
     {
         private const string _filePath = "../../../Resources/data/reservationPostponements.csv";
         private readonly List<IObserver> _observers;
@@ -17,26 +17,26 @@ namespace WpfApp1.Repository
         private readonly Serializer<ReservationPostponement> _serializer;
 
         private List<ReservationPostponement> _postponements;
-        private static ReservationPostponementDAO _instance = null;
+        private static ReservationPostponementRepository _instance = null;
 
-        public ReservationDAO ReservationDAO { get; set; }
+        public ReservationRepository ReservationDAO { get; set; }
 
-        public static ReservationPostponementDAO GetInstance()
+        public static ReservationPostponementRepository GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new ReservationPostponementDAO();
+                _instance = new ReservationPostponementRepository();
             }
             return _instance;
         }
 
-        private ReservationPostponementDAO()
+        private ReservationPostponementRepository()
         {
             _postponements = new List<ReservationPostponement>();
             _serializer = new Serializer<ReservationPostponement>();
             _postponements = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            ReservationDAO = ReservationDAO.GetInstance();
+            ReservationDAO = ReservationRepository.GetInstance();
 
         }
 

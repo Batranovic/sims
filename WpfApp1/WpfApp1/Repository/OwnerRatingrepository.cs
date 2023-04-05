@@ -10,7 +10,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class RatingOwnerDAO : IDAO<RatingOwner>, ISubject
+    public class RatingOwnerDAO : IRepository<RatingOwner>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/ratingOwner.csv";
         private readonly List<IObserver> _observers;
@@ -18,7 +18,7 @@ namespace WpfApp1.Repository
         private readonly Serializer<RatingOwner> _serializer;
 
         private List<RatingOwner> _ratingOwners;
-        public ReservationDAO ReservationDAO { get; set; }
+        public ReservationRepository ReservationDAO { get; set; }
 
         private static RatingOwnerDAO _instance = null;
 
@@ -37,7 +37,7 @@ namespace WpfApp1.Repository
             _observers = new List<IObserver>();
             _ratingOwners = new List<RatingOwner>();
             _ratingOwners = _serializer.FromCSV(_filePath);
-            ReservationDAO = ReservationDAO.GetInstance();
+            ReservationDAO = ReservationRepository.GetInstance();
         }
 
 

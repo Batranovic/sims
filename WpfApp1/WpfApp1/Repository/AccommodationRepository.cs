@@ -12,38 +12,38 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class AccommodationDAO : IDAO<Accommodation>, ISubject
+    public class AccommodationRepository : IRepository<Accommodation>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/accommodations.csv";
         private readonly List<IObserver> _observers;
         private readonly Serializer<Accommodation> _serializer;
 
-        public ImageDAO ImageDAO { get; set; }
+        public ImageRepository ImageDAO { get; set; }
 
-        private static AccommodationDAO _instance = null;
+        private static AccommodationRepository _instance = null;
 
         private List<Accommodation> _accommodations;
-        public LocationDAO LocationDAO { get; set; }
-        public OwnerDAO OwnerDAO { get; set; } //Setuje se App.xaml.cs jer se inace desi beskonacni poziv konstruktora
+        public LocationRepository LocationDAO { get; set; }
+        public OwnerRepository OwnerDAO { get; set; } //Setuje se App.xaml.cs jer se inace desi beskonacni poziv konstruktora
         
-        public static AccommodationDAO GetInstance()
+        public static AccommodationRepository GetInstance()
         {
             if(_instance == null)
             {
-                _instance = new AccommodationDAO();
+                _instance = new AccommodationRepository();
             }
             return _instance;
         }
         
-        private AccommodationDAO()
+        private AccommodationRepository()
 
         {
             _serializer = new Serializer<Accommodation>();
             _accommodations = new List<Accommodation>();
             _accommodations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            LocationDAO = LocationDAO.GetInstance();
-            ImageDAO = ImageDAO.GetInsatnce();
+            LocationDAO = LocationRepository.GetInstance();
+            ImageDAO = ImageRepository.GetInsatnce();
         }
 
         public void BindLocation()

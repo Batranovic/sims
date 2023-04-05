@@ -11,11 +11,11 @@ namespace WpfApp1.Service
 {
     public class OwnerService
     {
-        private  OwnerDAO _ownerDAO;
+        private  OwnerRepository _ownerDAO;
     
         public OwnerService()
         {
-            _ownerDAO = OwnerDAO.GetInsatnce();
+            _ownerDAO = OwnerRepository.GetInsatnce();
         }
 
         public Owner Get(int id)

@@ -9,38 +9,37 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class TourBookingDAO : IDAO<TourBooking>, ISubject
+    public class TourEventRepository : IRepository<TourEvent>, ISubject
     {
-        private const string _filePath = "../../../Resources/Data/tourBookings.csv";
+        private const string _filePath = "../../../Resources/Data/tourEvents.csv";
         private readonly List<IObserver> _observers;
-        private readonly Serializer<TourBooking> _serializer;
+        private readonly Serializer<TourEvent> _serializer;
 
-        private List<TourBooking> _tourBookings;
+        private List<TourEvent> _tourEvents;
 
-        private static TourBookingDAO instance = null;
+        private static TourEventRepository instance = null;
 
-        private TourBookingDAO()
+        private TourEventRepository()
         {
-            _serializer = new Serializer<TourBooking>();
-            _tourBookings = new List<TourBooking>();
-            _tourBookings = _serializer.FromCSV(_filePath);
+            _serializer = new Serializer<TourEvent>();
+            _tourEvents = new List<TourEvent>();
+            _tourEvents = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
         }
 
-        
-        public TourBooking Get(int id)
-        {
-            return _tourBookings.Find(t => t.Id == id);
-        }
 
-        public TourBooking Create(TourBooking entity)
+        public TourEvent Get(int id)
+        {
+            return _tourEvents.Find(t => t.Id == id);
+        }
+        public TourEvent Create(TourEvent entity)
         {
             entity.Id = NextId();
-            _tourBookings.Add(entity);
+            _tourEvents.Add(entity);
             Save();
             return entity;
         }
-        public TourBooking Update(TourBooking entity)
+        public TourEvent Update(TourEvent entity)
         {
             var oldEntity = Get(entity.Id);
             if (oldEntity == null)
@@ -53,20 +52,20 @@ namespace WpfApp1.Repository
         }
         public void Save()
         {
-            _serializer.ToCSV(_filePath, _tourBookings);
+            _serializer.ToCSV(_filePath, _tourEvents);
         }
 
-        public TourBooking Delete(TourBooking entity)
+        public TourEvent Delete(TourEvent entity)
         {
-            _tourBookings.Remove(entity);
+            _tourEvents.Remove(entity);
             Save();
             return entity;
         }
         public int NextId()
         {
-            if (_tourBookings.Count == 0) return 0;
-            int newId = _tourBookings[_tourBookings.Count() - 1].Id + 1;
-            foreach (TourBooking t in _tourBookings)
+            if (_tourEvents.Count == 0) return 0;
+            int newId = _tourEvents[_tourEvents.Count() - 1].Id + 1;
+            foreach (TourEvent t in _tourEvents)
             {
                 if (newId == t.Id)
                 {
@@ -76,36 +75,38 @@ namespace WpfApp1.Repository
             return newId;
         }
 
-        public List<TourBooking> GetAll()
+        public List<TourEvent> GetAll()
         {
-            return _tourBookings;
+            return _tourEvents;
         }
 
-        public static TourBookingDAO GetInstance()
+        public static TourEventRepository GetInstance()
         {
             if (instance == null)
             {
-                instance = new TourBookingDAO();
+                instance = new TourEventRepository();
             }
             return instance;
         }
 
-        public void BindTourEvent()
+        public void BindTour()
         {
-            foreach (TourBooking tourBooking in _tourBookings)
+            foreach (TourEvent tourEvent in _tourEvents)
             {
-                int tourEventId = tourBooking.TourEvent.Id;
-                TourEvent tourEvent = TourEventDAO.GetInstance().Get(tourEventId);
-                if (tourEvent != null)
+                int tourId = tourEvent.Tour.Id;
+                Tour tour = TourRepository.GetInstance().Get(tourId);
+                if (tour != null)
                 {
-                    tourBooking.TourEvent = tourEvent;
+                    tourEvent.Tour = tour;
+                    tour.TourEvents.Add(tourEvent);
                 }
                 else
                 {
-                    Console.WriteLine("Error in tourReservationTourEvent binding");
+                    Console.WriteLine("Error in accommodationLocation binding");
                 }
             }
         }
+
 
         public void Subscribe(IObserver observer)
         {

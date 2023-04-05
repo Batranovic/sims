@@ -11,11 +11,11 @@ namespace WpfApp1.Service
 {
     public class LocationService
     {
-        private LocationDAO _locationDAO;
+        private LocationRepository _locationDAO;
 
         public LocationService()
         {
-            _locationDAO = LocationDAO.GetInstance();
+            _locationDAO = LocationRepository.GetInstance();
         }
 
         public Location Get(int id)

@@ -9,25 +9,25 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class ImageDAO : IDAO<Image>
+    public class ImageRepository : IRepository<Image>
     {
         private const string _filePath = "../../../Resources/Data/images.csv";
  
         private readonly Serializer<Image> _serializer;
 
-        private static ImageDAO _instance = null;
+        private static ImageRepository _instance = null;
         
         private List<Image> _images;
 
-        public static ImageDAO GetInsatnce()
+        public static ImageRepository GetInsatnce()
         {
             if(_instance == null)
             {
-                _instance = new ImageDAO();
+                _instance = new ImageRepository();
             }
             return _instance;
         }
-        private ImageDAO()
+        private ImageRepository()
         {
             _images = new List<Image>();
             _serializer = new Serializer<Image>();

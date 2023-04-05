@@ -12,7 +12,7 @@ using WpfApp1.Model.Enums;
 
 namespace WpfApp1.Repository
 {
-    public class ReservationDAO : IDAO<Reservation>, ISubject
+    public class ReservationRepository : IRepository<Reservation>, ISubject
     {
 
         private const string _filePath = "../../../Resources/Data/reservations.csv";
@@ -21,28 +21,28 @@ namespace WpfApp1.Repository
         private readonly Serializer<Reservation> _serializer;
 
         private List<Reservation> _reservations;
-        private static ReservationDAO _instance = null;
+        private static ReservationRepository _instance = null;
 
-        public AccommodationDAO AccommodationDAO { get; set; }
+        public AccommodationRepository AccommodationDAO { get; set; }
 
-        public GuestDAO GuestRepository { get; set; }
+        public GuestRepository GuestRepository { get; set; }
         
-        public static ReservationDAO GetInstance()
+        public static ReservationRepository GetInstance()
         {
             if(_instance == null)
             {
-                _instance = new ReservationDAO();
+                _instance = new ReservationRepository();
             }
             return _instance;
         }
-        private ReservationDAO()
+        private ReservationRepository()
         {
             _reservations = new List<Reservation>();
             _serializer= new Serializer<Reservation>();
             _reservations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            AccommodationDAO = AccommodationDAO.GetInstance();
-            GuestRepository = GuestDAO.GetInsatnce();
+            AccommodationDAO = AccommodationRepository.GetInstance();
+            GuestRepository = GuestRepository.GetInsatnce();
             SetStatus();                                //Status trenutne rezervacije (da li je u toku, prosla, ocenja ili neocenjena
         }
 

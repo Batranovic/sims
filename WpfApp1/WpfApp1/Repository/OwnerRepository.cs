@@ -9,24 +9,24 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class OwnerDAO : IDAO<Owner>, ISubject
+    public class OwnerRepository : IRepository<Owner>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/owners.csv";
         private readonly List<IObserver> _observers;
         private readonly Serializer<Owner> _serializer;
         private List<Owner> _owners;
-        private static OwnerDAO _instance = null;
+        private static OwnerRepository _instance = null;
         public RatingOwnerDAO RatingOwnerDAO { get; set; }
-        public static OwnerDAO GetInsatnce()
+        public static OwnerRepository GetInsatnce()
         {
             if(_instance == null)
             {
-                _instance = new OwnerDAO();
+                _instance = new OwnerRepository();
             }
             return _instance;
         }
 
-        private OwnerDAO() 
+        private OwnerRepository() 
         {
             _serializer = new Serializer<Owner>();
             _owners = new List<Owner>();

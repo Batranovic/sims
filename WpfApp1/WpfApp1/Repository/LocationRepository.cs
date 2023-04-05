@@ -12,7 +12,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class LocationDAO : IDAO<Location>, ISubject
+    public class LocationRepository : IRepository<Location>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/locations.csv";
         private readonly List<IObserver> _observers;
@@ -21,18 +21,18 @@ namespace WpfApp1.Repository
 
         private List<Location> _locations;
 
-        private static LocationDAO _instance = null;
+        private static LocationRepository _instance = null;
 
-        public static LocationDAO GetInstance()
+        public static LocationRepository GetInstance()
         {
             if(_instance == null)
             {
-                _instance = new LocationDAO();
+                _instance = new LocationRepository();
             }
             return _instance;
         }
 
-        private LocationDAO()
+        private LocationRepository()
         {
             _locations = new List<Location>();
             _serializer = new Serializer<Location>();

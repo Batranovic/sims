@@ -11,11 +11,11 @@ namespace WpfApp1.Service
 {
     public class GuestService
     {
-        private GuestDAO _guestDAO;
+        private GuestRepository _guestDAO;
 
         public GuestService()
         {
-            _guestDAO = GuestDAO.GetInsatnce();
+            _guestDAO = GuestRepository.GetInsatnce();
         }
 
         public Guest Get(int id)

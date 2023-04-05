@@ -13,11 +13,11 @@ namespace WpfApp1.Service
 {
     public class ReservationPostponementService
     {
-        private ReservationPostponementDAO _postponementDAO;
+        private ReservationPostponementRepository _postponementDAO;
 
         public ReservationPostponementService()
         {
-            _postponementDAO = ReservationPostponementDAO.GetInstance();
+            _postponementDAO = ReservationPostponementRepository.GetInstance();
         }
 
         public ReservationPostponement Get(int id)
@@ -54,5 +54,11 @@ namespace WpfApp1.Service
         {
             _postponementDAO.Unsubscribe(observer);
         }
+
+        public List<ReservationPostponement> GetAllByOwnerIdAhead(int idOwner)
+        {
+            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Status == ReservationPostponementStatus.Waiting);
+        }
+
     }
 }

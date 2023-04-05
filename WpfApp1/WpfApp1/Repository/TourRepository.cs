@@ -9,23 +9,23 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class TourDAO : IDAO<Tour>, ISubject
+    public class TourRepository : IRepository<Tour>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/tours.csv";
         private readonly List<IObserver> _observers;
         private readonly Serializer<Tour> _serializer;
 
         private List<Tour> _tours;
-        private static TourDAO instance = null;
-        public LocationDAO LocationDAO { get; set; }
+        private static TourRepository instance = null;
+        public LocationRepository LocationDAO { get; set; }
 
-        private TourDAO()
+        private TourRepository()
         {
             _serializer = new Serializer<Tour>();
             _tours = new List<Tour>();
             _tours = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            LocationDAO = LocationDAO.GetInstance();
+            LocationDAO = LocationRepository.GetInstance();
         }
 
         public void BindLocation()
@@ -88,11 +88,11 @@ namespace WpfApp1.Repository
             return _tours;
         }
 
-        public static TourDAO GetInstance()
+        public static TourRepository GetInstance()
         {
             if (instance == null)
             {
-                instance = new TourDAO();
+                instance = new TourRepository();
             }
             return instance;
         }

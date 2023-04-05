@@ -10,11 +10,11 @@ namespace WpfApp1.Service
 {
     public class ImageService
     {
-        private ImageDAO _imageDAO;
+        private ImageRepository _imageDAO;
 
         public ImageService()
         {
-            _imageDAO = ImageDAO.GetInsatnce();
+            _imageDAO = ImageRepository.GetInsatnce();
         }
 
         public Image Get(int id)

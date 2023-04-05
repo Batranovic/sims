@@ -11,11 +11,11 @@ namespace WpfApp1.Service
 {
     public class GuestRatingService
     {
-        private  GuestRatingDAO _ratingGuestDAO;
+        private  GuestRatingRepository _ratingGuestDAO;
 
         public GuestRatingService()
         {
-            _ratingGuestDAO = GuestRatingDAO.GetInstance();
+            _ratingGuestDAO = GuestRatingRepository.GetInstance();
         }
 
         public GuestRating Get(int id)

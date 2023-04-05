@@ -9,11 +9,11 @@ namespace WpfApp1.Service
 {
     public class TourService
     {
-        private TourDAO _tourDAO;
+        private TourRepository _tourDAO;
 
         public TourService()
         {
-            _tourDAO = TourDAO.GetInstance();
+            _tourDAO = TourRepository.GetInstance();
         }
 
         public List<Tour> GetAll()

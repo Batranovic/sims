@@ -9,7 +9,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class TouristDAO : IDAO<Tourist>, ISubject
+    public class TouristRepository : IRepository<Tourist>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/tourists.csv";
         private readonly List<IObserver> _observers;
@@ -18,18 +18,18 @@ namespace WpfApp1.Repository
         private List<Tourist> _tourists;
 
 
-        private static TouristDAO _instance = null;
+        private static TouristRepository _instance = null;
 
-        public static TouristDAO GetInsatnce()
+        public static TouristRepository GetInsatnce()
         {
             if (_instance == null)
             {
-                _instance = new TouristDAO();
+                _instance = new TouristRepository();
             }
             return _instance;
         }
 
-        private TouristDAO()
+        private TouristRepository()
         {
             _serializer = new Serializer<Tourist>();
             _tourists = new List<Tourist>();

@@ -52,5 +52,10 @@ namespace WpfApp1.Controller
         {
             _postponementService.Unsubscribe(observer);
         }
+
+        public List<ReservationPostponement> GetAllByOwnerIdAhead(int idOwner)
+        {
+            return _postponementService.GetAllByOwnerIdAhead(idOwner);
+        }
     }
 }

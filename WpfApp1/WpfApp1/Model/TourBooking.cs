@@ -9,11 +9,8 @@ namespace WpfApp1.Model
     public class TourBooking : WpfApp1.Serializer.ISerializable
     {
         private int _id;
-
         private int _numberOfGuests;
-
         public User Tourist { get; set; }
-
         public TourEvent TourEvent { get; set; }
 
         public int Id

@@ -9,7 +9,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class GuestRatingDAO : IDAO<GuestRating>, ISubject
+    public class GuestRatingRepository : IRepository<GuestRating>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/ratingGuest.csv";
         private readonly List<IObserver> _observers;
@@ -17,25 +17,25 @@ namespace WpfApp1.Repository
         private readonly Serializer<GuestRating> _serializer;
 
         private List<GuestRating> _ratingGuests;
-        public ReservationDAO ReservationDAO { get; set; }
+        public ReservationRepository ReservationDAO { get; set; }
 
-        private static GuestRatingDAO _instance = null;
+        private static GuestRatingRepository _instance = null;
 
-        public static GuestRatingDAO GetInstance()
+        public static GuestRatingRepository GetInstance()
         {
             if(_instance  == null)
             {
-                _instance = new GuestRatingDAO();
+                _instance = new GuestRatingRepository();
             }
             return _instance;
         }
-        private GuestRatingDAO()
+        private GuestRatingRepository()
         {
             _serializer = new Serializer<GuestRating>();
             _observers = new List<IObserver>();
             _ratingGuests = new List<GuestRating>();
             _ratingGuests = _serializer.FromCSV(_filePath);
-            ReservationDAO = ReservationDAO.GetInstance();
+            ReservationDAO = ReservationRepository.GetInstance();
         }
         public GuestRating Create(GuestRating entity)
         {

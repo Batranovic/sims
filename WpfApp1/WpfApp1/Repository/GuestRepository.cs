@@ -9,25 +9,25 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class GuestDAO : IDAO<Guest>, ISubject
+    public class GuestRepository : IRepository<Guest>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/guests.csv";
 
         private readonly Serializer<Guest> _serializer;
         private List<IObserver> _observers;
         private List<Guest> _guests;
-        private static GuestDAO _instance = null;
+        private static GuestRepository _instance = null;
 
-        public static GuestDAO GetInsatnce()
+        public static GuestRepository GetInsatnce()
         {
             if(_instance == null)
             {
-                _instance = new GuestDAO();
+                _instance = new GuestRepository();
             }
             return _instance;
         }
 
-        private GuestDAO()
+        private GuestRepository()
         {
             _serializer = new Serializer<Guest>();
             _guests = new List<Guest>();

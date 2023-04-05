@@ -28,10 +28,7 @@ namespace WpfApp1
         public TourEventController TourEventController { get; set; }    
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
-
         public ReservationPostponementController ReservationPostponementController {get; set;}
-
-       
         public RatingOwnerController RatingOwnerController { get; set; }
        
         public App()
@@ -45,24 +42,25 @@ namespace WpfApp1
             ReservationController = new ReservationController();    
             RatingGuestController = new GuestRatingController();
             RatingOwnerController = new RatingOwnerController();
+            ReservationPostponementController = new ReservationPostponementController();
 
-            AccommodationDAO.GetInstance().OwnerDAO = OwnerDAO.GetInsatnce();
+            AccommodationRepository.GetInstance().OwnerDAO = OwnerRepository.GetInsatnce();
 
-            AccommodationDAO.GetInstance().BindLocation();
-            AccommodationDAO.GetInstance().BindOwner();
-            AccommodationDAO.GetInstance().BindImage();
-            ReservationDAO.GetInstance().BindAccommodation();
-            ReservationDAO.GetInstance().BindGuest();
+            AccommodationRepository.GetInstance().BindLocation();
+            AccommodationRepository.GetInstance().BindOwner();
+            AccommodationRepository.GetInstance().BindImage();
+            ReservationRepository.GetInstance().BindAccommodation();
+            ReservationRepository.GetInstance().BindGuest();
             RatingOwnerDAO.GetInstance().BindReservation();
-            GuestRatingDAO.GetInstance().BindReservation();
-            OwnerDAO.GetInsatnce().BindRating();
-            OwnerDAO.GetInsatnce().CalculateAverageRating();
-            OwnerDAO.GetInsatnce().SetKind();
-         
+            GuestRatingRepository.GetInstance().BindReservation();
+            OwnerRepository.GetInsatnce().BindRating();
+            OwnerRepository.GetInsatnce().CalculateAverageRating();
+            OwnerRepository.GetInsatnce().SetKind();
+            ReservationPostponementRepository.GetInstance().BindReservation();
 
-            TourDAO.GetInstance().BindLocation();
-            TourBookingDAO.GetInstance().BindTourEvent();
-            TourEventDAO.GetInstance().BindTour();
+            TourRepository.GetInstance().BindLocation();
+            TourBookingRepository.GetInstance().BindTourEvent();
+            TourEventRepository.GetInstance().BindTour();
 
             TourBookingController = new TourBookingController();
             TourController = new TourController();

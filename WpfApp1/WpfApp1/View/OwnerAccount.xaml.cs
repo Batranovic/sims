@@ -66,5 +66,11 @@ namespace WpfApp1.View
             OwnerRatingView ownerRatingView = new OwnerRatingView(LogInOwner);
             ownerRatingView.Show();
         }
+
+        private void ReservationPostponementOverview(object sender, RoutedEventArgs e)
+        {
+            ReservationPostponementOverview reservationPostponementOverview = new ReservationPostponementOverview(LogInOwner);
+            reservationPostponementOverview.Show(); 
+        }
     }
 }

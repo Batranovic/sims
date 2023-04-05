@@ -7,7 +7,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public interface IDAO<T> 
+    public interface IRepository<T> 
     {
         void Save();
         public T Create(T entity);

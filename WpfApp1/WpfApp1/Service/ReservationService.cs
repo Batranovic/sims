@@ -15,11 +15,11 @@ namespace WpfApp1.Service
 {
     public class ReservationService
     {
-        private ReservationDAO _reservationDAO;
+        private ReservationRepository _reservationDAO;
 
         public ReservationService()
         {
-            _reservationDAO = ReservationDAO.GetInstance();
+            _reservationDAO = ReservationRepository.GetInstance();
         }
 
         public Reservation Get(int id)

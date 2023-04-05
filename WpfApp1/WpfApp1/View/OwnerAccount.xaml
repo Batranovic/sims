@@ -13,6 +13,7 @@
                     <Button Click="SignInAccomodation">Sign in accommodation</Button>
                     <Button x:Name="btnRatingGuest" Click="ViewExpiredReservation" >Rating guest</Button>
                     <Button  Click="ViewOwnerRatings" >ViewOwnerRatings</Button>
+                    <Button  Click="ReservationPostponementOverview">ReservationPostponementOverview</Button>
                 </StackPanel>
             </DockPanel>
 
