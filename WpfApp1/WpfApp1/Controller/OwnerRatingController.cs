@@ -19,27 +19,27 @@ namespace WpfApp1.Controller
             _ratingOwnerService = new RatingOwnerService();
         }
 
-        public RatingOwner Get(int id)
+        public OwnerRating Get(int id)
         {
             return _ratingOwnerService.Get(id);
         }
 
-        public List<RatingOwner> GetAll()
+        public List<OwnerRating> GetAll()
         {
             return _ratingOwnerService.GetAll();
         }
 
-        public void Create(RatingOwner ratingOwner)
+        public void Create(OwnerRating ratingOwner)
         {
             _ratingOwnerService.Create(ratingOwner);
         }
 
-        public void Delete(RatingOwner ratingOwner)
+        public void Delete(OwnerRating ratingOwner)
         {
             _ratingOwnerService.Delete(ratingOwner);
         }
 
-        public void Update(RatingOwner ratingOwner)
+        public void Update(OwnerRating ratingOwner)
         {
             _ratingOwnerService.Update(ratingOwner);
         }
@@ -54,12 +54,12 @@ namespace WpfApp1.Controller
             _ratingOwnerService.Unsubscribe(observer);
         }
 
-        public RatingOwner GetByIdReservation(int idReservation)
+        public OwnerRating GetByIdReservation(int idReservation)
         {
             return _ratingOwnerService.GetByIdReservation(idReservation);
         }
 
-        public List<RatingOwner> GetAllOwnerRewies(int idOwner)
+        public List<OwnerRating> GetAllOwnerRewies(int idOwner)
         {
             return _ratingOwnerService.GetAllOwnerRewies(idOwner);
         }

@@ -10,9 +10,9 @@ namespace WpfApp1.Model
     public class Owner : User
     {
         public List<Accommodation> Accommodations { get; set; }
-        public List<RatingOwner> Ratings { get; set; }
+        public List<OwnerRating> Ratings { get; set; }
         private double _averageRating;
-        private OwnerKind _ownerKind;
+        private bool _super;
         
         public double AverageRating
         {
@@ -25,34 +25,34 @@ namespace WpfApp1.Model
                 }
             }
         }
-        public OwnerKind OwnerKind
+        public bool Super
         {
-            get => _ownerKind;
+            get => _super;
             set
             {
-                if(_ownerKind != null)
+                if(value != null)
                 {
-                    _ownerKind = value;
+                    _super = value;
                 }
             }
         }
         public Owner() : base()
         {
             Accommodations = new List<Accommodation>();
-            Ratings = new List<RatingOwner>();
+            Ratings = new List<OwnerRating>();
         }
         public override string[] ToCSV() 
         {
             String[] result = base.ToCSV() ;
             result.Append(AverageRating.ToString());
-            result.Append(OwnerKind.ToString());
+            result.Append(Super.ToString());
             return result;
         }
         public override void FromCSV(string[] values)
         {
             base.FromCSV(values);
             AverageRating = Convert.ToDouble(values[values.Length-2]);
-            OwnerKind = Enum.Parse<OwnerKind>(values[values.Length-1]);
+            Super = Convert.ToBoolean(values[values.Length-1]);
         }
     }
 }

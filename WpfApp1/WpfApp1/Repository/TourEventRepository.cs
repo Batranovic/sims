@@ -106,18 +106,14 @@ namespace WpfApp1.Repository
                 }
             }
         }
-
-
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);
         }
-
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
         }
-
         public void NotifyObservers()
         {
             foreach (var observer in _observers)
@@ -125,6 +121,5 @@ namespace WpfApp1.Repository
                 observer.Update();
             }
         }
-
     }
 }

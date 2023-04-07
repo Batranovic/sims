@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
@@ -11,29 +12,21 @@ namespace WpfApp1.Service
 {
     public class OwnerService
     {
-        private  OwnerRepository _ownerDAO;
+        private  IOwnerRepository _ownerRepository;
     
         public OwnerService()
         {
-            _ownerDAO = OwnerRepository.GetInsatnce();
+            _ownerRepository = OwnerRepository.GetInsatnce();
         }
 
         public Owner Get(int id)
         {
-            return _ownerDAO.Get(id);
+            return _ownerRepository.Get(id);
         }
 
         public List<Owner> GetAll()
         {
-            return _ownerDAO.GetAll();
-        }
-        public void Subscribe(IObserver observer)
-        {
-            _ownerDAO.Subscribe(observer);
-        }
-        public void Unsubscribe(IObserver observer)
-        {
-            _ownerDAO.Unsubscribe(observer);
+            return _ownerRepository.GetAll();
         }
 
         public Owner GetByUsernameAndPassword(string username, string password)

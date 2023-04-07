@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
@@ -10,46 +11,46 @@ namespace WpfApp1.Service
 {
     public class ImageService
     {
-        private ImageRepository _imageDAO;
+        private IImageRepository _imageRepository;
 
         public ImageService()
         {
-            _imageDAO = ImageRepository.GetInsatnce();
+            _imageRepository = ImageRepository.GetInsatnce();
         }
 
         public Image Get(int id)
         {
-            return _imageDAO.Get(id);
+            return _imageRepository.Get(id);
         }
 
         public List<Image> GetAll()
         {
-            return _imageDAO.GetAll();
+            return _imageRepository.GetAll();
         }
 
         public void Create(Image location)
         {
-            _imageDAO.Create(location);
+            _imageRepository.Create(location);
         }
 
         public void Delete(Image location)
         {
-            _imageDAO.Delete(location);
+            _imageRepository.Delete(location);
         }
 
         public void Update(Image image)
         {
-            _imageDAO.Update(image);
+            _imageRepository.Update(image);
         }
 
         public List<Image> GetAccommodations()
         {
-            return _imageDAO.GetAccommodations();
+            return _imageRepository.GetAccommodations();
         }
 
         public List<string> GetTour()
         {
-            return _imageDAO.GetTour();
+            return _imageRepository.GetTour();
         }
 
     }

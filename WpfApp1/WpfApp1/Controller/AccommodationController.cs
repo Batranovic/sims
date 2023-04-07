@@ -13,7 +13,6 @@ namespace WpfApp1.Controller
     public class AccommodationController
     {
         private readonly AccommodationService _accommodationService;
-
         public AccommodationController()
         {
             _accommodationService = new AccommodationService();
@@ -33,23 +32,14 @@ namespace WpfApp1.Controller
         {
             _accommodationService.Create(accommodation);
         }
-
-        public void Delete(Accommodation accommodation)
-        {
-            _accommodationService.Delete(accommodation);
-        }
-
-
         public void Update(Accommodation accommodation)
         {
             _accommodationService.Update(accommodation);
         }
-
         public void Subscribe(IObserver observer)
         {
             _accommodationService.Subscribe(observer);
         }
-
         public void Unsubscribe(IObserver observer)
         {
             _accommodationService.Unsubscribe(observer);
@@ -58,11 +48,9 @@ namespace WpfApp1.Controller
         {
             return _accommodationService.SearchAccommodation(name, city, state, type, guestsNumber, reservationDays);
         }
-
         public List<Accommodation> GetSortedListBySuperOwner()
         {
             return _accommodationService.GetSortedListBySuperOwner();
         }
-
     }
 }

@@ -28,17 +28,6 @@ namespace WpfApp1.Controller
         {
             return _guestService.GetAll();
         }
-
-        public void Subscribe(IObserver observer)
-        {
-            _guestService.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _guestService.Unsubscribe(observer);
-        }
-
         public Guest GetByUsernameAndPassword(string username, string password)
         {
             return _guestService.GetByUsernameAndPassword(username, password);

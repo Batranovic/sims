@@ -5,51 +5,52 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class RatingOwnerDAO : IRepository<RatingOwner>, ISubject
+    public class OwnerRatingRepository : IOwnerRatingRepository
     {
         private const string _filePath = "../../../Resources/Data/ratingOwner.csv";
         private readonly List<IObserver> _observers;
 
-        private readonly Serializer<RatingOwner> _serializer;
+        private readonly Serializer<OwnerRating> _serializer;
 
-        private List<RatingOwner> _ratingOwners;
-        public ReservationRepository ReservationDAO { get; set; }
+        private List<OwnerRating> _ratingOwners;
+        public IReservationRepository IReservationRepository { get; set; }
 
-        private static RatingOwnerDAO _instance = null;
+        private static IOwnerRatingRepository _instance = null;
 
-        public static RatingOwnerDAO GetInstance()
+        public static IOwnerRatingRepository GetInstance()
         {
             if(_instance == null)
             {
-                _instance = new RatingOwnerDAO();
+                _instance = new OwnerRatingRepository();
             }
             return _instance;
         }
 
-        private RatingOwnerDAO()
+        private OwnerRatingRepository()
         {
-            _serializer = new Serializer<RatingOwner>();
+            _serializer = new Serializer<OwnerRating>();
             _observers = new List<IObserver>();
-            _ratingOwners = new List<RatingOwner>();
+            _ratingOwners = new List<OwnerRating>();
             _ratingOwners = _serializer.FromCSV(_filePath);
-            ReservationDAO = ReservationRepository.GetInstance();
+            IReservationRepository = ReservationRepository.GetInstance();
         }
 
 
         public void BindReservation()
         {
-            foreach(RatingOwner r in GetAll())
+            foreach(OwnerRating r in GetAll())
             {
-                r.Reservation = ReservationDAO.Get(r.IdReservation);
+                r.Reservation = IReservationRepository.Get(r.IdReservation);
             }
         }
 
-        public RatingOwner Create(RatingOwner entity)
+        public OwnerRating Create(OwnerRating entity)
         {
             entity.Id = NextId();
             _ratingOwners.Add(entity);
@@ -58,7 +59,7 @@ namespace WpfApp1.Repository
             return entity;
         }
 
-        public RatingOwner Delete(RatingOwner entity)
+        public OwnerRating Delete(OwnerRating entity)
         {
             _ratingOwners.Remove(entity);
             Save();
@@ -66,12 +67,12 @@ namespace WpfApp1.Repository
             return entity;
         }
 
-        public RatingOwner Get(int id)
+        public OwnerRating Get(int id)
         {
             return _ratingOwners.Find(r => r.Id == id);
         }
 
-        public List<RatingOwner> GetAll()
+        public List<OwnerRating> GetAll()
         {
             return _ratingOwners;
         }
@@ -81,7 +82,7 @@ namespace WpfApp1.Repository
             if (_ratingOwners.Count == 0)
                 return 0;
             int nextId = _ratingOwners[_ratingOwners.Count - 1].Id + 1;
-            foreach(RatingOwner r in _ratingOwners)
+            foreach(OwnerRating r in _ratingOwners)
             {
                 if(nextId == r.Id)
                 {
@@ -96,7 +97,7 @@ namespace WpfApp1.Repository
             _serializer.ToCSV(_filePath, _ratingOwners);
         }
 
-        public RatingOwner Update(RatingOwner entity)
+        public OwnerRating Update(OwnerRating entity)
         {
             var oldEntity = Get(entity.Id);
             if(oldEntity == null)

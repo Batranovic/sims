@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
@@ -12,54 +13,54 @@ namespace WpfApp1.Service
 {
     public class RatingOwnerService
     {
-        private RatingOwnerDAO _ratingOwnerDAO;
+        private readonly IOwnerRatingRepository _ownerRatingRepository;
 
         public RatingOwnerService()
         {
-            _ratingOwnerDAO = RatingOwnerDAO.GetInstance();
+            _ownerRatingRepository = OwnerRatingRepository.GetInstance();
         }
 
-        public RatingOwner Get(int id)
+        public OwnerRating Get(int id)
         {
-            return _ratingOwnerDAO.Get(id);
+            return _ownerRatingRepository.Get(id);
         }
 
-        public List<RatingOwner> GetAll()
+        public List<OwnerRating> GetAll()
         {
-            return _ratingOwnerDAO.GetAll();
+            return _ownerRatingRepository.GetAll();
         }
 
-        public void Create(RatingOwner accommodationDAO)
+        public void Create(OwnerRating ownerRating)
         {
-            _ratingOwnerDAO.Create(accommodationDAO);
+            _ownerRatingRepository.Create(ownerRating);
         }
 
-        public void Delete(RatingOwner accommodationDAO)
+        public void Delete(OwnerRating ownerRating)
         {
-            _ratingOwnerDAO.Delete(accommodationDAO);
+            _ownerRatingRepository.Delete(ownerRating);
         }
 
-        public void Update(RatingOwner ratingOwner)
+        public void Update(OwnerRating ownerRating)
         {
-            _ratingOwnerDAO.Update(ratingOwner);
+            _ownerRatingRepository.Update(ownerRating);
         }
         
         public void Subscribe(IObserver observer)
         {
-            _ratingOwnerDAO.Subscribe(observer);
+            _ownerRatingRepository.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _ratingOwnerDAO.Unsubscribe(observer);
+            _ownerRatingRepository.Unsubscribe(observer);
         }
 
-        public RatingOwner GetByIdReservation(int idReservation)
+        public OwnerRating GetByIdReservation(int idReservation)
         {
             return GetAll().Find(r => r.IdReservation == idReservation);
         }
 
-        public List<RatingOwner> GetAllOwnerRewies(int idOwner)
+        public List<OwnerRating> GetAllOwnerRewies(int idOwner)
         {
             return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Reservation.Status == Model.Enums.GuestRatingStatus.Rated);
         }

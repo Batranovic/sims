@@ -4,22 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class ImageRepository : IRepository<Image>
+    public class ImageRepository : IImageRepository
     {
         private const string _filePath = "../../../Resources/Data/images.csv";
  
         private readonly Serializer<Image> _serializer;
 
-        private static ImageRepository _instance = null;
+        private static IImageRepository _instance = null;
         
         private List<Image> _images;
 
-        public static ImageRepository GetInsatnce()
+        public static IImageRepository GetInsatnce()
         {
             if(_instance == null)
             {
@@ -74,7 +75,7 @@ namespace WpfApp1.Repository
             }
             return nextId;
         }
-      
+
         public Image Update(Image entity)
         {
             var oldEntity = Get(entity.Id);
@@ -86,16 +87,10 @@ namespace WpfApp1.Repository
             Save();
             return oldEntity;
         }
-
-
-     
-
         public void Save()
         {
             _serializer.ToCSV(_filePath, _images);
         }
-
-
         public List<Image> GetAccommodations()
         {
             return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.Accommodation).ToList();
@@ -106,7 +101,6 @@ namespace WpfApp1.Repository
             return _images.FindAll(i => i.ImageKind == Model.Enums.ImageKind.Tour).Select(i => i.Path).ToList();
         }
 
-
-
+ 
     }
 }

@@ -4,21 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class GuestRepository : IRepository<Guest>, ISubject
+    public class GuestRepository : IGuestRepository
     {
         private const string _filePath = "../../../Resources/Data/guests.csv";
 
         private readonly Serializer<Guest> _serializer;
         private List<IObserver> _observers;
         private List<Guest> _guests;
-        private static GuestRepository _instance = null;
+        private static IGuestRepository _instance = null;
 
-        public static GuestRepository GetInsatnce()
+        public static IGuestRepository GetInsatnce()
         {
             if(_instance == null)
             {
@@ -45,31 +46,6 @@ namespace WpfApp1.Repository
             return _guests;
         }
 
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Guest Create(Guest entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Guest Update(Guest entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Guest Delete(Guest entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int NextId()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);
@@ -86,6 +62,16 @@ namespace WpfApp1.Repository
             {
                 o.Update();
             }
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Guest Update(Guest entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

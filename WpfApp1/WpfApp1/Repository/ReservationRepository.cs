@@ -9,10 +9,11 @@ using WpfApp.Observer;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 using WpfApp1.Model.Enums;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Repository
 {
-    public class ReservationRepository : IRepository<Reservation>, ISubject
+    public class ReservationRepository : IReservationRepository
     {
 
         private const string _filePath = "../../../Resources/Data/reservations.csv";
@@ -21,13 +22,13 @@ namespace WpfApp1.Repository
         private readonly Serializer<Reservation> _serializer;
 
         private List<Reservation> _reservations;
-        private static ReservationRepository _instance = null;
+        private static IReservationRepository _instance = null;
 
-        public AccommodationRepository AccommodationDAO { get; set; }
+        public IAccommodationRepository IAccommodationRepository { get; set; }
 
-        public GuestRepository GuestRepository { get; set; }
+        public IGuestRepository IGuestRepository { get; set; }
         
-        public static ReservationRepository GetInstance()
+        public static IReservationRepository GetInstance()
         {
             if(_instance == null)
             {
@@ -41,14 +42,13 @@ namespace WpfApp1.Repository
             _serializer= new Serializer<Reservation>();
             _reservations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            AccommodationDAO = AccommodationRepository.GetInstance();
-            GuestRepository = GuestRepository.GetInsatnce();
+            IAccommodationRepository = AccommodationRepository.GetInstance();
+            IGuestRepository = GuestRepository.GetInsatnce();
             SetStatus();                                //Status trenutne rezervacije (da li je u toku, prosla, ocenja ili neocenjena
         }
 
         //INPROGRES RESERVED RATED UNRATED EXPIRED
         public void SetStatus()
-
         {
             foreach (Reservation reservation in _reservations)
             {
@@ -77,10 +77,9 @@ namespace WpfApp1.Repository
         {
             foreach(Reservation r in _reservations)
             {
-                r.Accommodation = AccommodationDAO.Get(r.IdAccommodation);
+                r.Accommodation = IAccommodationRepository.Get(r.IdAccommodation);
             }
         }
-
         public Reservation Create(Reservation entity)
         {
             entity.Id = NextId();
@@ -94,7 +93,7 @@ namespace WpfApp1.Repository
         {
             foreach (Reservation r in _reservations)
             {
-                r.Guest = GuestRepository.Get(r.IdGuest);
+                r.Guest = IGuestRepository.Get(r.IdGuest);
             }
         }
 

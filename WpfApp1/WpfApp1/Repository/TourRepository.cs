@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
@@ -17,7 +18,7 @@ namespace WpfApp1.Repository
 
         private List<Tour> _tours;
         private static TourRepository instance = null;
-        public LocationRepository LocationDAO { get; set; }
+        public ILocationRepository ILocationRepository { get; set; }
 
         private TourRepository()
         {
@@ -25,15 +26,13 @@ namespace WpfApp1.Repository
             _tours = new List<Tour>();
             _tours = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            LocationDAO = LocationRepository.GetInstance();
+            ILocationRepository = LocationRepository.GetInstance();
         }
-
         public void BindLocation()
         {
-
             foreach (Tour tour in _tours)
             {
-                tour.Location = LocationDAO.Get(tour.IdLocation);
+                tour.Location = ILocationRepository.Get(tour.IdLocation);
             }
         }
         public Tour Get(int id)
@@ -62,7 +61,6 @@ namespace WpfApp1.Repository
         {
             _serializer.ToCSV(_filePath, _tours);
         }
-
         public Tour Delete(Tour entity)
         {
             _tours.Remove(entity);
@@ -82,12 +80,10 @@ namespace WpfApp1.Repository
             }
             return newId;
         }
-
         public List<Tour> GetAll()
         {
             return _tours;
         }
-
         public static TourRepository GetInstance()
         {
             if (instance == null)
@@ -96,18 +92,14 @@ namespace WpfApp1.Repository
             }
             return instance;
         }
-
-
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);
         }
-
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
         }
-
         public void NotifyObservers()
         {
             foreach (var observer in _observers)
@@ -115,6 +107,5 @@ namespace WpfApp1.Repository
                 observer.Update();
             }
         }
-
     }
 }

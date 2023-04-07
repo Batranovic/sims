@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Model
 {
-    public class RatingOwner : WpfApp1.Serializer.ISerializable
+    public class OwnerRating : WpfApp1.Serializer.ISerializable
     {
         private int _id;
         private int _idReservation;
@@ -20,7 +20,7 @@ namespace WpfApp1.Model
         //dodati jos nesto po potrebi(timeliness vec dodat)
 
 
-        public RatingOwner(Reservation reservation, string comment, int cleanliness, int ownerCorrectness, int timeliness)
+        public OwnerRating(Reservation reservation, string comment, int cleanliness, int ownerCorrectness, int timeliness)
         {
             IdReservation = reservation.Id;
             Reservation = reservation;
@@ -30,7 +30,7 @@ namespace WpfApp1.Model
             Timeliness = timeliness;
         }
         
-        public RatingOwner() 
+        public OwnerRating() 
         {
 
         }

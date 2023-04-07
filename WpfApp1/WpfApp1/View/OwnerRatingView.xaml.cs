@@ -22,7 +22,7 @@ namespace WpfApp1.View
     /// </summary>
     public partial class OwnerRatingView : Window
     {
-        public ObservableCollection<RatingOwner> RatingOwners { get; set; }
+        public ObservableCollection<OwnerRating> RatingOwners { get; set; }
         public RatingOwnerController RatingOwnerController { get; set; }
 
         public Owner LogInOwner { get; set; }
@@ -34,7 +34,7 @@ namespace WpfApp1.View
             var app = Application.Current as App;
             RatingOwnerController = app.RatingOwnerController;
 
-            RatingOwners = new ObservableCollection<RatingOwner>(RatingOwnerController.GetAllOwnerRewies(owner.Id));
+            RatingOwners = new ObservableCollection<OwnerRating>(RatingOwnerController.GetAllOwnerRewies(owner.Id));
             LogInOwner = owner;
         }
 

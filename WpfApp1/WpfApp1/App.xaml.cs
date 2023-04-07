@@ -44,14 +44,13 @@ namespace WpfApp1
             RatingOwnerController = new RatingOwnerController();
             ReservationPostponementController = new ReservationPostponementController();
 
-            AccommodationRepository.GetInstance().OwnerDAO = OwnerRepository.GetInsatnce();
-
+     
             AccommodationRepository.GetInstance().BindLocation();
             AccommodationRepository.GetInstance().BindOwner();
             AccommodationRepository.GetInstance().BindImage();
             ReservationRepository.GetInstance().BindAccommodation();
             ReservationRepository.GetInstance().BindGuest();
-            RatingOwnerDAO.GetInstance().BindReservation();
+            OwnerRatingRepository.GetInstance().BindReservation();
             GuestRatingRepository.GetInstance().BindReservation();
             OwnerRepository.GetInsatnce().BindRating();
             OwnerRepository.GetInsatnce().CalculateAverageRating();

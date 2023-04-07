@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
@@ -11,46 +12,46 @@ namespace WpfApp1.Service
 {
     public class GuestRatingService
     {
-        private  GuestRatingRepository _ratingGuestDAO;
+        private readonly IGuestRatingRepository _guestRatingRepository;
 
         public GuestRatingService()
         {
-            _ratingGuestDAO = GuestRatingRepository.GetInstance();
+            _guestRatingRepository = GuestRatingRepository.GetInstance();
         }
 
         public GuestRating Get(int id)
         {
-            return _ratingGuestDAO.Get(id);
+            return _guestRatingRepository.Get(id);
         }
 
         public List<GuestRating> GetAll()
         {
-            return _ratingGuestDAO.GetAll();
+            return _guestRatingRepository.GetAll();
         }
 
         public void Create(GuestRating location)
         {
-            _ratingGuestDAO.Create(location);
+            _guestRatingRepository.Create(location);
         }
 
         public void Delete(GuestRating location)
         {
-            _ratingGuestDAO.Delete(location);
+            _guestRatingRepository.Delete(location);
         }
 
         public void Update(GuestRating image)
         {
-            _ratingGuestDAO.Update(image);
+            _guestRatingRepository.Update(image);
         }
 
         public void Subscribe(IObserver observer)
         {
-            _ratingGuestDAO.Subscribe(observer);
+            _guestRatingRepository.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _ratingGuestDAO.Unsubscribe(observer);
+            _guestRatingRepository.Unsubscribe(observer);
         }
 
     }

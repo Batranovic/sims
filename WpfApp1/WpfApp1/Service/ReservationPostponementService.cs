@@ -8,51 +8,52 @@ using WpfApp1.Model;
 using WpfApp1.Repository;
 using WpfApp1.Model.Enums;
 using WpfApp1.Repository;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Service
 {
     public class ReservationPostponementService
     {
-        private ReservationPostponementRepository _postponementDAO;
+        private readonly IReservationPostponementRepository _reservationPostponementRepository;
 
         public ReservationPostponementService()
         {
-            _postponementDAO = ReservationPostponementRepository.GetInstance();
+            _reservationPostponementRepository = ReservationPostponementRepository.GetInstance();
         }
 
         public ReservationPostponement Get(int id)
         {
-            return _postponementDAO.Get(id);
+            return _reservationPostponementRepository.Get(id);
         }
 
         public List<ReservationPostponement> GetAll()
         {
-            return _postponementDAO.GetAll();
+            return _reservationPostponementRepository.GetAll();
         }
 
         public void Create(ReservationPostponement postponement)
         {
-            _postponementDAO.Create(postponement);
+            _reservationPostponementRepository.Create(postponement);
         }
 
         public void Delete(ReservationPostponement postponement)
         {
-            _postponementDAO.Delete(postponement);
+            _reservationPostponementRepository.Delete(postponement);
         }
 
         public void Update(ReservationPostponement postponement)
         {
-            _postponementDAO.Update(postponement);
+            _reservationPostponementRepository.Update(postponement);
         }
 
         public void Subscribe(IObserver observer)
         {
-            _postponementDAO.Subscribe(observer);
+            _reservationPostponementRepository.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _postponementDAO.Unsubscribe(observer);
+            _reservationPostponementRepository.Unsubscribe(observer);
         }
 
         public List<ReservationPostponement> GetAllByOwnerIdAhead(int idOwner)

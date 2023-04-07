@@ -4,24 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class GuestRatingRepository : IRepository<GuestRating>, ISubject
+    public class GuestRatingRepository : IGuestRatingRepository
     {
         private const string _filePath = "../../../Resources/Data/ratingGuest.csv";
         private readonly List<IObserver> _observers;
-
         private readonly Serializer<GuestRating> _serializer;
-
         private List<GuestRating> _ratingGuests;
-        public ReservationRepository ReservationDAO { get; set; }
-
-        private static GuestRatingRepository _instance = null;
-
-        public static GuestRatingRepository GetInstance()
+        public IReservationRepository ReservationDAO { get; set; }
+        private static IGuestRatingRepository _instance = null;
+        public static IGuestRatingRepository GetInstance()
         {
             if(_instance  == null)
             {

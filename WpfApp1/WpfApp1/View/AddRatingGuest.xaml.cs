@@ -91,7 +91,7 @@ namespace WpfApp1.View
             this.Close();
 
             //OBRISATI KASNIJE KAD URADIS NORMALNO
-            RatingOwner ratingOwner = RatingOwnerController.GetByIdReservation(SelectedResevation.Id);
+            OwnerRating ratingOwner = RatingOwnerController.GetByIdReservation(SelectedResevation.Id);
             if(ratingOwner == null)
             {
                 MessageBox.Show("Korisnik Vas jos uvek nije ocenio");

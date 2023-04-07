@@ -4,24 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class ReservationPostponementRepository : IRepository<ReservationPostponement>, ISubject
+    public class ReservationPostponementRepository : IReservationPostponementRepository
     {
         private const string _filePath = "../../../Resources/data/reservationPostponements.csv";
         private readonly List<IObserver> _observers;
-
         private readonly Serializer<ReservationPostponement> _serializer;
-
         private List<ReservationPostponement> _postponements;
-        private static ReservationPostponementRepository _instance = null;
+        private static IReservationPostponementRepository _instance = null;
+        public IReservationRepository IReservationRepository { get; set; }
 
-        public ReservationRepository ReservationDAO { get; set; }
-
-        public static ReservationPostponementRepository GetInstance()
+        public static IReservationPostponementRepository GetInstance()
         {
             if (_instance == null)
             {
@@ -29,28 +27,22 @@ namespace WpfApp1.Repository
             }
             return _instance;
         }
-
         private ReservationPostponementRepository()
         {
             _postponements = new List<ReservationPostponement>();
             _serializer = new Serializer<ReservationPostponement>();
             _postponements = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            ReservationDAO = ReservationRepository.GetInstance();
+            IReservationRepository = ReservationRepository.GetInstance();
 
         }
-
-
-
         public void BindReservation()
         {
             foreach (ReservationPostponement p in _postponements)
             {
-                p.Reservation = ReservationDAO.Get(p.IdReservation);
+                p.Reservation = IReservationRepository.Get(p.IdReservation);
             }
         }
-
-
         public ReservationPostponement Create(ReservationPostponement entity)
         {
             entity.Id = NextId();
@@ -59,8 +51,6 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return entity;
         }
-
-
         public ReservationPostponement Delete(ReservationPostponement entity)
         {
             _postponements.Remove(entity);
@@ -68,17 +58,14 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return entity;
         }
-
         public ReservationPostponement Get(int id)
         {
             return _postponements.Find(r => r.Id == id);
         }
-
         public List<ReservationPostponement> GetAll()
         {
             return _postponements;
         }
-
         public int NextId()
         {
             if (_postponements.Count == 0)
@@ -93,7 +80,6 @@ namespace WpfApp1.Repository
             }
             return nextId;
         }
-
         public void NotifyObservers()
         {
             foreach (var observer in _observers)
@@ -101,23 +87,18 @@ namespace WpfApp1.Repository
                 observer.Update();
             }
         }
-
         public void Save()
         {
             _serializer.ToCSV(_filePath, _postponements);
         }
-
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);
         }
-
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
         }
-
-
         public ReservationPostponement Update(ReservationPostponement entity)
         {
             var oldEntity = Get(entity.Id);

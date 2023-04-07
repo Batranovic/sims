@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
@@ -11,29 +12,21 @@ namespace WpfApp1.Service
 {
     public class GuestService
     {
-        private GuestRepository _guestDAO;
+        private readonly IGuestRepository _guestRepository;
 
         public GuestService()
         {
-            _guestDAO = GuestRepository.GetInsatnce();
+            _guestRepository = GuestRepository.GetInsatnce();
         }
 
         public Guest Get(int id)
         {
-            return _guestDAO.Get(id);
+            return _guestRepository.Get(id);
         }
 
         public List<Guest> GetAll()
         {
-            return _guestDAO.GetAll();
-        }
-        public void Subscribe(IObserver observer)
-        {
-            _guestDAO.Subscribe(observer);
-        }
-        public void Unsubscribe(IObserver observer)
-        {
-            _guestDAO.Unsubscribe(observer);
+            return _guestRepository.GetAll();
         }
 
         public Guest GetByUsernameAndPassword(string username, string password)

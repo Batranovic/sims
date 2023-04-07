@@ -4,20 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
+using WpfApp1.Service;
 
 namespace WpfApp1.Repository
 {
-    public class OwnerRepository : IRepository<Owner>, ISubject
+    public class OwnerRepository : IOwnerRepository
     {
         private const string _filePath = "../../../Resources/Data/owners.csv";
         private readonly List<IObserver> _observers;
         private readonly Serializer<Owner> _serializer;
         private List<Owner> _owners;
-        private static OwnerRepository _instance = null;
-        public RatingOwnerDAO RatingOwnerDAO { get; set; }
-        public static OwnerRepository GetInsatnce()
+        private static IOwnerRepository _instance = null;
+        public IOwnerRatingRepository IOwnerRatingRepository { get; set; }
+        public static IOwnerRepository GetInsatnce()
         {
             if(_instance == null)
             {
@@ -32,26 +34,26 @@ namespace WpfApp1.Repository
             _owners = new List<Owner>();
             _owners = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            RatingOwnerDAO = RatingOwnerDAO.GetInstance();
+            IOwnerRatingRepository = OwnerRatingRepository.GetInstance();
         }
         public void SetKind()
         {
             foreach(Owner o in _owners)
             {
-                if(o.AverageRating >= 9.5)
+                if(o.AverageRating >= 4.5)
                 {
-                    o.OwnerKind = Model.Enums.OwnerKind.Super;
+                    o.Super = true;
                 }
                 else
                 {
-                    o.OwnerKind = Model.Enums.OwnerKind.Basic;
+                    o.Super = false;
                 }
             }
         }
-        private double GetAverageRating(List<RatingOwner> ratings)
+        public double GetAverageRating(List<OwnerRating> ratings)
         {
             double avg = 0;
-            foreach(RatingOwner ro in ratings)
+            foreach(OwnerRating ro in ratings)
             {
                 avg += (ro.Timeliness + ro.Cleanliness + ro.OwnerCorrectness) / 3;
             }
@@ -67,7 +69,7 @@ namespace WpfApp1.Repository
 
         public void BindRating()
         {
-            foreach(RatingOwner ro in RatingOwnerDAO.GetAll())
+            foreach(OwnerRating ro in IOwnerRatingRepository.GetAll())
             {
                 Get(ro.Reservation.Accommodation.OwnerId).Ratings.Add(ro); 
             }
@@ -81,48 +83,14 @@ namespace WpfApp1.Repository
         {
             return _owners;
         }
-
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
-
         public void Save()
         {
             throw new NotImplementedException();
         }
-
-        public Owner Create(Owner entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public Owner Update(Owner entity)
         {
             throw new NotImplementedException();
         }
-
-        public Owner Delete(Owner entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int NextId()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

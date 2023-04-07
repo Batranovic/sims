@@ -30,16 +30,6 @@ namespace WpfApp1.Controller
             return _ownerService.GetAll();
         }
 
-        public void Subscribe(IObserver observer)
-        {
-            _ownerService.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _ownerService.Unsubscribe(observer);
-        }
-
         public Owner GetByUsernameAndPassword(string username, string password)
         {
             return _ownerService.GetByUsernameAndPassword(username, password);

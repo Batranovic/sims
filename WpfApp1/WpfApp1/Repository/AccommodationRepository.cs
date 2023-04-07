@@ -7,26 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Controller;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class AccommodationRepository : IRepository<Accommodation>, ISubject
+    public class AccommodationRepository : IAccommodationRepository
     {
         private const string _filePath = "../../../Resources/Data/accommodations.csv";
         private readonly List<IObserver> _observers;
         private readonly Serializer<Accommodation> _serializer;
-
-        public ImageRepository ImageDAO { get; set; }
-
-        private static AccommodationRepository _instance = null;
-
+        private static IAccommodationRepository _instance = null;
         private List<Accommodation> _accommodations;
-        public LocationRepository LocationDAO { get; set; }
-        public OwnerRepository OwnerDAO { get; set; } //Setuje se App.xaml.cs jer se inace desi beskonacni poziv konstruktora
-        
-        public static AccommodationRepository GetInstance()
+        public static IAccommodationRepository GetInstance()
         {
             if(_instance == null)
             {
@@ -34,43 +28,38 @@ namespace WpfApp1.Repository
             }
             return _instance;
         }
-        
         private AccommodationRepository()
-
         {
             _serializer = new Serializer<Accommodation>();
             _accommodations = new List<Accommodation>();
             _accommodations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            LocationDAO = LocationRepository.GetInstance();
-            ImageDAO = ImageRepository.GetInsatnce();
         }
 
         public void BindLocation()
         {
-            foreach(Accommodation a in _accommodations)
+            foreach (Accommodation a in GetAll())
             {
-                a.Location = LocationDAO.Get(a.IdLocation);
+                a.Location = LocationRepository.GetInstance().Get(a.IdLocation);
             }
         }
-
         public void BindOwner()
         {
-            foreach(Accommodation a in _accommodations)
+            foreach (Accommodation a in GetAll())
             {
-                a.Owner = OwnerDAO.Get(a.OwnerId);
+                a.Owner = OwnerRepository.GetInsatnce().Get(a.OwnerId);
                 a.Owner.Accommodations.Add(a);
             }
         }
-
         public void BindImage()
         {
-            foreach (Image i in ImageDAO.GetAccommodations())
+            foreach (Image i in ImageRepository.GetInsatnce().GetAccommodations())
             {
-                    Accommodation a = Get(i.ExternalId);
-                    a.Images.Add(i);
+                Accommodation a = Get(i.ExternalId);
+                a.Images.Add(i);
             }
         }
+
         public Accommodation Create(Accommodation entity)
         {
             entity.Id = NextId();
@@ -78,24 +67,20 @@ namespace WpfApp1.Repository
             Save();
             return entity;
         }
-
         public Accommodation Delete(Accommodation entity)
         {
             _accommodations.Remove(entity);
             Save();
             return entity;
         }
-
         public Accommodation Get(int id)
         {
             return _accommodations.Find(a => a.Id == id); 
         }
-
         public List<Accommodation> GetAll()
         {
             return _accommodations;
         }
-
         public int NextId()
         {
             if (_accommodations.Count == 0) return 0;
@@ -109,12 +94,10 @@ namespace WpfApp1.Repository
             }
             return newId;
         }
-
         public void Save()
         {
             _serializer.ToCSV(_filePath, _accommodations);
         }
-
         public Accommodation Update(Accommodation entity)
         {
             var oldEntity = Get(entity.Id);
@@ -126,17 +109,14 @@ namespace WpfApp1.Repository
             Save();
             return oldEntity;
         }
-
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);
         }
-
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
         }
-
         public void NotifyObservers()
         {
             foreach (var observer in _observers)
@@ -144,9 +124,5 @@ namespace WpfApp1.Repository
                 observer.Update();
             }
         }
-
-
-
-        
     }
 }

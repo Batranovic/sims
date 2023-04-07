@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class LocationRepository : IRepository<Location>, ISubject
+    public class LocationRepository : ILocationRepository
     {
         private const string _filePath = "../../../Resources/Data/locations.csv";
         private readonly List<IObserver> _observers;
@@ -21,9 +22,9 @@ namespace WpfApp1.Repository
 
         private List<Location> _locations;
 
-        private static LocationRepository _instance = null;
+        private static ILocationRepository _instance = null;
 
-        public static LocationRepository GetInstance()
+        public static ILocationRepository GetInstance()
         {
             if(_instance == null)
             {
