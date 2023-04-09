@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
 using WpfApp1.Model;
+using WpfApp1.Service;
 using WpfApp1.Util;
 using WpfApp1.View;
 
@@ -27,11 +28,7 @@ namespace WpfApp1.View
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ReservationController ReservationController { get; set; }
-
-        // public string StartDate { get; set; }
-
-        //public string EndDate { get; set; }
+        private readonly ReservationService _reservationService;
 
         public Accommodation Accommodation { get; set; }
 
@@ -41,7 +38,6 @@ namespace WpfApp1.View
 
         public int GuestsNumber { get; set; }
 
-        // public int GuestNumber { get; set; }
 
         public DateTime StartDateConverted { get; set; }
 
@@ -54,8 +50,9 @@ namespace WpfApp1.View
         {
             InitializeComponent();
             this.DataContext = this;
-            var app = Application.Current as App;
-            ReservationController = app.ReservationController;
+
+            _reservationService = InjectorService.CreateInstance<ReservationService>();
+
             bool slobodan;
             Guest = guest;
             Accommodation = accommodation;
@@ -112,10 +109,10 @@ namespace WpfApp1.View
                 return;
             }
 
-            StartDateConverted = ReservationController.CheckAvailableDate(Accommodation.Id, StartlDay, EndDay, ReservationDays);
+            StartDateConverted = _reservationService.CheckAvailableDate(Accommodation.Id, StartlDay, EndDay, ReservationDays);
             if (DateTime.Compare(StartDateConverted, EndDay) == 0)
             {
-                var range = ReservationController.GetAvailableDates(Accommodation.Id, EndDay, ReservationDays);
+                var range = _reservationService.GetAvailableDates(Accommodation.Id, EndDay, ReservationDays);
                 AvailableDays availableDays = new AvailableDays(range, Accommodation, Guest);
                 availableDays.Show();
                 return;
@@ -128,7 +125,7 @@ namespace WpfApp1.View
             {
                 
                 Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Model.Enums.GuestRatingStatus.Reserved);
-                ReservationController.Create(reservation);
+                _reservationService.Create(reservation);
             }
 
 

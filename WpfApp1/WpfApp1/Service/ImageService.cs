@@ -4,18 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class ImageService
+    public class ImageService : IImageService
     {
-        private IImageRepository _imageRepository;
+        private readonly IImageRepository _imageRepository;
 
         public ImageService()
         {
-            _imageRepository = ImageRepository.GetInsatnce();
+            _imageRepository = InjectorRepository.CreateInstance<IImageRepository>();
         }
 
         public Image Get(int id)
@@ -28,19 +29,24 @@ namespace WpfApp1.Service
             return _imageRepository.GetAll();
         }
 
-        public void Create(Image location)
+        public void Create(Image entity)
         {
-            _imageRepository.Create(location);
+            _imageRepository.Create(entity);
         }
 
-        public void Delete(Image location)
+        public void Delete(Image entity)
         {
-            _imageRepository.Delete(location);
+            _imageRepository.Delete(entity);
         }
 
-        public void Update(Image image)
+        public void Update(Image entity)
         {
-            _imageRepository.Update(image);
+            _imageRepository.Update(entity);
+        }
+
+        public void Save()
+        {
+            _imageRepository.Save();
         }
 
         public List<Image> GetAccommodations()

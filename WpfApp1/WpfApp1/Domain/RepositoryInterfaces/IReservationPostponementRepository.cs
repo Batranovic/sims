@@ -11,7 +11,6 @@ namespace WpfApp1.Domain.RepositoryInterfaces
 {
     public interface IReservationPostponementRepository : IRepository<ReservationPostponement>, ISubject
     {
-        void BindReservation();
         ReservationPostponement Create(ReservationPostponement entity);
         ReservationPostponement Delete(ReservationPostponement entity);
         int NextId();

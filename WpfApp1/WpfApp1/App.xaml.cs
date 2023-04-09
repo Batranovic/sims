@@ -17,34 +17,15 @@ namespace WpfApp1
     /// </summary>
     public partial class App : Application
     {
-        public OwnerController OwnerController {  get; set; }
-        public GuestController GuestController { get; set; }
         public TouristController TouristController { get; set; }
-        public LocationController LocationController { get; set; }
-        public AccommodationController AccommodationController { get; set; }
-        public ReservationController ReservationController { get; set; }
-        public GuestRatingController RatingGuestController { get; set; }
         public TourBookingController TourBookingController { get; set; }
         public TourEventController TourEventController { get; set; }    
-        public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
-        public ReservationPostponementController ReservationPostponementController {get; set;}
-        public RatingOwnerController RatingOwnerController { get; set; }
-       
+  
         public App()
         {
             TouristController = new TouristController();
-            GuestController = new GuestController();
-            OwnerController = new OwnerController();
-            LocationController = new LocationController();
-            AccommodationController = new AccommodationController();
-            ImageController = new ImageController();
-            ReservationController = new ReservationController();    
-            RatingGuestController = new GuestRatingController();
-            RatingOwnerController = new RatingOwnerController();
-            ReservationPostponementController = new ReservationPostponementController();
-
-     
+     /*
             AccommodationRepository.GetInstance().BindLocation();
             AccommodationRepository.GetInstance().BindOwner();
             AccommodationRepository.GetInstance().BindImage();
@@ -56,7 +37,7 @@ namespace WpfApp1
             OwnerRepository.GetInsatnce().CalculateAverageRating();
             OwnerRepository.GetInsatnce().SetKind();
             ReservationPostponementRepository.GetInstance().BindReservation();
-
+     */
             TourRepository.GetInstance().BindLocation();
             TourBookingRepository.GetInstance().BindTourEvent();
             TourEventRepository.GetInstance().BindTour();

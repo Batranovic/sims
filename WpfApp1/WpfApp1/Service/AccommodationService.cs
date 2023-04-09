@@ -6,17 +6,51 @@ using System.Threading.Tasks;
 using System.Windows;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class AccommodationService
+    public class AccommodationService : IAccommodationService
     {
-        private  IAccommodationRepository _accommodationRepository;
+        private readonly IAccommodationRepository _accommodationRepository;
+        private readonly ILocationRepository _locationRepository;
+        private readonly IOwnerRepository _ownerRepository;
+        private readonly IImageRepository _imageRepository;
         public AccommodationService()
         {
-            _accommodationRepository = AccommodationRepository.GetInstance();
+            _accommodationRepository = InjectorRepository.CreateInstance<IAccommodationRepository>();
+            _locationRepository = InjectorRepository.CreateInstance<ILocationRepository>();
+            _ownerRepository = InjectorRepository.CreateInstance<IOwnerRepository>();
+            _imageRepository = InjectorRepository.CreateInstance<IImageRepository>();
+            BindLocation();
+            BindOwner();
+            BindImage();
+        }
+
+        private void BindLocation()
+        {
+            foreach (Accommodation a in GetAll())
+            {
+                a.Location = _locationRepository.Get(a.IdLocation);
+            }
+        }
+        private void BindOwner()
+        {
+            foreach (Accommodation a in GetAll())
+            {
+                a.Owner = _ownerRepository.Get(a.OwnerId);
+                a.Owner.Accommodations.Add(a);
+            }
+        }
+        private void BindImage()
+        {
+            foreach (Image i in _imageRepository.GetAccommodations())
+            {
+                Accommodation a = Get(i.ExternalId);
+                a.Images.Add(i);
+            }
         }
         public List<Accommodation> GetAll()
         {
@@ -26,13 +60,21 @@ namespace WpfApp1.Service
         {
             return _accommodationRepository.Get(id);
         }
-        public void Create(Accommodation accommodation)
+        public void Create(Accommodation entity)
         {
-            _accommodationRepository.Create(accommodation);
+            _accommodationRepository.Create(entity);
         }
-        public void Update(Accommodation accommodation)
+        public void Delete(Accommodation entity)
         {
-            _accommodationRepository.Update(accommodation);
+            _accommodationRepository.Delete(entity);
+        }
+        public void Update(Accommodation entity)
+        {
+            _accommodationRepository.Update(entity);
+        }
+        public void Save()
+        {
+            _accommodationRepository.Save();
         }
         public void Subscribe(IObserver observer)
         {
@@ -54,5 +96,6 @@ namespace WpfApp1.Service
         {
             return GetAll().OrderBy(a => a.Owner.AverageRating).ToList();
         }
+
     }
 }

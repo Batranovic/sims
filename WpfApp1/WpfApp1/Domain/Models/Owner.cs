@@ -13,7 +13,6 @@ namespace WpfApp1.Model
         public List<OwnerRating> Ratings { get; set; }
         private double _averageRating;
         private bool _super;
-        
         public double AverageRating
         {
             get => _averageRating;
@@ -44,14 +43,12 @@ namespace WpfApp1.Model
         public override string[] ToCSV() 
         {
             String[] result = base.ToCSV() ;
-            result.Append(AverageRating.ToString());
             result.Append(Super.ToString());
             return result;
         }
         public override void FromCSV(string[] values)
         {
             base.FromCSV(values);
-            AverageRating = Convert.ToDouble(values[values.Length-2]);
             Super = Convert.ToBoolean(values[values.Length-1]);
         }
     }

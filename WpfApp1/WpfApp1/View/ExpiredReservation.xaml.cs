@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using WpfApp.Observer;
 using WpfApp1.Controller;
 using WpfApp1.Model;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -24,8 +25,8 @@ namespace WpfApp1.View
     /// </summary>
     public partial class ExpiredReservation : Window, INotifyPropertyChanged, IObserver
     {
-        public ObservableCollection<Reservation> Reservations { get; set; } 
-        public ReservationController ReservationController { get; set; }
+        public ObservableCollection<Reservation> Reservations { get; set; }
+        private readonly ReservationService _reservationService;
         public Owner LogInOwner { get; set; }
         public Reservation SelectedReservation { get; set; }
         public ExpiredReservation(Owner owner)
@@ -33,13 +34,12 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            ReservationController = app.ReservationController;
+            _reservationService = InjectorService.CreateInstance<ReservationService>();
 
-            ReservationController.Subscribe(this);
+            _reservationService.Subscribe(this);
 
             LogInOwner = owner;
-            Reservations = new ObservableCollection<Reservation>(ReservationController.GetUnratedById(LogInOwner.Id));
+            Reservations = new ObservableCollection<Reservation>(_reservationService.GetUnratedById(LogInOwner.Id));
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

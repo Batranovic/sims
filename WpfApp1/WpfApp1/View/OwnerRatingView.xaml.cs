@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
 using WpfApp1.Model;
+using WpfApp1.Repository;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -23,7 +25,7 @@ namespace WpfApp1.View
     public partial class OwnerRatingView : Window
     {
         public ObservableCollection<OwnerRating> RatingOwners { get; set; }
-        public RatingOwnerController RatingOwnerController { get; set; }
+        private readonly OwnerRatingService _ownerRatingService;
 
         public Owner LogInOwner { get; set; }
         public OwnerRatingView(Owner owner)
@@ -31,10 +33,9 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            RatingOwnerController = app.RatingOwnerController;
+            _ownerRatingService = InjectorService.CreateInstance<OwnerRatingService>();
 
-            RatingOwners = new ObservableCollection<OwnerRating>(RatingOwnerController.GetAllOwnerRewies(owner.Id));
+            RatingOwners = new ObservableCollection<OwnerRating>(_ownerRatingService.GetAllOwnerRewies(owner.Id));
             LogInOwner = owner;
         }
 

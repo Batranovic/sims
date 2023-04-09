@@ -23,11 +23,6 @@ namespace WpfApp1.Repository
 
         private List<Reservation> _reservations;
         private static IReservationRepository _instance = null;
-
-        public IAccommodationRepository IAccommodationRepository { get; set; }
-
-        public IGuestRepository IGuestRepository { get; set; }
-        
         public static IReservationRepository GetInstance()
         {
             if(_instance == null)
@@ -42,8 +37,6 @@ namespace WpfApp1.Repository
             _serializer= new Serializer<Reservation>();
             _reservations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            IAccommodationRepository = AccommodationRepository.GetInstance();
-            IGuestRepository = GuestRepository.GetInsatnce();
             SetStatus();                                //Status trenutne rezervacije (da li je u toku, prosla, ocenja ili neocenjena
         }
 
@@ -73,13 +66,6 @@ namespace WpfApp1.Repository
             Save();
         }
 
-        public void BindAccommodation()
-        {
-            foreach(Reservation r in _reservations)
-            {
-                r.Accommodation = IAccommodationRepository.Get(r.IdAccommodation);
-            }
-        }
         public Reservation Create(Reservation entity)
         {
             entity.Id = NextId();
@@ -87,14 +73,6 @@ namespace WpfApp1.Repository
             Save();
             NotifyObservers();
             return entity;
-        }
-
-        public void BindGuest()
-        {
-            foreach (Reservation r in _reservations)
-            {
-                r.Guest = IGuestRepository.Get(r.IdGuest);
-            }
         }
 
         public Reservation Delete(Reservation entity)

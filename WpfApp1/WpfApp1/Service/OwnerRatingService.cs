@@ -6,20 +6,33 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class RatingOwnerService
+    public class OwnerRatingService : IOwnerRatingService
     {
         private readonly IOwnerRatingRepository _ownerRatingRepository;
-
-        public RatingOwnerService()
+        private readonly IReservationRepository _reservationRepository;
+        public OwnerRatingService()
         {
-            _ownerRatingRepository = OwnerRatingRepository.GetInstance();
+            _ownerRatingRepository = InjectorRepository.CreateInstance<IOwnerRatingRepository>();
+            _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
+            BindReservation();
         }
-
+        private void BindReservation()
+        {
+            foreach (OwnerRating r in GetAll())
+            {
+                r.Reservation = _reservationRepository.Get(r.IdReservation);
+            }
+        }
+        public void Save()
+        {
+            _ownerRatingRepository.Save();
+        }
         public OwnerRating Get(int id)
         {
             return _ownerRatingRepository.Get(id);

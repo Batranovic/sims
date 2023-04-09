@@ -11,7 +11,6 @@ namespace WpfApp1.Domain.RepositoryInterfaces
 {
     public interface IOwnerRatingRepository : IRepository<OwnerRating>, ISubject
     {
-        void BindReservation();
         OwnerRating Create(OwnerRating entity);
         OwnerRating Delete(OwnerRating entity);
         int NextId();

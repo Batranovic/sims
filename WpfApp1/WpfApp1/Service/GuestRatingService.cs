@@ -5,18 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class GuestRatingService
+    public class GuestRatingService : IGuestRatingService
     {
         private readonly IGuestRatingRepository _guestRatingRepository;
-
+        private readonly IReservationRepository _reservationRepository;
         public GuestRatingService()
         {
-            _guestRatingRepository = GuestRatingRepository.GetInstance();
+            _guestRatingRepository = InjectorRepository.CreateInstance<IGuestRatingRepository>();
+            _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
+        }
+        private void BindReservation()
+        {
+            foreach (GuestRating r in GetAll())
+            {
+                r.Reservation = _reservationRepository.Get(r.IdReservation);
+            }
         }
 
         public GuestRating Get(int id)
@@ -29,21 +38,24 @@ namespace WpfApp1.Service
             return _guestRatingRepository.GetAll();
         }
 
-        public void Create(GuestRating location)
+        public void Create(GuestRating entity)
         {
-            _guestRatingRepository.Create(location);
+            _guestRatingRepository.Create(entity);
         }
 
-        public void Delete(GuestRating location)
+        public void Delete(GuestRating entity)
         {
-            _guestRatingRepository.Delete(location);
+            _guestRatingRepository.Delete(entity);
         }
 
-        public void Update(GuestRating image)
+        public void Update(GuestRating entity)
         {
-            _guestRatingRepository.Update(image);
+            _guestRatingRepository.Update(entity);
         }
-
+        public void Save()
+        {
+            _guestRatingRepository.Save();
+        }
         public void Subscribe(IObserver observer)
         {
             _guestRatingRepository.Subscribe(observer);
@@ -54,5 +66,6 @@ namespace WpfApp1.Service
             _guestRatingRepository.Unsubscribe(observer);
         }
 
+     
     }
 }

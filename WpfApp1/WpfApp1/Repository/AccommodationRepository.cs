@@ -10,6 +10,7 @@ using WpfApp1.Controller;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Serializer;
+using WpfApp1.Service;
 
 namespace WpfApp1.Repository
 {
@@ -20,6 +21,7 @@ namespace WpfApp1.Repository
         private readonly Serializer<Accommodation> _serializer;
         private static IAccommodationRepository _instance = null;
         private List<Accommodation> _accommodations;
+        
         public static IAccommodationRepository GetInstance()
         {
             if(_instance == null)
@@ -34,32 +36,10 @@ namespace WpfApp1.Repository
             _accommodations = new List<Accommodation>();
             _accommodations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
+        
         }
-
-        public void BindLocation()
-        {
-            foreach (Accommodation a in GetAll())
-            {
-                a.Location = LocationRepository.GetInstance().Get(a.IdLocation);
-            }
-        }
-        public void BindOwner()
-        {
-            foreach (Accommodation a in GetAll())
-            {
-                a.Owner = OwnerRepository.GetInsatnce().Get(a.OwnerId);
-                a.Owner.Accommodations.Add(a);
-            }
-        }
-        public void BindImage()
-        {
-            foreach (Image i in ImageRepository.GetInsatnce().GetAccommodations())
-            {
-                Accommodation a = Get(i.ExternalId);
-                a.Images.Add(i);
-            }
-        }
-
+        
+        
         public Accommodation Create(Accommodation entity)
         {
             entity.Id = NextId();

@@ -17,7 +17,6 @@ namespace WpfApp1.Repository
         private readonly Serializer<ReservationPostponement> _serializer;
         private List<ReservationPostponement> _postponements;
         private static IReservationPostponementRepository _instance = null;
-        public IReservationRepository IReservationRepository { get; set; }
 
         public static IReservationPostponementRepository GetInstance()
         {
@@ -33,16 +32,8 @@ namespace WpfApp1.Repository
             _serializer = new Serializer<ReservationPostponement>();
             _postponements = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            IReservationRepository = ReservationRepository.GetInstance();
-
         }
-        public void BindReservation()
-        {
-            foreach (ReservationPostponement p in _postponements)
-            {
-                p.Reservation = IReservationRepository.Get(p.IdReservation);
-            }
-        }
+        
         public ReservationPostponement Create(ReservationPostponement entity)
         {
             entity.Id = NextId();

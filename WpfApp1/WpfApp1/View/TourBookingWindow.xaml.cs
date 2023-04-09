@@ -15,6 +15,7 @@ using WpfApp1.Model;
 using System.Collections.ObjectModel;
 using WpfApp1.Controller;
 using System.ComponentModel;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -27,7 +28,8 @@ namespace WpfApp1.View
 
         public TourBookingController TourBookingController;
         public TourEventController TourEventController;
-        public LocationController LocationController { get; set; }
+
+        private readonly LocationService _locationService;
 
         private string _availableSpotsText { get; set; }
         private int _availableSpots { get; set; }
@@ -83,8 +85,9 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
+            _locationService = new LocationService();
+
             var app = Application.Current as App;
-            LocationController = app.LocationController;
             TourBookingController = app.TourBookingController;
             TourEventController = app.TourEventController;
 

@@ -9,18 +9,32 @@ using WpfApp1.Repository;
 using WpfApp1.Model.Enums;
 using WpfApp1.Repository;
 using WpfApp1.Domain.RepositoryInterfaces;
+using System.Security.Cryptography;
+using WpfApp1.Domain.ServiceInterfaces;
 
 namespace WpfApp1.Service
 {
-    public class ReservationPostponementService
+    public class ReservationPostponementService : IReservationPostponementService
     {
         private readonly IReservationPostponementRepository _reservationPostponementRepository;
-
+        private readonly IReservationRepository _reservationRepository;
         public ReservationPostponementService()
         {
-            _reservationPostponementRepository = ReservationPostponementRepository.GetInstance();
+            _reservationPostponementRepository = InjectorRepository.CreateInstance<IReservationPostponementRepository>();
+            _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
+            BindReservation();
         }
-
+        private void BindReservation()
+        {
+            foreach (ReservationPostponement p in GetAll())
+            {
+                p.Reservation = _reservationRepository.Get(p.IdReservation);
+            }
+        }
+        public void Save()
+        {
+            _reservationPostponementRepository.Save();
+        }
         public ReservationPostponement Get(int id)
         {
             return _reservationPostponementRepository.Get(id);
@@ -31,19 +45,19 @@ namespace WpfApp1.Service
             return _reservationPostponementRepository.GetAll();
         }
 
-        public void Create(ReservationPostponement postponement)
+        public void Create(ReservationPostponement entity)
         {
-            _reservationPostponementRepository.Create(postponement);
+            _reservationPostponementRepository.Create(entity);
         }
 
-        public void Delete(ReservationPostponement postponement)
+        public void Delete(ReservationPostponement entity)
         {
-            _reservationPostponementRepository.Delete(postponement);
+            _reservationPostponementRepository.Delete(entity);
         }
 
-        public void Update(ReservationPostponement postponement)
+        public void Update(ReservationPostponement entity)
         {
-            _reservationPostponementRepository.Update(postponement);
+            _reservationPostponementRepository.Update(entity);
         }
 
         public void Subscribe(IObserver observer)

@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using WpfApp1.Controller;
 using WpfApp1.Model;
 using WpfApp1.Model.Enums;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -29,16 +30,14 @@ namespace WpfApp1.View
         public event PropertyChangedEventHandler PropertyChanged;
         //public LocationController LocationController { get; set; }
 
-        private readonly AccommodationController accommodationController;
+        private readonly AccommodationService _accommodationService;
+        private readonly LocationService _locationService;
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
 
         public AccommodationKind? SelectedAccommodationKind { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
         public Accommodation SelectedAccommodation { get; set; }
-
-        public LocationController LocationController { get; set; }
-
         public ObservableCollection<string> States { get; set; }
 
         public ObservableCollection<string> Cities { get; set; }
@@ -53,16 +52,15 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            accommodationController = app.AccommodationController;
-            LocationController= app.LocationController; 
+            _locationService = InjectorService.CreateInstance<LocationService>();
+            _accommodationService = InjectorService.CreateInstance<AccommodationService>();
 
             var kind = Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>();
             AccommodationKind = new ObservableCollection<AccommodationKind>(kind);
 
             LogInGuest = (Guest)user;
 
-            foreach(var state in LocationController.GetStates())
+            foreach(var state in _locationService.GetStates())
             {
                 cbChoseState.Items.Add(state.ToString());
             }
@@ -75,7 +73,7 @@ namespace WpfApp1.View
             }
 
 
-            Accommodations = new ObservableCollection<Accommodation>(accommodationController.GetSortedListBySuperOwner());
+            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetSortedListBySuperOwner());
 
         }
 
@@ -147,7 +145,7 @@ namespace WpfApp1.View
         private void Search(object sender, RoutedEventArgs e)
         {
             Accommodations.Clear();
-            foreach(Accommodation a in accommodationController.SearchAccommodation(NameE, SelectedCity, SelectedState, SelectedAccommodationKind.ToString(), MaxGuests, ReservationDays))
+            foreach(Accommodation a in _accommodationService.SearchAccommodation(NameE, SelectedCity, SelectedState, SelectedAccommodationKind.ToString(), MaxGuests, ReservationDays))
             {
                 Accommodations.Add(a);
             }
@@ -163,7 +161,7 @@ namespace WpfApp1.View
         {
             SelectedState = (string)cbChoseState.SelectedItem;
             cbChoseCity.Items.Clear();
-            foreach (string city in LocationController.GetCitiesFromStates(SelectedState))
+            foreach (string city in _locationService.GetCitiesFromStates(SelectedState))
             {
                   cbChoseCity.Items.Add(city);
             }

@@ -14,6 +14,5 @@ namespace WpfApp1.Domain.RepositoryInterfaces
         GuestRating Create(GuestRating entity);
         GuestRating Delete(GuestRating entity);
         int NextId();
-        void BindReservation();
     }
 }

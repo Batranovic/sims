@@ -16,7 +16,7 @@ namespace WpfApp1.Repository
         private readonly List<IObserver> _observers;
         private readonly Serializer<GuestRating> _serializer;
         private List<GuestRating> _ratingGuests;
-        public IReservationRepository ReservationDAO { get; set; }
+      
         private static IGuestRatingRepository _instance = null;
         public static IGuestRatingRepository GetInstance()
         {
@@ -32,7 +32,6 @@ namespace WpfApp1.Repository
             _observers = new List<IObserver>();
             _ratingGuests = new List<GuestRating>();
             _ratingGuests = _serializer.FromCSV(_filePath);
-            ReservationDAO = ReservationRepository.GetInstance();
         }
         public GuestRating Create(GuestRating entity)
         {
@@ -88,13 +87,7 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return oldEntity;
         }
-        public void BindReservation()
-        {
-            foreach(GuestRating r in _ratingGuests)
-            {
-                r.Reservation = ReservationDAO.Get(r.IdReservation);
-            }
-        }
+
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);

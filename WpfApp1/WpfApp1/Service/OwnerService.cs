@@ -5,20 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class OwnerService
+    public class OwnerService : IOwnerService
     {
-        private  IOwnerRepository _ownerRepository;
+        private readonly IOwnerRepository _ownerRepository;
     
         public OwnerService()
         {
-            _ownerRepository = OwnerRepository.GetInsatnce();
+            _ownerRepository = InjectorRepository.CreateInstance<IOwnerRepository>();
         }
-
+        public void Save()
+        {
+            _ownerRepository.Save();
+        }
+     
         public Owner Get(int id)
         {
             return _ownerRepository.Get(id);
@@ -27,6 +32,11 @@ namespace WpfApp1.Service
         public List<Owner> GetAll()
         {
             return _ownerRepository.GetAll();
+        }
+
+        public void Update(Owner entity)
+        {
+            _ownerRepository.Update(entity);
         }
 
         public Owner GetByUsernameAndPassword(string username, string password)

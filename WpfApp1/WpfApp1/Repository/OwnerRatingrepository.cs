@@ -19,7 +19,6 @@ namespace WpfApp1.Repository
         private readonly Serializer<OwnerRating> _serializer;
 
         private List<OwnerRating> _ratingOwners;
-        public IReservationRepository IReservationRepository { get; set; }
 
         private static IOwnerRatingRepository _instance = null;
 
@@ -38,16 +37,6 @@ namespace WpfApp1.Repository
             _observers = new List<IObserver>();
             _ratingOwners = new List<OwnerRating>();
             _ratingOwners = _serializer.FromCSV(_filePath);
-            IReservationRepository = ReservationRepository.GetInstance();
-        }
-
-
-        public void BindReservation()
-        {
-            foreach(OwnerRating r in GetAll())
-            {
-                r.Reservation = IReservationRepository.Get(r.IdReservation);
-            }
         }
 
         public OwnerRating Create(OwnerRating entity)

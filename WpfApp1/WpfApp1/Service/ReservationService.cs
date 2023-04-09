@@ -8,19 +8,43 @@ using System.Windows;
 using System.Windows.Controls;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Model.Enums;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class ReservationService
+    public class ReservationService : IReservationService
     {
-        private IReservationRepository _reservationRepository;
-
+        private readonly IReservationRepository _reservationRepository;
+        private readonly IAccommodationRepository _accommodationRepository;
+        private readonly IGuestRepository _guestRepository;
         public ReservationService()
         {
-            _reservationRepository = ReservationRepository.GetInstance();
+            _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
+            _accommodationRepository = InjectorRepository.CreateInstance<IAccommodationRepository>();
+            _guestRepository = InjectorRepository.CreateInstance<IGuestRepository>();
+            BindAccommodation();
+            BindGuest();
+        }
+        private void BindAccommodation()
+        {
+            foreach (Reservation r in GetAll())
+            {
+                r.Accommodation = _accommodationRepository.Get(r.IdAccommodation);
+            }
+        }
+        private void BindGuest()
+        {
+            foreach (Reservation r in GetAll())
+            {
+                r.Guest = _guestRepository.Get(r.IdGuest);
+            }
+        }
+        public void Save()
+        {
+            _reservationRepository.Save();
         }
         public Reservation Get(int id)
         {

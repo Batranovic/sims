@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using WpfApp.Observer;
 using WpfApp1.Controller;
 using WpfApp1.Model;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -27,7 +28,7 @@ namespace WpfApp1.View
     {
         public Owner LogInOwner { get; set; }
         public ObservableCollection<ReservationPostponement> ReservationPostponements { get; set; }
-        public ReservationPostponementController ReservationPostponementController { get; set; }
+        private readonly ReservationPostponementService _reservationPostponementService;
         public ReservationPostponement SelectedPostponements { get; set; }
 
         public bool CkeckAprove { get; set; }
@@ -37,14 +38,13 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;    
 
-            var app = Application.Current as App;
-            ReservationPostponementController = app.ReservationPostponementController;
-            ReservationPostponementController.Subscribe(this);
+            _reservationPostponementService = InjectorService.CreateInstance<ReservationPostponementService>();
+            _reservationPostponementService.Subscribe(this);
 
             CkeckReject = false;
             CkeckAprove = false;
             LogInOwner = owner;
-            ReservationPostponements = new ObservableCollection<ReservationPostponement>(ReservationPostponementController.GetAllByOwnerIdAhead(LogInOwner.Id));
+            ReservationPostponements = new ObservableCollection<ReservationPostponement>(_reservationPostponementService.GetAllByOwnerIdAhead(LogInOwner.Id));
         }
         private void AprovePostponement(object sender, RoutedEventArgs e)
         {
@@ -63,20 +63,20 @@ namespace WpfApp1.View
         private void Aprove(object sender, RoutedEventArgs e)
         {
             SelectedPostponements.Status = Model.Enums.ReservationPostponementStatus.Approved;
-            ReservationPostponementController.Update(SelectedPostponements);
+            _reservationPostponementService.Update(SelectedPostponements);
         }
 
         private void Reject(object sender, RoutedEventArgs e)
         {
             SelectedPostponements.Status = Model.Enums.ReservationPostponementStatus.Rejected;
-            ReservationPostponementController.Update(SelectedPostponements);
+            _reservationPostponementService.Update(SelectedPostponements);
         }
 
        
         public void Update()
         {
             ReservationPostponements.Clear();
-            foreach(var r in ReservationPostponementController.GetAllByOwnerIdAhead(LogInOwner.Id))
+            foreach(var r in _reservationPostponementService.GetAllByOwnerIdAhead(LogInOwner.Id))
             {
                 ReservationPostponements.Add(r);    
             }

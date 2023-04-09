@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -23,14 +25,14 @@ namespace WpfApp1.View
     {
         public Owner LogInOwner { get; set; }
 
-        public ReservationController ReservationController { get; set; }
+        private readonly IReservationService _reservationService;
         public OwnerAccount(User user)
         {
             InitializeComponent();
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            ReservationController = app.ReservationController;
+            _reservationService = InjectorService.CreateInstance<IReservationService>();
+     
             LogInOwner = (Owner)user;
 
             FindNotification();
@@ -38,7 +40,7 @@ namespace WpfApp1.View
 
         private void FindNotification()
         {
-            int numberNotification = ReservationController.GetUnratedById(LogInOwner.Id).Count;
+            int numberNotification = _reservationService.GetUnratedById(LogInOwner.Id).Count;
             if (numberNotification == 0)
             {
                 btnRatingGuest.IsEnabled = false;
