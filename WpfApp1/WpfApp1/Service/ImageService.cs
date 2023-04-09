@@ -3,53 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class ImageService
+    public class ImageService : IImageService
     {
-        private ImageDAO _imageDAO;
+        private readonly IImageRepository _imageRepository;
 
         public ImageService()
         {
-            _imageDAO = ImageDAO.GetInsatnce();
+            _imageRepository = InjectorRepository.CreateInstance<IImageRepository>();
         }
 
         public Image Get(int id)
         {
-            return _imageDAO.Get(id);
+            return _imageRepository.Get(id);
         }
 
         public List<Image> GetAll()
         {
-            return _imageDAO.GetAll();
+            return _imageRepository.GetAll();
         }
 
-        public void Create(Image location)
+        public void Create(Image entity)
         {
-            _imageDAO.Create(location);
+            _imageRepository.Create(entity);
         }
 
-        public void Delete(Image location)
+        public void Delete(Image entity)
         {
-            _imageDAO.Delete(location);
+            _imageRepository.Delete(entity);
         }
 
-        public void Update(Image image)
+        public void Update(Image entity)
         {
-            _imageDAO.Update(image);
+            _imageRepository.Update(entity);
+        }
+
+        public void Save()
+        {
+            _imageRepository.Save();
         }
 
         public List<Image> GetAccommodations()
         {
-            return _imageDAO.GetAccommodations();
+            return _imageRepository.GetAccommodations();
         }
 
         public List<string> GetTour()
         {
-            return _imageDAO.GetTour();
+            return _imageRepository.GetTour();
         }
 
     }

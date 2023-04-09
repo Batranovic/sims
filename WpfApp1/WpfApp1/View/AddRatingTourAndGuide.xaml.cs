@@ -15,8 +15,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Model.Enums;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -35,7 +37,7 @@ namespace WpfApp1.View
 
         public TourBookingController TourBookingController { get; set; }
 
-        public ImageController ImageController { get; set; }
+        private readonly IImageService _imageService;
 
         public Tourist LogInTourist { get; set; }
 
@@ -51,10 +53,11 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
+            _imageService = InjectorService.CreateInstance<IImageService>();   
+
             var app = Application.Current as App;
             RatingTourAndGuideController = app.RatingTourAndGuideController;
             TourBookingController = app.TourBookingController;
-            ImageController = app.ImageController;
 
             Scores = new ObservableCollection<int>();
             Scores.Add(1);
@@ -113,11 +116,11 @@ namespace WpfApp1.View
             List<Model.Image> images = new List<Model.Image>();
             foreach (string s in _urls)
             {
-                images.Add(new Model.Image(s, tourBooking.Id, ImageKind.tour));
+                images.Add(new Model.Image(s, tourBooking.Id, ImageKind.Tour));
             }
             foreach (Model.Image image in images)
             {
-                ImageController.Create(image);
+                _imageService.Create(image);
             }
             return images;
         }

@@ -7,75 +7,86 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Model.Enums;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class ReservationService
+    public class ReservationService : IReservationService
     {
-        private ReservationDAO _reservationDAO;
-
+        private readonly IReservationRepository _reservationRepository;
+        private readonly IAccommodationRepository _accommodationRepository;
+        private readonly IGuestRepository _guestRepository;
         public ReservationService()
         {
-            _reservationDAO = ReservationDAO.GetInstance();
+            _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
+            _accommodationRepository = InjectorRepository.CreateInstance<IAccommodationRepository>();
+            _guestRepository = InjectorRepository.CreateInstance<IGuestRepository>();
+            BindAccommodation();
+            BindGuest();
         }
-
+        private void BindAccommodation()
+        {
+            foreach (Reservation r in GetAll())
+            {
+                r.Accommodation = _accommodationRepository.Get(r.IdAccommodation);
+            }
+        }
+        private void BindGuest()
+        {
+            foreach (Reservation r in GetAll())
+            {
+                r.Guest = _guestRepository.Get(r.IdGuest);
+            }
+        }
+        public void Save()
+        {
+            _reservationRepository.Save();
+        }
         public Reservation Get(int id)
         {
-            return _reservationDAO.Get(id);
+            return _reservationRepository.Get(id);
         }
-
         public List<Reservation> GetAll()
         {
-            return _reservationDAO.GetAll();
+            return _reservationRepository.GetAll();
         }
-
         public void Create(Reservation reservation)
         {
-            _reservationDAO.Create(reservation);
+            _reservationRepository.Create(reservation);
         }
-
         public void Delete(Reservation reservation)
         {
-            _reservationDAO.Delete(reservation);
+            _reservationRepository.Delete(reservation);
         }
-
         public void Update(Reservation reservation)
         {
-            _reservationDAO.Update(reservation);
+            _reservationRepository.Update(reservation);
         }
-
-
-
         public void Subscribe(IObserver observer)
         {
-            _reservationDAO.Subscribe(observer);
+            _reservationRepository.Subscribe(observer);
         }
-
         public void Unsubscribe(IObserver observer)
         {
-            _reservationDAO.Unsubscribe(observer);
+            _reservationRepository.Unsubscribe(observer);
         }
-
         public List<Reservation> GetUnratedById(int id)
         {
-            List<Reservation> list = _reservationDAO.GetAll().FindAll(r => r.Status == GuestRatingStatus.Unrated && r.Accommodation.OwnerId == id).ToList();
+            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.Status == GuestRatingStatus.Unrated && r.Accommodation.OwnerId == id).ToList();
             if (list == null)
             {
                 return new List<Reservation>();
             }
             return list;
         }
-
-
-
         public bool IsDateInRange(Reservation reservation, DateTime date)
         {
             return date >= reservation.StartDate && date <= reservation.EndDate;
         }
-
         private DateTime CheckDateAvailability(Reservation r, DateTime startDate, DateTime endDate, int duration)
         {
             while ((endDate - startDate).Days >= duration)
@@ -97,7 +108,6 @@ namespace WpfApp1.Service
 
             return endDate;
         }
-
         public DateTime CheckAvailableDate(int idAccommodation, DateTime startDate, DateTime endDate, int duration)
         {
             if(GetAheadReservationsForAccommodation(idAccommodation).Count == 0)
@@ -112,7 +122,6 @@ namespace WpfApp1.Service
 
             return endDate;
         }
-
         public List<Reservation> GetAheadReservationsForAccommodation(int idAccommodation)
         {
             try
@@ -124,7 +133,6 @@ namespace WpfApp1.Service
                 return new List<Reservation>();
             }
         }
-
         public bool IsDateFree(int idAccommodation, DateTime date)
         {
             bool retVal = true;
@@ -135,7 +143,6 @@ namespace WpfApp1.Service
             }
             return retVal;
         }
-
         public Dictionary<DateTime, DateTime> GetAvailableDates(int idAccommodation, DateTime endDate, int duration)
         {
 
@@ -154,6 +161,5 @@ namespace WpfApp1.Service
             }
             return availableDates;
         }
-
     }
 }

@@ -12,13 +12,13 @@ namespace WpfApp1.Service
     public class TourEventService
     {
 
-        private TourEventDAO _tourEventDAO;
-        private TourBookingDAO _tourBookingDAO;
+        private TourEventRepository _tourEventDAO;
+        private TourBookingRepository _tourBookingDAO;
 
         public TourEventService()
         {
-            _tourEventDAO = TourEventDAO.GetInstance();
-            _tourBookingDAO = TourBookingDAO.GetInstance();
+            _tourEventDAO = TourEventRepository.GetInstance();
+            _tourBookingDAO = TourBookingRepository.GetInstance();
         }
 
         public List<TourEvent> GetAll()

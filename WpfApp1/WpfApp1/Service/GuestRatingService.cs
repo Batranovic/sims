@@ -4,54 +4,68 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class GuestRatingService
+    public class GuestRatingService : IGuestRatingService
     {
-        private  GuestRatingDAO _ratingGuestDAO;
-
+        private readonly IGuestRatingRepository _guestRatingRepository;
+        private readonly IReservationRepository _reservationRepository;
         public GuestRatingService()
         {
-            _ratingGuestDAO = GuestRatingDAO.GetInstance();
+            _guestRatingRepository = InjectorRepository.CreateInstance<IGuestRatingRepository>();
+            _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
+        }
+        private void BindReservation()
+        {
+            foreach (GuestRating r in GetAll())
+            {
+                r.Reservation = _reservationRepository.Get(r.IdReservation);
+            }
         }
 
         public GuestRating Get(int id)
         {
-            return _ratingGuestDAO.Get(id);
+            return _guestRatingRepository.Get(id);
         }
 
         public List<GuestRating> GetAll()
         {
-            return _ratingGuestDAO.GetAll();
+            return _guestRatingRepository.GetAll();
         }
 
-        public void Create(GuestRating location)
+        public void Create(GuestRating entity)
         {
-            _ratingGuestDAO.Create(location);
+            _guestRatingRepository.Create(entity);
         }
 
-        public void Delete(GuestRating location)
+        public void Delete(GuestRating entity)
         {
-            _ratingGuestDAO.Delete(location);
+            _guestRatingRepository.Delete(entity);
         }
 
-        public void Update(GuestRating image)
+        public void Update(GuestRating entity)
         {
-            _ratingGuestDAO.Update(image);
+            _guestRatingRepository.Update(entity);
         }
-
+        public void Save()
+        {
+            _guestRatingRepository.Save();
+        }
         public void Subscribe(IObserver observer)
         {
-            _ratingGuestDAO.Subscribe(observer);
+            _guestRatingRepository.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _ratingGuestDAO.Unsubscribe(observer);
+            _guestRatingRepository.Unsubscribe(observer);
         }
 
+     
     }
 }

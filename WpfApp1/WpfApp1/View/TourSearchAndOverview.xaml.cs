@@ -4,6 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using WpfApp1.Controller;
 using WpfApp1.Model;
+using System.Collections.ObjectModel;
+using WpfApp1.Controller;
+using System.ComponentModel;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -12,7 +16,7 @@ namespace WpfApp1.View
     /// </summary>
     public partial class TourSearchAndOverview : Window
     {
-        public LocationController LocationController { get; set; }
+        private readonly LocationService _locationService;
 
         public TourController TourController { get; set; }
 
@@ -35,8 +39,9 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
+            _locationService = new LocationService();
+
             var app = Application.Current as App;
-            LocationController = app.LocationController;
             TourController = app.TourController;
 
             TourController = new TourController();

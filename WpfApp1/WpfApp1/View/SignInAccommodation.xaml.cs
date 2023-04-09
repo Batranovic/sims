@@ -20,6 +20,7 @@ using WpfApp.Observer;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
 using Application = System.Windows.Application;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -33,11 +34,10 @@ namespace WpfApp1.View
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
         public AccommodationKind SelectedAccommodationKind { get; set; }
 
-        public LocationController LocationController { get; set; }
-        public AccommodationController AccommodationController { get; set; }
-
-        public ImageController ImageController { get; set; }
-
+        private readonly LocationService _locationService;
+        private readonly AccommodationService _accommodationService;
+        private readonly ImageService _imageService;
+   
         public ObservableCollection<string> States { get; set; }
         public ObservableCollection<string> Cities { get; set; }
 
@@ -48,10 +48,13 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            InitialisationControllers();
+            _locationService = InjectorService.CreateInstance<LocationService>();
+            _accommodationService = InjectorService.CreateInstance<AccommodationService>(); 
+            _imageService = InjectorService.CreateInstance<ImageService>(); 
+                
             SelectCity.IsEnabled = false;
 
-           States = new ObservableCollection<string>(LocationController.GetStates());
+            States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
 
             LogInOwner = (Owner)owner;
@@ -59,13 +62,6 @@ namespace WpfApp1.View
 
         }
 
-        private void InitialisationControllers()
-        {
-            var app = Application.Current as App;
-            LocationController = app.LocationController;
-            AccommodationController = app.AccommodationController;
-            ImageController = app.ImageController;
-        }
 
         private string _state;
         public string SelectedState
@@ -160,7 +156,7 @@ namespace WpfApp1.View
             }
             foreach (Model.Image image in images)
             {
-                ImageController.Create(image);
+                _imageService.Create(image);
             }
             return images;
         }
@@ -170,9 +166,9 @@ namespace WpfApp1.View
             {
                 return;
             }
-            Location location = LocationController.GetByCityAndState(SelectedCity, SelectedState);
+            Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
             Accommodation accommodation = new Accommodation(NameA, location, SelectedAccommodationKind, MaxGuests, MinResevation, CancelDay, LogInOwner);
-            AccommodationController.Create(accommodation);
+            _accommodationService.Create(accommodation);
             accommodation.Images = MakeImages(accommodation);
             LogInOwner.Accommodations.Add(accommodation);
             this.Close();
@@ -193,7 +189,7 @@ namespace WpfApp1.View
             SelectedState = (string)SelectState.SelectedItem;
             SelectCity.IsEnabled = true;
             Cities.Clear();
-            foreach (string city in LocationController.GetCitiesFromStates(SelectedState))
+            foreach (string city in _locationService.GetCitiesFromStates(SelectedState))
             {
                 Cities.Add(city);
             }

@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using WpfApp1.Controller;
 using WpfApp1.Model;
 using WpfApp1.Repository;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -25,7 +26,7 @@ namespace WpfApp1.View
 
         public Dictionary<DateTime, DateTime> Range { get; set; }
 
-        public ReservationController ReservationController { get; set; }
+        public readonly ReservationService _reservationService;
 
         public KeyValuePair<DateTime,DateTime> SelectedRange { get; set; }
 
@@ -37,22 +38,17 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            ReservationController = app.ReservationController;
+            _reservationService = InjectorService.CreateInstance<ReservationService>();
 
             Range = range;
-
             Accommodation = accommodation;
             Guest = guest;
-
-            
-
         }
 
         private void Confirm(object sender, RoutedEventArgs e)
         {
             Reservation reservation = new Reservation(Guest, Accommodation, SelectedRange.Value, SelectedRange.Key, Model.Enums.GuestRatingStatus.Reserved);
-            ReservationController.Create(reservation);
+            _reservationService.Create(reservation);
             this.Close();
         }
 

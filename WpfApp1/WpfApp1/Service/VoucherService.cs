@@ -11,11 +11,11 @@ namespace WpfApp1.Service
 {
     public class VoucherService
     {
-        private VoucherDAO _voucherDAO;
+        private VoucherRepository _voucherDAO;
 
         public VoucherService()
         {
-            _voucherDAO = VoucherDAO.GetInstance();
+            _voucherDAO = VoucherRepository.GetInstance();
         }
 
         public Voucher Get(int id)

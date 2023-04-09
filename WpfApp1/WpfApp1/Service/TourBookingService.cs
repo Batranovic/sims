@@ -11,11 +11,11 @@ namespace WpfApp1.Service
 {
     public class TourBookingService
     {
-        private TourBookingDAO _tourBookingDAO;
+        private TourBookingRepository _tourBookingDAO;
 
         public TourBookingService()
         {
-            _tourBookingDAO = TourBookingDAO.GetInstance();
+            _tourBookingDAO = TourBookingRepository.GetInstance();
         }
 
         public List<TourBooking> GetAll()

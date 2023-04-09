@@ -4,41 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
-    public class GuestService
+    public class GuestService : IGuestService
     {
-        private GuestDAO _guestDAO;
+        private readonly IGuestRepository _guestRepository;
 
         public GuestService()
         {
-            _guestDAO = GuestDAO.GetInsatnce();
+            _guestRepository = InjectorRepository.CreateInstance<IGuestRepository>();
         }
 
         public Guest Get(int id)
         {
-            return _guestDAO.Get(id);
+            return _guestRepository.Get(id);
         }
 
         public List<Guest> GetAll()
         {
-            return _guestDAO.GetAll();
+            return _guestRepository.GetAll();
         }
-        public void Subscribe(IObserver observer)
+        public void Update(Guest entity)
         {
-            _guestDAO.Subscribe(observer);
+            _guestRepository.Update(entity);
         }
-        public void Unsubscribe(IObserver observer)
+        public void Save()
         {
-            _guestDAO.Unsubscribe(observer);
+            _guestRepository.Save();
         }
 
         public Guest GetByUsernameAndPassword(string username, string password)
         {
             return GetAll().Find(o => o.Username.Equals(username) && o.Password.Equals(password));
         }
+
     }
 }

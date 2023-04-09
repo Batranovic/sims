@@ -11,11 +11,11 @@ namespace WpfApp1.Service
 {
     public class TouristService
     {
-        private TouristDAO _touristDAO;
+        private TouristRepository _touristDAO;
 
         public TouristService()
         {
-            _touristDAO = TouristDAO.GetInsatnce();
+            _touristDAO = TouristRepository.GetInsatnce();
         }
         public Tourist Get(int id)
         {
