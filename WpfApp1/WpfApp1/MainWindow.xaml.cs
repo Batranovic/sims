@@ -46,6 +46,7 @@ namespace WpfApp1
         {
             TourSearchAndOverview a = new TourSearchAndOverview();
             a.Show();
+
         }
         private void AccommodationView(object sender, RoutedEventArgs e)
         {

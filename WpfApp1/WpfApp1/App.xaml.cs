@@ -45,6 +45,8 @@ namespace WpfApp1
             TourBookingController = new TourBookingController();
             TourController = new TourController();
             TourEventController = new TourEventController();
+            RatingTourAndGuideController = new RatingTourAndGuideController();
+            VoucherController = new VoucherController();
 
 
         }

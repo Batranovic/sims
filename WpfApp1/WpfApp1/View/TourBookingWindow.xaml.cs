@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using WpfApp1.Controller;
 using System.ComponentModel;
 using WpfApp1.Service;
+using WpfApp1.Model.Enums;
 
 namespace WpfApp1.View
 {
@@ -25,6 +26,11 @@ namespace WpfApp1.View
     public partial class TourBookingWindow : Window, INotifyPropertyChanged
     {
         public ObservableCollection<TourEvent> TourEvents { get; set; }
+
+        public ObservableCollection<Voucher> Vouchers { get; set; }
+
+        public VoucherController VoucherController { get; set; }
+
 
         public TourBookingController TourBookingController;
         public TourEventController TourEventController;
@@ -36,7 +42,13 @@ namespace WpfApp1.View
 
         private TourEvent _selectedTourEvent;
 
+        private Voucher _selectedVoucher;
+
         public int NumberOfPeople { get; set; }
+
+        public string Name { get; set; }
+
+        public DateTime ExpirationDate { get; set; }
 
         public string AvailableSpotsText
         {
@@ -78,6 +90,19 @@ namespace WpfApp1.View
             }
         }
 
+        public Voucher SelectedVoucher
+        {
+            get => _selectedVoucher;
+            set
+            {
+                if(_selectedVoucher != value)
+                {
+                    _selectedVoucher = value;
+                    OnPropertyChanged("SelectedVoucher");
+                }
+            }
+        }
+
 
 
         public TourBookingWindow(Tour tour)
@@ -90,11 +115,16 @@ namespace WpfApp1.View
             var app = Application.Current as App;
             TourBookingController = app.TourBookingController;
             TourEventController = app.TourEventController;
+            VoucherController = app.VoucherController;
 
             TourEvents = new ObservableCollection<TourEvent>(tour.TourEvents);
 
             // TourEventController = new TourEventController();
             //TourBookingController = new TourBookingController();
+
+            Vouchers = new ObservableCollection<Voucher>(VoucherController.GetAll());
+
+
 
         }
 
