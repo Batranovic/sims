@@ -10,7 +10,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class VoucherDAO : IDAO<Voucher>, ISubject
+    public class VoucherRepository : IRepository<Voucher>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/vouchers.csv";
 
@@ -18,19 +18,19 @@ namespace WpfApp1.Repository
 
         private readonly List<IObserver> _observers;
 
-        private static VoucherDAO _instance = null;
+        private static VoucherRepository _instance = null;
 
         private List<Voucher> _vouchers;
 
-        public static VoucherDAO GetInstance()
+        public static VoucherRepository GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new VoucherDAO();
+                _instance = new VoucherRepository();
             }
             return _instance;
         }
-        private VoucherDAO()
+        private VoucherRepository()
         {
             _vouchers = new List<Voucher>();
             _serializer = new Serializer<Voucher>();

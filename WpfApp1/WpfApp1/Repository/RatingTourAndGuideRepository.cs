@@ -9,7 +9,7 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class RatingTourAndGuideDAO : IDAO<RatingTourAndGuide>, ISubject
+    public class RatingTourAndGuideRepository : IRepository<RatingTourAndGuide>, ISubject
     {
         private const string _filePath = "../../../Resources/Data/ratingTourAndGuide.csv";
         private readonly List<IObserver> _observers;
@@ -17,25 +17,25 @@ namespace WpfApp1.Repository
         private readonly Serializer<RatingTourAndGuide> _serializer;
 
         private List<RatingTourAndGuide> _ratingTourAndGuides;
-        public TourBookingDAO TourBookingDAO { get; set; }
+        public TourBookingRepository TourBookingRepository { get; set; }
 
-        private static RatingTourAndGuideDAO _instance = null;
+        private static RatingTourAndGuideRepository _instance = null;
 
-        public static RatingTourAndGuideDAO GetInstance()
+        public static RatingTourAndGuideRepository GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new RatingTourAndGuideDAO();
+                _instance = new RatingTourAndGuideRepository();
             }
             return _instance;
         }
-        private RatingTourAndGuideDAO()
+        private RatingTourAndGuideRepository()
         {
             _serializer = new Serializer<RatingTourAndGuide>();
             _observers = new List<IObserver>();
             _ratingTourAndGuides = new List<RatingTourAndGuide>();
             _ratingTourAndGuides = _serializer.FromCSV(_filePath);
-            TourBookingDAO = TourBookingDAO.GetInstance();
+            TourBookingRepository = TourBookingRepository.GetInstance();
         }
         public RatingTourAndGuide Create(RatingTourAndGuide entity)
         {
@@ -95,7 +95,7 @@ namespace WpfApp1.Repository
         {
             foreach (RatingTourAndGuide r in _ratingTourAndGuides)
             {
-                r.TourBooking = TourBookingDAO.Get(r.IdTourBooking);
+                r.TourBooking = TourBookingRepository.Get(r.IdTourBooking);
             }
         }
         public void Subscribe(IObserver observer)

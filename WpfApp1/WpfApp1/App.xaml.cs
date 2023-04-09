@@ -21,7 +21,8 @@ namespace WpfApp1
         public TourBookingController TourBookingController { get; set; }
         public TourEventController TourEventController { get; set; }    
         public TourController TourController { get; set; }
-  
+        public RatingTourAndGuideController RatingTourAndGuideController { get; set; }
+        public VoucherController VoucherController { get; set; }
         public App()
         {
             TouristController = new TouristController();

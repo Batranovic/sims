@@ -11,11 +11,11 @@ namespace WpfApp1.Service
 {
     public class RatingTourAndGuideService
     {
-        private RatingTourAndGuideDAO _ratingTourAndGuideDAO;
+        private RatingTourAndGuideRepository _ratingTourAndGuideDAO;
 
         public RatingTourAndGuideService()
         {
-            _ratingTourAndGuideDAO = RatingTourAndGuideDAO.GetInstance();
+            _ratingTourAndGuideDAO = RatingTourAndGuideRepository.GetInstance();
         }
 
         public RatingTourAndGuide Get(int id)
