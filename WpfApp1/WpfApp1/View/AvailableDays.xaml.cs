@@ -47,7 +47,7 @@ namespace WpfApp1.View
 
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            Reservation reservation = new Reservation(Guest, Accommodation, SelectedRange.Value, SelectedRange.Key, Model.Enums.GuestRatingStatus.Reserved);
+            Reservation reservation = new Reservation(Guest, Accommodation, SelectedRange.Value, SelectedRange.Key, Model.Enums.GuestRatingStatus.Reserved, Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Disabled);
             _reservationService.Create(reservation);
             this.Close();
         }

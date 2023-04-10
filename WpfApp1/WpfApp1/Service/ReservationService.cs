@@ -83,6 +83,16 @@ namespace WpfApp1.Service
             }
             return list;
         }
+
+        public List<Reservation> GetGuestReservations(int id)
+        {
+            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.IdGuest == id).ToList();
+            if (list == null)
+            {
+                return new List<Reservation>();
+            }
+            return list;
+        }
         public bool IsDateInRange(Reservation reservation, DateTime date)
         {
             return date >= reservation.StartDate && date <= reservation.EndDate;
