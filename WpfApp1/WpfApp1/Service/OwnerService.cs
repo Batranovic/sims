@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
     public class OwnerService
     {
-        private  OwnerDAO _ownerDAO;
+        private  OwnerRepository _ownerDAO;
     
         public OwnerService()
         {
-            _ownerDAO = OwnerDAO.GetInsatnce();
+            _ownerDAO = OwnerRepository.GetInsatnce();
         }
 
         public Owner Get(int id)
@@ -27,6 +27,7 @@ namespace WpfApp1.Service
         {
             return _ownerDAO.GetAll();
         }
+
         public void Subscribe(IObserver observer)
         {
             _ownerDAO.Subscribe(observer);

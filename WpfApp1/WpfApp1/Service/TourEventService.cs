@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Repository;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp.Observer;
 
 namespace WpfApp1.Service
@@ -12,13 +12,13 @@ namespace WpfApp1.Service
     public class TourEventService
     {
 
-        private TourEventDAO _tourEventDAO;
-        private TourBookingDAO _tourBookingDAO;
+        private TourEventRepository _tourEventDAO;
+        private TourBookingRepository _tourBookingDAO;
 
         public TourEventService()
         {
-            _tourEventDAO = TourEventDAO.GetInstance();
-            _tourBookingDAO = TourBookingDAO.GetInstance();
+            _tourEventDAO = TourEventRepository.GetInstance();
+            _tourBookingDAO = TourBookingRepository.GetInstance();
         }
 
         public List<TourEvent> GetAll()
@@ -98,6 +98,20 @@ namespace WpfApp1.Service
                 }
             }
             return tourEvents;
+        }
+        public List<TourEvent> GetTourEventsNotPassedForTour(Tour tour)
+        {
+            List<TourEvent> tourEventsNotPassed = new List<TourEvent>();
+
+            foreach (TourEvent tourEvent in tour.TourEvents)
+            {
+                if (tourEvent.StartTime.Date > DateTime.Now.Date)
+                {
+                    tourEventsNotPassed.Add(tourEvent);
+                }
+            }
+
+            return tourEventsNotPassed;
         }
     }
 }

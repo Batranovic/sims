@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
     public class ImageService
     {
-        private ImageDAO _imageDAO;
+        private ImageRepository _imageDAO;
 
         public ImageService()
         {
-            _imageDAO = ImageDAO.GetInsatnce();
+            _imageDAO = ImageRepository.GetInsatnce();
         }
 
         public Image Get(int id)

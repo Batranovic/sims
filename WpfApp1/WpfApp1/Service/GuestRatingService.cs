@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
     public class GuestRatingService
     {
-        private  GuestRatingDAO _ratingGuestDAO;
+        private  GuestRatingRepository _ratingGuestDAO;
 
         public GuestRatingService()
         {
-            _ratingGuestDAO = GuestRatingDAO.GetInstance();
+            _ratingGuestDAO = GuestRatingRepository.GetInstance();
         }
 
         public GuestRating Get(int id)

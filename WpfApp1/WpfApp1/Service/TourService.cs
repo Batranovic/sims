@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 using System.Linq;
 using WpfApp.Observer;
@@ -9,11 +9,11 @@ namespace WpfApp1.Service
 {
     public class TourService
     {
-        private TourDAO _tourDAO;
+        private TourRepository _tourDAO;
 
         public TourService()
         {
-            _tourDAO = TourDAO.GetInstance();
+            _tourDAO = TourRepository.GetInstance();
         }
 
         public List<Tour> GetAll()
@@ -105,6 +105,9 @@ namespace WpfApp1.Service
             }
             return tours;
         }
+
+        
+        
 
     }
 }

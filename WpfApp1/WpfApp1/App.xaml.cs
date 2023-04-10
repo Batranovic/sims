@@ -7,7 +7,7 @@ using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1
@@ -31,8 +31,10 @@ namespace WpfApp1
         public ImageController ImageController { get; set; }
         public TourController TourController { get; set; }
         public RatingOwnerController RatingOwnerController { get; set; }
-       
 
+        public TourPointController TourPointController { get; set; }
+       
+        public NotificationController NotificationController { get; set; }
         public VoucherController VoucherController { get; set; }
 
        
@@ -48,32 +50,37 @@ namespace WpfApp1
             RatingGuestController = new GuestRatingController();
             RatingOwnerController = new RatingOwnerController();
 
-            AccommodationDAO.GetInstance().OwnerDAO = OwnerDAO.GetInsatnce();
+            AccommodationRepository.GetInstance().OwnerDAO = OwnerRepository.GetInsatnce();
 
-            AccommodationDAO.GetInstance().BindLocation();
-            AccommodationDAO.GetInstance().BindOwner();
-            AccommodationDAO.GetInstance().BindImage();
-            ReservationDAO.GetInstance().BindAccommodation();
-            ReservationDAO.GetInstance().BindGuest();
-            RatingOwnerDAO.GetInstance().BindReservation();
-            GuestRatingDAO.GetInstance().BindReservation();
-            OwnerDAO.GetInsatnce().BindRating();
-            OwnerDAO.GetInsatnce().CalculateAverageRating();
-            OwnerDAO.GetInsatnce().SetKind();
+            AccommodationRepository.GetInstance().BindLocation();
+            AccommodationRepository.GetInstance().BindOwner();
+            AccommodationRepository.GetInstance().BindImage();
+            ReservationRepository.GetInstance().BindAccommodation();
+            ReservationRepository.GetInstance().BindGuest();
+            RatingOwnerRepository.GetInstance().BindReservation();
+            GuestRatingRepository.GetInstance().BindReservation();
+            OwnerRepository.GetInsatnce().BindRating();
+            OwnerRepository.GetInsatnce().CalculateAverageRating();
+            OwnerRepository.GetInsatnce().SetKind();
          
 
-            TourDAO.GetInstance().BindLocation();
-            TourBookingDAO.GetInstance().BindTourEvent();
-            TourEventDAO.GetInstance().BindTour();
-            RatingTourAndGuideDAO.GetInstance().BindTourBooking();
+            TourRepository.GetInstance().BindLocation();
+            TourBookingRepository.GetInstance().BindTourEvent();
+            TourBookingRepository.GetInstance().BindVoucher();
+            TourEventRepository.GetInstance().BindTour();
+            RatingTourAndGuideRepository.GetInstance().BindTourBooking();
+            NotificationRepository.GetInstance().BindTourBooking();
+            TourPointRepository.GetInstance().BindTourPointTour();
 
-            //VoucherDAO.GetInsatnce();
+            VoucherRepository.GetInstance();
 
             TourBookingController = new TourBookingController();
             TourController = new TourController();
             TourEventController = new TourEventController();
             RatingTourAndGuideController = new RatingTourAndGuideController();
             VoucherController = new VoucherController();
+            TourPointController = new TourPointController();
+            NotificationController = new NotificationController();
 
 
         }

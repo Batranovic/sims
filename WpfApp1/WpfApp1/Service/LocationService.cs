@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
     public class LocationService
     {
-        private LocationDAO _locationDAO;
+        private LocationRepository _locationDAO;
 
         public LocationService()
         {
-            _locationDAO = LocationDAO.GetInstance();
+            _locationDAO = LocationRepository.GetInstance();
         }
 
         public Location Get(int id)

@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Util;
 using WpfApp1.View;
 
@@ -127,7 +127,7 @@ namespace WpfApp1.View
             if (result == MessageBoxResult.Yes)
             {
                 
-                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Model.Enums.GuestRatingStatus.Reserved);
+                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Models.Enums.GuestRatingStatus.Reserved);
                 ReservationController.Create(reservation);
             }
 

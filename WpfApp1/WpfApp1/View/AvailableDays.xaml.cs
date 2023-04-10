@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.View
@@ -51,7 +51,7 @@ namespace WpfApp1.View
 
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            Reservation reservation = new Reservation(Guest, Accommodation, SelectedRange.Value, SelectedRange.Key, Model.Enums.GuestRatingStatus.Reserved);
+            Reservation reservation = new Reservation(Guest, Accommodation, SelectedRange.Value, SelectedRange.Key, Models.Enums.GuestRatingStatus.Reserved);
             ReservationController.Create(reservation);
             this.Close();
         }

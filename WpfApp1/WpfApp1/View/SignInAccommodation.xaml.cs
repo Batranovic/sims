@@ -11,8 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Model.Enums;
-using WpfApp1.Model;
+using WpfApp1.Models.Enums;
+using WpfApp1.Models;
 using System.Collections.ObjectModel;
 using WpfApp1.Controller;
 using System.ComponentModel;
@@ -151,14 +151,14 @@ namespace WpfApp1.View
         }
 
 
-        private List<Model.Image> MakeImages(Accommodation accommodation)
+        private List<Models.Image> MakeImages(Accommodation accommodation)
         {
-            List<Model.Image> images = new List<Model.Image>();
+            List<Models.Image> images = new List<Models.Image>();
             foreach (string s in _urls)
             {
-                images.Add(new Model.Image(s, accommodation.Id, ImageKind.Accommodation));
+                images.Add(new Models.Image(s, accommodation.Id, ImageKind.Accommodation));
             }
-            foreach (Model.Image image in images)
+            foreach (Models.Image image in images)
             {
                 ImageController.Create(image);
             }

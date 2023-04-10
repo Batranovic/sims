@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using WpfApp.Observer;
-using WpfApp1.Model;
-using WpfApp1.Model.Enums;
+using WpfApp1.Models;
+using WpfApp1.Models.Enums;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
     public class ReservationService
     {
-        private ReservationDAO _reservationDAO;
+        private ReservationRepository _reservationDAO;
 
         public ReservationService()
         {
-            _reservationDAO = ReservationDAO.GetInstance();
+            _reservationDAO = ReservationRepository.GetInstance();
         }
 
         public Reservation Get(int id)
@@ -117,7 +117,7 @@ namespace WpfApp1.Service
         {
             try
             {
-                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.GuestRatingStatus.Inprogres || r.Status == Model.Enums.GuestRatingStatus.Reserved)).ToList();
+                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Models.Enums.GuestRatingStatus.Inprogres || r.Status == Models.Enums.GuestRatingStatus.Reserved)).ToList();
             }
             catch
             {

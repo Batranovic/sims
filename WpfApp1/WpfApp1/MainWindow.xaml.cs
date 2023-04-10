@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 using WpfApp1.View;
 
@@ -27,8 +27,9 @@ namespace WpfApp1
     {
         public OwnerController OwnerController { get; set; }
         public GuestController GuestController { get; set; }
-        public TouristController TouristController { get; set; }
-        public User LogInUser { get; set; }
+        public TouristController TouristController { get; set; }  
+        public NotificationController NotificationController { get; set; }
+        public static User LogInUser { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public MainWindow()
@@ -40,6 +41,7 @@ namespace WpfApp1
             OwnerController = app.OwnerController;
             GuestController = app.GuestController;
             TouristController = app.TouristController;
+            NotificationController = app.NotificationController;
 
         }
 
@@ -59,7 +61,7 @@ namespace WpfApp1
 
         private void AccommodationView(object sender, RoutedEventArgs e)
         {
-            Guest guest = GuestDAO.GetInsatnce().Get(0);
+            Guest guest = GuestRepository.GetInsatnce().Get(0);
             AccommodationView accommodationView = new AccommodationView(guest);
             accommodationView.Show();
         }
@@ -74,13 +76,21 @@ namespace WpfApp1
                 OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
                 ownerAccount.Show();
                 this.Close();
+                return;
             }
             LogInUser = TouristController.GetByUsernameAndPassword(Username, Password);
             if(LogInUser != null)
             {
+                List<Notification> notifications = NotificationController.GetNotificationForUser(LogInUser.Id);
+                foreach (Notification notification in notifications)
+                {
+                    string tourName = notification.TourBooking.TourEvent.Tour.Name;
+                    MessageBoxResult result = MessageBox.Show(this, "You have been added to " + tourName);
+                }
                 TourSearchAndOverview tourSearchAndOverview = new TourSearchAndOverview();
                 tourSearchAndOverview.Show();
                 this.Close();
+                return;
             }
             LogInUser = GuestController.GetByUsernameAndPassword(Username, Password);
             if(LogInUser != null)
@@ -88,6 +98,7 @@ namespace WpfApp1
                 AccommodationView accommodationView = new AccommodationView(LogInUser);
                 accommodationView.Show();
                 this.Close();
+
             }
         }
     }

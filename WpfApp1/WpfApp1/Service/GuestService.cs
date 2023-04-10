@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
     public class GuestService
     {
-        private GuestDAO _guestDAO;
+        private GuestRepository _guestDAO;
 
         public GuestService()
         {
-            _guestDAO = GuestDAO.GetInsatnce();
+            _guestDAO = GuestRepository.GetInsatnce();
         }
 
         public Guest Get(int id)

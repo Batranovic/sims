@@ -4,18 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Repository;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp.Observer;
 
 namespace WpfApp1.Service
 {
     public class TourBookingService
     {
-        private TourBookingDAO _tourBookingDAO;
-
+        private TourBookingRepository _tourBookingDAO;
+        private VoucherService _voucherService;
         public TourBookingService()
         {
-            _tourBookingDAO = TourBookingDAO.GetInstance();
+            _tourBookingDAO = TourBookingRepository.GetInstance();
+            _voucherService = new VoucherService();
         }
 
         public List<TourBooking> GetAll()
@@ -30,6 +31,18 @@ namespace WpfApp1.Service
 
         public TourBooking Create(TourBooking tourBooking)
         {
+            if(tourBooking.Voucher == null)
+            {
+                tourBooking.Voucher = new Voucher() { Id = -1};
+            }
+
+            if (tourBooking.Voucher.Id != -1)
+            {
+                tourBooking.Voucher.IsUsed = true;
+                _voucherService.Update(tourBooking.Voucher);
+            }
+
+
             return _tourBookingDAO.Create(tourBooking);
         }
 
@@ -53,6 +66,44 @@ namespace WpfApp1.Service
         {
             _tourBookingDAO.Unsubscribe(observer);
         }
+
+      
+        public List<TourEvent> TouristTourEvents(int userId)
+        {
+            List<TourEvent> tourEvents = new List<TourEvent>();
+            foreach (TourBooking tourReservation in _tourBookingDAO.GetAll())
+            {
+                if (tourReservation.Tourist.Id == userId)
+                {
+                    tourEvents.Add(tourReservation.TourEvent);
+                }
+            }
+            return tourEvents;
+        }
+
+        public TourBooking GetTourBookingForTourEventAndUser(int tourEventId, int userId)
+        {
+            foreach (TourBooking tourReservation in _tourBookingDAO.GetAll())
+            {
+                if (tourReservation.Tourist.Id == userId && tourReservation.TourEvent.Id == tourEventId)
+                {
+                    return tourReservation;
+                }
+            }
+            return null;
+
+        }
+
+        public void GetExistingTourBooking(int tourEvent, int user, int numOfPeople)
+        {
+            TourBooking existingTourBooking = GetTourBookingForTourEventAndUser(tourEvent, user);
+            if (existingTourBooking != null)
+            {
+                existingTourBooking.NumberOfGuests += numOfPeople;
+                Update(existingTourBooking);
+            }
+        }
+
 
 
     }

@@ -5,18 +5,18 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
     public class RatingOwnerService
     {
-        private RatingOwnerDAO _ratingOwnerDAO;
+        private RatingOwnerRepository _ratingOwnerDAO;
 
         public RatingOwnerService()
         {
-            _ratingOwnerDAO = RatingOwnerDAO.GetInstance();
+            _ratingOwnerDAO = RatingOwnerRepository.GetInstance();
         }
 
         public RatingOwner Get(int id)
@@ -61,7 +61,7 @@ namespace WpfApp1.Service
 
         public List<RatingOwner> GetAllOwnerRewies(int idOwner)
         {
-            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Reservation.Status == Model.Enums.GuestRatingStatus.Rated);
+            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Reservation.Status == Models.Enums.GuestRatingStatus.Rated);
         }
 
     }

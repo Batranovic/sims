@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Service;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp.Observer;
 
 namespace WpfApp1.Controller
@@ -69,7 +69,10 @@ namespace WpfApp1.Controller
             return _tourEventService.GetAvailableTourEventsForLocation(location, numberOfPeople);
         }
 
-
+        public List<TourEvent> GetTourEventsNotPassedForTour(Tour tour)
+        {
+            return _tourEventService.GetTourEventsNotPassedForTour(tour);
+        }
 
 
     }

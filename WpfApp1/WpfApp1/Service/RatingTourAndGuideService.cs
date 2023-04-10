@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
 {
     public class RatingTourAndGuideService
     {
-        private RatingTourAndGuideDAO _ratingTourAndGuideDAO;
+        private RatingTourAndGuideRepository _ratingTourAndGuideDAO;
 
         public RatingTourAndGuideService()
         {
-            _ratingTourAndGuideDAO = RatingTourAndGuideDAO.GetInstance();
+            _ratingTourAndGuideDAO = RatingTourAndGuideRepository.GetInstance();
         }
 
         public RatingTourAndGuide Get(int id)
