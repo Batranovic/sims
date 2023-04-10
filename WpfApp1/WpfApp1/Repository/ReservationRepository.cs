@@ -99,7 +99,8 @@ namespace WpfApp1.Repository
 
         public Reservation Delete(Reservation entity)
         {
-            _reservations.Remove(entity);
+            //_reservations.Remove(entity);
+            entity.Deleted = true;
             Save();
             NotifyObservers();
             return entity;
@@ -107,12 +108,12 @@ namespace WpfApp1.Repository
 
         public Reservation Get(int id)
         {
-            return _reservations.Find(r => r.Id == id);
+            return _reservations.Find(r => r.Id == id && r.Deleted == false);
         }
 
         public List<Reservation> GetAll()
         {
-            return _reservations;
+            return _reservations.FindAll(r => r.Deleted == false);
         }
 
         public int NextId()

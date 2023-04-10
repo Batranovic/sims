@@ -21,6 +21,8 @@ namespace WpfApp1.Models
         public int IdAccommodation { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+
+        public bool Deleted { get; set; }
         public GuestRatingStatus Status { get; set; }
 
         public AccommodationAndOwnerRatingStatus GuestReservationStatus { get; set; }
@@ -41,7 +43,7 @@ namespace WpfApp1.Models
             this.Guest = guest;
             this.Accommodation = accommodation;
             this.StartDate = startDate;
-
+            Deleted = false;
         }
 
         public string[] ToCSV()
@@ -54,7 +56,9 @@ namespace WpfApp1.Models
                 IdAccommodation.ToString(),
                 IdGuest.ToString(),
                 Status.ToString(),
-                GuestReservationStatus.ToString()
+                GuestReservationStatus.ToString(),
+                Deleted.ToString()
+
             };
             return csvValues;
         }
@@ -68,6 +72,7 @@ namespace WpfApp1.Models
             IdGuest = Convert.ToInt32(values[4]);
             Status = Enum.Parse<GuestRatingStatus>(values[5]);
             GuestReservationStatus = Enum.Parse<AccommodationAndOwnerRatingStatus>(values[6]);
+            Deleted = Convert.ToBoolean(values[7]);
         }
 
     }

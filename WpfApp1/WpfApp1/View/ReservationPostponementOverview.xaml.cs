@@ -70,6 +70,10 @@ namespace WpfApp1.View
         private void Reject(object sender, RoutedEventArgs e)
         {
             SelectedPostponements.Status = Model.Enums.ReservationPostponementStatus.Rejected;
+
+            AddComment addComment = new AddComment(SelectedPostponements);
+            addComment.Show();
+
             _reservationPostponementService.Update(SelectedPostponements);
         }
 
