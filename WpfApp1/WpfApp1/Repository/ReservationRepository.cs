@@ -10,6 +10,7 @@ using WpfApp1.Model;
 using WpfApp1.Serializer;
 using WpfApp1.Model.Enums;
 using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.Models.Enums;
 
 namespace WpfApp1.Repository
 {
@@ -38,6 +39,7 @@ namespace WpfApp1.Repository
             _reservations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
             SetStatus();                                //Status trenutne rezervacije (da li je u toku, prosla, ocenja ili neocenjena
+            SetRatingStatus();
         }
 
         //INPROGRES RESERVED RATED UNRATED EXPIRED
@@ -62,6 +64,26 @@ namespace WpfApp1.Repository
                     reservation.Status = GuestRatingStatus.Expired;
                 }
                 
+            }
+            Save();
+        }
+
+        public void SetRatingStatus()
+        {
+            foreach (Reservation reservation in _reservations)
+            {
+                if (reservation.GuestReservationStatus == AccommodationAndOwnerRatingStatus.Disabled && reservation.EndDate < DateTime.Now)
+                {
+                    reservation.GuestReservationStatus = AccommodationAndOwnerRatingStatus.Unrated;
+                }
+                else if (reservation.GuestReservationStatus == AccommodationAndOwnerRatingStatus.Rated || reservation.GuestReservationStatus == AccommodationAndOwnerRatingStatus.Expired)
+                {
+                    continue;
+                }
+                else if (reservation.GuestReservationStatus == AccommodationAndOwnerRatingStatus.Unrated && reservation.EndDate < DateTime.Now.AddDays(-5))
+                {
+                    reservation.GuestReservationStatus = AccommodationAndOwnerRatingStatus.Expired;
+                }
             }
             Save();
         }

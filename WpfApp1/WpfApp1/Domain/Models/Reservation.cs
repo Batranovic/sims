@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
+using WpfApp1.Domain.Models.Enums;
 using WpfApp1.Model.Enums;
 using WpfApp1.Repository;
 using WpfApp1.Serializer;
@@ -23,18 +24,21 @@ namespace WpfApp1.Model
         public DateTime EndDate { get; set; }
         public GuestRatingStatus Status { get; set; }
 
+        public AccommodationAndOwnerRatingStatus GuestReservationStatus { get; set; }
+
 
         public Reservation()
         {
 
         }
 
-        public Reservation(Guest guest, Accommodation accommodation, DateTime startDate, DateTime endDate, GuestRatingStatus status)
+        public Reservation(Guest guest, Accommodation accommodation, DateTime startDate, DateTime endDate, GuestRatingStatus status, AccommodationAndOwnerRatingStatus guestReservationStatus)
         {
             IdGuest = guest.Id;
             IdAccommodation = accommodation.Id;
             EndDate = endDate;
             Status = status;
+            GuestReservationStatus = guestReservationStatus;
             this.Guest = guest;
             this.Accommodation = accommodation;
             this.StartDate = startDate;
@@ -50,7 +54,8 @@ namespace WpfApp1.Model
                 DateHelper.DateToString(EndDate),
                 IdAccommodation.ToString(),
                 IdGuest.ToString(),
-                Status.ToString()
+                Status.ToString(),
+                GuestReservationStatus.ToString()
             };
             return csvValues;
         }
@@ -63,6 +68,7 @@ namespace WpfApp1.Model
             IdAccommodation = Convert.ToInt32(values[3]);
             IdGuest = Convert.ToInt32(values[4]);
             Status = Enum.Parse<GuestRatingStatus>(values[5]);
+            GuestReservationStatus = Enum.Parse<AccommodationAndOwnerRatingStatus>(values[6]);
         }
 
     }

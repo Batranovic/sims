@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Model.Enums
+namespace WpfApp1.Domain.Models.Enums
 {
-    public enum ImageKind
+    public enum AccommodationAndOwnerRatingStatus
     {
-        Accommodation, Tour, ReviewAccommodation
+        Expired, Unrated, Rated, Disabled
     }
 }
