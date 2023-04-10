@@ -74,5 +74,15 @@ namespace WpfApp1.View
             ReservationPostponation reservationPostponation = new ReservationPostponation(SelectedReservation);
             reservationPostponation.Show();
         }
+
+        public void CancelReservation(object sender, RoutedEventArgs e)
+        {
+            if(SelectedReservation.StartDate < DateTime.Now.AddDays(-SelectedReservation.Accommodation.CancelDay))
+            {
+                return;
+            }
+            _reservationService.Delete(SelectedReservation);
+
+        }
     }
 }
