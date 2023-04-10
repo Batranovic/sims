@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp.Observer;
 using WpfApp1.Controller;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Service;
 
@@ -28,7 +29,7 @@ namespace WpfApp1.View
     {
         public Owner LogInOwner { get; set; }
         public ObservableCollection<ReservationPostponement> ReservationPostponements { get; set; }
-        private readonly ReservationPostponementService _reservationPostponementService;
+        private readonly IReservationPostponementService _reservationPostponementService;
         public ReservationPostponement SelectedPostponements { get; set; }
 
         public bool CkeckAprove { get; set; }
@@ -38,7 +39,7 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;    
 
-            _reservationPostponementService = InjectorService.CreateInstance<ReservationPostponementService>();
+            _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>();
             _reservationPostponementService.Subscribe(this);
 
             CkeckReject = false;
