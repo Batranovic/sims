@@ -141,7 +141,7 @@ namespace WpfApp1.View
         }
 
 
-        
+  
 
         private void Search(object sender, RoutedEventArgs e)
         {
