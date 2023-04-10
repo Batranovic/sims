@@ -23,5 +23,6 @@
               Click="Aprove" />
         <Button Content="Odustani " IsDefault="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="474,404,0,0"
                Click="Reject" />
+        
     </Grid>
 </Window>

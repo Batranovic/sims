@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Model.Enums;
 using WpfApp1.Service;
@@ -30,8 +31,8 @@ namespace WpfApp1.View
         public event PropertyChangedEventHandler PropertyChanged;
         //public LocationController LocationController { get; set; }
 
-        private readonly AccommodationService _accommodationService;
-        private readonly LocationService _locationService;
+        private readonly IAccommodationService _accommodationService;
+        private readonly ILocationService _locationService;
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
 
         public AccommodationKind? SelectedAccommodationKind { get; set; }
@@ -52,8 +53,8 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            _locationService = InjectorService.CreateInstance<LocationService>();
-            _accommodationService = InjectorService.CreateInstance<AccommodationService>();
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            _accommodationService = InjectorService.CreateInstance<IAccommodationService>();
 
             var kind = Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>();
             AccommodationKind = new ObservableCollection<AccommodationKind>(kind);
@@ -140,7 +141,7 @@ namespace WpfApp1.View
         }
 
 
-        
+  
 
         private void Search(object sender, RoutedEventArgs e)
         {

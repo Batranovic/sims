@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
 using WpfApp1.Repository;
 using WpfApp1.Service;
@@ -26,8 +27,8 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly OwnerService _ownerService;
-        private readonly GuestService _guestService;
+        private readonly IOwnerService _ownerService;
+        private readonly IGuestService _guestService;
         public readonly TouristService _touristService;
         public User LogInUser { get; set; }
         public string Username { get; set; }
@@ -37,8 +38,8 @@ namespace WpfApp1
             InitializeComponent();
             this.DataContext = this;
 
-            _ownerService = new OwnerService();
-            _guestService = new GuestService();
+            _ownerService = InjectorService.CreateInstance<IOwnerService>();
+            _guestService = InjectorService.CreateInstance<IGuestService>();
             _touristService = new TouristService();  
 
         }
