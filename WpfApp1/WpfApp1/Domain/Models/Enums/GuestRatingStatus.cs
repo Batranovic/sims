@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Model.Enums
+namespace WpfApp1.Models.Enums
 {
     public enum GuestRatingStatus
     {

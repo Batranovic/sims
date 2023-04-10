@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Models
 {
     public class TourBooking : WpfApp1.Serializer.ISerializable
     {
@@ -12,6 +12,8 @@ namespace WpfApp1.Model
         private int _numberOfGuests;
         public User Tourist { get; set; }
         public TourEvent TourEvent { get; set; }
+
+        public Voucher Voucher { get; set; }
 
         public int Id
         {
@@ -42,12 +44,13 @@ namespace WpfApp1.Model
 
         }
 
-        public TourBooking(int id, int numberOfPeople,TourEvent tourEvent, User tourist)
+        public TourBooking(int id, int numberOfPeople,TourEvent tourEvent, User tourist, Voucher voucher)
         {
             Id = id;
             NumberOfGuests = numberOfPeople;
             TourEvent = tourEvent;
             Tourist = tourist;
+            Voucher = voucher;
 
         }
 
@@ -58,7 +61,8 @@ namespace WpfApp1.Model
                 Id.ToString(),
                 NumberOfGuests.ToString(),
                 TourEvent.Id.ToString(),
-                Tourist.Id.ToString()
+                Tourist.Id.ToString(),
+                Voucher.Id.ToString()
             };
             return csvValues;
         }
@@ -69,6 +73,7 @@ namespace WpfApp1.Model
             NumberOfGuests = Convert.ToInt32(values[1]);
             TourEvent = new TourEvent() { Id = Convert.ToInt32(values[2]) };
             Tourist = new User() { Id = Convert.ToInt32(values[3]) };
+            Voucher = new Voucher() { Id = Convert.ToInt32(values[4]) };
         }
     }
 }

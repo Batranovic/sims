@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using WpfApp1.Controller;
 using System.ComponentModel;
 using WpfApp1.Service;
+using WpfApp1.Models;
 
 namespace WpfApp1.View
 {
@@ -78,7 +79,32 @@ namespace WpfApp1.View
                 SelectedTour = e.AddedItems[0] as Tour;
                 TourBookingWindow tourBookingWindow = new TourBookingWindow(SelectedTour);
                 tourBookingWindow.Show();
+
+                this.Close();
             }
+        }
+
+     
+
+        private void BookedToursButton(object sender, RoutedEventArgs e)
+        {
+
+            BookedTours bookedTours = new BookedTours();
+            bookedTours.Show();
+
+            this.Close();
+
+        }
+
+        private void LogOutButton(object sender, RoutedEventArgs e)
+        {
+           
+            MessageBox.Show("You are logging out!");
+            User user = MainWindow.LogInUser;
+            user.Id = -1;
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            this.Close();
         }
     }
 }

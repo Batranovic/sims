@@ -5,94 +5,114 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="TourBookingWindow" Height="450" Width="1170">
+        Title="TourBookingWindow" Height="660" Width="1024">
     <DockPanel>
-        <TextBlock Background="Lavender"
-                   DockPanel.Dock="Left" Width="261">
+        <DockPanel DockPanel.Dock="Top" Background="#f3dcc4" Height="51">
             <Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60*"/>
-                <ColumnDefinition Width="300*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="370"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" Grid.Column="0" Margin="30,2,30,3" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition Height="73"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-                <TextBlock Text="Location:" FontWeight="Bold" Margin="0,32,4,0"/>
-        <TextBlock Text="{Binding SelectedTourEvent.Tour.Location.City}" Margin="80,32,46,10" Grid.ColumnSpan="2"/>
-        <TextBlock Text="Maximum Guests:" FontWeight="Bold" Margin="-5,18,8,19" Grid.Row="1"/>
-        <TextBlock Text="{Binding SelectedTourEvent.Tour.MaxGuests}" Grid.Column="1" Margin="16,10,-6,29" Grid.Row="1"/>
-
-        <TextBlock Text="Number of People:" FontWeight="Bold" Margin="-6,0,46,23" Grid.Row="2" Grid.ColumnSpan="2"/>
-        <TextBox Text="{Binding NumberOfPeople}" Margin="34,69,0,48" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"/>
-
-        <TextBlock Text="{Binding AvailableSpotsText, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Margin="-3,32,6,11" Grid.Row="3"/>
-        <TextBlock Text="{Binding AvailableSpots, UpdateSourceTrigger=PropertyChanged}" Margin="16,34,22,8" Grid.Row="3" Grid.Column="1"/>
-                <Button Content="Check availability" Click="CheckAvailabilityButton" Margin="-4,50,4,64" Grid.Row="2" Grid.RowSpan="2"/>
-                <Button x:Name="Reserve" Content="Reserve" IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top"
-              Click="ReserveButton" Height="32" Width="66" Grid.Column="1" Margin="34,50,0,0" Grid.Row="2" Grid.RowSpan="2"/>
-        <TextBlock Text="Voucher name:" Margin="-6,0,16,0" Grid.Row="4"  FontWeight="Bold" />
-        <TextBlock Text="{Binding SelectedVoucher.Name}" Grid.Column="1"  Margin="18,0,0,52" Grid.Row="4" />
-                
-
+                <!-- Content goes here -->
+                <Button Background="#f9cb9e" Content="All tours" HorizontalAlignment="Left" Width="110" Margin="36,8,0,0" Click="AllToursButton"/>
+                <Button Background="#f9cb9e" Content="Booked tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0" Click="BookedToursButton"/>
+                <Button Background="#f9cb9e" Content="Request new tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="327,8,0,0" Grid.ColumnSpan="2"/>
+                <Button Background="#f9cb9e" Content="Request list" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="132,8,0,0"/>
+                <Button Background="#f9cb9e" Content="My profile" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0"/>
             </Grid>
-            <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" />
-            
-            <Button x:Name="Cancel" Content="Cancel" IsCancel="True" HorizontalAlignment="Left" Margin="120,367,0,0" VerticalAlignment="Top"
-                    Click="CancelButton" Height="30" Width="66" Grid.Column="1" Grid.RowSpan="2"/>
-                <Button Content="Suggest more" Click="SuggestMoreButton"  HorizontalAlignment="Left" Margin="30,367,0,0" VerticalAlignment="Top" Height="30" Width="100" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-        </Grid>
-    </Grid>
-        </TextBlock>
-        <StackPanel  DockPanel.Dock="Right">
-            <DataGrid DockPanel.Dock="Top"
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" Background="WhiteSmoke" >
+            <DockPanel DockPanel.Dock="Left" Height="580" Width="650" Background="WHite">
+                <Grid Width="573" Height="554">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Height="185" Margin="-17,60,10,0" Stroke="Black" VerticalAlignment="Top"/>
+                    <TextBlock Text="City" FontSize="15"  FontWeight="Bold" HorizontalAlignment="Left" Margin="174,74,0,171" Width="40" />
+                    <TextBlock Text="State" FontSize="15" FontWeight="Bold"  Margin="273,76,244,172" />
+                    <TextBlock Text="Maximum guests" FontSize="15"  FontWeight="Bold"  Margin="374,76,39,170"/>
+                    <TextBlock Text="{Binding SelectedTourEvent.Tour.MaxGuests}"  FontStyle="Oblique" Margin="374,108,98,145"/>
+                    <TextBlock Text="{Binding SelectedTourEvent.Tour.Location.City}" FontStyle="Oblique" Margin="170,106,355,145"/>
+                    <TextBlock Text="{Binding SelectedTourEvent.Tour.Location.State}" FontStyle="Oblique" Margin="273,108,236,145"/>
+                    <TextBlock Background="#f3dcc4" Text=" About tour" FontSize="20" FontWeight="Bold" Margin="-17,10,10,237"/>
+                    <TextBlock Background="#f3dcc4" Text=" In the same location" Margin="-17,264,10,0"  FontSize="20" FontWeight="Bold"  VerticalAlignment="Top" Grid.RowSpan="2"/>
+
+                    <DataGrid DockPanel.Dock="Bottom" Background="White"
                        SelectionMode="Single"
-                  ItemsSource="{Binding Path=TourEvents, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding Path=SelectedTourEvent, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True"
-                  Width="900" Height="232" >
-                <!--SelectionChanged="DataGrid_SelectionChanged"-->
-                <DataGrid.Columns>
-                    <DataGridTextColumn  Header="State" Binding="{Binding Tour.Location.State}" Width="150"></DataGridTextColumn>
-                    <DataGridTextColumn  Header="City" Binding="{Binding Tour.Location.City}" Width="150"></DataGridTextColumn>
-                    <DataGridTextColumn  Header="Languages" Binding="{Binding Tour.Languages}" Width="150"></DataGridTextColumn>
-                    <DataGridTextColumn  Header="MaxGuests" Binding="{Binding Tour.MaxGuests}" Width="150"></DataGridTextColumn>
-                    <DataGridTextColumn  Header="Duration" Binding="{Binding Tour.Duration}" Width="150"></DataGridTextColumn>
-                    <DataGridTextColumn  Header="Date" Binding="{Binding StartTime}" Width="150"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                  ItemsSource="{Binding TourEvents, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedTourEvent, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="-17,32,10,10" Grid.Row="1" >
+                        <!--SelectionChanged="DataGrid_SelectionChanged"-->
+                        <DataGrid.Columns>
+                            <DataGridTextColumn  Header="State" Binding="{Binding Tour.Location.State}" Width="80"/>
+                            <DataGridTextColumn  Header="City" Binding="{Binding Tour.Location.City}" Width="90"/>
+                            <DataGridTextColumn  Header="Languages" Binding="{Binding Tour.Languages}" Width="90"/>
+                            <DataGridTextColumn  Header="MaxGuests" Binding="{Binding Tour.MaxGuests}" Width="90"/>
+                            <DataGridTextColumn  Header="Duration" Binding="{Binding Tour.Duration}" Width="90"/>
+                            <DataGridTextColumn  Header="Date" Binding="{Binding StartTime}" Width="115"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Image  Height="72" Margin="3,92,439,0" VerticalAlignment="Top"/>
+                    <TextBlock  Text="{Binding SelectedTourEvent.Tour.Name}" FontStyle="Oblique" TextWrapping="Wrap" Margin="29,183,457,0" VerticalAlignment="Top" Height="39"/>
+                    <TextBlock  Text="Description" FontSize="15" FontWeight="Bold" Margin="174,168,291,0" VerticalAlignment="Top" Height="21"/>
+                    <TextBlock  Text="{Binding SelectedTourEvent.Tour.Description}" FontStyle="Oblique" TextWrapping="Wrap" Margin="286,173,39,0" VerticalAlignment="Top" Height="46"/>
+                    <Rectangle HorizontalAlignment="Left" Height="80" Stroke="Black" VerticalAlignment="Top" Width="139" Margin="0,89,0,0"/>
+                </Grid>
 
-            <DataGrid DockPanel.Dock="Bottom"
-                       SelectionMode="Single"
-                  ItemsSource="{Binding Path=Vouchers, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding Path=SelectedVoucher, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True"
-                  Width="900" Height="200" >
-                <!--SelectionChanged="DataGrid_SelectionChanged"-->
-                <DataGrid.Columns>
-                    <DataGridTextColumn  Header="Name" Binding="{Binding Name}" Width="500"></DataGridTextColumn>
-                    <DataGridTextColumn  Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Right" Width="374" Background="White">
+                <Grid Width="344">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="107*"/>
+                        <RowDefinition Height="39*"/>
+                        <RowDefinition Height="146*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle  HorizontalAlignment="Left" Height="227" Stroke="Black" VerticalAlignment="Center" Width="306" Grid.Row="2" RenderTransformOrigin="0.5,0.5">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <DataGrid
+                       SelectionMode="Single" Background="White"
+                  ItemsSource="{Binding Vouchers, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedVoucher, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0,73,33,39" Grid.RowSpan="2" >
+                        <!--SelectionChanged="DataGrid_SelectionChanged"-->
+                        <DataGrid.Columns>
+                            <DataGridTextColumn  Header="Name" Binding="{Binding Name}" Width="175"/>
+                            <DataGridTextColumn  Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock Margin="2,27,31,160"  Text=" Use a voucher" Background="#f3dcc4" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Margin="2,64,38,0" Text=" Make a reservation" Background="#f3dcc4"  FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Grid.RowSpan="2" Grid.Row="1"/>
+                    <TextBlock Text="Number of people"  Margin="27,55,209,0" Grid.Row="2" VerticalAlignment="Top" Height="17"/>
+                    <Button Background="#f9cb9e"  Content="Availability"  Click="CheckAvailabilityButton" HorizontalAlignment="Left" Margin="194,51,0,0" Grid.Row="2" VerticalAlignment="Top" Width="88"/>
+                    <TextBlock  Margin="27,104,219,159" Grid.Row="2" Text="{Binding AvailableSpotsText, UpdateSourceTrigger=PropertyChanged}" FontStyle="Oblique" FontWeight="Bold"/>
+                    <TextBlock  Margin="146,104,146,159" Grid.Row="2" Text="{Binding AvailableSpots, UpdateSourceTrigger=PropertyChanged}" FontStyle="Oblique"/>
+                    <TextBlock Margin="27,161,268,0" Grid.Row="2"  Text="Voucher" VerticalAlignment="Top" Height="20"/>
+                    <TextBlock Margin="102,161,171,104" Grid.Row="2" Text="{Binding SelectedVoucher.Name}" FontStyle="Oblique"  RenderTransformOrigin="0.49,1.304"/>
+                    <Button Background="#f9cb9e" Content="Suggest more" Click="SuggestMoreButton" HorizontalAlignment="Left" Margin="27,215,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98"/>
+                    <Button Background="#f9cb9e" Content="Reserve" Click="ReserveButton"  HorizontalAlignment="Left" Margin="194,215,0,0" Grid.Row="2" VerticalAlignment="Top" Width="91"/>
+                    <TextBox Margin="138,50,171,0" Grid.Row="2"  Text="{Binding NumberOfPeople}" VerticalAlignment="Top" Height="22"/>
+                </Grid>
+            </DockPanel>
 
-        </StackPanel>
-
-
-
+        </DockPanel>
     </DockPanel>
 </Window>

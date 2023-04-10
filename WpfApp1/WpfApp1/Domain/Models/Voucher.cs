@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Serializer;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Models
 {
     public class Voucher : ISerializable
     {
@@ -13,7 +13,11 @@ namespace WpfApp1.Model
 
         private string _name;
 
-        private DateTime _expiration_date;
+        private DateTime _expirationDate;
+
+        public User Tourist { get; set; }
+
+        private Boolean _isUsed;
 
         public int Id
         {
@@ -27,6 +31,17 @@ namespace WpfApp1.Model
             }
         }
 
+        public Boolean IsUsed
+        {
+            get => _isUsed;
+            set
+            {
+                if (value != null)
+                {
+                    _isUsed = value;
+                }
+            }
+        }
         public string Name
         {
             get => _name;
@@ -38,17 +53,27 @@ namespace WpfApp1.Model
                 }
             }
         }
+        public Voucher()
+        {
 
-
+        }
+        public Voucher(int id, int name, DateTime date, User tourist, Boolean isUsed)
+        {
+           Id = id;
+           Name = Name;
+           ExpirationDate = date;   
+           Tourist = tourist;
+           IsUsed = isUsed;
+        }
 
         public DateTime ExpirationDate
         {
-            get => _expiration_date;
+            get => _expirationDate;
             set
             {
                 if(value != null)
                 {
-                    _expiration_date = value;
+                    _expirationDate = value;
                 }
             }
         }
@@ -60,7 +85,9 @@ namespace WpfApp1.Model
                  {
                     Id.ToString(),
                     Name, 
-                    ExpirationDate.ToString()
+                    ExpirationDate.ToString(),
+                    Tourist.Id.ToString(),
+                    IsUsed.ToString()
                 };
             return csvValues;
         }
@@ -70,6 +97,8 @@ namespace WpfApp1.Model
             Id = int.Parse(values[0]);
             Name = values[1];
             ExpirationDate = DateTime.Parse(values[2]);
+            Tourist = new User() { Id = Convert.ToInt32(values[3]) };
+            IsUsed = Convert.ToBoolean(values[4]);
         }
     }
 }

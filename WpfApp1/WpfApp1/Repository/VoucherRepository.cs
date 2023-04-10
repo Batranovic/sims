@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Serializer;
-
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Repository
 {
-    public class VoucherRepository : IRepository<Voucher>, ISubject
+    public class VoucherRepository : IVoucherRepository
     {
         private const string _filePath = "../../../Resources/Data/vouchers.csv";
 
@@ -81,19 +81,17 @@ namespace WpfApp1.Repository
 
 
 
-        public Voucher Update(Voucher entity)
+        public Voucher Update(Voucher voucher)
         {
-            var oldEntity = Get(entity.Id);
-            if (oldEntity == null)
-            {
-                return null;
-            }
-            oldEntity = entity;
-            Save();
-            return oldEntity;
+            Voucher current = _vouchers.Find(tp => tp.Id == voucher.Id);
+            int index = _vouchers.IndexOf(current);
+            _vouchers.Remove(current);
+            _vouchers.Insert(index, voucher);
+            _serializer.ToCSV(_filePath, _vouchers);
+            return voucher;
         }
 
-       
+
         public void Save()
         {
 
@@ -117,5 +115,9 @@ namespace WpfApp1.Repository
                 observer.Update();
             }
         }
+
+        
+        
+       
     }
 }

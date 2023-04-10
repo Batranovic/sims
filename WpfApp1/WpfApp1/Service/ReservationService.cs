@@ -136,7 +136,7 @@ namespace WpfApp1.Service
         {
             try
             {
-                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.GuestRatingStatus.Inprogres || r.Status == Model.Enums.GuestRatingStatus.Reserved)).ToList();
+                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Models.Enums.GuestRatingStatus.Inprogres || r.Status == Models.Enums.GuestRatingStatus.Reserved)).ToList();
             }
             catch
             {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Serializer;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Models
 {
     public class GuestRating : ISerializable
     {

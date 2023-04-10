@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Serializer;
 using WpfApp1.Model.Enums;
 using WpfApp1.Domain.RepositoryInterfaces;

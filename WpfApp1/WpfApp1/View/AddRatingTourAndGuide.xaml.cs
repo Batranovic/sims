@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -25,17 +26,17 @@ namespace WpfApp1.View
     /// <summary>
     /// Interaction logic for AddRatingTourAndGuide.xaml
     /// </summary>
-    public partial class AddRatingTourAndGuide : Window, INotifyPropertyChanged
+    public partial class AddRatingTourAndGuide : Window, INotifyPropertyChanged, IDataErrorInfo
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<int> Scores { get; set; }
 
-        public TourBooking SelctedTourBooking { get; set; }
+        public TourBooking SelectedTourBooking { get; set; }
 
         public RatingTourAndGuideController RatingTourAndGuideController { get; set; }
 
-        public TourBookingController TourBookingController { get; set; }
+        public TourEventController TourEventController { get; set; }
 
         private readonly IImageService _imageService;
 
@@ -47,7 +48,12 @@ namespace WpfApp1.View
 
         public int SelectedInterest { get; set;}
 
-      
+        public ObservableCollection<string> Images { get; set; }
+
+        public string SelectedUrl { get; set; }
+
+
+
         public AddRatingTourAndGuide(TourBooking tourBooking)
         {
             InitializeComponent();
@@ -58,6 +64,10 @@ namespace WpfApp1.View
             var app = Application.Current as App;
             RatingTourAndGuideController = app.RatingTourAndGuideController;
             TourBookingController = app.TourBookingController;
+            TourEventController = app.TourEventController;
+            ImageController = app.ImageController;
+
+            Images = new ObservableCollection<string>();
 
             Scores = new ObservableCollection<int>();
             Scores.Add(1);
@@ -65,10 +75,14 @@ namespace WpfApp1.View
             Scores.Add(3);
             Scores.Add(4);
             Scores.Add(5);
-            SelctedTourBooking = tourBooking;
+            SelectedTourBooking = tourBooking;
             SelectedKnowledge = 0;
             SelectedLanguage = 0;
             SelectedInterest = 0;
+
+
+            //List<string> a = new List<string>(Images);
+
 
         }
 
@@ -103,31 +117,28 @@ namespace WpfApp1.View
 
 
        
-        private List<string> _urls = new List<string>();
+       
 
-        private void AddURL(object sender, RoutedEventArgs e)
+        private void SubmitImageButton(object sender, RoutedEventArgs e)
         {
-            _urls.Add(Url);
+            Images.Add(Url);
             Url = "";
         }
-
-        private List<Model.Image> MakeImages(TourBooking tourBooking)
+        private void RemoveImageButton(object sender, RoutedEventArgs e)
         {
-            List<Model.Image> images = new List<Model.Image>();
-            foreach (string s in _urls)
-            {
-                images.Add(new Model.Image(s, tourBooking.Id, ImageKind.Tour));
-            }
-            foreach (Model.Image image in images)
-            {
-                _imageService.Create(image);
-            }
-            return images;
+            if (SelectedUrl == null) return;
+            Images.Remove(SelectedUrl);
+            SelectedUrl = null;
         }
-
         private void ConfirmButton(object sender, RoutedEventArgs e)
         {
-            RatingTourAndGuide ratingTourAndGuide = new RatingTourAndGuide(SelctedTourBooking, SelectedKnowledge, SelectedLanguage, SelectedInterest, Comment, Url);
+            if (!IsValid)
+            {
+                MessageBox.Show("You didn't finish your review");
+                return;
+            }
+            List<string> images = new List<string>(Images);
+            RatingTourAndGuide ratingTourAndGuide = new RatingTourAndGuide(-1, SelectedKnowledge, SelectedLanguage, SelectedInterest, Comment,SelectedTourBooking.Id ,SelectedTourBooking ,images);
             RatingTourAndGuideController.Create(ratingTourAndGuide);
             MessageBox.Show("Your review has been sent!");
             this.Close();
@@ -175,15 +186,6 @@ namespace WpfApp1.View
                     }
                 }
 
-                if (columnName == "Url")
-                {
-                    if (_urls.Count == 0)
-                    {
-                        return "missing image";
-                    }
-                }
-
-
                 return null;
 
 
@@ -192,7 +194,7 @@ namespace WpfApp1.View
 
         }
 
-        private readonly string[] _validatedProperties = { "SelectedKnowledge", "SelectedLanguage", "SelectedInterest","Comment", "_urls"};
+        private readonly string[] _validatedProperties = { "SelectedKnowledge", "SelectedLanguage", "SelectedInterest","Comment"};
 
         public bool IsValid
         {
@@ -213,5 +215,6 @@ namespace WpfApp1.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+       
     }
 }

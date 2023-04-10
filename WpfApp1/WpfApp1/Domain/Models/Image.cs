@@ -4,9 +4,10 @@ using System.Linq;
 using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Model.Enums;
+using WpfApp1.Models.Enums;
+using WpfApp1.Models;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Models
 {
     public class Image : WpfApp1.Serializer.ISerializable
     {

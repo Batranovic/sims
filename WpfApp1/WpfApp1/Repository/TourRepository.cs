@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Domain.RepositoryInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Serializer;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Repository
 {
-    public class TourRepository : IRepository<Tour>, ISubject
+    public class TourRepository : ITourRepository
     {
         private const string _filePath = "../../../Resources/Data/tours.csv";
         private readonly List<IObserver> _observers;

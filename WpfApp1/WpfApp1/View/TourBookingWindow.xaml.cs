@@ -11,12 +11,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using System.Collections.ObjectModel;
 using WpfApp1.Controller;
 using System.ComponentModel;
-using WpfApp1.Service;
-using WpfApp1.Model.Enums;
+using WpfApp1.Models.Enums;
+using WpfApp1.Repository;
 
 namespace WpfApp1.View
 {
@@ -117,25 +117,37 @@ namespace WpfApp1.View
             TourEventController = app.TourEventController;
             VoucherController = app.VoucherController;
 
-            TourEvents = new ObservableCollection<TourEvent>(tour.TourEvents);
+            TourEvents = new ObservableCollection<TourEvent>(TourEventController.GetTourEventsNotPassedForTour(tour));
 
-            // TourEventController = new TourEventController();
-            //TourBookingController = new TourBookingController();
-
-            Vouchers = new ObservableCollection<Voucher>(VoucherController.GetAll());
-
+            Vouchers = new ObservableCollection<Voucher>(VoucherController.VoucherForTourist(MainWindow.LogInUser.Id));
 
 
         }
 
+        
         private void ReserveButton(object sender, RoutedEventArgs e)
         {
-            if(AvailableSpots >= NumberOfPeople)
+
+            if (AvailableSpots >= NumberOfPeople)
             {
-                User user = new User() { Id = 1 };
-                TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, user);
-                TourBookingController.Create(tourBooking);
-                MessageBox.Show("Successful reservation!");
+                TourBooking existingTourBooking = TourBookingController.GetTourBookingForTourEventAndUser(SelectedTourEvent.Id, MainWindow.LogInUser.Id);
+                if (existingTourBooking != null)
+                {
+                    MessageBox.Show("Already reserved this tour!");
+                }
+                else
+                {
+                    TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, MainWindow.LogInUser, SelectedVoucher);
+                    TourBookingController.Create(tourBooking);
+
+                    if(SelectedVoucher != null)
+                    {
+                        Vouchers.Remove(SelectedVoucher);
+                        SelectedVoucher = null;
+                    }
+
+                    MessageBox.Show("Successful reservation!");
+                }
 
             }
             else
@@ -144,6 +156,8 @@ namespace WpfApp1.View
             }
 
 
+            return;
+            
         }
 
         private void CancelButton(object sender, RoutedEventArgs e)
@@ -194,6 +208,25 @@ namespace WpfApp1.View
             }
         }
 
+       
+
+        private void AllToursButton(object sender, RoutedEventArgs e)
+        {
+            TourSearchAndOverview tourOverview = new TourSearchAndOverview();
+            tourOverview.Show();
+
+            this.Close();
+        }
+
+        private void BookedToursButton(object sender, RoutedEventArgs e)
+        {
+
+            BookedTours bookedTours = new BookedTours();
+            bookedTours.Show();
+
+            this.Close();
+
+        }
     }
 
 }

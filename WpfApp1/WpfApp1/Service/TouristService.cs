@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
@@ -15,7 +15,7 @@ namespace WpfApp1.Service
 
         public TouristService()
         {
-            _touristDAO = TouristRepository.GetInsatnce();
+            _touristDAO = TouristRepository.GetInstance();
         }
         public Tourist Get(int id)
         {

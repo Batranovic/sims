@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
-using WpfApp1.Domain.Models.Enums;
-using WpfApp1.Model.Enums;
+using WpfApp1.Models.Enums;
 using WpfApp1.Repository;
 using WpfApp1.Serializer;
 using WpfApp1.Util;
 
 
-namespace WpfApp1.Model
+namespace WpfApp1.Models
 {
     public class Reservation : WpfApp1.Serializer.ISerializable
     {

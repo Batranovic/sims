@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Service;
 using WpfApp.Observer;
 
@@ -44,7 +44,7 @@ namespace WpfApp1.Controller
             _voucherService.Delete(voucher);
         }
 
-       
+
         public void Subscribe(IObserver observer)
         {
             _voucherService.Subscribe(observer);
@@ -54,5 +54,13 @@ namespace WpfApp1.Controller
         {
             _voucherService.Unsubscribe(observer);
         }
+
+       
+        public List<Voucher> VoucherForTourist(int userId)
+        {
+            return _voucherService.VoucherForTourist(userId);
+        }
+
+        
     }
 }

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Serializer;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Repository
 {
-    public class TourBookingRepository : IRepository<TourBooking>, ISubject
+    public class TourBookingRepository : ITourBookingRepository
     {
         private const string _filePath = "../../../Resources/Data/tourBookings.csv";
         private readonly List<IObserver> _observers;
@@ -40,16 +41,14 @@ namespace WpfApp1.Repository
             Save();
             return entity;
         }
-        public TourBooking Update(TourBooking entity)
+        public TourBooking Update(TourBooking tourBooking)
         {
-            var oldEntity = Get(entity.Id);
-            if (oldEntity == null)
-            {
-                return null;
-            }
-            oldEntity = entity;
-            Save();
-            return oldEntity;
+            TourBooking current = _tourBookings.Find(tp => tp.Id == tourBooking.Id);
+            int index = _tourBookings.IndexOf(current);
+            _tourBookings.Remove(current);
+            _tourBookings.Insert(index, tourBooking);
+            _serializer.ToCSV(_filePath, _tourBookings);
+            return tourBooking;
         }
         public void Save()
         {
@@ -106,6 +105,26 @@ namespace WpfApp1.Repository
                 }
             }
         }
+
+        public void BindVoucher()
+        {
+            foreach (TourBooking tourBooking in _tourBookings)
+            {
+                int voucherId = tourBooking.TourEvent.Id;
+                Voucher voucher = VoucherRepository.GetInstance().Get(voucherId);
+                if (voucher != null)
+                {
+                    tourBooking.Voucher = voucher;
+                }
+                else
+                {
+                    Console.WriteLine("Error in tourReservationTourEvent binding");
+                }
+            }
+        }
+
+
+
 
         public void Subscribe(IObserver observer)
         {

@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Model.Enums;
+using WpfApp1.Models.Enums;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Models
 {
     public class Accommodation : WpfApp1.Serializer.ISerializable
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Serializer;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Models
 {
     public class RatingTourAndGuide : ISerializable
     {
@@ -15,12 +15,11 @@ namespace WpfApp1.Model
         private int _language;
         private int _interest;
         private string _comment;
-        private string _url;
 
         private int _idTourBooking;
         private TourBooking _tourBooking;
 
-        public List<Image> Images { get; set; }
+        public List<string> Images { get; set; }
 
         public int Id
         {
@@ -34,18 +33,7 @@ namespace WpfApp1.Model
             }
         }
 
-        public string Url
-        {
-            get => _url;
-            set
-            {
-                if(value != null)
-                {
-                    _url = value;
-                }
-            }
-        }
-
+       
         public int IdTourBooking
         {
             get => _idTourBooking;
@@ -123,16 +111,16 @@ namespace WpfApp1.Model
 
         }
 
-        public RatingTourAndGuide(TourBooking tourBooking,  int knowledge, int language,int interest, string comment, string url)
+        public RatingTourAndGuide(int id, int knowledge, int language, int interest, string comment, int idTourBooking, TourBooking tourBooking, List<string> images)
         {
-            IdTourBooking= tourBooking.Id;
-            TourBooking = tourBooking;
-            Knowledge = knowledge;
-            Language = language;
-            Interest = interest;
-            Comment = comment;
-            Images = new List<Image>();
-            Url = url;
+            _id = id;
+            _knowledge = knowledge;
+            _language = language;
+            _interest = interest;
+            _comment = comment;
+            _idTourBooking = idTourBooking;
+            _tourBooking = tourBooking;
+            Images = images;
         }
 
         public string[] ToCSV()
@@ -145,7 +133,7 @@ namespace WpfApp1.Model
                 Language.ToString(),
                 Interest.ToString(),
                 Comment,
-                Url
+                string.Join("|", Images)
 
             };
             return result;
@@ -159,7 +147,7 @@ namespace WpfApp1.Model
             Language = Convert.ToInt32(values[3]);
             Interest = Convert.ToInt32(values[4]);
             Comment = values[5];
-            Url = values[6];
+            Images = values[6].Split('|').ToList();
         }
     }
 }

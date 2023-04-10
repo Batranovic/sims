@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace WpfApp1.Model
+namespace WpfApp1.Models
 {
     public class Tour : WpfApp1.Serializer.ISerializable
     {
@@ -22,6 +22,8 @@ namespace WpfApp1.Model
         public List<string> Images { get; set; }
         public List<DateTime> Date { get; set; }
         public List<TourEvent> TourEvents { get; set; }
+
+        public List<TourPoint> TourPoints { get; set; }
 
         public int Id
         {
@@ -123,6 +125,7 @@ namespace WpfApp1.Model
         public Tour()
         {
             TourEvents = new List<TourEvent>();
+            TourPoints = new List<TourPoint>();
         }
 
         public Tour(int id, string name, int idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<string> images, List<DateTime> date)
@@ -137,6 +140,10 @@ namespace WpfApp1.Model
             KeyPoints = keyPoints;
             Images = images;
             Date = date;
+            TourEvents = new List<TourEvent>();
+            TourPoints = new List<TourPoint>();
+
+
         }
 
         public string[] ToCSV()
@@ -144,7 +151,7 @@ namespace WpfApp1.Model
             string[] csvValues =
            {
                     Id.ToString(),
-                    Name.ToString(),
+                    Name,
                     IdLocation.ToString(), 
                     Description.ToString(),
                     Duration.ToString(),

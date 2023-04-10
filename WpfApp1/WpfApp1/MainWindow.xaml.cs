@@ -65,13 +65,21 @@ namespace WpfApp1
                 OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
                 ownerAccount.Show();
                 this.Close();
+                return;
             }
             LogInUser = _touristService.GetByUsernameAndPassword(Username, Password);
             if(LogInUser != null)
             {
+                List<Notification> notifications = NotificationController.GetNotificationForUser(LogInUser.Id);
+                foreach (Notification notification in notifications)
+                {
+                    string tourName = notification.TourBooking.TourEvent.Tour.Name;
+                    MessageBoxResult result = MessageBox.Show(this, "You have been added to " + tourName);
+                }
                 TourSearchAndOverview tourSearchAndOverview = new TourSearchAndOverview();
                 tourSearchAndOverview.Show();
                 this.Close();
+                return;
             }
             LogInUser = _guestService.GetByUsernameAndPassword(Username, Password);
             if(LogInUser != null)
@@ -79,6 +87,7 @@ namespace WpfApp1
                 GuestAccount guestAccount = new GuestAccount(LogInUser);
                 guestAccount.Show();
                 this.Close();
+
             }
         }
     }

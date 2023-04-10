@@ -57,6 +57,34 @@ namespace WpfApp1.View
             }
             AccommodationAndOwnerRating acoommodationAndOwnerRating = new AccommodationAndOwnerRating(SelectedReservation);
             acoommodationAndOwnerRating.Show();
+
+            if (Accommodation.MaxGuests < GuestsNumber)
+            {
+                MessageBox.Show("You need to enter below " + Accommodation.MaxGuests.ToString(), "Notification guests");
+                return;
+            }
+
+            StartDateConverted = ReservationController.CheckAvailableDate(Accommodation.Id, StartlDay, EndDay, ReservationDays);
+            if(DateTime.Compare(StartDateConverted,EndDay) == 0)
+            {
+                var range = ReservationController.GetAvailableDates(Accommodation.Id, EndDay, ReservationDays);
+                AvailableDays availableDays = new AvailableDays(range,Accommodation,Guest);
+                availableDays.Show();
+                return;
+            }
+
+            string message = "Do you want to book this date?" + DateHelper.DateToString(StartDateConverted);
+
+            MessageBoxResult result = MessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                
+                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Models.Enums.GuestRatingStatus.Reserved);
+                ReservationController.Create(reservation);
+            }
+
+            
+            this.Close();
         }
 
         public void Update()

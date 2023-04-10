@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Serializer;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Repository
 {
-    public class TourEventRepository : IRepository<TourEvent>, ISubject
+    public class TourEventRepository : ITourEventRepository
     {
         private const string _filePath = "../../../Resources/Data/tourEvents.csv";
         private readonly List<IObserver> _observers;
@@ -102,7 +103,7 @@ namespace WpfApp1.Repository
                 }
                 else
                 {
-                    Console.WriteLine("Error in accommodationLocation binding");
+                    Console.WriteLine("Error in binding tour and tourEvent");
                 }
             }
         }

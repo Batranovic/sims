@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Domain\ServiceInterfaces\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
 

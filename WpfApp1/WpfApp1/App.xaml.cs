@@ -7,7 +7,7 @@ using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1
@@ -22,6 +22,11 @@ namespace WpfApp1
         public TourEventController TourEventController { get; set; }    
         public TourController TourController { get; set; }
         public RatingTourAndGuideController RatingTourAndGuideController { get; set; }
+        public RatingOwnerController RatingOwnerController { get; set; }
+
+        public TourPointController TourPointController { get; set; }
+       
+        public NotificationController NotificationController { get; set; }
         public VoucherController VoucherController { get; set; }
         public App()
         {
@@ -48,6 +53,8 @@ namespace WpfApp1
             TourEventController = new TourEventController();
             RatingTourAndGuideController = new RatingTourAndGuideController();
             VoucherController = new VoucherController();
+            TourPointController = new TourPointController();
+            NotificationController = new NotificationController();
 
 
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Model;
+using WpfApp1.Models;
 using WpfApp1.Repository;
 using WpfApp1.Service;
 using WpfApp.Observer;
@@ -50,6 +50,16 @@ namespace WpfApp1.Controller
         public void Unsubscribe(IObserver observer)
         {
             _tourBookingServices.Unsubscribe(observer);
+        }
+
+        public List<TourEvent> TouristTourEvents(int userId)
+        {
+            return _tourBookingServices.TouristTourEvents(userId);
+        }
+
+        public TourBooking GetTourBookingForTourEventAndUser(int tourEventId, int userId)
+        {
+            return _tourBookingServices.GetTourBookingForTourEventAndUser(tourEventId, userId);
         }
     }
 
