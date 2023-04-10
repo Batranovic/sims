@@ -49,7 +49,7 @@ namespace WpfApp1.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void nesto(object sender, RoutedEventArgs e)    //ime
+        private void OwnerRating(object sender, RoutedEventArgs e)    //ime
         {
             if (SelectedReservation == null || SelectedReservation.GuestReservationStatus != Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Unrated)
             {
@@ -62,6 +62,17 @@ namespace WpfApp1.View
         public void Update()
         {
             throw new NotImplementedException();
+        }
+
+        public void ReservationPostponement(object sender, RoutedEventArgs e)
+        {
+            if(SelectedReservation == null)
+            {
+                return;
+            }
+
+            ReservationPostponation reservationPostponation = new ReservationPostponation(SelectedReservation);
+            reservationPostponation.Show();
         }
     }
 }
