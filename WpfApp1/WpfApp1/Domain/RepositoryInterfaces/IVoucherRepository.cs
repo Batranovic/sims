@@ -11,7 +11,6 @@ namespace WpfApp1.Domain.RepositoryInterfaces
 {
     public interface IVoucherRepository : IRepository<Voucher>, ISubject
     {
-        int NextId();
         Voucher Delete(Voucher entity);
 
         Voucher Create(Voucher entity);
