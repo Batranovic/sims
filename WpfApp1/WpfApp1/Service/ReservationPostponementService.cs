@@ -75,5 +75,10 @@ namespace WpfApp1.Service
             return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Status == ReservationPostponementStatus.Waiting);
         }
 
+        public List<ReservationPostponement> GetAllByGuestId(int idGuest)
+        {
+            return GetAll().FindAll(r => r.Reservation.IdGuest == idGuest);
+        }
+
     }
 }

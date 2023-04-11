@@ -46,5 +46,11 @@ namespace WpfApp1.View
             ReservationView reservationView = new ReservationView(LogInGuest);
             reservationView.Show();
         }
+
+        private void PostponementsOverview(object sender, RoutedEventArgs e)
+        {
+            GuestPostponementsOverview guestPostponementsOverview = new GuestPostponementsOverview(LogInGuest);
+            guestPostponementsOverview.Show();
+        }
     }
 }

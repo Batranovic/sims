@@ -29,6 +29,7 @@ namespace WpfApp1.Service
         {
             return _guestRepository.GetAll();
         }
+
         public void Update(Guest entity)
         {
             _guestRepository.Update(entity);

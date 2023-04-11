@@ -12,6 +12,7 @@
                 <StackPanel >
                     <Button Click="AccommodationView">Accommodation view</Button>
                     <Button x:Name="btnRatingGuest" Click="ReservationView" >Reservation view</Button>
+                    <Button x:Name="overview" Click="PostponementsOverview" >Postponements overview</Button>
                 </StackPanel>
             </DockPanel>
 
