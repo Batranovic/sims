@@ -21,5 +21,6 @@ namespace WpfApp1.Domain.ServiceInterfaces
         bool IsDateFree(int idAccommodation, DateTime date);
         Dictionary<DateTime, DateTime> GetAvailableDates(int idAccommodation, DateTime endDate, int duration);
         List<Reservation> GetGuestReservations(int id);
+        
     }
 }

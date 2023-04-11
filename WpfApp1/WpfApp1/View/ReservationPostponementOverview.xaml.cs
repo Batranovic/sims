@@ -79,5 +79,17 @@ namespace WpfApp1.View
             }
         }
 
+        private void Notification(object sender, RoutedEventArgs e)
+        {
+            bool freeDate = _reservationService.IsDateFree(SelectedPostponements.Reservation.IdAccommodation,SelectedPostponements.EndDate) && _reservationService.IsDateFree(SelectedPostponements.Reservation.IdAccommodation, SelectedPostponements.StartDate);
+            if(freeDate)
+            {
+                MessageBox.Show("Date is free", "Notification");
+            }
+            else
+            {
+                MessageBox.Show("Date is taken", "Notification");
+            }
+        }
     }
 }
