@@ -42,6 +42,7 @@ namespace WpfApp1.View
         private readonly IImageService _imageService;
 
         private readonly IReservationService _reservationService;
+        private readonly IOwnerService _ownerService;
 
 
         public AccommodationAndOwnerRating(Reservation reservation)
@@ -52,6 +53,7 @@ namespace WpfApp1.View
             _ownerRatingService = InjectorService.CreateInstance<IOwnerRatingService>();
             _imageService = InjectorService.CreateInstance<IImageService>();
             _reservationService = InjectorService.CreateInstance<IReservationService>();
+            _ownerService = InjectorService.CreateInstance<IOwnerService>();
 
             Grades = new ObservableCollection<int>();
             Grades.Add(1);
@@ -130,6 +132,7 @@ namespace WpfApp1.View
             rating.Reservation.Accommodation.Images = AddImage(rating);
             rating.Reservation.GuestReservationStatus = Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Rated;
             _reservationService.Update(rating.Reservation);
+            _ownerService.CalculateAverageRating();
             this.Close();
         }
         private void Reject(object sender, RoutedEventArgs e)

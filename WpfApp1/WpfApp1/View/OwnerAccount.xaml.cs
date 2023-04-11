@@ -73,5 +73,11 @@ namespace WpfApp1.View
             ReservationPostponementOverview reservationPostponementOverview = new ReservationPostponementOverview(LogInOwner);
             reservationPostponementOverview.Show(); 
         }
+
+        private void LogOut(object sender, RoutedEventArgs e)
+        {
+            Close();
+            MainWindow.LogInUser = null;
+        }
     }
 }

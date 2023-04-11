@@ -15,10 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp.Observer;
-using WpfApp1.Controller;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
 using WpfApp1.Service;
+using WpfApp1.Domain.Models;
 
 namespace WpfApp1.View
 {
@@ -53,7 +52,7 @@ namespace WpfApp1.View
 
         private void Aprove(object sender, RoutedEventArgs e)
         {
-            SelectedPostponements.Status = Model.Enums.ReservationPostponementStatus.Approved;
+            SelectedPostponements.Status = Domain.Models.Enums.ReservationPostponementStatus.Approved;
             SelectedPostponements.Reservation.StartDate = SelectedPostponements.StartDate;
             SelectedPostponements.Reservation.EndDate = SelectedPostponements.EndDate;
             _reservationService.Update(SelectedPostponements.Reservation);
@@ -62,7 +61,7 @@ namespace WpfApp1.View
 
         private void Reject(object sender, RoutedEventArgs e)
         {
-            SelectedPostponements.Status = Model.Enums.ReservationPostponementStatus.Rejected;
+            SelectedPostponements.Status = Domain.Models.Enums.ReservationPostponementStatus.Rejected;
 
             AddComment addComment = new AddComment(SelectedPostponements);
             addComment.Show();

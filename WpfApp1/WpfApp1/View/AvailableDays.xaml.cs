@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
 using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 using WpfApp1.Service;

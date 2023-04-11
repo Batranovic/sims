@@ -45,7 +45,7 @@ namespace WpfApp1
             _guestService = InjectorService.CreateInstance<IGuestService>();
             _touristService = InjectorService.CreateInstance<ITouristService>();
             _notificationService = InjectorService.CreateInstance<INotificationService>();
-            var app = Application.Current as App;
+            
 
         }
         private void TourSearchAndOverview(object sender, RoutedEventArgs e)
@@ -69,8 +69,8 @@ namespace WpfApp1
             {
                 OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
                 ownerAccount.Show();
-                this.Close();
                 return;
+                Close();
             }
              LogInUser = _touristService.GetByUsernameAndPassword(Username, Password);
             if (LogInUser != null)
@@ -83,16 +83,15 @@ namespace WpfApp1
                 }
                 TourSearchAndOverview tourSearchAndOverview = new TourSearchAndOverview();
                 tourSearchAndOverview.Show();
-                this.Close();
                 return;
+                Close();
             }
             LogInUser = _guestService.GetByUsernameAndPassword(Username, Password);
             if(LogInUser != null)
             {
                 GuestAccount guestAccount = new GuestAccount(LogInUser);
                 guestAccount.Show();
-                this.Close();
-
+                Close();
             }
         }
     }

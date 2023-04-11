@@ -14,11 +14,54 @@ namespace WpfApp1.Service
     public class OwnerService : IOwnerService
     {
         private readonly IOwnerRepository _ownerRepository;
-    
+        private readonly IOwnerRatingRepository _ownerRatingRepository;
         public OwnerService()
         {
             _ownerRepository = InjectorRepository.CreateInstance<IOwnerRepository>();
+            _ownerRatingRepository = InjectorRepository.CreateInstance<IOwnerRatingRepository>();
         }
+        public void SetKind()
+        {
+            foreach (Owner o in GetAll())
+            {
+                if (o.AverageRating >= 4.5)
+                {
+                    o.Super = true;
+                }
+                else
+                {
+                    o.Super = false;
+                }
+            }
+            Save();
+        }
+
+        public double GetAverageRating(List<OwnerRating> ratings)
+        {
+            double avg = 0;
+            foreach (OwnerRating ro in ratings)
+            {
+                avg += (ro.Timeliness + ro.Cleanliness + ro.OwnerCorrectness) / 3;
+            }
+            return avg / ratings.Count;
+        }
+        public void CalculateAverageRating()
+        {
+            BindRating();
+            foreach (Owner o in GetAll())
+            {
+                o.AverageRating = GetAverageRating(o.Ratings);
+            }
+            SetKind();
+        }
+        private void BindRating()
+        {
+            foreach (OwnerRating ro in _ownerRatingRepository.GetAll())
+            {
+                Get(ro.Reservation.Accommodation.OwnerId).Ratings.Add(ro);
+            }
+        }
+
         public void Save()
         {
             _ownerRepository.Save();
