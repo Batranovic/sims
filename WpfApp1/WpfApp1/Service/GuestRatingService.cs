@@ -19,6 +19,7 @@ namespace WpfApp1.Service
         {
             _guestRatingRepository = InjectorRepository.CreateInstance<IGuestRatingRepository>();
             _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
+            BindReservation();
         }
         private void BindReservation()
         {

@@ -20,6 +20,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
 using Application = System.Windows.Application;
 using WpfApp1.Service;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models.Enums;
 
 namespace WpfApp1.View
@@ -34,9 +35,9 @@ namespace WpfApp1.View
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
         public AccommodationKind SelectedAccommodationKind { get; set; }
 
-        private readonly LocationService _locationService;
-        private readonly AccommodationService _accommodationService;
-        private readonly ImageService _imageService;
+        private readonly ILocationService _locationService;
+        private readonly IAccommodationService _accommodationService;
+        private readonly IImageService _imageService;
    
         public ObservableCollection<string> States { get; set; }
         public ObservableCollection<string> Cities { get; set; }
@@ -48,9 +49,9 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            _locationService = InjectorService.CreateInstance<LocationService>();
-            _accommodationService = InjectorService.CreateInstance<AccommodationService>(); 
-            _imageService = InjectorService.CreateInstance<ImageService>(); 
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            _accommodationService = InjectorService.CreateInstance<IAccommodationService>(); 
+            _imageService = InjectorService.CreateInstance<IImageService>(); 
                 
             SelectCity.IsEnabled = false;
 

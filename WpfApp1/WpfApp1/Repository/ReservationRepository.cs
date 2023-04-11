@@ -100,7 +100,6 @@ namespace WpfApp1.Repository
 
         public Reservation Delete(Reservation entity)
         {
-            //_reservations.Remove(entity);
             entity.Deleted = true;
             Save();
             NotifyObservers();

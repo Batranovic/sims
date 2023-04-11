@@ -21,11 +21,13 @@ namespace WpfApp1.Service
         private readonly IReservationRepository _reservationRepository;
         private readonly IAccommodationRepository _accommodationRepository;
         private readonly IGuestRepository _guestRepository;
+        private readonly IReservationPostponementRepository _reservationPostponementRepository;
         public ReservationService()
         {
             _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
             _accommodationRepository = InjectorRepository.CreateInstance<IAccommodationRepository>();
             _guestRepository = InjectorRepository.CreateInstance<IGuestRepository>();
+            _reservationPostponementRepository = InjectorRepository.CreateInstance<IReservationPostponementRepository>();
             BindAccommodation();
             BindGuest();
         }
@@ -61,6 +63,14 @@ namespace WpfApp1.Service
         }
         public void Delete(Reservation reservation)
         {
+            var reservationPostponets = _reservationPostponementRepository.GetByReservation(reservation.Id);
+            if(reservationPostponets.Count != 0)
+            {
+                foreach(var r in reservationPostponets)
+                {
+                    _reservationPostponementRepository.Delete(r);
+                }
+            }
             _reservationRepository.Delete(reservation);
         }
         public Reservation Update(Reservation reservation)
