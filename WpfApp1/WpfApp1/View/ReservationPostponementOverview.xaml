@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="ReservationPostponementOverview" Height="470" Width="800">
     <Grid>
-        <DataGrid DockPanel.Dock="Right" Width="600" Height="350"
+        <DataGrid DockPanel.Dock="Right" Width="600"
                           AutoGenerateColumns="False" ItemsSource="{Binding Path=ReservationPostponements, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding Path=SelectedPostponements, UpdateSourceTrigger=PropertyChanged}"
-                          Margin="25,25,20,25" IsReadOnly="True">
+                          Margin="102,52,98,71" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Accommodation" Binding="{Binding Reservation.Accommodation.Name}" Width="120"></DataGridTextColumn>
                 <DataGridTextColumn Header="Name" Binding="{Binding Reservation.Guest.Name}" Width="120"></DataGridTextColumn>
@@ -23,6 +23,6 @@
               Click="Aprove" />
         <Button Content="Odustani " IsDefault="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="474,404,0,0"
                Click="Reject" />
-        
+
     </Grid>
 </Window>

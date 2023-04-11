@@ -94,7 +94,7 @@ namespace WpfApp1.Service
         }
         public List<Accommodation> GetSortedListBySuperOwner()
         {
-            return GetAll().OrderBy(a => a.Owner.AverageRating).ToList();
+            return GetAll().OrderByDescending(a => a.Owner.AverageRating).ToList();
         }
 
     }

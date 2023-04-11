@@ -30,6 +30,7 @@ namespace WpfApp1.View
         public Owner LogInOwner { get; set; }
         public ObservableCollection<ReservationPostponement> ReservationPostponements { get; set; }
         private readonly IReservationPostponementService _reservationPostponementService;
+        private readonly IReservationService _reservationService;
         public ReservationPostponement SelectedPostponements { get; set; }
 
         public bool CkeckAprove { get; set; }
@@ -39,6 +40,7 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;    
 
+            _reservationService = InjectorService.CreateInstance<IReservationService>(); 
             _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>();
             _reservationPostponementService.Subscribe(this);
 
@@ -47,23 +49,14 @@ namespace WpfApp1.View
             LogInOwner = owner;
             ReservationPostponements = new ObservableCollection<ReservationPostponement>(_reservationPostponementService.GetAllByOwnerIdAhead(LogInOwner.Id));
         }
-        private void AprovePostponement(object sender, RoutedEventArgs e)
-        {
-            SelectedPostponements.Status = Model.Enums.ReservationPostponementStatus.Approved;
-            CkeckAprove = true;
-            CkeckReject = false;
-        }
-
-        private void RejectPostponement(object sender, RoutedEventArgs e)
-        {
-            SelectedPostponements.Status = Model.Enums.ReservationPostponementStatus.Rejected; 
-            CkeckAprove = false;
-            CkeckReject = true;
-        }
+    
 
         private void Aprove(object sender, RoutedEventArgs e)
         {
             SelectedPostponements.Status = Model.Enums.ReservationPostponementStatus.Approved;
+            SelectedPostponements.Reservation.StartDate = SelectedPostponements.StartDate;
+            SelectedPostponements.Reservation.EndDate = SelectedPostponements.EndDate;
+            _reservationService.Update(SelectedPostponements.Reservation);
             _reservationPostponementService.Update(SelectedPostponements);
         }
 
