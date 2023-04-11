@@ -6,9 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Controller;
 using WpfApp1.Domain.RepositoryInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 using WpfApp1.Service;
 
@@ -21,7 +20,7 @@ namespace WpfApp1.Repository
         private readonly Serializer<Accommodation> _serializer;
         private static IAccommodationRepository _instance = null;
         private List<Accommodation> _accommodations;
-        
+
         public static IAccommodationRepository GetInstance()
         {
             if(_instance == null)
@@ -36,7 +35,6 @@ namespace WpfApp1.Repository
             _accommodations = new List<Accommodation>();
             _accommodations = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-        
         }
         
         

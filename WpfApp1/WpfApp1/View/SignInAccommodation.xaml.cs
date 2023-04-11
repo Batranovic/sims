@@ -11,16 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Model.Enums;
-using WpfApp1.Model;
+using WpfApp1.Domain.Domain.Models.Enums;
+using WpfApp1.Domain.Models;
 using System.Collections.ObjectModel;
-using WpfApp1.Controller;
 using System.ComponentModel;
 using WpfApp.Observer;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
 using Application = System.Windows.Application;
 using WpfApp1.Service;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Domain.Models.Enums;
 
 namespace WpfApp1.View
 {
@@ -34,9 +35,9 @@ namespace WpfApp1.View
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
         public AccommodationKind SelectedAccommodationKind { get; set; }
 
-        private readonly LocationService _locationService;
-        private readonly AccommodationService _accommodationService;
-        private readonly ImageService _imageService;
+        private readonly ILocationService _locationService;
+        private readonly IAccommodationService _accommodationService;
+        private readonly IImageService _imageService;
    
         public ObservableCollection<string> States { get; set; }
         public ObservableCollection<string> Cities { get; set; }
@@ -48,9 +49,9 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            _locationService = InjectorService.CreateInstance<LocationService>();
-            _accommodationService = InjectorService.CreateInstance<AccommodationService>(); 
-            _imageService = InjectorService.CreateInstance<ImageService>(); 
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            _accommodationService = InjectorService.CreateInstance<IAccommodationService>(); 
+            _imageService = InjectorService.CreateInstance<IImageService>(); 
                 
             SelectCity.IsEnabled = false;
 
@@ -147,14 +148,14 @@ namespace WpfApp1.View
         }
 
 
-        private List<Model.Image> MakeImages(Accommodation accommodation)
+        private List<Domain.Models.Image> MakeImages(Accommodation accommodation)
         {
-            List<Model.Image> images = new List<Model.Image>();
+            List< Domain.Models.Image > images = new List<Domain.Models.Image>();
             foreach (string s in _urls)
             {
-                images.Add(new Model.Image(s, accommodation.Id, ImageKind.Accommodation));
+                images.Add(new Domain.Models.Image(s, accommodation.Id, ImageKind.Accommodation));
             }
-            foreach (Model.Image image in images)
+            foreach (Domain.Models.Image image in images)
             {
                 _imageService.Create(image);
             }

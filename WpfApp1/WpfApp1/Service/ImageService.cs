@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
@@ -39,9 +39,9 @@ namespace WpfApp1.Service
             _imageRepository.Delete(entity);
         }
 
-        public void Update(Image entity)
+        public Image Update(Image entity)
         {
-            _imageRepository.Update(entity);
+            return _imageRepository.Update(entity);
         }
 
         public void Save()

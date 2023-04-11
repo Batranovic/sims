@@ -14,8 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp.Observer;
-using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 
 namespace WpfApp1.View
@@ -26,7 +26,7 @@ namespace WpfApp1.View
     public partial class ExpiredReservation : Window, INotifyPropertyChanged, IObserver
     {
         public ObservableCollection<Reservation> Reservations { get; set; }
-        private readonly ReservationService _reservationService;
+        private readonly IReservationService _reservationService;
         public Owner LogInOwner { get; set; }
         public Reservation SelectedReservation { get; set; }
         public ExpiredReservation(Owner owner)
@@ -34,7 +34,7 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            _reservationService = InjectorService.CreateInstance<ReservationService>();
+            _reservationService = InjectorService.CreateInstance<IReservationService>();
 
             _reservationService.Subscribe(this);
 

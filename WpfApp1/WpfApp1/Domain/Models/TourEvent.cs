@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Serializer;
+using WpfApp1.Domain.Domain.Models.Enums;
+using WpfApp1.Domain.Models.Enums;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Domain.Models
 {
     public class TourEvent : ISerializable
     {
@@ -14,13 +16,16 @@ namespace WpfApp1.Model
         public Tour Tour { get; set; }
         public DateTime StartTime { get; set; }
 
+        public TourEventStatus Status { get; set; }
+
         public TourEvent() { }
 
-        public TourEvent(int id, Tour tour, DateTime startTime)
+        public TourEvent(int id, Tour tour, DateTime startTime, TourEventStatus status)
         {
             Id = id;
             Tour = tour;
             StartTime = startTime;
+            Status = status;
         }
 
         public string[] ToCSV()
@@ -30,6 +35,7 @@ namespace WpfApp1.Model
                Id.ToString(),
                Tour.Id.ToString(),
                StartTime.ToString(),
+               Status.ToString(),
             };
             return csvValues;
         }
@@ -39,6 +45,7 @@ namespace WpfApp1.Model
             Id = Convert.ToInt32(values[0]);
             Tour = new Tour() { Id = Convert.ToInt32(values[1]) };
             StartTime = DateTime.Parse(values[2]);
+            Status = (TourEventStatus)Enum.Parse(typeof(TourEventStatus), values[3]);
         }
     }
 }

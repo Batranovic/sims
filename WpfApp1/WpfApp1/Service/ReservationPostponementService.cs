@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
-using WpfApp1.Model.Enums;
+using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Repository;
 using WpfApp1.Domain.RepositoryInterfaces;
 using System.Security.Cryptography;
 using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Domain.Models.Enums;
 
 namespace WpfApp1.Service
 {
@@ -55,9 +56,9 @@ namespace WpfApp1.Service
             _reservationPostponementRepository.Delete(entity);
         }
 
-        public void Update(ReservationPostponement entity)
+        public ReservationPostponement Update(ReservationPostponement entity)
         {
-            _reservationPostponementRepository.Update(entity);
+            return _reservationPostponementRepository.Update(entity);
         }
 
         public void Subscribe(IObserver observer)
@@ -72,12 +73,26 @@ namespace WpfApp1.Service
 
         public List<ReservationPostponement> GetAllByOwnerIdAhead(int idOwner)
         {
-            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Status == ReservationPostponementStatus.Waiting);
+            try
+            {
+                return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Status == ReservationPostponementStatus.Waiting);
+            }
+            catch(Exception ex)
+            {
+                return new List<ReservationPostponement>();
+            }
         }
+
 
         public List<ReservationPostponement> GetAllByGuestId(int idGuest)
         {
             return GetAll().FindAll(r => r.Reservation.IdGuest == idGuest);
+        }
+
+
+        public List<ReservationPostponement> GetByReservation(int idReservation)
+        {
+            return _reservationPostponementRepository.GetByReservation(idReservation);
         }
 
     }

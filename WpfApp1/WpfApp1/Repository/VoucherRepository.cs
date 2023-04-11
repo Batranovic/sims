@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
-
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Repository
 {
-    public class VoucherRepository : IRepository<Voucher>, ISubject
+    public class VoucherRepository : IVoucherRepository
     {
         private const string _filePath = "../../../Resources/Data/vouchers.csv";
 
@@ -18,11 +18,11 @@ namespace WpfApp1.Repository
 
         private readonly List<IObserver> _observers;
 
-        private static VoucherRepository _instance = null;
+        private static IVoucherRepository _instance = null;
 
         private List<Voucher> _vouchers;
 
-        public static VoucherRepository GetInstance()
+        public static IVoucherRepository GetInstance()
         {
             if (_instance == null)
             {
@@ -81,23 +81,21 @@ namespace WpfApp1.Repository
 
 
 
-        public Voucher Update(Voucher entity)
+        public Voucher Update(Voucher voucher)
         {
-            var oldEntity = Get(entity.Id);
-            if (oldEntity == null)
-            {
-                return null;
-            }
-            oldEntity = entity;
-            Save();
-            return oldEntity;
+            Voucher current = _vouchers.Find(tp => tp.Id == voucher.Id);
+            int index = _vouchers.IndexOf(current);
+            _vouchers.Remove(current);
+            _vouchers.Insert(index, voucher);
+            _serializer.ToCSV(_filePath, _vouchers);
+            return voucher;
         }
 
-       
+
         public void Save()
         {
-
             _serializer.ToCSV(_filePath, _vouchers);
+
         }
 
         public void Subscribe(IObserver observer)
@@ -117,5 +115,9 @@ namespace WpfApp1.Repository
                 observer.Update();
             }
         }
+
+        
+        
+       
     }
 }

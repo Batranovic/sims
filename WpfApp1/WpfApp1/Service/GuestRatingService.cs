@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
@@ -19,6 +19,7 @@ namespace WpfApp1.Service
         {
             _guestRatingRepository = InjectorRepository.CreateInstance<IGuestRatingRepository>();
             _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
+            BindReservation();
         }
         private void BindReservation()
         {
@@ -48,9 +49,9 @@ namespace WpfApp1.Service
             _guestRatingRepository.Delete(entity);
         }
 
-        public void Update(GuestRating entity)
+        public GuestRating Update(GuestRating entity)
         {
-            _guestRatingRepository.Update(entity);
+           return _guestRatingRepository.Update(entity);
         }
         public void Save()
         {

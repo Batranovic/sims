@@ -9,9 +9,10 @@ using System.Windows.Controls;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
-using WpfApp1.Model.Enums;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Repository;
+using WpfApp1.Domain.Models.Enums;
 
 namespace WpfApp1.Service
 {
@@ -20,11 +21,13 @@ namespace WpfApp1.Service
         private readonly IReservationRepository _reservationRepository;
         private readonly IAccommodationRepository _accommodationRepository;
         private readonly IGuestRepository _guestRepository;
+        private readonly IReservationPostponementRepository _reservationPostponementRepository;
         public ReservationService()
         {
             _reservationRepository = InjectorRepository.CreateInstance<IReservationRepository>();
             _accommodationRepository = InjectorRepository.CreateInstance<IAccommodationRepository>();
             _guestRepository = InjectorRepository.CreateInstance<IGuestRepository>();
+            _reservationPostponementRepository = InjectorRepository.CreateInstance<IReservationPostponementRepository>();
             BindAccommodation();
             BindGuest();
         }
@@ -58,13 +61,25 @@ namespace WpfApp1.Service
         {
             _reservationRepository.Create(reservation);
         }
+        private void DeleteReservationPostponement(Reservation reservation)
+        {
+            var reservationPostponets = _reservationPostponementRepository.GetByReservation(reservation.Id);
+            if (reservationPostponets.Count != 0)
+            {
+                foreach (var r in reservationPostponets)
+                {
+                    _reservationPostponementRepository.Delete(r);
+                }
+            }
+        }
         public void Delete(Reservation reservation)
         {
+            DeleteReservationPostponement(reservation);
             _reservationRepository.Delete(reservation);
         }
-        public void Update(Reservation reservation)
+        public Reservation Update(Reservation reservation)
         {
-            _reservationRepository.Update(reservation);
+           return  _reservationRepository.Update(reservation);
         }
         public void Subscribe(IObserver observer)
         {
@@ -136,7 +151,7 @@ namespace WpfApp1.Service
         {
             try
             {
-                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.GuestRatingStatus.Inprogres || r.Status == Model.Enums.GuestRatingStatus.Reserved)).ToList();
+                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Domain.Models.Enums.GuestRatingStatus.Inprogres || r.Status == Domain.Models.Enums.GuestRatingStatus.Reserved)).ToList();
             }
             catch
             {

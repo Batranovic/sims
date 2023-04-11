@@ -14,10 +14,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
-using WpfApp1.Model.Enums;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Service;
 
 namespace WpfApp1.View
@@ -141,7 +140,7 @@ namespace WpfApp1.View
         }
 
 
-        
+  
 
         private void Search(object sender, RoutedEventArgs e)
         {

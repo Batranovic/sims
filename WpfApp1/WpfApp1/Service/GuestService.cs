@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
@@ -29,10 +29,9 @@ namespace WpfApp1.Service
         {
             return _guestRepository.GetAll();
         }
-
-        public void Update(Guest entity)
+        public Guest Update(Guest entity)
         {
-            _guestRepository.Update(entity);
+            return _guestRepository.Update(entity);
         }
         public void Save()
         {
