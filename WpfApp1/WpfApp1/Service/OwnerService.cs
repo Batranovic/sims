@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
@@ -14,11 +14,40 @@ namespace WpfApp1.Service
     public class OwnerService : IOwnerService
     {
         private readonly IOwnerRepository _ownerRepository;
-    
+        private readonly IOwnerRatingRepository _ownerRatingRepository;
         public OwnerService()
         {
             _ownerRepository = InjectorRepository.CreateInstance<IOwnerRepository>();
+            _ownerRatingRepository = InjectorRepository.CreateInstance<IOwnerRatingRepository>();
+            BindRating();
+            CalculateAverageRating();
         }
+
+        public double GetAverageRating(List<OwnerRating> ratings)
+        {
+            double avg = 0;
+            foreach (OwnerRating ro in ratings)
+            {
+                avg += (ro.Timeliness + ro.Cleanliness + ro.OwnerCorrectness) / 3;
+            }
+            return avg / ratings.Count;
+        }
+        public void CalculateAverageRating()
+        {
+            foreach (Owner o in GetAll())
+            {
+                o.AverageRating = GetAverageRating(o.Ratings);
+            }
+            Save();
+        }
+        private void BindRating()
+        {
+            foreach (OwnerRating ro in _ownerRatingRepository.GetAll())
+            {
+                Get(ro.Reservation.Accommodation.OwnerId).Ratings.Add(ro);
+            }
+        }
+
         public void Save()
         {
             _ownerRepository.Save();
@@ -34,9 +63,9 @@ namespace WpfApp1.Service
             return _ownerRepository.GetAll();
         }
 
-        public void Update(Owner entity)
+        public Owner Update(Owner entity)
         {
-            _ownerRepository.Update(entity);
+           return _ownerRepository.Update(entity);
         }
 
         public Owner GetByUsernameAndPassword(string username, string password)

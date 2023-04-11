@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Model.Enums;
+using WpfApp1.Domain.Domain.Models.Enums;
+using WpfApp1.Domain.Models.Enums;
 using WpfApp1.Util;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Domain.Models
 {
     public class ReservationPostponement : WpfApp1.Serializer.ISerializable
     {

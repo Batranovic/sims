@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
@@ -53,9 +53,9 @@ namespace WpfApp1.Service
             _ownerRatingRepository.Delete(ownerRating);
         }
 
-        public void Update(OwnerRating ownerRating)
+        public OwnerRating Update(OwnerRating ownerRating)
         {
-            _ownerRatingRepository.Update(ownerRating);
+            return _ownerRatingRepository.Update(ownerRating);
         }
         
         public void Subscribe(IObserver observer)
@@ -75,7 +75,7 @@ namespace WpfApp1.Service
 
         public List<OwnerRating> GetAllOwnerRewies(int idOwner)
         {
-            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Reservation.Status == Model.Enums.GuestRatingStatus.Rated);
+            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Reservation.Status == Domain.Models.Enums.GuestRatingStatus.Rated);
         }
 
     }

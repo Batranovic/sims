@@ -14,9 +14,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 
 namespace WpfApp1.View
@@ -85,7 +84,7 @@ namespace WpfApp1.View
        
         private void Confrim(object sender, RoutedEventArgs e)
         {
-            SelectedResevation.Status = Model.Enums.GuestRatingStatus.Rated;
+            SelectedResevation.Status =  Domain.Models.Enums.GuestRatingStatus.Rated;
             _reservationService.Update(SelectedResevation);
             GuestRating  ratingGuest = new GuestRating(SelectedResevation, Comment, SelectedCleanness, SelectedFollowingRules, SelectedNoise, SelectedDamage, SelectedTimeliness);
             _guestRatingService.Create(ratingGuest);        

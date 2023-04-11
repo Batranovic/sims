@@ -13,9 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 using WpfApp1.Service;
 using WpfApp1.View;
@@ -29,10 +28,14 @@ namespace WpfApp1
     {
         private readonly IOwnerService _ownerService;
         private readonly IGuestService _guestService;
-        public readonly TouristService _touristService;
+        private readonly ITouristService _touristService;
+
         public static User LogInUser { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+
+        private readonly INotificationService _notificationService;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -40,7 +43,9 @@ namespace WpfApp1
 
             _ownerService = InjectorService.CreateInstance<IOwnerService>();
             _guestService = InjectorService.CreateInstance<IGuestService>();
-            _touristService = new TouristService();  
+            _touristService = InjectorService.CreateInstance<ITouristService>();
+            _notificationService = InjectorService.CreateInstance<INotificationService>();
+            
 
         }
         private void TourSearchAndOverview(object sender, RoutedEventArgs e)
@@ -64,21 +69,29 @@ namespace WpfApp1
             {
                 OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
                 ownerAccount.Show();
-                this.Close();
+                return;
+                Close();
             }
-            LogInUser = _touristService.GetByUsernameAndPassword(Username, Password);
-            if(LogInUser != null)
+             LogInUser = _touristService.GetByUsernameAndPassword(Username, Password);
+            if (LogInUser != null)
             {
+                List<Notification> notifications = _notificationService.GetNotificationForUser(LogInUser.Id);
+                foreach (Notification notification in notifications)
+                {
+                    string tourName = notification.TourBooking.TourEvent.Tour.Name;
+                    MessageBoxResult result = MessageBox.Show(this, "You have been added to " + tourName);
+                }
                 TourSearchAndOverview tourSearchAndOverview = new TourSearchAndOverview();
                 tourSearchAndOverview.Show();
-                this.Close();
+                return;
+                Close();
             }
             LogInUser = _guestService.GetByUsernameAndPassword(Username, Password);
             if(LogInUser != null)
             {
                 GuestAccount guestAccount = new GuestAccount(LogInUser);
                 guestAccount.Show();
-                this.Close();
+                Close();
             }
         }
     }

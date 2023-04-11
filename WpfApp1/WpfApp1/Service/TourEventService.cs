@@ -4,56 +4,84 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Repository;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp.Observer;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Service
 {
-    public class TourEventService
+    public class TourEventService : ITourEventService
     {
 
-        private TourEventRepository _tourEventDAO;
-        private TourBookingRepository _tourBookingDAO;
+        private readonly ITourEventRepository _tourEventRepository;
+        private readonly ITourBookingRepository _tourBookingRepository;
 
         public TourEventService()
         {
-            _tourEventDAO = TourEventRepository.GetInstance();
-            _tourBookingDAO = TourBookingRepository.GetInstance();
+            _tourEventRepository = InjectorRepository.CreateInstance<ITourEventRepository>();
+            _tourBookingRepository = InjectorRepository.CreateInstance<ITourBookingRepository>();
+            BindTour();
         }
-
+        private void BindTour()
+        {
+            foreach (TourEvent tourEvent in _tourEventRepository.GetAll())
+            {
+                int tourId = tourEvent.Tour.Id;
+                Tour tour = TourRepository.GetInstance().Get(tourId);
+                if (tour != null)
+                {
+                    tourEvent.Tour = tour;
+                    tour.TourEvents.Add(tourEvent);
+                }
+                else
+                {
+                    Console.WriteLine("Error in binding tour and tourEvent");
+                }
+            }
+        }
         public List<TourEvent> GetAll()
         {
-            return _tourEventDAO.GetAll();
+            return _tourEventRepository.GetAll();
         }
 
         public TourEvent Get(int id)
         {
-            return _tourEventDAO.Get(id);
+            return _tourEventRepository.Get(id);
         }
 
+        public void Save()
+        {
 
+            _tourEventRepository.Save();
+        }
 
         public void Delete(TourEvent tourEvent)
         {
 
-            _tourEventDAO.Delete(tourEvent);
+            _tourEventRepository.Delete(tourEvent);
 
         }
 
         public TourEvent Update(TourEvent tourEvent)
         {
-            return _tourEventDAO.Update(tourEvent);
+            return _tourEventRepository.Update(tourEvent);
+        }
+
+        public void Create(TourEvent entity)
+        {
+             _tourEventRepository.Create(entity);
         }
 
 
         public void Subscribe(IObserver observer)
         {
-            _tourEventDAO.Subscribe(observer);
+            _tourEventRepository.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _tourEventDAO.Unsubscribe(observer);
+            _tourEventRepository.Unsubscribe(observer);
         }
 
 
@@ -61,7 +89,7 @@ namespace WpfApp1.Service
         public int CheckAvailability(TourEvent tourEvent)
         {
             int numOfPeople = 0;
-            foreach (TourBooking tourBooking in _tourBookingDAO.GetAll())
+            foreach (TourBooking tourBooking in _tourBookingRepository.GetAll())
             {
                 if (tourBooking.TourEvent.Id == tourEvent.Id)
                 {
@@ -74,7 +102,7 @@ namespace WpfApp1.Service
         public List<TourBooking> GetAllTourBookingsForTourEvent(TourEvent tourEvent)
         {
             List<TourBooking> tourBookingList = new List<TourBooking>();
-            foreach (TourBooking tourBooking in _tourBookingDAO.GetAll())
+            foreach (TourBooking tourBooking in _tourBookingRepository.GetAll())
             {
                 if (tourBooking.TourEvent.Id == tourEvent.Id)
                 {
@@ -89,7 +117,7 @@ namespace WpfApp1.Service
             List<TourEvent> tourEvents = new List<TourEvent>();
 
 
-            foreach (TourEvent tourEvent in _tourEventDAO.GetAll())
+            foreach (TourEvent tourEvent in _tourEventRepository.GetAll())
             {
                 int freePlaces = tourEvent.Tour.MaxGuests - CheckAvailability(tourEvent);
                 if (tourEvent.StartTime > DateTime.Now && tourEvent.Tour.Location.City == location.City && tourEvent.Tour.Location.State == location.State && freePlaces > numberOfPeople)
@@ -99,5 +127,21 @@ namespace WpfApp1.Service
             }
             return tourEvents;
         }
+        public List<TourEvent> GetNotFinishedTourEvents(Tour tour)
+        {
+            List<TourEvent> tourEventsNotPassed = new List<TourEvent>();
+
+            foreach (TourEvent tourEvent in tour.TourEvents)
+            {
+                if (tourEvent.StartTime.Date > DateTime.Now.Date)
+                {
+                    tourEventsNotPassed.Add(tourEvent);
+                }
+            }
+
+            return tourEventsNotPassed;
+        }
+
+
     }
 }

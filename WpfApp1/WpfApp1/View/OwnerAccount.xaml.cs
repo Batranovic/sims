@@ -11,9 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 
 namespace WpfApp1.View
@@ -78,9 +77,7 @@ namespace WpfApp1.View
         private void LogOut(object sender, RoutedEventArgs e)
         {
             Close();
-            MainWindow mainWindow = new MainWindow();
             MainWindow.LogInUser = null;
-            mainWindow.Show();
         }
     }
 }

@@ -13,12 +13,12 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
-using WpfApp1.Model.Enums;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Service;
+using WpfApp1.Domain.Models.Enums;
 
 namespace WpfApp1.View
 {
@@ -42,6 +42,7 @@ namespace WpfApp1.View
         private readonly IImageService _imageService;
 
         private readonly IReservationService _reservationService;
+        private readonly IOwnerService _ownerService;
 
 
         public AccommodationAndOwnerRating(Reservation reservation)
@@ -52,6 +53,7 @@ namespace WpfApp1.View
             _ownerRatingService = InjectorService.CreateInstance<IOwnerRatingService>();
             _imageService = InjectorService.CreateInstance<IImageService>();
             _reservationService = InjectorService.CreateInstance<IReservationService>();
+            _ownerService = InjectorService.CreateInstance<IOwnerService>();
 
             Grades = new ObservableCollection<int>();
             Grades.Add(1);
@@ -103,14 +105,14 @@ namespace WpfApp1.View
             Url = "";
         }
 
-        private List<Model.Image> AddImage(OwnerRating rating)
+        private List<Domain.Models.Image> AddImage(OwnerRating rating)
         {
-            List<Model.Image> images = new List<Model.Image>();
+            List<Domain.Models.Image> images = new List<Domain.Models.Image>();
             foreach (string s in _urls)
             {
-                images.Add(new Model.Image(s, rating.Reservation.Accommodation.Id, ImageKind.ReviewAccommodation));
+                images.Add(new Domain.Models.Image(s, rating.Reservation.Accommodation.Id, ImageKind.ReviewAccommodation));
             }
-            foreach (Model.Image image in images)
+            foreach (Domain.Models.Image image in images)
             {
                 _imageService.Create(image);
             }
@@ -128,8 +130,9 @@ namespace WpfApp1.View
             OwnerRating rating = new OwnerRating(SelectedReservation, Comment, SelectedCleanness, SelectedOwnerCorectness, SelectedTimeliness);
             _ownerRatingService.Create(rating);
             rating.Reservation.Accommodation.Images = AddImage(rating);
-            rating.Reservation.GuestReservationStatus = Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Rated;
+            rating.Reservation.GuestReservationStatus = Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Rated;
             _reservationService.Update(rating.Reservation);
+            _ownerService.CalculateAverageRating();
             this.Close();
         }
         private void Reject(object sender, RoutedEventArgs e)

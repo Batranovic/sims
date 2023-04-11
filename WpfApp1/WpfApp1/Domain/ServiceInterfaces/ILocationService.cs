@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 
 namespace WpfApp1.Domain.ServiceInterfaces
 {
@@ -13,7 +13,6 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void Create(Location entity);
         void Delete(Location entity);
 
-        void Update(Location entity);
 
         void Subscribe(IObserver observer);
 
