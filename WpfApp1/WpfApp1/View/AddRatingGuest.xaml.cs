@@ -14,6 +14,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Controller;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 
@@ -31,18 +33,18 @@ namespace WpfApp1.View
         public int SelectedDamage { get; set; }
         public int SelectedTimeliness { get; set; }
         public Reservation SelectedResevation { get; set; }
-        private readonly GuestRatingService _guestRatingService;
-        private readonly ReservationService _reservationService;
-        private readonly OwnerRatingService _ownerRatingService; 
+        private readonly IGuestRatingService _guestRatingService;
+        private readonly IReservationService _reservationService;
+        private readonly IOwnerRatingService _ownerRatingService; 
                 
         public AddRatingGuest(Reservation reservation)
         {
             InitializeComponent();
             this.DataContext = this;
 
-            _guestRatingService = InjectorService.CreateInstance<GuestRatingService>();
-            _reservationService = InjectorService.CreateInstance<ReservationService>();
-            _ownerRatingService = InjectorService.CreateInstance<OwnerRatingService>();
+            _guestRatingService = InjectorService.CreateInstance<IGuestRatingService>();
+            _reservationService = InjectorService.CreateInstance<IReservationService>();
+            _ownerRatingService = InjectorService.CreateInstance<IOwnerRatingService>();
 
             Scores = new ObservableCollection<int>();
             Scores.Add(1);

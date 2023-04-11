@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Model;
 using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 using WpfApp1.Service;
@@ -25,7 +27,7 @@ namespace WpfApp1.View
 
         public Dictionary<DateTime, DateTime> Range { get; set; }
 
-        public readonly ReservationService _reservationService;
+        public readonly IReservationService _reservationService;
 
         public KeyValuePair<DateTime,DateTime> SelectedRange { get; set; }
 
@@ -37,7 +39,7 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            _reservationService = InjectorService.CreateInstance<ReservationService>();
+            _reservationService = InjectorService.CreateInstance<IReservationService>();
 
             Range = range;
             Accommodation = accommodation;

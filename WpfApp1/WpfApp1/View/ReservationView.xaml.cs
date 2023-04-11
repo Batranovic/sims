@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp.Observer;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Service;
@@ -23,7 +24,7 @@ namespace WpfApp1.View
     /// <summary>
     /// Interaction logic for ReservationView.xaml
     /// </summary>
-    public partial class ReservationView : Window, INotifyPropertyChanged
+    public partial class ReservationView : Window, INotifyPropertyChanged, IObserver
     {
         private readonly IReservationService _reservationService;
         private readonly IReservationPostponementService _reservationPostponementService;
@@ -39,6 +40,7 @@ namespace WpfApp1.View
 
             _reservationService = InjectorService.CreateInstance<IReservationService>();
             _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>();
+            _reservationService.Subscribe(this);
 
             LogInGuest = guest;
             Reservations = new ObservableCollection<Reservation>(_reservationService.GetGuestReservations(LogInGuest.Id));
@@ -61,10 +63,6 @@ namespace WpfApp1.View
             acoommodationAndOwnerRating.Show();
         }
 
-        public void Update()
-        {
-            throw new NotImplementedException();
-        }
 
         public void ReservationPostponement(object sender, RoutedEventArgs e)
         {
@@ -84,6 +82,15 @@ namespace WpfApp1.View
                 return;
             }
             _reservationService.Delete(SelectedReservation);
+        }
+
+        public void Update()
+        {
+            Reservations.Clear();
+            foreach (Reservation r in _reservationService.GetAll())
+            {
+                Reservations.Add(r);
+            }
         }
     }
 }

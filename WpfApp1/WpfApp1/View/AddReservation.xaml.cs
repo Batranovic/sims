@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 using WpfApp1.Util;
@@ -27,7 +28,7 @@ namespace WpfApp1.View
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private readonly ReservationService _reservationService;
+        private readonly IReservationService _reservationService;
 
         public Accommodation Accommodation { get; set; }
 
@@ -50,7 +51,7 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            _reservationService = InjectorService.CreateInstance<ReservationService>();
+            _reservationService = InjectorService.CreateInstance<IReservationService>();
 
             bool slobodan;
             Guest = guest;
