@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository

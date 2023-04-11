@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 
 namespace WpfApp1.View
@@ -42,7 +42,7 @@ namespace WpfApp1.View
 
             LogInGuest = guest;
             Reservations = new ObservableCollection<Reservation>(_reservationService.GetGuestReservations(LogInGuest.Id));
-            
+
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -53,7 +53,7 @@ namespace WpfApp1.View
 
         private void OwnerRating(object sender, RoutedEventArgs e)    //ime
         {
-            if (SelectedReservation == null || SelectedReservation.GuestReservationStatus != Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Unrated)
+            if (SelectedReservation == null || SelectedReservation.GuestReservationStatus != Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Unrated)
             {
                 return;
             }
@@ -68,7 +68,7 @@ namespace WpfApp1.View
 
         public void ReservationPostponement(object sender, RoutedEventArgs e)
         {
-            if(SelectedReservation == null)
+            if (SelectedReservation == null)
             {
                 return;
             }
@@ -79,7 +79,7 @@ namespace WpfApp1.View
 
         public void CancelReservation(object sender, RoutedEventArgs e)
         {
-            if(SelectedReservation.StartDate < DateTime.Now.AddDays(-SelectedReservation.Accommodation.CancelDay))
+            if (SelectedReservation.StartDate < DateTime.Now.AddDays(-SelectedReservation.Accommodation.CancelDay))
             {
                 return;
             }

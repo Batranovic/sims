@@ -21,7 +21,15 @@ namespace WpfApp1.Service
             { typeof(IOwnerRatingService), new OwnerRatingService() },
             { typeof(IOwnerService), new OwnerService() },
             { typeof(IReservationPostponementService), new ReservationPostponementService() },
-            { typeof(IReservationService), new ReservationService() }
+            { typeof(IReservationService), new ReservationService() },
+            { typeof(IVoucherService), new VoucherService() },
+            { typeof(ITourService), new TourService() },
+            { typeof(ITourPointService), new TourPointService() },
+            { typeof(ITouristService), new TouristService() },
+            { typeof(ITourEventService), new TourEventService() },
+            { typeof(ITourBookingService), new TourBookingService() },
+            { typeof(IRatingTourAndGuideService), new RatingTourAndGuideService() },
+            { typeof(INotificationService), new NotificationService() }
         };
         public static T CreateInstance<T>()
         {

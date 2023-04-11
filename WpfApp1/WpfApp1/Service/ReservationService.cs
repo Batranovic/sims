@@ -9,9 +9,10 @@ using System.Windows.Controls;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
-using WpfApp1.Model.Enums;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Repository;
+using WpfApp1.Domain.Models.Enums;
 
 namespace WpfApp1.Service
 {
@@ -72,9 +73,9 @@ namespace WpfApp1.Service
             }
             _reservationRepository.Delete(reservation);
         }
-        public void Update(Reservation reservation)
+        public Reservation Update(Reservation reservation)
         {
-            _reservationRepository.Update(reservation);
+           return  _reservationRepository.Update(reservation);
         }
         public void Subscribe(IObserver observer)
         {
@@ -146,7 +147,7 @@ namespace WpfApp1.Service
         {
             try
             {
-                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Model.Enums.GuestRatingStatus.Inprogres || r.Status == Model.Enums.GuestRatingStatus.Reserved)).ToList();
+                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Domain.Models.Enums.GuestRatingStatus.Inprogres || r.Status == Domain.Models.Enums.GuestRatingStatus.Reserved)).ToList();
             }
             catch
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
@@ -39,9 +39,9 @@ namespace WpfApp1.Service
         {
             _locationRepository.Delete(location);
         }
-        public void Update(Location location)
+        public Location Update(Location location)
         {
-            _locationRepository.Update(location);
+           return  _locationRepository.Update(location);
         }
         public void Subscribe(IObserver observer)
         {

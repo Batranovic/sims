@@ -14,8 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp.Observer;
-using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 
 namespace WpfApp1.View

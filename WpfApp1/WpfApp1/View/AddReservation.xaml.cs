@@ -13,8 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 using WpfApp1.Util;
 using WpfApp1.View;
@@ -124,7 +123,7 @@ namespace WpfApp1.View
             if (result == MessageBoxResult.Yes)
             {
                 
-                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Model.Enums.GuestRatingStatus.Reserved, Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Disabled);
+                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Domain.Models.Enums.GuestRatingStatus.Reserved, Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Disabled);
                 _reservationService.Create(reservation);
             }
 

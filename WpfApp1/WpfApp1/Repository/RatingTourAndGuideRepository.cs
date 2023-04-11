@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Repository
 {
-    public class RatingTourAndGuideRepository : IRepository<RatingTourAndGuide>, ISubject
+    public class RatingTourAndGuideRepository : IRatingTourAndGuideRepository
     {
         private const string _filePath = "../../../Resources/Data/ratingTourAndGuide.csv";
         private readonly List<IObserver> _observers;
@@ -17,11 +18,11 @@ namespace WpfApp1.Repository
         private readonly Serializer<RatingTourAndGuide> _serializer;
 
         private List<RatingTourAndGuide> _ratingTourAndGuides;
-        public TourBookingRepository TourBookingRepository { get; set; }
+        public ITourBookingRepository ITourBookingRepository { get; set; }
 
-        private static RatingTourAndGuideRepository _instance = null;
+        private static IRatingTourAndGuideRepository _instance = null;
 
-        public static RatingTourAndGuideRepository GetInstance()
+        public static IRatingTourAndGuideRepository GetInstance()
         {
             if (_instance == null)
             {
@@ -35,7 +36,7 @@ namespace WpfApp1.Repository
             _observers = new List<IObserver>();
             _ratingTourAndGuides = new List<RatingTourAndGuide>();
             _ratingTourAndGuides = _serializer.FromCSV(_filePath);
-            TourBookingRepository = TourBookingRepository.GetInstance();
+             ITourBookingRepository = TourBookingRepository.GetInstance();
         }
         public RatingTourAndGuide Create(RatingTourAndGuide entity)
         {
@@ -91,13 +92,7 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return oldEntity;
         }
-        public void BindTourBooking()
-        {
-            foreach (RatingTourAndGuide r in _ratingTourAndGuides)
-            {
-                r.TourBooking = TourBookingRepository.Get(r.IdTourBooking);
-            }
-        }
+ 
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);

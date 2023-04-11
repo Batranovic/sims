@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 
 namespace WpfApp1.View
@@ -81,7 +81,7 @@ namespace WpfApp1.View
         {
             ReservationPostponement.StartDate = StartedDay;
             ReservationPostponement.EndDate = EndedDay;
-            ReservationPostponement.Status = Model.Enums.ReservationPostponementStatus.Waiting;
+            ReservationPostponement.Status = Domain.Models.Enums.ReservationPostponementStatus.Waiting;
             _reservationPostponementService.Create(ReservationPostponement);
             this.Close();
         }
