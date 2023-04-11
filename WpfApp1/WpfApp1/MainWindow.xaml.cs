@@ -30,7 +30,7 @@ namespace WpfApp1
         private readonly IOwnerService _ownerService;
         private readonly IGuestService _guestService;
         public readonly TouristService _touristService;
-        public User LogInUser { get; set; }
+        public static User LogInUser { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public MainWindow()

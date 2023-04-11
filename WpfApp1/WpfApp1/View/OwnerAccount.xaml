@@ -14,6 +14,7 @@
                     <Button x:Name="btnRatingGuest" Click="ViewExpiredReservation" >Rating guest</Button>
                     <Button  Click="ViewOwnerRatings" >ViewOwnerRatings</Button>
                     <Button  Click="ReservationPostponementOverview">ReservationPostponementOverview</Button>
+                    <Button  Click="LogOut">Log out</Button>
                 </StackPanel>
             </DockPanel>
 
