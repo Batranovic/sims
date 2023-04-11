@@ -26,6 +26,7 @@ namespace WpfApp1.View
     public partial class ReservationView : Window, INotifyPropertyChanged
     {
         private readonly IReservationService _reservationService;
+        private readonly IReservationPostponementService _reservationPostponementService;
         public ObservableCollection<Reservation> Reservations { get; set; }
 
         public Reservation SelectedReservation { get; set; }
@@ -37,6 +38,7 @@ namespace WpfApp1.View
             this.DataContext = this;
 
             _reservationService = InjectorService.CreateInstance<IReservationService>();
+            _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>();
 
             LogInGuest = guest;
             Reservations = new ObservableCollection<Reservation>(_reservationService.GetGuestReservations(LogInGuest.Id));
@@ -82,7 +84,6 @@ namespace WpfApp1.View
                 return;
             }
             _reservationService.Delete(SelectedReservation);
-
         }
     }
 }

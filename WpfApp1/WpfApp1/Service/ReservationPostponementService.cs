@@ -72,8 +72,19 @@ namespace WpfApp1.Service
 
         public List<ReservationPostponement> GetAllByOwnerIdAhead(int idOwner)
         {
-            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Status == ReservationPostponementStatus.Waiting);
+            try
+            {
+                return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Status == ReservationPostponementStatus.Waiting);
+            }
+            catch(Exception ex)
+            {
+                return new List<ReservationPostponement>();
+            }
         }
 
+        public List<ReservationPostponement> GetByReservation(int idReservation)
+        {
+            return _reservationPostponementRepository.GetByReservation(idReservation);
+        }
     }
 }

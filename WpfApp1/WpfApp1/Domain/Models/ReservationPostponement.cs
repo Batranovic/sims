@@ -22,10 +22,11 @@ namespace WpfApp1.Model
         public string OwnerComment { get; set; }
 
         public ReservationPostponementStatus Status { get; set; }
+        public bool Deleted { get; set; }
 
         public ReservationPostponement()
         {
-
+            Deleted = false;
         }
 
         public ReservationPostponement(int id, int idReservation, Reservation reservation, DateTime startDate, DateTime endDate, string ownerComment, ReservationPostponementStatus status)
@@ -37,6 +38,7 @@ namespace WpfApp1.Model
             EndDate = endDate;
             OwnerComment = ownerComment;
             Status = status;
+            Deleted = false;
         }
 
         public string[] ToCSV()
@@ -48,7 +50,8 @@ namespace WpfApp1.Model
                 DateHelper.DateToString(StartDate),
                 DateHelper.DateToString(EndDate),
                 OwnerComment,
-                Status.ToString()
+                Status.ToString(),
+                Deleted.ToString()
             };
             return csvValues;
         }
@@ -61,6 +64,7 @@ namespace WpfApp1.Model
             EndDate = DateHelper.StringToDate(values[3]);
             OwnerComment = values[4];
             Status = Enum.Parse<ReservationPostponementStatus>(values[5]);
+            Deleted = Convert.ToBoolean(values[6]);
         }
     }
 }

@@ -44,18 +44,18 @@ namespace WpfApp1.Repository
         }
         public ReservationPostponement Delete(ReservationPostponement entity)
         {
-            _postponements.Remove(entity);
+            entity.Deleted = true;
             Save();
             NotifyObservers();
             return entity;
         }
         public ReservationPostponement Get(int id)
         {
-            return _postponements.Find(r => r.Id == id);
+            return _postponements.Find(r => r.Id == id && r.Deleted == false);
         }
         public List<ReservationPostponement> GetAll()
         {
-            return _postponements;
+            return _postponements.FindAll(r => r.Deleted == false);
         }
         public int NextId()
         {
@@ -102,6 +102,17 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return oldEntity;
 
+        }
+        public List<ReservationPostponement> GetByReservation(int idReservation)
+        {
+            try
+            { 
+                return GetAll().FindAll(r => r.IdReservation == idReservation);
+            }
+            catch(Exception ex)
+            {
+                return new List<ReservationPostponement>();
+            }
         }
 
     }

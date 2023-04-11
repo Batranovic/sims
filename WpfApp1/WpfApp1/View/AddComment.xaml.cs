@@ -30,7 +30,7 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
             ReservationPostponement = reservationPostponement;
-            _reservationPostponementService = InjectorService.CreateInstance<ReservationPostponementService>(); 
+            _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>(); 
         }
 
         private void Confirm(object sender, RoutedEventArgs e)

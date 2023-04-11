@@ -14,5 +14,6 @@ namespace WpfApp1.Domain.RepositoryInterfaces
         ReservationPostponement Create(ReservationPostponement entity);
         ReservationPostponement Delete(ReservationPostponement entity);
         int NextId();
+        List<ReservationPostponement> GetByReservation(int idReservation);
     }
 }
