@@ -16,6 +16,11 @@ namespace WpfApp1.Domain.ServiceInterfaces
         public void Subscribe(IObserver observer);
         public void Unsubscribe(IObserver observer);
         public List<ReservationPostponement> GetAllByOwnerIdAhead(int idOwner);
+
+
+        public List<ReservationPostponement> GetAllByGuestId(int idGuest);
+
         public List<ReservationPostponement> GetByReservation(int idReservation);
+
     }
 }
