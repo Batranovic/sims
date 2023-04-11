@@ -42,8 +42,9 @@ namespace WpfApp1.Domain.Models
         }
         public override string[] ToCSV() 
         {
-            String[] result = base.ToCSV() ;
-            result.Append(Super.ToString());
+            String[] result = base.ToCSV();
+            Array.Resize(ref result, result.Length + 1);
+            result[result.Length - 1] = Super.ToString();
             return result;
         }
         public override void FromCSV(string[] values)

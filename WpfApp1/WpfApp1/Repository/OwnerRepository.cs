@@ -33,24 +33,9 @@ namespace WpfApp1.Repository
             _serializer = new Serializer<Owner>();
             _owners = new List<Owner>();
             _owners = _serializer.FromCSV(_filePath);
-            _observers = new List<IObserver>();      
+            _observers = new List<IObserver>();
         }
-        public void SetKind()
-        {
-            foreach(Owner o in _owners)
-            {
-                if(o.AverageRating >= 4.5)
-                {
-                    o.Super = true;
-                }
-                else
-                {
-                    o.Super = false;
-                }
-            }
-        }
-      
-        
+     
         public  Owner Get(int id)
         {
             return _owners.Find(o => o.Id == id);
@@ -62,7 +47,7 @@ namespace WpfApp1.Repository
         }
         public void Save()
         {
-            throw new NotImplementedException();
+            _serializer.ToCSV(_filePath, _owners);
         }
         public Owner Update(Owner entity)
         {

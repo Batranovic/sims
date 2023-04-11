@@ -11,7 +11,7 @@ namespace WpfApp1.Domain.RepositoryInterfaces
 {
     public interface IOwnerRepository : IRepository<Owner>
     {
-        void SetKind();
+
        
     }
 }

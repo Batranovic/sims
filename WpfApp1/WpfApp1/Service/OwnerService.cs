@@ -19,8 +19,21 @@ namespace WpfApp1.Service
         {
             _ownerRepository = InjectorRepository.CreateInstance<IOwnerRepository>();
             _ownerRatingRepository = InjectorRepository.CreateInstance<IOwnerRatingRepository>();
-            BindRating();
-            CalculateAverageRating();
+        }
+        public void SetKind()
+        {
+            foreach (Owner o in GetAll())
+            {
+                if (o.AverageRating >= 4.5)
+                {
+                    o.Super = true;
+                }
+                else
+                {
+                    o.Super = false;
+                }
+            }
+            Save();
         }
 
         public double GetAverageRating(List<OwnerRating> ratings)
@@ -34,11 +47,12 @@ namespace WpfApp1.Service
         }
         public void CalculateAverageRating()
         {
+            BindRating();
             foreach (Owner o in GetAll())
             {
                 o.AverageRating = GetAverageRating(o.Ratings);
             }
-            Save();
+            SetKind();
         }
         private void BindRating()
         {

@@ -27,8 +27,7 @@ namespace WpfApp1.View
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly IReservationPostponementService _reservationPostponementService;
-
-        public ReservationPostponement ReservationPostponement { get; set; }
+       public ReservationPostponement ReservationPostponement { get; set; }
 
        // public DateTime StartDateNew { get; set; }
        // public DateTime EndDateNew { get; set; }
@@ -42,6 +41,7 @@ namespace WpfApp1.View
             EndedDay = DateTime.Now;
             ReservationPostponement = new ReservationPostponement();
             ReservationPostponement.Reservation = reservation;
+            ReservationPostponement.IdReservation = reservation.Id;
         }
 
         private DateTime _startedDay;
