@@ -60,16 +60,20 @@ namespace WpfApp1.Service
         {
             _reservationRepository.Create(reservation);
         }
-        public void Delete(Reservation reservation)
+        private void DeleteReservationPostponement(Reservation reservation)
         {
             var reservationPostponets = _reservationPostponementRepository.GetByReservation(reservation.Id);
-            if(reservationPostponets.Count != 0)
+            if (reservationPostponets.Count != 0)
             {
-                foreach(var r in reservationPostponets)
+                foreach (var r in reservationPostponets)
                 {
                     _reservationPostponementRepository.Delete(r);
                 }
             }
+        }
+        public void Delete(Reservation reservation)
+        {
+            DeleteReservationPostponement(reservation);
             _reservationRepository.Delete(reservation);
         }
         public void Update(Reservation reservation)
