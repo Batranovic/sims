@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Domain.RepositoryInterfaces
@@ -16,7 +16,6 @@ namespace WpfApp1.Domain.RepositoryInterfaces
         RatingTourAndGuide Delete(RatingTourAndGuide entity);
         int NextId();
 
-        void BindTourBooking();
 
     }
 }

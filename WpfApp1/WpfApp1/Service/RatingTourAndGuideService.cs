@@ -4,53 +4,84 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Service
 {
-    public class RatingTourAndGuideService
+    public class RatingTourAndGuideService : IRatingTourAndGuideService
     {
-        private RatingTourAndGuideRepository _ratingTourAndGuideDAO;
+        private readonly IRatingTourAndGuideRepository _ratingTourAndGuideRepository;
+        public ITourBookingRepository _tourBookingRepository;
 
         public RatingTourAndGuideService()
         {
-            _ratingTourAndGuideDAO = RatingTourAndGuideRepository.GetInstance();
+            _ratingTourAndGuideRepository = InjectorRepository.CreateInstance<IRatingTourAndGuideRepository>();
+            _tourBookingRepository = InjectorRepository.CreateInstance<ITourBookingRepository>();
+            BindTourBooking();
         }
-
+        private void BindTourBooking()
+        {
+            foreach (RatingTourAndGuide r in _ratingTourAndGuideRepository.GetAll())
+            {
+                r.TourBooking = _tourBookingRepository.Get(r.IdTourBooking);
+            }
+        }
         public RatingTourAndGuide Get(int id)
         {
-            return _ratingTourAndGuideDAO.Get(id);
+            return _ratingTourAndGuideRepository.Get(id);
         }
 
         public List<RatingTourAndGuide> GetAll()
         {
-            return _ratingTourAndGuideDAO.GetAll();
+            return _ratingTourAndGuideRepository.GetAll();
+        }
+        public void Save()
+        {
+
+            _ratingTourAndGuideRepository.Save();
         }
 
         public void Create(RatingTourAndGuide location)
         {
-            _ratingTourAndGuideDAO.Create(location);
+            _ratingTourAndGuideRepository.Create(location);
         }
 
         public void Delete(RatingTourAndGuide location)
         {
-            _ratingTourAndGuideDAO.Delete(location);
+            _ratingTourAndGuideRepository.Delete(location);
         }
 
-        public void Update(RatingTourAndGuide image)
+        public RatingTourAndGuide Update(RatingTourAndGuide image)
         {
-            _ratingTourAndGuideDAO.Update(image);
+             return _ratingTourAndGuideRepository.Update(image);
         }
 
         public void Subscribe(IObserver observer)
         {
-            _ratingTourAndGuideDAO.Subscribe(observer);
+            _ratingTourAndGuideRepository.Subscribe(observer);
         }
 
         public void Unsubscribe(IObserver observer)
         {
-            _ratingTourAndGuideDAO.Unsubscribe(observer);
+            _ratingTourAndGuideRepository.Unsubscribe(observer);
+        }
+
+        public List<RatingTourAndGuide> GetReviewFromTourist(int tourBooking, int userId)
+        {
+            List<RatingTourAndGuide> ratingTourAndGuides = new List<RatingTourAndGuide>();
+
+
+            foreach (RatingTourAndGuide ratingTourAndGuide in _ratingTourAndGuideRepository.GetAll())
+            {
+                if (ratingTourAndGuide.TourBooking.Tourist.Id == userId && ratingTourAndGuide.TourBooking.Id == tourBooking)
+                {
+                    ratingTourAndGuides.Add(ratingTourAndGuide);
+                }
+            }
+            return ratingTourAndGuides;
         }
 
     }

@@ -15,10 +15,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
-using WpfApp1.Model.Enums;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Service;
 
 namespace WpfApp1.View
@@ -31,27 +30,20 @@ namespace WpfApp1.View
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<int> Scores { get; set; }
+        public ObservableCollection<string> Images { get; set; }
 
-        public TourBooking SelectedTourBooking { get; set; }
-
-        public RatingTourAndGuideController RatingTourAndGuideController { get; set; }
-
-        public TourEventController TourEventController { get; set; }
-
+        private readonly ITourBookingService _tourBookingService;
+        private readonly IRatingTourAndGuideService _ratingTourAndGuideService;
+        private readonly ITourEventService _tourEventService;
         private readonly IImageService _imageService;
 
         public Tourist LogInTourist { get; set; }
 
+        public TourBooking SelectedTourBooking { get; set; }
         public int SelectedKnowledge {get; set;}
-
         public int SelectedLanguage { get; set;}
-
         public int SelectedInterest { get; set;}
-
-        public ObservableCollection<string> Images { get; set; }
-
         public string SelectedUrl { get; set; }
-
 
 
         public AddRatingTourAndGuide(TourBooking tourBooking)
@@ -60,16 +52,13 @@ namespace WpfApp1.View
             this.DataContext = this;
 
             _imageService = InjectorService.CreateInstance<IImageService>();   
-
-            var app = Application.Current as App;
-            RatingTourAndGuideController = app.RatingTourAndGuideController;
-            TourBookingController = app.TourBookingController;
-            TourEventController = app.TourEventController;
-            ImageController = app.ImageController;
+            _ratingTourAndGuideService = InjectorService.CreateInstance<IRatingTourAndGuideService>();
+            _tourBookingService = InjectorService.CreateInstance<ITourBookingService>();
+            _tourEventService = InjectorService.CreateInstance<ITourEventService>();
 
             Images = new ObservableCollection<string>();
-
             Scores = new ObservableCollection<int>();
+
             Scores.Add(1);
             Scores.Add(2);
             Scores.Add(3);
@@ -80,14 +69,9 @@ namespace WpfApp1.View
             SelectedLanguage = 0;
             SelectedInterest = 0;
 
-
-            //List<string> a = new List<string>(Images);
-
-
         }
 
         private string _comment;
-
         public string Comment
         {
             get => _comment;
@@ -115,10 +99,6 @@ namespace WpfApp1.View
             }
         }
 
-
-       
-       
-
         private void SubmitImageButton(object sender, RoutedEventArgs e)
         {
             Images.Add(Url);
@@ -132,6 +112,12 @@ namespace WpfApp1.View
         }
         private void ConfirmButton(object sender, RoutedEventArgs e)
         {
+            List<RatingTourAndGuide> ratedTourBookings = _ratingTourAndGuideService.GetReviewFromTourist(SelectedTourBooking.Id ,MainWindow.LogInUser.Id);
+            if (ratedTourBookings.Count > 0)
+            {
+                MessageBox.Show("You have already rated this tour booking");
+                return;
+            }
             if (!IsValid)
             {
                 MessageBox.Show("You didn't finish your review");
@@ -139,7 +125,7 @@ namespace WpfApp1.View
             }
             List<string> images = new List<string>(Images);
             RatingTourAndGuide ratingTourAndGuide = new RatingTourAndGuide(-1, SelectedKnowledge, SelectedLanguage, SelectedInterest, Comment,SelectedTourBooking.Id ,SelectedTourBooking ,images);
-            RatingTourAndGuideController.Create(ratingTourAndGuide);
+            _ratingTourAndGuideService.Create(ratingTourAndGuide);
             MessageBox.Show("Your review has been sent!");
             this.Close();
         }

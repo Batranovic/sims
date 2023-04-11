@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Models.Enums
+namespace WpfApp1.Domain.Domain.Models.Enums
 {
     public enum AccommodationKind
     {

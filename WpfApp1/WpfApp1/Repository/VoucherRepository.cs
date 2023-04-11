@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 using WpfApp1.Domain.RepositoryInterfaces;
 
@@ -18,11 +18,11 @@ namespace WpfApp1.Repository
 
         private readonly List<IObserver> _observers;
 
-        private static VoucherRepository _instance = null;
+        private static IVoucherRepository _instance = null;
 
         private List<Voucher> _vouchers;
 
-        public static VoucherRepository GetInstance()
+        public static IVoucherRepository GetInstance()
         {
             if (_instance == null)
             {
@@ -94,8 +94,8 @@ namespace WpfApp1.Repository
 
         public void Save()
         {
-
             _serializer.ToCSV(_filePath, _vouchers);
+
         }
 
         public void Subscribe(IObserver observer)

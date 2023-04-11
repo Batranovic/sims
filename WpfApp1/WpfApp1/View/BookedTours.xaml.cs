@@ -13,8 +13,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -27,14 +28,13 @@ namespace WpfApp1.View
 
         public ObservableCollection<TourPoint> TourPoints { get; set; }
 
+
+        private readonly ITourEventService _tourEventService;
+        private readonly ITourBookingService _tourBookingService;
+        private readonly ITourPointService _tourPointService;
+
+
         private TourEvent _selectedTourEvent;
-
-        public TourEventController TourEventController { get; set; }
-
-        public TourBookingController TourBookingController { get; set; }
-
-        public TourPointController TourPointController { get; set; }
-
 
         public TourEvent SelectedTourEvent
         {
@@ -52,18 +52,13 @@ namespace WpfApp1.View
         public BookedTours()
         {
             InitializeComponent();
-
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            TourEventController = app.TourEventController;
-            TourPointController = app.TourPointController;
-            TourBookingController = app.TourBookingController;
+            _tourBookingService = InjectorService.CreateInstance<ITourBookingService>();
+            _tourEventService = InjectorService.CreateInstance<ITourEventService>();
+            _tourPointService = InjectorService.CreateInstance<ITourPointService>();
 
-
-            TourEvents = new ObservableCollection<TourEvent>(TourBookingController.TouristTourEvents(MainWindow.LogInUser.Id));
-
-
+            TourEvents = new ObservableCollection<TourEvent>(_tourBookingService.TouristTourEvents(MainWindow.LogInUser.Id));
         }
 
         protected void OnPropertyChanged(string propertyName)
@@ -85,9 +80,9 @@ namespace WpfApp1.View
 
         private void LeaveReviewButton(object sender, RoutedEventArgs e)
         {
-            if (_selectedTourEvent.Status  == Models.Enums.TourEventStatus.Finished)
+            if (_selectedTourEvent.Status  == Domain.Models.Enums.TourEventStatus.Finished)
             {
-                AddRatingTourAndGuide rateWindow = new AddRatingTourAndGuide(TourBookingController.GetTourBookingForTourEventAndUser(_selectedTourEvent.Id, MainWindow.LogInUser.Id));
+                AddRatingTourAndGuide rateWindow = new AddRatingTourAndGuide(_tourBookingService.GetTourBookingForTourEventAndUser(_selectedTourEvent.Id, MainWindow.LogInUser.Id));
                 rateWindow.Show();
             } else
             {

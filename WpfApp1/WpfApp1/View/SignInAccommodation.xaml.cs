@@ -11,16 +11,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Models.Enums;
-using WpfApp1.Models;
+using WpfApp1.Domain.Domain.Models.Enums;
+using WpfApp1.Domain.Models;
 using System.Collections.ObjectModel;
-using WpfApp1.Controller;
 using System.ComponentModel;
 using WpfApp.Observer;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
 using Application = System.Windows.Application;
 using WpfApp1.Service;
+using WpfApp1.Domain.Models.Enums;
 
 namespace WpfApp1.View
 {
@@ -147,14 +147,14 @@ namespace WpfApp1.View
         }
 
 
-        private List<Models.Image> MakeImages(Accommodation accommodation)
+        private List<Domain.Models.Image> MakeImages(Accommodation accommodation)
         {
-            List<Models.Image> images = new List<Models.Image>();
+            List< Domain.Models.Image > images = new List<Domain.Models.Image>();
             foreach (string s in _urls)
             {
-                images.Add(new Models.Image(s, accommodation.Id, ImageKind.Accommodation));
+                images.Add(new Domain.Models.Image(s, accommodation.Id, ImageKind.Accommodation));
             }
-            foreach (Models.Image image in images)
+            foreach (Domain.Models.Image image in images)
             {
                 _imageService.Create(image);
             }

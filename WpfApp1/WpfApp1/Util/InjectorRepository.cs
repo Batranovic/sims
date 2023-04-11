@@ -20,7 +20,15 @@ namespace WpfApp1.Service
             { typeof(IOwnerRatingRepository), OwnerRatingRepository.GetInstance() },
             { typeof(IOwnerRepository), OwnerRepository.GetInsatnce() },
             { typeof(IReservationPostponementRepository), ReservationPostponementRepository.GetInstance() },
-            { typeof(IReservationRepository), ReservationRepository.GetInstance() }
+            { typeof(IReservationRepository), ReservationRepository.GetInstance() },
+            { typeof(IVoucherRepository), VoucherRepository.GetInstance() },
+            { typeof(ITourRepository), TourRepository.GetInstance() },
+            { typeof(ITourPointRepository), TourPointRepository.GetInstance() },
+            { typeof(ITouristRepository), TouristRepository.GetInstance() },
+            { typeof(ITourEventRepository), TourEventRepository.GetInstance() },
+            { typeof(ITourBookingRepository), TourBookingRepository.GetInstance() },
+            { typeof(INotificationRepository), NotificationRepository.GetInstance() },
+            { typeof(IRatingTourAndGuideRepository), RatingTourAndGuideRepository.GetInstance() }
         };
         public static T CreateInstance<T>()
         {

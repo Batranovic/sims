@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 using WpfApp1.Domain.RepositoryInterfaces;
 
@@ -18,7 +18,7 @@ namespace WpfApp1.Repository
 
         private List<TourEvent> _tourEvents;
 
-        private static TourEventRepository instance = null;
+        private static ITourEventRepository instance = null;
 
         private TourEventRepository()
         {
@@ -33,12 +33,11 @@ namespace WpfApp1.Repository
         {
             return _tourEvents.Find(t => t.Id == id);
         }
-        public TourEvent Create(TourEvent entity)
+        public void Create(TourEvent entity)
         {
             entity.Id = NextId();
             _tourEvents.Add(entity);
             Save();
-            return entity;
         }
         public TourEvent Update(TourEvent entity)
         {
@@ -81,7 +80,7 @@ namespace WpfApp1.Repository
             return _tourEvents;
         }
 
-        public static TourEventRepository GetInstance()
+        public static ITourEventRepository GetInstance()
         {
             if (instance == null)
             {
@@ -90,23 +89,7 @@ namespace WpfApp1.Repository
             return instance;
         }
 
-        public void BindTour()
-        {
-            foreach (TourEvent tourEvent in _tourEvents)
-            {
-                int tourId = tourEvent.Tour.Id;
-                Tour tour = TourRepository.GetInstance().Get(tourId);
-                if (tour != null)
-                {
-                    tourEvent.Tour = tour;
-                    tour.TourEvents.Add(tourEvent);
-                }
-                else
-                {
-                    Console.WriteLine("Error in binding tour and tourEvent");
-                }
-            }
-        }
+      
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);

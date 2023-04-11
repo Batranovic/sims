@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Service;
 
 namespace WpfApp1.View
@@ -40,7 +40,7 @@ namespace WpfApp1.View
 
             LogInGuest = guest;
             Reservations = new ObservableCollection<Reservation>(_reservationService.GetGuestReservations(LogInGuest.Id));
-            
+
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -51,40 +51,12 @@ namespace WpfApp1.View
 
         private void OwnerRating(object sender, RoutedEventArgs e)    //ime
         {
-            if (SelectedReservation == null || SelectedReservation.GuestReservationStatus != Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Unrated)
+            if (SelectedReservation == null || SelectedReservation.GuestReservationStatus != Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Unrated)
             {
                 return;
             }
             AccommodationAndOwnerRating acoommodationAndOwnerRating = new AccommodationAndOwnerRating(SelectedReservation);
             acoommodationAndOwnerRating.Show();
-
-            if (Accommodation.MaxGuests < GuestsNumber)
-            {
-                MessageBox.Show("You need to enter below " + Accommodation.MaxGuests.ToString(), "Notification guests");
-                return;
-            }
-
-            StartDateConverted = ReservationController.CheckAvailableDate(Accommodation.Id, StartlDay, EndDay, ReservationDays);
-            if(DateTime.Compare(StartDateConverted,EndDay) == 0)
-            {
-                var range = ReservationController.GetAvailableDates(Accommodation.Id, EndDay, ReservationDays);
-                AvailableDays availableDays = new AvailableDays(range,Accommodation,Guest);
-                availableDays.Show();
-                return;
-            }
-
-            string message = "Do you want to book this date?" + DateHelper.DateToString(StartDateConverted);
-
-            MessageBoxResult result = MessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
-            {
-                
-                Reservation reservation = new Reservation(Guest,Accommodation, StartDateConverted, StartDateConverted.AddDays(ReservationDays), Models.Enums.GuestRatingStatus.Reserved);
-                ReservationController.Create(reservation);
-            }
-
-            
-            this.Close();
         }
 
         public void Update()
@@ -94,7 +66,7 @@ namespace WpfApp1.View
 
         public void ReservationPostponement(object sender, RoutedEventArgs e)
         {
-            if(SelectedReservation == null)
+            if (SelectedReservation == null)
             {
                 return;
             }
@@ -105,7 +77,7 @@ namespace WpfApp1.View
 
         public void CancelReservation(object sender, RoutedEventArgs e)
         {
-            if(SelectedReservation.StartDate < DateTime.Now.AddDays(-SelectedReservation.Accommodation.CancelDay))
+            if (SelectedReservation.StartDate < DateTime.Now.AddDays(-SelectedReservation.Accommodation.CancelDay))
             {
                 return;
             }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
@@ -93,12 +93,12 @@ namespace WpfApp1.Repository
         }
         public List<Image> GetAccommodations()
         {
-            return _images.FindAll(i => i.ImageKind == Models.Enums.ImageKind.Accommodation).ToList();
+            return _images.FindAll(i => i.ImageKind == Domain.Models.Enums.ImageKind.Accommodation).ToList();
         }
 
         public List<string> GetTour()
         {
-            return _images.FindAll(i => i.ImageKind == Models.Enums.ImageKind.Tour).Select(i => i.Path).ToList();
+            return _images.FindAll(i => i.ImageKind == Domain.Models.Enums.ImageKind.Tour).Select(i => i.Path).ToList();
         }
 
  

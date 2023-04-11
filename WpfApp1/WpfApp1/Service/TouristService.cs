@@ -4,35 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Service
 {
-    public class TouristService
+    public class TouristService : ITouristService
     {
-        private TouristRepository _touristDAO;
+        private readonly ITouristRepository _touristRepository;
 
         public TouristService()
         {
-            _touristDAO = TouristRepository.GetInstance();
+            _touristRepository = InjectorRepository.CreateInstance<ITouristRepository>();
         }
         public Tourist Get(int id)
         {
-            return _touristDAO.Get(id);
+            return _touristRepository.Get(id);
         }
 
         public List<Tourist> GetAll()
         {
-            return _touristDAO.GetAll();
+            return _touristRepository.GetAll();
+        }
+
+        public void Save()
+        {
+
+            _touristRepository.Save();
+        }
+
+        public Tourist Update(Tourist tourist)
+        {
+            return _touristRepository.Update(tourist);
         }
         public void Subscribe(IObserver observer)
         {
-            _touristDAO.Subscribe(observer);
+            _touristRepository.Subscribe(observer);
         }
         public void Unsubscribe(IObserver observer)
         {
-            _touristDAO.Unsubscribe(observer);
+            _touristRepository.Unsubscribe(observer);
         }
 
         public Tourist GetByUsernameAndPassword(string username, string password)

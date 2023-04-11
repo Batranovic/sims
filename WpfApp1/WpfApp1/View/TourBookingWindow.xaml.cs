@@ -11,12 +11,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using System.Collections.ObjectModel;
-using WpfApp1.Controller;
 using System.ComponentModel;
-using WpfApp1.Models.Enums;
+using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Repository;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Service;
+
 
 namespace WpfApp1.View
 {
@@ -29,25 +31,21 @@ namespace WpfApp1.View
 
         public ObservableCollection<Voucher> Vouchers { get; set; }
 
-        public VoucherController VoucherController { get; set; }
-
-
-        public TourBookingController TourBookingController;
-        public TourEventController TourEventController;
-
-        private readonly LocationService _locationService;
+        private readonly IVoucherService _voucherService;
+        private readonly ITourBookingService _tourBookingService;
+        private readonly ITourEventService _tourEventService;
+        private readonly ILocationService _locationService;
 
         private string _availableSpotsText { get; set; }
         private int _availableSpots { get; set; }
+
 
         private TourEvent _selectedTourEvent;
 
         private Voucher _selectedVoucher;
 
         public int NumberOfPeople { get; set; }
-
         public string Name { get; set; }
-
         public DateTime ExpirationDate { get; set; }
 
         public string AvailableSpotsText
@@ -110,16 +108,14 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            _locationService = new LocationService();
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            _tourEventService = InjectorService.CreateInstance<ITourEventService>();
+            _voucherService = InjectorService.CreateInstance<IVoucherService>();
+            _tourBookingService = InjectorService.CreateInstance<ITourBookingService>();
 
-            var app = Application.Current as App;
-            TourBookingController = app.TourBookingController;
-            TourEventController = app.TourEventController;
-            VoucherController = app.VoucherController;
+            TourEvents = new ObservableCollection<TourEvent>(_tourEventService.GetNotFinishedTourEvents(tour));
 
-            TourEvents = new ObservableCollection<TourEvent>(TourEventController.GetTourEventsNotPassedForTour(tour));
-
-            Vouchers = new ObservableCollection<Voucher>(VoucherController.VoucherForTourist(MainWindow.LogInUser.Id));
+            Vouchers = new ObservableCollection<Voucher>(_voucherService.VoucherForTourist(MainWindow.LogInUser.Id));
 
 
         }
@@ -130,7 +126,7 @@ namespace WpfApp1.View
 
             if (AvailableSpots >= NumberOfPeople)
             {
-                TourBooking existingTourBooking = TourBookingController.GetTourBookingForTourEventAndUser(SelectedTourEvent.Id, MainWindow.LogInUser.Id);
+                TourBooking existingTourBooking = _tourBookingService.GetTourBookingForTourEventAndUser(SelectedTourEvent.Id, MainWindow.LogInUser.Id);
                 if (existingTourBooking != null)
                 {
                     MessageBox.Show("Already reserved this tour!");
@@ -138,7 +134,7 @@ namespace WpfApp1.View
                 else
                 {
                     TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, MainWindow.LogInUser, SelectedVoucher);
-                    TourBookingController.Create(tourBooking);
+                    _tourBookingService.Create(tourBooking);
 
                     if(SelectedVoucher != null)
                     {
@@ -153,10 +149,7 @@ namespace WpfApp1.View
             else
             {
                 MessageBox.Show("Not enough available spots!");
-            }
-
-
-            return;
+            } 
             
         }
 
@@ -171,7 +164,7 @@ namespace WpfApp1.View
             {
                 return;
             }
-            int reservedSpots = TourEventController.CheckAvailability(SelectedTourEvent);
+            int reservedSpots = _tourEventService.CheckAvailability(SelectedTourEvent);
             AvailableSpots = SelectedTourEvent.Tour.MaxGuests - reservedSpots;
             if (AvailableSpots < NumberOfPeople)
             {
@@ -196,7 +189,7 @@ namespace WpfApp1.View
             {
                 return;
             }
-            List<TourEvent> tourEventsForLocation = TourEventController.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
+            List<TourEvent> tourEventsForLocation = _tourEventService.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
             RefreshTours(tourEventsForLocation);
         }
         private void RefreshTours(List<TourEvent> tourEvents)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 using WpfApp1.Domain.RepositoryInterfaces;
 
@@ -19,9 +19,9 @@ namespace WpfApp1.Repository
         private List<Tourist> _tourists;
 
 
-        private static TouristRepository _instance = null;
+        private static ITouristRepository _instance = null;
 
-        public static TouristRepository GetInstance()
+        public static ITouristRepository GetInstance()
         {
             if (_instance == null)
             {

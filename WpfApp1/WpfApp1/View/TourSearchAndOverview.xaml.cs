@@ -2,13 +2,13 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using System.Collections.ObjectModel;
-using WpfApp1.Controller;
 using System.ComponentModel;
 using WpfApp1.Service;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -17,9 +17,9 @@ namespace WpfApp1.View
     /// </summary>
     public partial class TourSearchAndOverview : Window
     {
-        private readonly LocationService _locationService;
+        private readonly ILocationService _locationService;
 
-        public TourController TourController { get; set; }
+        private readonly ITourService _tourService;
 
         public ObservableCollection<Tour> Tours { get; set; }
 
@@ -27,11 +27,9 @@ namespace WpfApp1.View
         public Tour SelectedTour { get; set; }
 
         public string State { get; set; }
-
         public string City { get; set; }
         public string Languages { get; set; }
         public string Duration { get; set; }
-
         public string MaxGuests { get; set; }
 
 
@@ -40,13 +38,10 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            _locationService = new LocationService();
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            _tourService = InjectorService.CreateInstance<ITourService>();   
 
-            var app = Application.Current as App;
-            TourController = app.TourController;
-
-            TourController = new TourController();
-            Tours = new ObservableCollection<Tour>(TourController.GetAll());
+            Tours = new ObservableCollection<Tour>(_tourService.GetAll());
 
 
             State = "";
@@ -54,8 +49,6 @@ namespace WpfApp1.View
             Languages = "";
             Duration = "";
             MaxGuests = "";
-
-
 
         }
         private void RefreshTours(List<Tour> tours)
@@ -68,7 +61,7 @@ namespace WpfApp1.View
         }
         private void SearchButton(object sender, RoutedEventArgs e)
         {
-            List<Tour> searchedTours = TourController.TourSearch(State, City, Languages, MaxGuests, Duration);
+            List<Tour> searchedTours = _tourService.TourSearch(State, City, Languages, MaxGuests, Duration);
             RefreshTours(searchedTours);
         }
 

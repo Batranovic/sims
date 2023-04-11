@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 using WpfApp1.Domain.RepositoryInterfaces;
 
@@ -18,7 +18,7 @@ namespace WpfApp1.Repository
 
         private List<TourBooking> _tourBookings;
 
-        private static TourBookingRepository instance = null;
+        private static ITourBookingRepository instance = null;
 
         private TourBookingRepository()
         {
@@ -80,7 +80,7 @@ namespace WpfApp1.Repository
             return _tourBookings;
         }
 
-        public static TourBookingRepository GetInstance()
+        public static ITourBookingRepository GetInstance()
         {
             if (instance == null)
             {
@@ -89,43 +89,7 @@ namespace WpfApp1.Repository
             return instance;
         }
 
-        public void BindTourEvent()
-        {
-            foreach (TourBooking tourBooking in _tourBookings)
-            {
-                int tourEventId = tourBooking.TourEvent.Id;
-                TourEvent tourEvent = TourEventRepository.GetInstance().Get(tourEventId);
-                if (tourEvent != null)
-                {
-                    tourBooking.TourEvent = tourEvent;
-                }
-                else
-                {
-                    Console.WriteLine("Error in tourReservationTourEvent binding");
-                }
-            }
-        }
-
-        public void BindVoucher()
-        {
-            foreach (TourBooking tourBooking in _tourBookings)
-            {
-                int voucherId = tourBooking.TourEvent.Id;
-                Voucher voucher = VoucherRepository.GetInstance().Get(voucherId);
-                if (voucher != null)
-                {
-                    tourBooking.Voucher = voucher;
-                }
-                else
-                {
-                    Console.WriteLine("Error in tourReservationTourEvent binding");
-                }
-            }
-        }
-
-
-
-
+       
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);

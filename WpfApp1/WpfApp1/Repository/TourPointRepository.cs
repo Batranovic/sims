@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp.Observer;
 
 namespace WpfApp1.Repository
 {
-    public class TourPointRepository 
+    public class TourPointRepository : ITourPointRepository
     {
          
 
-        private const string FilePath = "../../../Resources/Data/tourPoints.csv";
+        private const string _filePath = "../../../Resources/Data/tourPoints.csv";
 
-        private static TourPointRepository instance = null;
+        private static ITourPointRepository instance = null;
+
+        private readonly List<IObserver> _observers;
 
         private readonly Serializer<TourPoint> _serializer;
 
@@ -26,10 +28,11 @@ namespace WpfApp1.Repository
         {
 
             _serializer = new Serializer<TourPoint>();
-            _tourPoints = _serializer.FromCSV(FilePath);
+            _tourPoints = _serializer.FromCSV(_filePath);
+            _observers = new List<IObserver>();
         }
 
-        public static TourPointRepository GetInstance()
+        public static ITourPointRepository GetInstance()
         {
             if (instance == null)
             {
@@ -37,31 +40,17 @@ namespace WpfApp1.Repository
             }
             return instance;
         }
-
-        public void BindTourPointTour()
+        public TourPoint Create(TourPoint entity)
         {
-            foreach (TourPoint tourPoint in _tourPoints)
-            {
-                int tourId = tourPoint.Tour.Id;
-                Tour tour = TourRepository.GetInstance().Get(tourId);
-                if (tour != null)
-                {
-                    tourPoint.Tour = tour;
-                    tour.TourPoints.Add(tourPoint);
-                }
-                else
-                {
-                    Console.WriteLine("Error in tourPointTourLocation binding");
-                }
-            }
+            entity.Id = NextId();
+            _tourPoints.Add(entity);
+            Save();
+            return entity;
         }
-        public TourPoint Save(TourPoint tourPoint)
+      
+        public void Save()
         {
-            tourPoint.Id = NextId();
-            _tourPoints.Add(tourPoint);
-            _serializer.ToCSV(FilePath, _tourPoints);
-            return tourPoint;
-
+            _serializer.ToCSV(_filePath, _tourPoints);
         }
 
         public int NextId()
@@ -77,7 +66,7 @@ namespace WpfApp1.Repository
         {
             TourPoint founded = _tourPoints.Find(tp => tp.Id == tourPoint.Id);
             _tourPoints.Remove(founded);
-            _serializer.ToCSV(FilePath, _tourPoints);
+            _serializer.ToCSV(_filePath, _tourPoints);
         }
 
         public TourPoint Update(TourPoint tourPoint)
@@ -86,7 +75,7 @@ namespace WpfApp1.Repository
             int index = _tourPoints.IndexOf(current);
             _tourPoints.Remove(current);
             _tourPoints.Insert(index, tourPoint);
-            _serializer.ToCSV(FilePath, _tourPoints);
+            _serializer.ToCSV(_filePath, _tourPoints);
             return tourPoint;
         }
 
@@ -105,8 +94,26 @@ namespace WpfApp1.Repository
 
         }
 
-    
+        public void Subscribe(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
 
-    
+        public void Unsubscribe(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void NotifyObservers()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update();
+            }
+        }
+
+
+
+
     }
 }

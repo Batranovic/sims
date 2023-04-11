@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Service;
 
 namespace WpfApp1.Repository
 {
@@ -17,8 +18,7 @@ namespace WpfApp1.Repository
         private readonly Serializer<Tour> _serializer;
 
         private List<Tour> _tours;
-        private static TourRepository instance = null;
-        public ILocationRepository ILocationRepository { get; set; }
+        private static ITourRepository instance = null;
 
         private TourRepository()
         {
@@ -26,15 +26,8 @@ namespace WpfApp1.Repository
             _tours = new List<Tour>();
             _tours = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
-            ILocationRepository = LocationRepository.GetInstance();
         }
-        public void BindLocation()
-        {
-            foreach (Tour tour in _tours)
-            {
-                tour.Location = ILocationRepository.Get(tour.IdLocation);
-            }
-        }
+
         public Tour Get(int id)
         {
             return _tours.Find(t => t.Id == id);
@@ -46,17 +39,17 @@ namespace WpfApp1.Repository
             Save();
             return entity;
         }
-        public Tour Update(Tour entity)
+        public Tour Update(Tour tour)
         {
-            var oldEntity = Get(entity.Id);
-            if(oldEntity == null)
-            {
-                return null;
-            }
-            oldEntity = entity;
-            Save();
-            return oldEntity;
+
+            Tour current = _tours.Find(v => v.Id == tour.Id);
+            int index = _tours.IndexOf(current);
+            _tours.Remove(current);
+            _tours.Insert(index, tour);
+            _serializer.ToCSV(_filePath, _tours);
+            return tour;
         }
+
         public void Save()
         {
             _serializer.ToCSV(_filePath, _tours);
@@ -84,7 +77,7 @@ namespace WpfApp1.Repository
         {
             return _tours;
         }
-        public static TourRepository GetInstance()
+        public static ITourRepository GetInstance()
         {
             if (instance == null)
             {

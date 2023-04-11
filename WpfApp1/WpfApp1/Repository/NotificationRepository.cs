@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Models;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp.Observer;
@@ -13,7 +13,7 @@ namespace WpfApp1.Repository
     public class NotificationRepository : INotificationRepository
     {
         private const string _filePath = "../../../Resources/Data/notifications.csv";
-        private static NotificationRepository instance = null;
+        private static INotificationRepository instance = null;
 
         private readonly List<IObserver> _observers;
         private readonly Serializer<Notification> _serializer;
@@ -26,7 +26,7 @@ namespace WpfApp1.Repository
             _notifications = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
         }
-        public static NotificationRepository GetInstance()
+        public static INotificationRepository GetInstance()
         {
             if (instance == null)
             {
@@ -76,22 +76,7 @@ namespace WpfApp1.Repository
             return oldEntity;
         }
 
-        public void BindTourBooking()
-        {
-            foreach (Notification notification in _notifications)
-            {
-                int tourBookingId = notification.TourBooking.Id;
-                TourBooking tourBooking = TourBookingRepository.GetInstance().Get(tourBookingId);
-                if (tourBooking != null)
-                {
-                   notification.TourBooking = tourBooking;
-                }
-                else
-                {
-                    Console.WriteLine("Error in binding tourBooking and notification");
-                }
-            }
-        }
+
 
         public void Subscribe(IObserver observer)
         {
