@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace WpfApp1.Model
+namespace WpfApp1.Domain.Models
 {
     public class Tourist : User
     {
+        
         public List<Tour> Tours { get; set; }
 
         public List<Voucher> Vouchers { get; set; }

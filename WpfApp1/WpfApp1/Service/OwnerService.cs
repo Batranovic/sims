@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
@@ -34,9 +34,9 @@ namespace WpfApp1.Service
             return _ownerRepository.GetAll();
         }
 
-        public void Update(Owner entity)
+        public Owner Update(Owner entity)
         {
-            _ownerRepository.Update(entity);
+           return _ownerRepository.Update(entity);
         }
 
         public Owner GetByUsernameAndPassword(string username, string password)

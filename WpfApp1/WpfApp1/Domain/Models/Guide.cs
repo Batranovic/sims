@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Domain.Models
 {
     internal class Guide : User
     {

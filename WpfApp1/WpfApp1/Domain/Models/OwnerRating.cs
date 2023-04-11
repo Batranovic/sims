@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Model
+namespace WpfApp1.Domain.Models
 {
     public class OwnerRating : WpfApp1.Serializer.ISerializable
     {

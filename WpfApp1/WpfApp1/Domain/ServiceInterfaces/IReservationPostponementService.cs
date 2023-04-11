@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
-using WpfApp1.Model.Enums;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.Domain.Models.Enums;
 
 namespace WpfApp1.Domain.ServiceInterfaces
 {

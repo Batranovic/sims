@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
@@ -24,7 +24,7 @@ namespace WpfApp1.Repository
 
         public static IOwnerRatingRepository GetInstance()
         {
-            if(_instance == null)
+            if (_instance == null)
             {
                 _instance = new OwnerRatingRepository();
             }
@@ -71,9 +71,9 @@ namespace WpfApp1.Repository
             if (_ratingOwners.Count == 0)
                 return 0;
             int nextId = _ratingOwners[_ratingOwners.Count - 1].Id + 1;
-            foreach(OwnerRating r in _ratingOwners)
+            foreach (OwnerRating r in _ratingOwners)
             {
-                if(nextId == r.Id)
+                if (nextId == r.Id)
                 {
                     nextId++;
                 }
@@ -89,7 +89,7 @@ namespace WpfApp1.Repository
         public OwnerRating Update(OwnerRating entity)
         {
             var oldEntity = Get(entity.Id);
-            if(oldEntity == null)
+            if (oldEntity == null)
             {
                 return null;
             }

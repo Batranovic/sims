@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
+using WpfApp1.Domain.RepositoryInterfaces;
 
 namespace WpfApp1.Repository
 {
-    public class TouristRepository : IRepository<Tourist>, ISubject
+    public class TouristRepository : ITouristRepository
     {
         private const string _filePath = "../../../Resources/Data/tourists.csv";
         private readonly List<IObserver> _observers;
@@ -18,9 +19,9 @@ namespace WpfApp1.Repository
         private List<Tourist> _tourists;
 
 
-        private static TouristRepository _instance = null;
+        private static ITouristRepository _instance = null;
 
-        public static TouristRepository GetInsatnce()
+        public static ITouristRepository GetInstance()
         {
             if (_instance == null)
             {
@@ -28,6 +29,8 @@ namespace WpfApp1.Repository
             }
             return _instance;
         }
+
+   
 
         private TouristRepository()
         {
@@ -68,27 +71,17 @@ namespace WpfApp1.Repository
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _serializer.ToCSV(_filePath, _tourists);
         }
 
-        public Tourist Create(Tourist entity)
+        public Tourist Update(Tourist tourist)
         {
-            throw new NotImplementedException();
-        }
-
-        public Tourist Update(Tourist entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Tourist Delete(Tourist entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int NextId()
-        {
-            throw new NotImplementedException();
+            Tourist current = _tourists.Find(tp => tp.Id == tourist.Id);
+            int index = _tourists.IndexOf(current);
+            _tourists.Remove(current);
+            _tourists.Insert(index, tourist);
+            _serializer.ToCSV(_filePath, _tourists);
+            return tourist;
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Windows;
 using WpfApp.Observer;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 
 namespace WpfApp1.Service
@@ -68,9 +68,9 @@ namespace WpfApp1.Service
         {
             _accommodationRepository.Delete(entity);
         }
-        public void Update(Accommodation entity)
+        public Accommodation Update(Accommodation entity)
         {
-            _accommodationRepository.Update(entity);
+            return _accommodationRepository.Update(entity);
         }
         public void Save()
         {
