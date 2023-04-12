@@ -76,8 +76,11 @@ namespace WpfApp1.View
 
         private void LogOut(object sender, RoutedEventArgs e)
         {
-            Close();
-            MainWindow.LogInUser = null;
+            User user = MainWindow.LogInUser;
+            user.Id = -1;
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            this.Close();
         }
     }
 }

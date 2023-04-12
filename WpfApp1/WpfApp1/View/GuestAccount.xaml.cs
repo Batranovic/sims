@@ -52,5 +52,14 @@ namespace WpfApp1.View
             GuestPostponementsOverview guestPostponementsOverview = new GuestPostponementsOverview(LogInGuest);
             guestPostponementsOverview.Show();
         }
+
+        private void LogOut(object sender, RoutedEventArgs e)
+        {
+            User user = MainWindow.LogInUser;
+            user.Id = -1;
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            this.Close();
+        }
     }
 }

@@ -69,8 +69,8 @@ namespace WpfApp1
             {
                 OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
                 ownerAccount.Show();
-                return;
                 Close();
+                return;
             }
              LogInUser = _touristService.GetByUsernameAndPassword(Username, Password);
             if (LogInUser != null)
@@ -83,8 +83,8 @@ namespace WpfApp1
                 }
                 TourSearchAndOverview tourSearchAndOverview = new TourSearchAndOverview();
                 tourSearchAndOverview.Show();
-                return;
                 Close();
+                return;
             }
             LogInUser = _guestService.GetByUsernameAndPassword(Username, Password);
             if(LogInUser != null)
