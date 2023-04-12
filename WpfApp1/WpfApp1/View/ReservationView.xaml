@@ -5,48 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="ReservationView" Height="480" Width="700">
+        Title="ReservationView" Height="750" Width="980">
     <Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="65*"/>
-                <ColumnDefinition Width="436"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="370"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
+        <DockPanel>
+            <DataGrid DockPanel.Dock="Right" Width="880" Height="600"
+                          AutoGenerateColumns="False" ItemsSource="{Binding Path=Reservations, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="20,-20,20,20" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Accommodation.Name}" Width="165"></DataGridTextColumn>
+                    <DataGridTextColumn Header="State" Binding="{Binding Accommodation.Location.State}" Width="165"></DataGridTextColumn>
+                    <DataGridTextColumn Header="City" Binding="{Binding Accommodation.Location.City}" Width="165"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Start date" Binding="{Binding StartDate }" Width="160"></DataGridTextColumn>
+                    <DataGridTextColumn Header="End date" Binding="{Binding EndDate }" Width="110*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+        <WrapPanel Grid.Row="0" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0" Margin="-660,0,0,0">
+            <Button Content="Postpone reservation" Click="ReservationPostponement" Width="156" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10"/>
+        </WrapPanel>
+        <WrapPanel Grid.Row="0" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0" Margin="0,0,0,0">
+            <Button Content="Generate report" Width="156" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-150,10,10,10"/>
+        </WrapPanel>
+        <WrapPanel Grid.Row="0" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0" Margin="660,0,0,0">
+            <Button Content="Cancel reservation" Click="CancelReservation" Width="156" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10"/>
+        </WrapPanel>
+        <WrapPanel Grid.Row="0" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0" Margin="660,0,0,0">
+            <Button Content="Rate owner" Click="OwnerRating" Width="156" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-390,10,10,10"/>
+        </WrapPanel>
 
-            <Grid Grid.Row="0" Grid.Column="0" Margin="30,2,30,3" Grid.ColumnSpan="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-
-                <Label Grid.Row="0" Grid.Column="0" Height="30">Reservation days</Label>
-                <Label Grid.Row="1" Grid.Column="0" Height="30">Start date</Label>
-                <Label Grid.Row="2" Grid.Column="0" Height="30">End date</Label>
-                <Label Grid.Row="4" Grid.Column="0" Height="30">Number of guests</Label>
-
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=ReservationDays}"  Height="30"></TextBox>
-                <DatePicker x:Name="StartDatePicker" Grid.Row="1"  Grid.Column="1"  Height="30" SelectedDate="{Binding StartlDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
-                <DatePicker x:Name="EndDatePicker" Grid.Row="2" Grid.Column="1"  Height="30" SelectedDate="{Binding EndDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
-                <WrapPanel Grid.Row="3"  FlowDirection="LeftToRight" HorizontalAlignment="Left"  Grid.Column="1"  Width="370"></WrapPanel>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=GuestsNumber}"  Height="30"></TextBox>
-
-            </Grid>
-            <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
-                <Button Content=" Confirm " IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Click="Confirm"
-              />
-                <Button Content="Cancel " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Click="Cancel"
-               />
-            </WrapPanel>
-        </Grid>
     </Grid>
+
 </Window>

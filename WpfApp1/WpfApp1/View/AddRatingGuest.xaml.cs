@@ -14,8 +14,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Domain.Models;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -31,16 +32,18 @@ namespace WpfApp1.View
         public int SelectedDamage { get; set; }
         public int SelectedTimeliness { get; set; }
         public Reservation SelectedResevation { get; set; }
-        public RatingGuestController RatingGuestController { get; set; }
-        public ReservationController ReservationController { get; set; }
+        private readonly IGuestRatingService _guestRatingService;
+        private readonly IReservationService _reservationService;
+        private readonly IOwnerRatingService _ownerRatingService; 
+                
         public AddRatingGuest(Reservation reservation)
         {
             InitializeComponent();
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            RatingGuestController = app.RatingGuestController;
-            ReservationController = app.ReservationController;
+            _guestRatingService = InjectorService.CreateInstance<IGuestRatingService>();
+            _reservationService = InjectorService.CreateInstance<IReservationService>();
+            _ownerRatingService = InjectorService.CreateInstance<IOwnerRatingService>();
 
             Scores = new ObservableCollection<int>();
             Scores.Add(1);
@@ -81,11 +84,22 @@ namespace WpfApp1.View
        
         private void Confrim(object sender, RoutedEventArgs e)
         {
-            SelectedResevation.Status = Model.Enums.RatingGuestStatus.rated;
-            ReservationController.Update(SelectedResevation);
-            RatingGuest  ratingGuest = new RatingGuest(SelectedResevation, Comment, SelectedCleanness, SelectedFollowingRules, SelectedNoise, SelectedDamage, SelectedTimeliness);
-            RatingGuestController.Create(ratingGuest);        
+            SelectedResevation.Status =  Domain.Models.Enums.GuestRatingStatus.Rated;
+            _reservationService.Update(SelectedResevation);
+            GuestRating  ratingGuest = new GuestRating(SelectedResevation, Comment, SelectedCleanness, SelectedFollowingRules, SelectedNoise, SelectedDamage, SelectedTimeliness);
+            _guestRatingService.Create(ratingGuest);        
             this.Close();
+
+            //OBRISATI KASNIJE KAD URADIS NORMALNO
+            OwnerRating ratingOwner = _ownerRatingService.GetByIdReservation(SelectedResevation.Id);
+            if(ratingOwner == null)
+            {
+                MessageBox.Show("Korisnik Vas jos uvek nije ocenio");
+            }
+            else
+            {
+                MessageBox.Show(ratingOwner.ToString());
+            }
         }
 
         private void Reject(object sender, RoutedEventArgs e)

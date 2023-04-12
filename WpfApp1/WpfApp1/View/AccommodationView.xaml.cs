@@ -14,9 +14,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
-using WpfApp1.Model;
-using WpfApp1.Model.Enums;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.Domain.Models.Enums;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -29,16 +30,14 @@ namespace WpfApp1.View
         public event PropertyChangedEventHandler PropertyChanged;
         //public LocationController LocationController { get; set; }
 
-        private readonly AccommodationController accommodationController;
+        private readonly IAccommodationService _accommodationService;
+        private readonly ILocationService _locationService;
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
 
         public AccommodationKind? SelectedAccommodationKind { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
         public Accommodation SelectedAccommodation { get; set; }
-
-        public LocationController LocationController { get; set; }
-
         public ObservableCollection<string> States { get; set; }
 
         public ObservableCollection<string> Cities { get; set; }
@@ -53,26 +52,20 @@ namespace WpfApp1.View
             InitializeComponent();
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            accommodationController = app.AccommodationController;
-            LocationController= app.LocationController; 
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            _accommodationService = InjectorService.CreateInstance<IAccommodationService>();
 
             var kind = Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>();
             AccommodationKind = new ObservableCollection<AccommodationKind>(kind);
 
             LogInGuest = (Guest)user;
 
-            //States = new ObservableCollection<string>(LocationController.GetStates());
-            //Cities = new ObservableCollection<string>();
-
-            cbChoseState.Items.Add("");
-            cbChoseCity.Items.Add("");
-            cbChoseType.Items.Add("");
-
-            foreach(var state in LocationController.GetStates())
+            foreach(var state in _locationService.GetStates())
             {
                 cbChoseState.Items.Add(state.ToString());
             }
+
+            cbChoseType.Items.Add(string.Empty);
 
             foreach(var type in AccommodationKind)
             {
@@ -80,7 +73,7 @@ namespace WpfApp1.View
             }
 
 
-            Accommodations = new ObservableCollection<Accommodation>(accommodationController.GetAll());
+            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetSortedListBySuperOwner());
 
         }
 
@@ -96,7 +89,7 @@ namespace WpfApp1.View
                 if(_state != value)
                 {
                     _state = value;
-                    OnPropertyChanged(_state);
+                    OnPropertyChanged("SelectedState");
                 }
             }
         }
@@ -147,12 +140,12 @@ namespace WpfApp1.View
         }
 
 
-        
+  
 
         private void Search(object sender, RoutedEventArgs e)
         {
             Accommodations.Clear();
-            foreach(Accommodation a in accommodationController.SearchAccommodation(NameE, SelectedCity, SelectedState, SelectedAccommodationKind.ToString(), MaxGuests, ReservationDays))
+            foreach(Accommodation a in _accommodationService.SearchAccommodation(NameE, SelectedCity, SelectedState, SelectedAccommodationKind.ToString(), MaxGuests, ReservationDays))
             {
                 Accommodations.Add(a);
             }
@@ -167,20 +160,17 @@ namespace WpfApp1.View
         private void ChosenState(object sender, SelectionChangedEventArgs e)
         {
             SelectedState = (string)cbChoseState.SelectedItem;
-            //Cities.Clear();
             cbChoseCity.Items.Clear();
-            cbChoseCity.Items.Add("");
-            foreach (string city in LocationController.GetCitiesFromStates(SelectedState))
+            foreach (string city in _locationService.GetCitiesFromStates(SelectedState))
             {
-            //    Cities.Add(city);
                   cbChoseCity.Items.Add(city);
             }
         }
 
         private void Reserve(object sender, EventArgs e)
         {
-            ReservationView reservationView = new ReservationView(SelectedAccommodation,LogInGuest);
-            reservationView.Show();
+            AddReservation addReservation = new AddReservation(SelectedAccommodation,LogInGuest);
+            addReservation.Show();
         }
 
 

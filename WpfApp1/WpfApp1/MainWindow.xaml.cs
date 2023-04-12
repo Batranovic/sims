@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,8 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1.Model;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
+using WpfApp1.Service;
 using WpfApp1.View;
 
 namespace WpfApp1
@@ -23,31 +26,73 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        OwnerRepository OwnerRepostiroy { get; set; }
+        private readonly IOwnerService _ownerService;
+        private readonly IGuestService _guestService;
+        private readonly ITouristService _touristService;
+
+        public static User LogInUser { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+
+        private readonly INotificationService _notificationService;
+
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = this;
-        }
 
+            _ownerService = InjectorService.CreateInstance<IOwnerService>();
+            _guestService = InjectorService.CreateInstance<IGuestService>();
+            _touristService = InjectorService.CreateInstance<ITouristService>();
+            _notificationService = InjectorService.CreateInstance<INotificationService>();
+            
+
+        }
         private void TourSearchAndOverview(object sender, RoutedEventArgs e)
         {
             TourSearchAndOverview a = new TourSearchAndOverview();
             a.Show();
-        }
 
-        private void OwnerProfile(object sender, RoutedEventArgs e)
-        {
-            User user = OwnerRepository.GetInsatnce().Get(0);
-            OwnerAccount ownerAccount = new OwnerAccount(user);
-            ownerAccount.Show();
         }
-
         private void AccommodationView(object sender, RoutedEventArgs e)
         {
             Guest guest = GuestRepository.GetInsatnce().Get(0);
             AccommodationView accommodationView = new AccommodationView(guest);
             accommodationView.Show();
+        }
+        private void LogIn(object sender, RoutedEventArgs e)
+        {
+            Password = passwordBox.Password;
+
+            LogInUser = _ownerService.GetByUsernameAndPassword(Username, Password);   
+            if(LogInUser != null)
+            {
+                OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
+                ownerAccount.Show();
+                Close();
+                return;
+            }
+             LogInUser = _touristService.GetByUsernameAndPassword(Username, Password);
+            if (LogInUser != null)
+            {
+                List<Notification> notifications = _notificationService.GetNotificationForUser(LogInUser.Id);
+                foreach (Notification notification in notifications)
+                {
+                    string tourName = notification.TourBooking.TourEvent.Tour.Name;
+                    MessageBoxResult result = MessageBox.Show(this, "You have been added to " + tourName);
+                }
+                TourSearchAndOverview tourSearchAndOverview = new TourSearchAndOverview();
+                tourSearchAndOverview.Show();
+                Close();
+                return;
+            }
+            LogInUser = _guestService.GetByUsernameAndPassword(Username, Password);
+            if(LogInUser != null)
+            {
+                GuestAccount guestAccount = new GuestAccount(LogInUser);
+                guestAccount.Show();
+                Close();
+            }
         }
     }
 }

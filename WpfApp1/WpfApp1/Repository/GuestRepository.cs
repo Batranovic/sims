@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Model;
+using WpfApp.Observer;
+using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class GuestRepository : IRepository<Guest>
+    public class GuestRepository : IGuestRepository
     {
         private const string _filePath = "../../../Resources/Data/guests.csv";
 
         private readonly Serializer<Guest> _serializer;
-
+        private List<IObserver> _observers;
         private List<Guest> _guests;
-        private static GuestRepository _instance = null;
+        private static IGuestRepository _instance = null;
 
-        public static GuestRepository GetInsatnce()
+        public static IGuestRepository GetInsatnce()
         {
             if(_instance == null)
             {
@@ -31,6 +33,7 @@ namespace WpfApp1.Repository
             _serializer = new Serializer<Guest>();
             _guests = new List<Guest>();
             _guests = _serializer.FromCSV(_filePath);
+            _observers = new List<IObserver>();
         }
 
         public Guest Get(int id)
@@ -41,6 +44,34 @@ namespace WpfApp1.Repository
         public List<Guest> GetAll()
         {
             return _guests;
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void NotifyObservers()
+        {
+            foreach(var o in _observers)
+            {
+                o.Update();
+            }
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Guest Update(Guest entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

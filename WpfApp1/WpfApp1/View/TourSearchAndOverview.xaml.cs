@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WpfApp1.Model.Enums;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
 using System.Collections.ObjectModel;
-using WpfApp1.Controller;
 using System.ComponentModel;
+using WpfApp1.Service;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -24,33 +17,31 @@ namespace WpfApp1.View
     /// </summary>
     public partial class TourSearchAndOverview : Window
     {
-        public LocationController LocationController { get; set; }
+        private readonly ILocationService _locationService;
 
-        public TourController TourController { get; set; }
+        private readonly ITourService _tourService;
 
         public ObservableCollection<Tour> Tours { get; set; }
+
 
         public Tour SelectedTour { get; set; }
 
         public string State { get; set; }
-
         public string City { get; set; }
         public string Languages { get; set; }
         public string Duration { get; set; }
+        public string MaxGuests { get; set; }
 
-        public string MaxGuests { get; set; }    
 
         public TourSearchAndOverview()
         {
             InitializeComponent();
             this.DataContext = this;
 
-            var app = Application.Current as App;
-            LocationController = app.LocationController;
-            TourController = app.TourController;
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            _tourService = InjectorService.CreateInstance<ITourService>();   
 
-            TourController = new TourController();
-            Tours = new ObservableCollection<Tour>(TourController.GetAll());
+            Tours = new ObservableCollection<Tour>(_tourService.GetAll());
 
 
             State = "";
@@ -58,8 +49,6 @@ namespace WpfApp1.View
             Languages = "";
             Duration = "";
             MaxGuests = "";
-
-            
 
         }
         private void RefreshTours(List<Tour> tours)
@@ -72,8 +61,8 @@ namespace WpfApp1.View
         }
         private void SearchButton(object sender, RoutedEventArgs e)
         {
-            List<Tour> searchedTours = TourController.TourSearch(State, City, Languages, MaxGuests, Duration);
-           RefreshTours(searchedTours);
+            List<Tour> searchedTours = _tourService.TourSearch(State, City, Languages, MaxGuests, Duration);
+            RefreshTours(searchedTours);
         }
 
         private void TourDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -83,7 +72,32 @@ namespace WpfApp1.View
                 SelectedTour = e.AddedItems[0] as Tour;
                 TourBookingWindow tourBookingWindow = new TourBookingWindow(SelectedTour);
                 tourBookingWindow.Show();
+
+                this.Close();
             }
+        }
+
+     
+
+        private void BookedToursButton(object sender, RoutedEventArgs e)
+        {
+
+            BookedTours bookedTours = new BookedTours();
+            bookedTours.Show();
+
+            this.Close();
+
+        }
+
+        private void LogOutButton(object sender, RoutedEventArgs e)
+        {
+           
+            MessageBox.Show("You are logging out!");
+            User user = MainWindow.LogInUser;
+            user.Id = -1;
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            this.Close();
         }
     }
 }

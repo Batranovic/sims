@@ -4,23 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Model;
+using WpfApp1.Domain.RepositoryInterfaces;
+using WpfApp1.Domain.Models;
 using WpfApp1.Serializer;
+using WpfApp1.Service;
 
 namespace WpfApp1.Repository
 {
-    public class OwnerRepository : IRepository<Owner>, ISubject
+    public class OwnerRepository : IOwnerRepository
     {
         private const string _filePath = "../../../Resources/Data/owners.csv";
         private readonly List<IObserver> _observers;
         private readonly Serializer<Owner> _serializer;
-
         private List<Owner> _owners;
-
-
-        private static OwnerRepository _instance = null;
-
-        public static OwnerRepository GetInsatnce()
+        private static IOwnerRepository _instance = null;
+     
+        public static IOwnerRepository GetInsatnce()
         {
             if(_instance == null)
             {
@@ -36,8 +35,7 @@ namespace WpfApp1.Repository
             _owners = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
         }
-
-
+     
         public  Owner Get(int id)
         {
             return _owners.Find(o => o.Id == id);
@@ -47,23 +45,14 @@ namespace WpfApp1.Repository
         {
             return _owners;
         }
-
-        public void NotifyObservers()
+        public void Save()
         {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
+            _serializer.ToCSV(_filePath, _owners);
         }
-
-        public void Subscribe(IObserver observer)
+        public Owner Update(Owner entity)
         {
-            _observers.Add(observer);
+            throw new NotImplementedException();
         }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
+       
     }
 }

@@ -5,72 +5,89 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="TourSearchAndOverview" Height="500" Width="1117">
+        Title="TourSearchAndOverview" Height="624" Width="1042">
     <DockPanel>
-        <TextBlock Background="LightBlue" 
-                   DockPanel.Dock="Left" Height="701">
+        <DockPanel DockPanel.Dock="Top" Background="#f3dcc4" Height="51">
             <Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="65*"/>
-                <ColumnDefinition Width="436*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="370"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" Grid.Column="0" Margin="30,2,30,3" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-                <Label Grid.Row="0" Grid.Column="0" Height="30">State</Label>
-                <Label Grid.Row="1" Grid.Column="0" Height="30">City</Label>
-                <Label Grid.Row="2" Grid.Column="0" Height="30">Languages</Label>
-                <Label Grid.Row="3" Grid.Column="0" Height="30">MaxGuests</Label>
-                <Label Grid.Row="4" Grid.Column="0" Height="30">Duration</Label>
-          
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=State, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=City, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged}"  Height="30"></TextBox>
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
+                <!-- Content goes here -->
+                <Button Background="#f9cb9e" Content="All tours" HorizontalAlignment="Left" Width="110" Margin="36,8,0,0"/>
+                <Button Background="#f9cb9e" Content="Booked tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0" Click="BookedToursButton"/>
+                <Button Background="#f9cb9e" Content="Request new tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="327,8,0,0" Grid.ColumnSpan="2"/>
+                <Button Background="#f9cb9e" Content="Request list" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="132,8,0,0"/>
+                <Button Background="#f9cb9e" Content="My profile" Click="LogOutButton" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0"/>
             </Grid>
-            <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
-                <Button Content="Search" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
-              Click="SearchButton"/>
-               
-            </WrapPanel>
-        </Grid>
-    </Grid>
-        </TextBlock>
-        <TextBlock Background="Lavender"
-                   DockPanel.Dock="Right">
-             <DataGrid DockPanel.Dock="Bottom"
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" Width="1050" >
+            <DockPanel DockPanel.Dock="Left"  Background="White" Height="559">
+                <Grid>
+                    <Grid Margin="0,0,27,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="38*"/>
+                            <ColumnDefinition Width="45*"/>
+                            <ColumnDefinition Width="0*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="370"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Grid.Column="0" Margin="30,2,0,155" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2">State</Label>
+                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="1" Grid.Column="0" Height="30" Margin="0,35,0,16" Grid.ColumnSpan="2">City</Label>
+                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2">Languages</Label>
+                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="3" Grid.Column="0" Height="30" Margin="0,35,0,16" Grid.ColumnSpan="2">MaxGuests</Label>
+                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2" >Duration</Label>
+
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="0" Text="{Binding Path=State, UpdateSourceTrigger=PropertyChanged}"  Height="30" Grid.ColumnSpan="2" Margin="0,70,0,68" Grid.RowSpan="2"/>
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="1" Text="{Binding Path=City, UpdateSourceTrigger=PropertyChanged}"  Height="30" Grid.ColumnSpan="2" Margin="0,70,0,66" Grid.RowSpan="2"/>
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="2" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged}"  Height="30" Grid.ColumnSpan="2" Margin="0,70,0,67" Grid.RowSpan="2" />
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="3" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,67" Grid.RowSpan="2" />
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="4" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,-17"/>
+
+                        </Grid>
+                        <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" />
+                        <Button Background="#f9cb9e" Content="Search" IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top"
+              Click="SearchButton" Margin="36,94,0,0" Grid.Row="1" Height="36" Width="110" Grid.ColumnSpan="2"/>
+                    </Grid>
+                </Grid>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Right" Width="862" Background="#dedbd9">
+                <DataGrid DockPanel.Dock="Bottom" Background="White"
                        SelectionMode="Single"
                        SelectionChanged="TourDataGrid_SelectionChanged"
                   ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True"
-                  Width="865" Height="482">
-            <DataGrid.Columns>
-                <DataGridTextColumn  Header="State" Binding="{Binding Location.State}" Width="200"></DataGridTextColumn>
-                <DataGridTextColumn  Header="City" Binding="{Binding Location.City}" Width="200"></DataGridTextColumn>
-                <DataGridTextColumn  Header="Languages" Binding="{Binding Languages}" Width="200"></DataGridTextColumn>
-                <DataGridTextColumn  Header="MaxGuests" Binding="{Binding MaxGuests}" Width="200"></DataGridTextColumn>
-                <DataGridTextColumn  Header="Duration" Binding="{Binding Duration}" Width="*"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        </TextBlock>
-
+                  Width="726" Height="489">
+                    <DataGrid.Columns >
+                        <DataGridTextColumn  Header="State" Binding="{Binding Location.State}" Width="150"></DataGridTextColumn>
+                        <DataGridTextColumn  Header="City" Binding="{Binding Location.City}" Width="150"></DataGridTextColumn>
+                        <DataGridTextColumn  Header="Languages" Binding="{Binding Languages}" Width="150"></DataGridTextColumn>
+                        <DataGridTextColumn  Header="MaxGuests" Binding="{Binding MaxGuests}" Width="150"></DataGridTextColumn>
+                        <DataGridTextColumn  Header="Duration" Binding="{Binding Duration}" Width="*"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
     </DockPanel>
 </Window>

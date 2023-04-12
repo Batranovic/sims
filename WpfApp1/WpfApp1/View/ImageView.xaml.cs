@@ -15,8 +15,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Controller;
-using WpfApp1.Model;
+using WpfApp1.Domain.Models;
+using WpfApp1.Service;
 
 namespace WpfApp1.View
 {
@@ -27,10 +27,11 @@ namespace WpfApp1.View
     {
         
         public Accommodation Accommodation { get; set; }
-       // public Image Image { get; set; }
+        // public Image Image { get; set; }
 
-        public ImageController ImageController { get; set; }
-        
+        private readonly ImageService _imageService;
+        private Accommodation selectedAccommodation;
+
         //public List<Image> Images { get; set; } 
         public ImageView(Accommodation accommodation)
         {
