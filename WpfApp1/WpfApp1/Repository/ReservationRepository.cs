@@ -110,10 +110,18 @@ namespace WpfApp1.Repository
         {
             return _reservations.Find(r => r.Id == id && r.Deleted == false);
         }
-
+        public Reservation GetWithDeleted(int id)
+        {
+            return _reservations.Find(r => r.Id == id);
+        }
         public List<Reservation> GetAll()
         {
             return _reservations.FindAll(r => r.Deleted == false);
+        }
+
+        public List<Reservation> GetAllWithDeleted()
+        {
+            return _reservations;
         }
 
         public int NextId()

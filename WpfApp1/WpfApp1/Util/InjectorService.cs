@@ -13,11 +13,11 @@ namespace WpfApp1.Service
     {
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
+            { typeof(ILocationService), new LocationService() },
             { typeof(IAccommodationService), new AccommodationService() },
             { typeof(IGuestRatingService), new GuestRatingService() },
             { typeof(IImageService), new ImageService() },
             { typeof(IGuestService), new GuestService() },
-            { typeof(ILocationService), new LocationService() },
             { typeof(IOwnerRatingService), new OwnerRatingService() },
             { typeof(IOwnerService), new OwnerService() },
             { typeof(IReservationPostponementService), new ReservationPostponementService() },

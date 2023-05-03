@@ -29,7 +29,7 @@ namespace WpfApp1
         private readonly IOwnerService _ownerService;
         private readonly IGuestService _guestService;
         private readonly ITouristService _touristService;
-
+   
         public static User LogInUser { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -45,8 +45,7 @@ namespace WpfApp1
             _guestService = InjectorService.CreateInstance<IGuestService>();
             _touristService = InjectorService.CreateInstance<ITouristService>();
             _notificationService = InjectorService.CreateInstance<INotificationService>();
-            
-
+    
         }
         private void TourSearchAndOverview(object sender, RoutedEventArgs e)
         {

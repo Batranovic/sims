@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="OwnerAccount" Height="450" Width="800">
     <Grid>
-        <DockPanel Background="red" Width="800">
+        <DockPanel  Width="800">
             <DockPanel DockPanel.Dock="Left" Width="211" Background="black">
                 <StackPanel >
                     <Button Click="SignInAccomodation">Sign in accommodation</Button>
@@ -19,9 +19,11 @@
             </DockPanel>
 
             <DockPanel DockPanel.Dock="Right">
-                <DataGrid>
+                <StackPanel>
+                    <Label  Width="79" Height="30" >Owner type</Label>
+                    <Label Content="{Binding Path=OwnerType}" Width="79" Height="30"/>
+                </StackPanel>
 
-                </DataGrid>
             </DockPanel>
         </DockPanel>
 

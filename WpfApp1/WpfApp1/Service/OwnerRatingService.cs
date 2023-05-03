@@ -26,7 +26,7 @@ namespace WpfApp1.Service
         {
             foreach (OwnerRating r in GetAll())
             {
-                r.Reservation = _reservationRepository.Get(r.IdReservation);
+                r.Reservation = _reservationRepository.GetWithDeleted(r.IdReservation);
             }
         }
         public void Save()
