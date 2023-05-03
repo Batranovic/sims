@@ -77,7 +77,7 @@ namespace WpfApp1.View
 
         public void CancelReservation(object sender, RoutedEventArgs e)
         {
-            if (SelectedReservation.StartDate < DateTime.Now.AddDays(-SelectedReservation.Accommodation.CancelDay))
+            if (SelectedReservation.StartDate < DateTime.Now.AddDays(-SelectedReservation.Accommodation.CancelDay) && SelectedReservation.EndDate <= DateTime.Now)
             {
                 return;
             }

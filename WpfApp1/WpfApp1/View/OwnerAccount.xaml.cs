@@ -25,6 +25,7 @@ namespace WpfApp1.View
         public Owner LogInOwner { get; set; }
 
         private readonly IReservationService _reservationService;
+        public string OwnerType { get; set; }
         public OwnerAccount(User user)
         {
             InitializeComponent();
@@ -33,6 +34,15 @@ namespace WpfApp1.View
             _reservationService = InjectorService.CreateInstance<IReservationService>();
      
             LogInOwner = (Owner)user;
+
+            if(LogInOwner.Super)
+            {
+                OwnerType = "Super";
+            }
+            else
+            {
+                OwnerType = "Basic";
+            }
 
             FindNotification();
         }

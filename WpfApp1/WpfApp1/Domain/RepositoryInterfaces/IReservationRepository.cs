@@ -15,6 +15,7 @@ namespace WpfApp1.Domain.RepositoryInterfaces
         Reservation Create(Reservation entity);
         Reservation Delete(Reservation entity);
         int NextId();
-
+        Reservation GetWithDeleted(int id);
+        List<Reservation> GetAllWithDeleted();
     }
 }

@@ -24,7 +24,7 @@ namespace WpfApp1.Service
         {
             foreach (Owner o in GetAll())
             {
-                if (o.AverageRating >= 4.5)
+                if (o.AverageRating >= 4.5 && o.Ratings.Count >= 50)
                 {
                     o.Super = true;
                 }
