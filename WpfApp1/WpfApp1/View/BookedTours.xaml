@@ -26,10 +26,11 @@
             </Grid>
         </DockPanel>
         <DataGrid DockPanel.Dock="Left" Background="White"
-                       SelectionMode="Single"
+                  SelectionMode="Single"
+                  HorizontalAlignment="Stretch"
                   ItemsSource="{Binding Path=TourEvents, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedTourEvent, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="59,0,373,101" Height="368" VerticalAlignment="Bottom">
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="62,0,373,101" Height="368" VerticalAlignment="Bottom">
             <DataGrid.Columns>
                 <DataGridTextColumn  Header="Name" Binding="{Binding Tour.Name}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn  Header="State" Binding="{Binding Tour.Location.State}" Width="100"></DataGridTextColumn>
@@ -38,13 +39,19 @@
                 <DataGridTextColumn  Header="Date" Binding="{Binding StartTime}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid DockPanel.Dock="Right" Background="White"
+        <DataGrid GridLinesVisibility="None" DockPanel.Dock="Right" Background="White"
                        SelectionMode="Single"
                         ItemsSource="{Binding Path=SelectedTourEvent.Tour.TourPoints, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="724,159,33,0" Height="368" VerticalAlignment="Top">
             <DataGrid.Columns>
-                <DataGridTextColumn  Header="Name" Binding="{Binding Name}" Width="140"></DataGridTextColumn>
-                <DataGridTextColumn  Header="Status" Binding="{Binding Active}" Width="*"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="Status" Binding="{Binding Active}" Width="50" IsReadOnly="True">
+                    <DataGridCheckBoxColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridCheckBoxColumn.CellStyle>
+                </DataGridCheckBoxColumn>
+                <DataGridTextColumn  Header="Name" Binding="{Binding Name}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Background="#f9cb9e" Click="LeaveReviewButton" Content="Leave a review" HorizontalAlignment="Left" Margin="306,568,0,0" VerticalAlignment="Top" Height="36" Width="98"/>
