@@ -1,0 +1,31 @@
+﻿<Window x:Class="WpfApp1.Views.ExpiredReservation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Views"
+        mc:Ignorable="d"
+        Title="ExpiredReservation" Height="450" Width="800">
+    <Grid>
+        <DockPanel>
+            <DataGrid DockPanel.Dock="Top"
+                  ItemsSource="{Binding Path=Reservations, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  Width="800" Height="350">
+                <DataGrid.Columns>
+                    <DataGridTextColumn  Header="Name" Binding="{Binding Accommodation.Name}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn  Header="State" Binding="{Binding Accommodation.Location.State}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn  Header="City" Binding="{Binding Accommodation.Location.City}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn  Header="StartDate" Binding="{Binding StartDate}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn  Header="EndDate" Binding="{Binding EndDate}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn  Header="Name" Binding="{Binding Guest.Name}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn  Header="Surname" Binding="{Binding Guest.Surname}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn  Header="Username" Binding="{Binding Guest.Username}" Width="100"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Button Click="AddRatingToGuest" Width="100" Height="20" DockPanel.Dock="Bottom">Napravi komentar</Button>
+        </DockPanel>
+    </Grid>
+</Window>

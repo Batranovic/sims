@@ -17,7 +17,7 @@ using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 using WpfApp1.Service;
-using WpfApp1.View;
+using WpfApp1.Views;
 
 namespace WpfApp1
 {
