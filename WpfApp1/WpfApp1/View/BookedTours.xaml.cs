@@ -68,7 +68,12 @@ namespace WpfApp1.View
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-         
+
+        private void ShowPopup(object sender, RoutedEventArgs e)
+        {
+            myPopup.IsOpen = true;
+        }
+
         private void AllToursButton(object sender, RoutedEventArgs e)
         {
             TourSearchAndOverview allTours = new TourSearchAndOverview();

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
         Title="TourSearchAndOverview" Height="624" Width="1042">
@@ -28,7 +29,11 @@
         <DockPanel DockPanel.Dock="Bottom" Width="1050" >
             <DockPanel DockPanel.Dock="Left"  Background="White" Height="559">
                 <Grid>
-                    <Grid Margin="0,0,27,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="277*"/>
+                        <RowDefinition Height="282*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="0,0,27,0" Grid.RowSpan="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="38*"/>
                             <ColumnDefinition Width="45*"/>
@@ -54,14 +59,14 @@
 
                             <Label  FontSize="13" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2">State</Label>
                             <Label  FontSize="13" FontWeight="Bold" Grid.Row="1" Grid.Column="0" Height="30" Margin="0,35,0,16" Grid.ColumnSpan="2">City</Label>
-                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2">Languages</Label>
+                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2">Language</Label>
                             <Label  FontSize="13" FontWeight="Bold" Grid.Row="3" Grid.Column="0" Height="30" Margin="0,35,0,16" Grid.ColumnSpan="2">MaxGuests</Label>
                             <Label  FontSize="13" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2" >Duration</Label>
 
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="0" Text="{Binding Path=State, UpdateSourceTrigger=PropertyChanged}"  Height="30" Grid.ColumnSpan="2" Margin="0,70,0,68" Grid.RowSpan="2"/>
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="1" Text="{Binding Path=City, UpdateSourceTrigger=PropertyChanged}"  Height="30" Grid.ColumnSpan="2" Margin="0,70,0,66" Grid.RowSpan="2"/>
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="2" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged}"  Height="30" Grid.ColumnSpan="2" Margin="0,70,0,67" Grid.RowSpan="2" />
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="3" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,67" Grid.RowSpan="2" />
+                            <ComboBox x:Name="cbChoseState" SelectionChanged="ChosenState" Grid.Row="0" Height="30" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}"  Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" Width="NaN"/>
+                            <ComboBox x:Name="cbChoseCity" Grid.Row="1" Height="30"  SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" Margin="0,70,0,61" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="NaN" />
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="2" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged}"  Height="30" Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" />
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="3" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" />
                             <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="4" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,-17"/>
 
                         </Grid>
@@ -69,6 +74,14 @@
                         <Button Background="#f9cb9e" Content="Search" IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top"
               Click="SearchButton" Margin="36,94,0,0" Grid.Row="1" Height="36" Width="110" Grid.ColumnSpan="2"/>
                     </Grid>
+                    <Button Background="LightGray" Content="^" IsCancel="True"  Width="16" Height="16"
+                        Click="IncrementButton_Click" Margin="130,36,27,230" Grid.Row="1"/>
+                    <Button Background="LightGray" Content="^" IsCancel="True" Width="16" Height="16"
+                                     Click="DecrementButton_Click" Margin="144,66,8,200" Grid.Row="1">
+                        <Button.RenderTransform>
+                            <RotateTransform Angle="180"/>
+                        </Button.RenderTransform>
+                    </Button>
                 </Grid>
             </DockPanel>
             <DockPanel DockPanel.Dock="Right" Width="862" Background="#dedbd9">

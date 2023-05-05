@@ -55,6 +55,33 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Background="#f9cb9e" Click="LeaveReviewButton" Content="Leave a review" HorizontalAlignment="Left" Margin="306,568,0,0" VerticalAlignment="Top" Height="36" Width="98"/>
+
+        <ToggleButton x:Name="myToggleButton" Width="50" Height="50" HorizontalAlignment="Left" Margin="217,561,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Click="ShowPopup"   >
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <Ellipse Width="30" Height="30" Fill="White" Stroke="Blue" StrokeThickness="2"/>
+                        <TextBlock Text="i" FontSize="24" FontWeight="Bold" Foreground="Blue">
+                            <TextBlock.RenderTransform>
+                                <TranslateTransform X="22" Y="8"/>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Grid>
+                </ControlTemplate>
+            </ToggleButton.Template>
+        </ToggleButton>
+        <Popup Name="myPopup" PlacementTarget="{Binding ElementName=myToggleButton}" StaysOpen="False" Placement="Top">
+            <Grid Width="200" Background="Transparent">
+                <Border Background="White"  Margin="1"  >
+                    <TextBlock Text="You can only review tours with FINISHED STATUS" FontSize="16" TextWrapping="Wrap" Width="160" Height="65"/>
+                </Border>
+
+            </Grid>
+        </Popup>
+
+
+
+
         <TextBlock Background="#f3dcc4" Margin="59,105,373,0"  Text="Booked tours" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
         <TextBlock Background="#f3dcc4" Margin="724,105,33,0" Text="Tour points" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
     </Grid>
