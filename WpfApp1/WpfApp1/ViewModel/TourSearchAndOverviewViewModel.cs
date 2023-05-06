@@ -24,7 +24,7 @@ namespace WpfApp1.ViewModel
 
         public ObservableCollection<Tour> Tours { get; set; }
 
-
+        public Action CloseAction { get; set; }
         public Tour SelectedTour { get; set; }
 
         public ObservableCollection<string> States { get; set; }
@@ -32,11 +32,10 @@ namespace WpfApp1.ViewModel
         public ObservableCollection<string> Cities { get; set; }
         public string Languages { get; set; }
         public string Duration { get; set; }
-        // public string MaxGuests { get; set; }
 
         private string _state;
 
-        private string _maxGuests = "0";
+        private string _maxGuests;
         public string MaxGuests
         {
             get { return _maxGuests; }
@@ -60,9 +59,35 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
+        public IEnumerable<string> Statess { get; private set; }
+        public TourSearchAndOverviewViewModel()
+        {
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            _tourService = InjectorService.CreateInstance<ITourService>();
+
+            Tours = new ObservableCollection<Tour>(_tourService.GetAll());
+
+            
+
+
+
+            Languages = "";
+            Duration = "";
+            MaxGuests = "";
+
+            SearchCommand = new RelayCommand(Execute_Search, CanExecute_Command);
+            AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
+            BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
+            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            IncrementCommand = new RelayCommand(Execute_Increment, CanExecute_Command);
+            DecrementCommand = new RelayCommand(Execute_Decrement, CanExecute_Command);
+            //ChosenStateCommand = new RelayCommand(Execute_ChoseState, CanExecute_Command);
+            ViewMoreCommand = new RelayCommand(Execute_ViewMore, CanExecute_Command);
+            RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
+        }
 
         private RelayCommand searchCommand;
-        public RelayCommand SearchlCommand
+        public RelayCommand SearchCommand
         {
             get => searchCommand;
             set
@@ -174,54 +199,51 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
-        public TourSearchAndOverviewViewModel()
+
+        private RelayCommand requestTourCommand;
+        public RelayCommand RequestTourCommand
         {
-            _locationService = InjectorService.CreateInstance<ILocationService>();
-            _tourService = InjectorService.CreateInstance<ITourService>();
-
-            Tours = new ObservableCollection<Tour>(_tourService.GetAll());
-
-            /*
-            foreach (var state in _locationService.GetStates())
+            get => requestTourCommand;
+            set
             {
-                cbChoseState.Items.Add(state.ToString());
+                if (value != requestTourCommand)
+                {
+                    requestTourCommand = value;
+                    OnPropertyChanged();
+                }
             }
-            */
-
-
-            Languages = "";
-            Duration = "";
-            MaxGuests = "0";
-
-            SearchlCommand = new RelayCommand(Execute_Search, CanExecute_Command);
-            AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
-            BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
-            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
-            IncrementCommand = new RelayCommand(Execute_Increment, CanExecute_Command); 
-            DecrementCommand = new RelayCommand(Execute_Decrement, CanExecute_Command);
-            //ChosenStateCommand = new RelayCommand(Execute_ChoseState, CanExecute_Command);
-            ViewMoreCommand = new RelayCommand(Execute_ViewMore, CanExecute_Command);
         }
+
+
+    
         /*
         private void Execute_ChoseState(object sender)
         {
 
-            SelectedState = (string)cbChoseState.SelectedItem;
+            SelectedState = (string).SelectedItem;
             cbChoseCity.Items.Clear();
             foreach (string city in _locationService.GetCitiesFromStates(SelectedState))
             {
                 cbChoseCity.Items.Add(city);
             }
-        }*/
+        }
+        */
 
-
+        private void Execute_RequestTour(object sender)
+        {
+            RequestNewTours requestNewTour = new RequestNewTours();
+            requestNewTour.Show();
+            CloseAction();
+        }
         private void Execute_ViewMore(object sender)
         {
             if (sender != null && sender is Tour tour)
             {
                 TourBookings tourBookingWindow = new TourBookings(tour);
                 tourBookingWindow.Show();
+                CloseAction();
             }
+
         }
 
         private bool CanExecute_Command(object parameter)
@@ -239,11 +261,12 @@ namespace WpfApp1.ViewModel
         }
         private void Execute_Increment(object sender)
         {
-            int currentValue;
-            if (int.TryParse(MaxGuests, out currentValue))
+            int currentValue = 0;
+            if (!string.IsNullOrEmpty(MaxGuests))
             {
-                MaxGuests = (currentValue + 1).ToString();
+                int.TryParse(MaxGuests, out currentValue);
             }
+            MaxGuests = (currentValue + 1).ToString();
         }
 
         private void Execute_Decrement(object sender)
@@ -251,7 +274,10 @@ namespace WpfApp1.ViewModel
             int currentValue;
             if (int.TryParse(MaxGuests, out currentValue))
             {
-                MaxGuests = (currentValue - 1).ToString();
+                if (currentValue > 0)
+                {
+                    MaxGuests = (currentValue - 1).ToString();
+                }
             }
         }
 
@@ -263,13 +289,15 @@ namespace WpfApp1.ViewModel
         }
         private void Execute_AllTours(object sender)
         {
-
+            TourSearchAndOverview tourSearch = new TourSearchAndOverview();
+            tourSearch.Show();
         }
         private void Execute_BookedTours(object sender)
         {
 
             BookedTours bookedTours = new BookedTours();
             bookedTours.Show();
+            CloseAction();
             
         }
 
@@ -280,13 +308,57 @@ namespace WpfApp1.ViewModel
             user.Id = -1;
             MainWindow mw = new MainWindow();
             mw.Show();
+            CloseAction();
 
         }
 
+        public string Error => null;
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "Duration")
+                {
+                    int duration;
+                    if (!int.TryParse(Duration, out duration) || duration <= 0)
+                    {
+                        return "Must be positive number.";
+                    }
+                }
 
-       
-    
+                if (columnName == "MaxGuests")
+                {
+                    int maxGuests;
+                    if (!int.TryParse(MaxGuests, out maxGuests) || maxGuests <= 0)
+                    {
+                        return "Must be positive number.";
+                    }
+                }
 
-}
+                return null;
+
+            }
+
+        }
+        private readonly string[] _validatedProperties = { "Duration", "MaxGuests"};
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+
+
+
+
+    }
 }
 

@@ -3,10 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-
+        xmlns:commands="clr-namespace:WpfApp1.Commands"
         xmlns:local="clr-namespace:WpfApp1.Views"
+        xmlns:val="clr-namespace:WpfApp1.Validation"
         mc:Ignorable="d"
         Title="TourSearchAndOverview" Height="624" Width="1042">
+    <Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" Background="#f3dcc4" Height="51">
             <Grid>
@@ -19,15 +29,15 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- Content goes here -->
-                <Button  Command="{Binding AllToursCommand}"  Background="#f9cb9e" Content="All tours" HorizontalAlignment="Left" Width="110" Margin="36,8,0,0"/>
+                <Button  Command="{Binding AllToursCommand}"  IsEnabled="False" Background="#f9cb9e" Content="All tours" HorizontalAlignment="Left" Width="110" Margin="36,8,0,0"/>
                 <Button Command="{Binding BookedToursCommand}" Background="#f9cb9e" Content="Booked tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0"/>
-                <Button Background="#f9cb9e" Content="Request new tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="327,8,0,0" Grid.ColumnSpan="2"/>
+                <Button Command ="{Binding RequestTourCommand}" Background="#f9cb9e" Content="Request new tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="327,8,0,0" Grid.ColumnSpan="2"/>
                 <Button Background="#f9cb9e" Content="Request list" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="132,8,0,0"/>
                 <Button Command ="{Binding LogOutCommand}" Background="#f9cb9e" Content="My profile" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0"/>
             </Grid>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" Width="1050" >
-            <DockPanel DockPanel.Dock="Left"  Background="White" Height="559">
+            <DockPanel DockPanel.Dock="Left"  Background="WhiteSmoke" Height="559">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="277*"/>
@@ -63,12 +73,12 @@
                             <Label  FontSize="13" FontWeight="Bold" Grid.Row="3" Grid.Column="0" Height="30" Margin="0,35,0,16" Grid.ColumnSpan="2">MaxGuests</Label>
                             <Label  FontSize="13" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2" >Duration</Label>
 
-                            <!-- <ComboBox x:Name="cbChoseState" SelectionChanged="{Binding ChosenStateCommand}" Grid.Row="0" Height="30" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}"  Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" Width="NaN"/>  -->
-                          
+                           <!-- <ComboBox x:Name="cbChoseState" SelectionChanged="{Binding ChosenStateCommand}" Grid.Row="0" Height="30" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}"  Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" Width="NaN"/> -->
                             <ComboBox x:Name="cbChoseCity" Grid.Row="1" Height="30"  SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" Margin="0,70,0,61" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="NaN" />
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="2" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged}"  Height="30" Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" />
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="3" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" />
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="4" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,-17"/>
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="2" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" />
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="3" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" HorizontalAlignment="Left" Width="116" />
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="4" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,-17">
+                            </TextBox>
                         </Grid>
                         <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" />
                         <Button Background="#f9cb9e" Content="Search" IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding SearchCommand}"
@@ -84,7 +94,7 @@
                     </Button>
                 </Grid>
             </DockPanel>
-            <DockPanel DockPanel.Dock="Right" Width="862" Background="#dedbd9">
+            <DockPanel DockPanel.Dock="Right" Width="862" >
                 <Grid>
                     <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Width="700" Height="500">
                         <ItemsControl ItemsSource="{Binding Path=Tours}">
@@ -93,7 +103,10 @@
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="0" Height="240">
                                         <DockPanel>
                                             <DockPanel DockPanel.Dock="Left">
-                                                <Image Source="{Binding ImagePath}" Width="150" Height="100"/>
+                                                <Border Margin="25,25,25,25" BorderBrush="Black" BorderThickness="1">
+                                                      <Image  Width="150" Height="100"/>
+                                                </Border>
+                                              
                                             </DockPanel>
                                             <DockPanel DockPanel.Dock="Right">
                                                 <DockPanel DockPanel.Dock="Top">
@@ -103,8 +116,7 @@
                                                             <RowDefinition Height="30"/>
                                                             <RowDefinition Height="40"/>
                                                             <RowDefinition Height="30"/>
-                                                            <RowDefinition Height="40"/>
-                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="30"/>
                                                         </Grid.RowDefinitions>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="100"/>
@@ -115,11 +127,11 @@
                                                         </Grid.ColumnDefinitions>
 
                                                         <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Text="{Binding Name}" TextDecorations="Underline"  FontWeight="Bold" FontSize="20"/>
-                                                        <Label  FontSize="13"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >State</Label>
-                                                        <Label  FontSize="13"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center" >City</Label>
-                                                        <Label  FontSize="13"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Center" >Duration</Label>
-                                                        <Label  FontSize="13"  Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left"  VerticalAlignment="Center" >Language</Label>
-                                                        <Label  FontSize="13"  Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left"  VerticalAlignment="Center" >MaxGuests</Label>
+                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >State</TextBlock>
+                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center" >City</TextBlock>
+                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Center" >Duration</TextBlock>
+                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left"  VerticalAlignment="Center" >Language</TextBlock>
+                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left"  VerticalAlignment="Center" >MaxGuests</TextBlock>
 
                                                         <TextBlock Text="{Binding Location.State}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                         <TextBlock Text="{Binding Location.City}" FontWeight="Bold" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -127,8 +139,8 @@
                                                         <TextBlock Text="{Binding Languages}" FontWeight="Bold" Grid.Row="2" Grid.Column="3"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                         <TextBlock Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="4"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                                                        <Label  FontSize="13"  Grid.Row="3" Grid.Column="0" >Description</Label>
-                                                        <TextBlock Text="{Binding Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center"/>
+                                                        <TextBlock  FontSize="13"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
+                                                        <TextBlock Text="{Binding Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                     </Grid>
                                                 </DockPanel>
                                                 <DockPanel DockPanel.Dock="Bottom">
@@ -140,10 +152,10 @@
                                                             <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
                                                         <Grid.RowDefinitions>
-                                                            <RowDefinition Height="40"/>
+                                                            <RowDefinition Height="50"/>
                                                         </Grid.RowDefinitions>
-                                                        <Button Content="ViewMore" Command="{Binding DataContext.ViewMoreCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
-                        CommandParameter="{Binding}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
+                                                        <Button Content="View More" Background="#f9cb9e" Command="{Binding DataContext.ViewMoreCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                        CommandParameter="{Binding}" Margin="0,-5,0,25" Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Center" Grid.ColumnSpan="2" />
 
                                                     </Grid>
                                                 </DockPanel>

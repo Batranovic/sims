@@ -9,6 +9,7 @@ using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Views;
 using WpfApp1.ViewModel;
+using System;
 
 namespace WpfApp1.Views
 {
@@ -24,7 +25,14 @@ namespace WpfApp1.Views
         {
             InitializeComponent();
            // this.DataContext = this;
-            DataContext = new TourSearchAndOverviewViewModel();
+            
+            TourSearchAndOverviewViewModel tourSearch = new TourSearchAndOverviewViewModel();
+            DataContext = tourSearch;
+
+            if (tourSearch.CloseAction == null)
+            {
+                tourSearch.CloseAction = new Action(this.Close);
+            }
 
 
         }

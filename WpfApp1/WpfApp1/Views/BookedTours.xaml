@@ -18,11 +18,11 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- Content goes here -->
-                <Button Background="#f9cb9e" Content="All tours" HorizontalAlignment="Left" Width="110" Margin="36,8,0,0" Command="{Binding AllToursCommand}"/>
-                <Button Background="#f9cb9e" Content="Booked tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0" />
-                <Button Background="#f9cb9e" Content="Request new tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="327,8,0,0" Grid.ColumnSpan="2"/>
+                <Button Background="#f9cb9e" Command="{Binding AllToursCommand}" Content="All tours" HorizontalAlignment="Left" Width="110" Margin="36,8,0,0" />
+                <Button Background="#f9cb9e"  Content="Booked tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0" IsEnabled="False" />
+                <Button Background="#f9cb9e" Command ="{Binding RequestTourCommand}" Content="Request new tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="327,8,0,0" Grid.ColumnSpan="2"/>
                 <Button Background="#f9cb9e" Content="Request list" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="132,8,0,0"/>
-                <Button Background="#f9cb9e" Content="My profile" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0"/>
+                <Button Background="#f9cb9e" Command ="{Binding LogOutCommand}" Content="My profile" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0"/>
             </Grid>
         </DockPanel>
         <DataGrid DockPanel.Dock="Left" Background="White"

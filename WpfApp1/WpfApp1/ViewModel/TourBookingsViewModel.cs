@@ -18,7 +18,7 @@ namespace WpfApp1.ViewModel
 {
     public class TourBookingsViewModel :  ViewModelBase
     {
-
+        public Action CloseAction { get; set; }
         public ObservableCollection<TourEvent> TourEvents { get; set; }
 
         public ObservableCollection<Voucher> Vouchers { get; set; }
@@ -113,6 +113,26 @@ namespace WpfApp1.ViewModel
             CheckAvailabilityCommand = new RelayCommand(Execute_CheckAvailability, CanExecute_Command);
             SuggestMoreCommand = new RelayCommand(Execute_SuggestMore, CanExecute_Command);
             ReserveCommand = new RelayCommand(Execute_Reserve, CanExecute_Command);
+            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
+
+        }
+
+        private void Execute_LogOut(object sender)
+        {
+            MessageBox.Show("You are logging out!");
+            User user = MainWindow.LogInUser;
+            user.Id = -1;
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            CloseAction();
+
+        }
+        private void Execute_RequestTour(object sender)
+        {
+            RequestNewTours requestNewTour = new RequestNewTours();
+            requestNewTour.Show();
+            CloseAction();
         }
         private bool CanExecute_Command(object parameter)
         {
@@ -122,13 +142,44 @@ namespace WpfApp1.ViewModel
         {
             TourSearchAndOverview tourSearch = new TourSearchAndOverview();
             tourSearch.Show();
+            CloseAction();
         }
         private void Execute_BookedTours(object sender)
         {
 
             BookedTours bookedTours = new BookedTours();
             bookedTours.Show();
+            CloseAction();
 
+        }
+
+
+        private RelayCommand requestTourCommand;
+        public RelayCommand RequestTourCommand
+        {
+            get => requestTourCommand;
+            set
+            {
+                if (value != requestTourCommand)
+                {
+                    requestTourCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private RelayCommand logOutCommand;
+        public RelayCommand LogOutCommand
+        {
+            get => logOutCommand;
+            set
+            {
+                if (value != logOutCommand)
+                {
+                    logOutCommand = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private RelayCommand allToursCommand;

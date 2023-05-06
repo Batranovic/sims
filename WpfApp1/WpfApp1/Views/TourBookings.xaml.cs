@@ -33,7 +33,14 @@ namespace WpfApp1.Views
         public TourBookings(Tour tour)
         {
             InitializeComponent();
-            DataContext = new TourBookingsViewModel(tour);
+
+            TourBookingsViewModel tourBooking = new TourBookingsViewModel(tour);
+            DataContext = tourBooking;
+
+            if (tourBooking.CloseAction == null)
+            {
+                tourBooking.CloseAction = new Action(this.Close);
+            }
         }
 
         protected void OnPropertyChanged(string propertyName)

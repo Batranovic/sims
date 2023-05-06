@@ -30,13 +30,17 @@ namespace WpfApp1.Views
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-
+        
         public AddRatingTourAndGuide(TourBooking tourBooking)
         {
             InitializeComponent();
-            DataContext = new AddRatingTourAndGuideViewModel(tourBooking);
-  
+            AddRatingTourAndGuideViewModel addRating = new AddRatingTourAndGuideViewModel(tourBooking);
+            DataContext = addRating;
 
+            if (addRating.CloseAction == null)
+            {
+                addRating.CloseAction = new Action(this.Close);
+            }
         }
 
         protected void OnPropertyChanged(string propertyName)

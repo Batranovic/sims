@@ -23,6 +23,7 @@ namespace WpfApp1.ViewModel
 
         public ObservableCollection<TourPoint> TourPoints { get; set; }
 
+        public Action CloseAction { get; set; }
 
         private readonly ITourEventService _tourEventService;
         private readonly ITourBookingService _tourBookingService;
@@ -43,13 +44,7 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
-        private bool _isPopupOpen;
-        public bool IsPopupOpen
-        {
-            get { return _isPopupOpen; }
-            set { _isPopupOpen = value; OnPropertyChanged(nameof(IsPopupOpen)); }
-        }
-
+  
 
         public BookedToursViewModel() 
         {
@@ -62,7 +57,34 @@ namespace WpfApp1.ViewModel
             LeaveReviewCommand = new RelayCommand(Execute_LeaveReview, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             ShowPopUpCommand = new RelayCommand(Execute_ShowPopUp, CanExecute_Command);
+            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
 
+        }
+
+        private bool _isPopupOpen;
+        public bool IsPopupOpen
+        {
+            get { return _isPopupOpen; }
+            set { _isPopupOpen = value; OnPropertyChanged(nameof(IsPopupOpen)); }
+        }
+
+        private void Execute_LogOut(object sender)
+        {
+            MessageBox.Show("You are logging out!");
+            User user = MainWindow.LogInUser;
+            user.Id = -1;
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            CloseAction();
+
+        }
+
+        private void Execute_RequestTour(object sender)
+        {
+            RequestNewTours requestNewTour = new RequestNewTours();
+            requestNewTour.Show();
+            CloseAction();
         }
 
         private void Execute_ShowPopUp(object sender)
@@ -88,6 +110,7 @@ namespace WpfApp1.ViewModel
         {
             TourSearchAndOverview tourSearch = new TourSearchAndOverview();
             tourSearch.Show();
+            CloseAction();
         }
 
         private bool CanExecute_Command(object parameter)
@@ -135,6 +158,33 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        private RelayCommand requestTourCommand;
+        public RelayCommand RequestTourCommand
+        {
+            get => requestTourCommand;
+            set
+            {
+                if (value != requestTourCommand)
+                {
+                    requestTourCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private RelayCommand logOutCommand;
+        public RelayCommand LogOutCommand
+        {
+            get => logOutCommand;
+            set
+            {
+                if (value != logOutCommand)
+                {
+                    logOutCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
     }
 }

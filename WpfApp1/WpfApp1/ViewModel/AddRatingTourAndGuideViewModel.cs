@@ -16,76 +16,7 @@ namespace WpfApp1.ViewModel
 {
     public  class AddRatingTourAndGuideViewModel : ViewModelBase, IDataErrorInfo
     {
-        private bool CanExecute_Command(object parameter)
-        {
-            return true;
-        }
-        
-        public AddRatingTourAndGuideViewModel(TourBooking tourBooking) {
-
-            _imageService = InjectorService.CreateInstance<IImageService>();
-            _ratingTourAndGuideService = InjectorService.CreateInstance<IRatingTourAndGuideService>();
-            _tourBookingService = InjectorService.CreateInstance<ITourBookingService>();
-            _tourEventService = InjectorService.CreateInstance<ITourEventService>();
-
-            Images = new ObservableCollection<string>();
-            Scores = new ObservableCollection<int>();
-
-            Scores.Add(1);
-            Scores.Add(2);
-            Scores.Add(3);
-            Scores.Add(4);
-            Scores.Add(5);
-            SelectedTourBooking = tourBooking;
-            SelectedKnowledge = 0;
-            SelectedLanguage = 0;
-            SelectedInterest = 0;
-
-
-            SubmitImageCommand = new RelayCommand(Execute_SubmitImage, CanExecute_Command);
-            RemoveImageCommand = new RelayCommand(Execute_RemoveImage, CanExecute_Command);
-            ConfirmCommand = new RelayCommand(Execute_Confirm, CanExecute_Command);
-            RejectCommand = new RelayCommand(Execute_Reject, CanExecute_Command);
-        }
-
-        private void Execute_Confirm(object sender)
-        {
-            List<RatingTourAndGuide> ratedTourBookings = _ratingTourAndGuideService.GetReviewFromTourist(SelectedTourBooking.Id, MainWindow.LogInUser.Id);
-            if (ratedTourBookings.Count > 0)
-            {
-                MessageBox.Show("You have already rated this tour booking");
-                return;
-            }
-            if (!IsValid)
-            {
-                MessageBox.Show("You didn't finish your review");
-                return;
-            }
-            List<string> images = new List<string>(Images);
-            RatingTourAndGuide ratingTourAndGuide = new RatingTourAndGuide(-1, SelectedKnowledge, SelectedLanguage, SelectedInterest, Comment, SelectedTourBooking.Id, SelectedTourBooking, images);
-            _ratingTourAndGuideService.Create(ratingTourAndGuide);
-            MessageBox.Show("Your review has been sent!");
-           // this.Close();
-        }
-
-        private void Execute_Reject(object sender)
-        {
-            //this.Close();
-        }
-
-        private void Execute_SubmitImage(object sender)
-        {
-            Images.Add(Url);
-            Url = "";
-        }
-
-        private void Execute_RemoveImage(object sender)
-        {
-            if (SelectedUrl == null) return;
-            Images.Remove(SelectedUrl);
-            SelectedUrl = null;
-        }
-
+        public Action CloseAction { get; set; }
         public ObservableCollection<int> Scores { get; set; }
         public ObservableCollection<string> Images { get; set; }
 
@@ -132,50 +63,76 @@ namespace WpfApp1.ViewModel
         }
 
 
-        public string Error => null;
-        public string this[string columnName]
-        {
-            get
-            {
-                if (columnName == "SelectedKnowledge")
-                {
-                    if (SelectedKnowledge == 0)
-                    {
-                        return "missing review";
-                    }
-                }
 
-                if (columnName == "SelectedLanguage")
-                {
-                    if (SelectedLanguage == 0)
-                    {
-                        return "missing review";
+        public AddRatingTourAndGuideViewModel(TourBooking tourBooking) {
 
-                    }
-                }
-                if (columnName == "SelectedInterest")
-                {
-                    if (SelectedInterest == 0)
-                    {
-                        return "missing review";
-                    }
-                }
+            _imageService = InjectorService.CreateInstance<IImageService>();
+            _ratingTourAndGuideService = InjectorService.CreateInstance<IRatingTourAndGuideService>();
+            _tourBookingService = InjectorService.CreateInstance<ITourBookingService>();
+            _tourEventService = InjectorService.CreateInstance<ITourEventService>();
 
-                if (columnName == "Comment")
-                {
-                    if (Comment == null)
-                    {
-                        return "missing comment";
-                    }
-                }
+            Images = new ObservableCollection<string>();
+            Scores = new ObservableCollection<int>();
 
-                return null;
+            Scores.Add(1);
+            Scores.Add(2);
+            Scores.Add(3);
+            Scores.Add(4);
+            Scores.Add(5);
+            SelectedTourBooking = tourBooking;
+            SelectedKnowledge = 0;
+            SelectedLanguage = 0;
+            SelectedInterest = 0;
 
 
-
-            }
-
+            SubmitImageCommand = new RelayCommand(Execute_SubmitImage, CanExecute_Command);
+            RemoveImageCommand = new RelayCommand(Execute_RemoveImage, CanExecute_Command);
+            ConfirmCommand = new RelayCommand(Execute_Confirm, CanExecute_Command);
+            RejectCommand = new RelayCommand(Execute_Reject, CanExecute_Command);
         }
+
+        private bool CanExecute_Command(object parameter)
+        {
+            return true;
+        }
+        private void Execute_Confirm(object sender)
+        {
+            List<RatingTourAndGuide> ratedTourBookings = _ratingTourAndGuideService.GetReviewFromTourist(SelectedTourBooking.Id, MainWindow.LogInUser.Id);
+            if (ratedTourBookings.Count > 0)
+            {
+                MessageBox.Show("You have already rated this tour booking");
+                return;
+            }
+            if (!IsValid)
+            {
+                MessageBox.Show("You didn't finish your review");
+                return;
+            }
+            List<string> images = new List<string>(Images);
+            RatingTourAndGuide ratingTourAndGuide = new RatingTourAndGuide(-1, SelectedKnowledge, SelectedLanguage, SelectedInterest, Comment, SelectedTourBooking.Id, SelectedTourBooking, images);
+            _ratingTourAndGuideService.Create(ratingTourAndGuide);
+            MessageBox.Show("Your review has been sent!");
+           // this.Close();
+        }
+
+        private void Execute_Reject(object sender)
+        {
+            CloseAction();
+        }
+
+        private void Execute_SubmitImage(object sender)
+        {
+            Images.Add(Url);
+            Url = "";
+        }
+
+        private void Execute_RemoveImage(object sender)
+        {
+            if (SelectedUrl == null) return;
+            Images.Remove(SelectedUrl);
+            SelectedUrl = null;
+        }
+
         private RelayCommand submitImageCommand;
         public RelayCommand SubmitImageCommand
         {
@@ -234,6 +191,51 @@ namespace WpfApp1.ViewModel
             }
         }
 
+
+        public string Error => null;
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "SelectedKnowledge")
+                {
+                    if (SelectedKnowledge == 0)
+                    {
+                        return "missing review";
+                    }
+                }
+
+                if (columnName == "SelectedLanguage")
+                {
+                    if (SelectedLanguage == 0)
+                    {
+                        return "missing review";
+
+                    }
+                }
+                if (columnName == "SelectedInterest")
+                {
+                    if (SelectedInterest == 0)
+                    {
+                        return "missing review";
+                    }
+                }
+
+                if (columnName == "Comment")
+                {
+                    if (Comment == null)
+                    {
+                        return "missing comment";
+                    }
+                }
+
+                return null;
+
+
+
+            }
+
+        }
 
         private readonly string[] _validatedProperties = { "SelectedKnowledge", "SelectedLanguage", "SelectedInterest", "Comment" };
 
