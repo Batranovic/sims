@@ -33,14 +33,14 @@ namespace WpfApp1.Service
         }
         private void BindAccommodation()
         {
-            foreach (Reservation r in GetAll())
+            foreach (Reservation r in GetAllWithDeleted())
             {
                 r.Accommodation = _accommodationRepository.Get(r.IdAccommodation);
             }
         }
         private void BindGuest()
         {
-            foreach (Reservation r in GetAll())
+            foreach (Reservation r in GetAllWithDeleted())
             {
                 r.Guest = _guestRepository.Get(r.IdGuest);
             }
@@ -53,10 +53,22 @@ namespace WpfApp1.Service
         {
             return _reservationRepository.Get(id);
         }
+
+        public Reservation GetWithDeleted(int id)
+        {
+            return _reservationRepository.GetWithDeleted(id);
+        }
+
         public List<Reservation> GetAll()
         {
             return _reservationRepository.GetAll();
         }
+
+        public List<Reservation> GetAllWithDeleted()
+        {
+            return _reservationRepository.GetAllWithDeleted();
+        }
+
         public void Create(Reservation reservation)
         {
             _reservationRepository.Create(reservation);

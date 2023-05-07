@@ -1,0 +1,27 @@
+﻿<Window x:Class="WpfApp1.Views.AvailableDays"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Views"
+        mc:Ignorable="d"
+        Title="AvailableDays" Height="450" Width="800">
+    <Grid>
+        <DataGrid
+            AutoGenerateColumns="False"
+            ItemsSource="{Binding Range}"
+            x:Name="DataGrid"
+            SelectedItem="{Binding SelectedRange}"
+            >
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Start date" Binding="{Binding Value}" Width="*" />
+                <DataGridTextColumn Header="End date" Binding="{Binding Key}" Width="*" />
+                
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Content=" Confirm " IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20, 5, 20, 5" Click="Confirm"/>
+
+    </Grid>
+</Window>

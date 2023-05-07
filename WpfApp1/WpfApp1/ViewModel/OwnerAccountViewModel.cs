@@ -4,20 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
-using WpfApp1.View;
+using WpfApp1.Views;
 
 namespace WpfApp1.ViewModel
 {
-    public class OwnerAccountViewModel
+    public class OwnerAccountViewModel : ViewModelBase
     {
         public Owner LoggedOwner { get; set; }
         private readonly IReservationService _reservationService;
+
+        public RelayCommand SignInAccomodationCommand { get; set; }
+ 
+        public RelayCommand ViewExpiredReservationCommand { get; set; }
+        public RelayCommand ViewOwnerRatingsCommand { get; set; }
+        public RelayCommand ReservationPostponementOverviewCommand { get; set; }
+        public RelayCommand LogOutCommand { get; set; }
         public OwnerAccountViewModel(User user)
         {
             _reservationService = InjectorService.CreateInstance<IReservationService>();
+
+            SignInAccomodationCommand = ;
+            ViewExpiredReservationCommand = ;
+            ViewOwnerRatingsCommand = ;
+            ReservationPostponementOverviewCommand = ;
+            LogOutCommand = ;
 
             LoggedOwner = (Owner)user;
 
@@ -29,12 +43,10 @@ namespace WpfApp1.ViewModel
             int numberNotification = _reservationService.GetUnratedById(LoggedOwner.Id).Count;
             if (numberNotification == 0)
             {
-                btnRatingGuest.IsEnabled = false;
                 return;
             }
             string result = "Oslobodilo Vam se " + numberNotification.ToString() + " apartaman, ocenite goste";
             MessageBox.Show(result, "Obavestenje");
-            btnRatingGuest.IsEnabled = true;
         }
 
         private void SignInAccomodation(object sender, RoutedEventArgs e)
@@ -67,7 +79,7 @@ namespace WpfApp1.ViewModel
             user.Id = -1;
             MainWindow mw = new MainWindow();
             mw.Show();
-            this.Close();
+       //     this.Close();
         }
     }
 }

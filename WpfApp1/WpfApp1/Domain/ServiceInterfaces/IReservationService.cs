@@ -10,6 +10,8 @@ namespace WpfApp1.Domain.ServiceInterfaces
 {
     public interface IReservationService : IService<Reservation>
     {
+        Reservation GetWithDeleted(int id);
+        List<Reservation> GetAllWithDeleted();
         void Create(Reservation entity);
         void Delete(Reservation entity);
         void Subscribe(IObserver observer);

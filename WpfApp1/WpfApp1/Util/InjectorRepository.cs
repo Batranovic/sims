@@ -12,15 +12,15 @@ namespace WpfApp1.Service
     {
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
-            { typeof(IAccommodationRepository),  AccommodationRepository.GetInstance() },
-            { typeof(IGuestRatingRepository), GuestRatingRepository.GetInstance() },
-            { typeof(IImageRepository), ImageRepository.GetInsatnce() },
-            { typeof(IGuestRepository), GuestRepository.GetInsatnce() },
             { typeof(ILocationRepository), LocationRepository.GetInstance() },
-            { typeof(IOwnerRatingRepository), OwnerRatingRepository.GetInstance() },
-            { typeof(IOwnerRepository), OwnerRepository.GetInsatnce() },
-            { typeof(IReservationPostponementRepository), ReservationPostponementRepository.GetInstance() },
+            { typeof(IAccommodationRepository),  AccommodationRepository.GetInstance() },
+            { typeof(IImageRepository), ImageRepository.GetInsatnce() },
             { typeof(IReservationRepository), ReservationRepository.GetInstance() },
+            { typeof(IGuestRatingRepository), GuestRatingRepository.GetInstance() },
+            { typeof(IOwnerRepository), OwnerRepository.GetInsatnce() },
+            { typeof(IGuestRepository), GuestRepository.GetInsatnce() },
+            { typeof(IOwnerRatingRepository), OwnerRatingRepository.GetInstance() },
+            { typeof(IReservationPostponementRepository), ReservationPostponementRepository.GetInstance() },
             { typeof(IVoucherRepository), VoucherRepository.GetInstance() },
             { typeof(ITourRepository), TourRepository.GetInstance() },
             { typeof(ITourPointRepository), TourPointRepository.GetInstance() },
