@@ -5,29 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="OwnerAccount" Height="450" Width="800"
+        Title="OwnerAccount" Height="650" Width="950"
         Name="OwnerStart">
     <Grid>
         <DockPanel  Width="800">
-            <DockPanel DockPanel.Dock="Left" Width="211" Background="black">
-                <StackPanel >
-                    <Button Command="{Binding SignInAccomodationCommand}" >Sign in accommodation</Button>
-                    <Button  Command="{Binding ViewExpiredReservationCommand}" >Rating guest</Button>
-                    <Button  Command="{Binding ViewOwnerRatingsCommand}"  >ViewOwnerRatings</Button>
-                    <Button  Command="{Binding ReservationPostponementOverviewCommand}">ReservationPostponementOverview</Button>
-                    <Button  Command="{Binding LogOutCommand}" >Log out</Button>
-                </StackPanel>
+            <DockPanel DockPanel.Dock="Top" Background="blue" Height="80" >
+                
             </DockPanel>
 
-            <DockPanel DockPanel.Dock="Right">
-                <StackPanel>
-                    <Label  Width="79" Height="30" >Owner type</Label>
-                    <Label Content="{Binding Path=OwnerType}" Width="79" Height="30"/>
-                </StackPanel>
+            <DockPanel DockPanel.Dock="Bottom" Background="red" >
 
             </DockPanel>
         </DockPanel>
-
-
     </Grid>
 </Window>

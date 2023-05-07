@@ -21,7 +21,7 @@ namespace WpfApp1.ViewModel
         public RelayCommand CancelCommand { get; set;  }
         public AddCommentViewModel(ReservationPostponement reservationPostponement)
         {
-            _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "AddComment");
+            _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "AddCommentName");
             ReservationPostponement = reservationPostponement;
             _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>();
             InitCommand();

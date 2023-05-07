@@ -70,6 +70,10 @@ namespace WpfApp1.ViewModel
 
         private bool CanExecute()
         {
+            if(SelectedPostponements == null)
+            {
+                return false;
+            }
             return true;
         }
 

@@ -27,7 +27,7 @@ namespace WpfApp1.Views
         public AddComment(ReservationPostponement reservationPostponement)
         {
             InitializeComponent();
-            this.DataContext = AddCommentViewModel(reservationPostponement);
+            this.DataContext = new AddCommentViewModel(reservationPostponement);
         }
 
     }
