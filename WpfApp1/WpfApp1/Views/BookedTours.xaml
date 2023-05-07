@@ -91,8 +91,8 @@
             <ToggleButton.Template>
                 <ControlTemplate TargetType="ToggleButton">
                     <Grid>
-                        <Ellipse Width="30" Height="30" Fill="White" Stroke="Blue" StrokeThickness="2"/>
-                        <TextBlock Text="i" FontSize="24" FontWeight="Bold" Foreground="Blue">
+                        <Ellipse Width="30" Height="30" Fill="White" Stroke="Red" StrokeThickness="2"/>
+                        <TextBlock Text="i" FontSize="24" FontWeight="Bold" Foreground="Red">
                             <TextBlock.RenderTransform>
                                 <TranslateTransform X="22" Y="8"/>
                             </TextBlock.RenderTransform>
@@ -115,5 +115,6 @@
 
         <TextBlock Background="#f3dcc4" Margin="59,105,373,0"  Text="Booked tours" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
         <TextBlock Background="#f3dcc4" Margin="724,105,33,0" Text="Tour points" FontSize="17" FontWeight="Bold" VerticalAlignment="Top"/>
+        <Image Margin="601,428,246,40" Source="/Images/destination.png" Stretch="Fill"/>
     </Grid>
 </Window>

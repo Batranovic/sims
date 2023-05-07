@@ -32,7 +32,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <!-- Content goes here -->
-                <Button Command="{Binding AllToursCommand}" IsEnabled="False" Background="#f9cb9e" Margin="35,8,206,0">
+                <Button Command="{Binding AllToursCommand}"   IsEnabled="False" Background="#f9cb9e" Margin="35,8,206,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/location_not.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="All tours"/>

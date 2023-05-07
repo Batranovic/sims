@@ -50,11 +50,11 @@
             <Label Grid.Row="4" Grid.Column="0" Height="30" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Left"  >Added images:</Label>
 
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" >
-                <RadioButton Name="knowledge1" Content="1" Margin="0,0,20,0"/>
-                <RadioButton Name="knowledge2" Content="2" Margin="20,0,20,0"/>
-                <RadioButton Name="knowledge3" Content="3" Margin="20,0,20,0"/>
-                <RadioButton Name="knowledge4" Content="4" Margin="20,0,20,0"/>
-                <RadioButton Name="knowledge5" Content="5" Margin="20,0,20,0"/>
+                <RadioButton Name="knowledge1"  Content="1" Margin="0,0,20,0"/>
+                <RadioButton Name="knowledge2"  Content="2" Margin="20,0,20,0"/>
+                <RadioButton Name="knowledge3"  Content="3" Margin="20,0,20,0"/>
+                <RadioButton Name="knowledge4"  Content="4" Margin="20,0,20,0"/>
+                <RadioButton Name="knowledge5"  Content="5" Margin="20,0,20,0"/>
             </StackPanel>
 
             <ComboBox  Grid.Row="1"  Grid.Column="1" ItemsSource="{Binding Path=Scores}" SelectedItem="{Binding Path=SelectedLanguage, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="40" Margin="0,10,114,10"></ComboBox>

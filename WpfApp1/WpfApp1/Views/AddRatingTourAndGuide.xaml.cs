@@ -31,6 +31,7 @@ namespace WpfApp1.Views
         public event PropertyChangedEventHandler PropertyChanged;
 
         
+        
         public AddRatingTourAndGuide(TourBooking tourBooking)
         {
             InitializeComponent();
@@ -49,6 +50,6 @@ namespace WpfApp1.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-       
+
     }
 }

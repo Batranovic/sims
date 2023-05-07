@@ -9,15 +9,20 @@
 
   <ItemGroup>
     <None Remove="Images\airplane.png" />
+    <None Remove="Images\business-trip.png" />
     <None Remove="Images\car.png" />
+    <None Remove="Images\destination.png" />
     <None Remove="Images\list.png" />
     <None Remove="Images\location.png" />
     <None Remove="Images\location_not.png" />
     <None Remove="Images\map.png" />
     <None Remove="Images\mechanics.png" />
     <None Remove="Images\review.png" />
+    <None Remove="Images\travel-guide.png" />
+    <None Remove="Images\traveler.png" />
     <None Remove="Images\user.png" />
     <None Remove="Images\vacation.png" />
+    <None Remove="Images\world.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,15 +31,20 @@
 
   <ItemGroup>
     <Resource Include="Images\airplane.png" />
+    <Resource Include="Images\business-trip.png" />
     <Resource Include="Images\car.png" />
+    <Resource Include="Images\destination.png" />
     <Resource Include="Images\list.png" />
     <Resource Include="Images\location.png" />
     <Resource Include="Images\location_not.png" />
     <Resource Include="Images\map.png" />
     <Resource Include="Images\mechanics.png" />
     <Resource Include="Images\review.png" />
+    <Resource Include="Images\travel-guide.png" />
+    <Resource Include="Images\traveler.png" />
     <Resource Include="Images\user.png" />
     <Resource Include="Images\vacation.png" />
+    <Resource Include="Images\world.png" />
   </ItemGroup>
 
 </Project>
