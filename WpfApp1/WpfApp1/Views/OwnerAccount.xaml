@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="OwnerAccount" Height="450" Width="800">
+        Title="OwnerAccount" Height="450" Width="800"
+        Name="OwnerStart">
     <Grid>
         <DockPanel  Width="800">
             <DockPanel DockPanel.Dock="Left" Width="211" Background="black">

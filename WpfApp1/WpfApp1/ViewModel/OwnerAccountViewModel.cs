@@ -16,9 +16,8 @@ namespace WpfApp1.ViewModel
     {
         public Owner LoggedOwner { get; set; }
         private readonly IReservationService _reservationService;
-
+        private Window _window;
         public RelayCommand SignInAccomodationCommand { get; set; }
- 
         public RelayCommand ViewExpiredReservationCommand { get; set; }
         public RelayCommand ViewOwnerRatingsCommand { get; set; }
         public RelayCommand ReservationPostponementOverviewCommand { get; set; }
@@ -26,16 +25,21 @@ namespace WpfApp1.ViewModel
         public OwnerAccountViewModel(User user)
         {
             _reservationService = InjectorService.CreateInstance<IReservationService>();
+              _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
 
-            SignInAccomodationCommand = ;
-            ViewExpiredReservationCommand = ;
-            ViewOwnerRatingsCommand = ;
-            ReservationPostponementOverviewCommand = ;
-            LogOutCommand = ;
-
+            InitCommand();
             LoggedOwner = (Owner)user;
 
             FindNotification();
+        }
+
+        private void InitCommand()
+        {
+            SignInAccomodationCommand = new RelayCommand(param => Execute_SignInAccomodation(), param => CanExecute_Command());
+            ViewExpiredReservationCommand = new RelayCommand(param => Execute_ViewExpiredReservation(), param => CanExecute_Command());
+            ViewOwnerRatingsCommand = new RelayCommand(param => Execute_ViewOwnerRatings(), param => CanExecute_Command());
+            ReservationPostponementOverviewCommand = new RelayCommand(param => Execute_ReservationPostponementOverview(), param => CanExecute_Command());
+            LogOutCommand = new RelayCommand(param => Execute_LogOut(), param => CanExecute_Command());
         }
 
         private void FindNotification()
@@ -49,37 +53,43 @@ namespace WpfApp1.ViewModel
             MessageBox.Show(result, "Obavestenje");
         }
 
-        private void SignInAccomodation(object sender, RoutedEventArgs e)
+        private void Execute_SignInAccomodation()
         {
             SignInAccommodation signInAccommodation = new SignInAccommodation(LoggedOwner);
             signInAccommodation.Show();
         }
 
-        private void ViewExpiredReservation(object sender, RoutedEventArgs e)
+        private void Execute_ViewExpiredReservation()
         {
             ExpiredReservation expiredReservation = new ExpiredReservation(LoggedOwner);
             expiredReservation.Show();
         }
 
-        private void ViewOwnerRatings(object sender, RoutedEventArgs e)
+        private void Execute_ViewOwnerRatings()
         {
             OwnerRatingView ownerRatingView = new OwnerRatingView(LoggedOwner);
             ownerRatingView.Show();
         }
 
-        private void ReservationPostponementOverview(object sender, RoutedEventArgs e)
+        private void Execute_ReservationPostponementOverview()
         {
             ReservationPostponementOverview reservationPostponementOverview = new ReservationPostponementOverview(LoggedOwner);
             reservationPostponementOverview.Show();
         }
 
-        private void LogOut(object sender, RoutedEventArgs e)
+        private void Execute_LogOut()
         {
             User user = MainWindow.LogInUser;
             user.Id = -1;
             MainWindow mw = new MainWindow();
             mw.Show();
-       //     this.Close();
+            _window.Close();
         }
+
+        private bool CanExecute_Command()
+        {
+            return true;
+        }
+
     }
 }
