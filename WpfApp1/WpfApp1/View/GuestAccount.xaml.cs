@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Model;
+using WpfApp1.Model.Enums;
 using WpfApp1.Service;
 
 namespace WpfApp1.View
@@ -25,14 +26,21 @@ namespace WpfApp1.View
         public Guest LogInGuest { get; set; }
 
         private readonly IReservationService _reservationService;
+
+       // private IReservationPostponementService _reservationPostponementService;
+
+        //private ReservationPostponementStatus States { get; set; }
         public GuestAccount(User user)
         {
             InitializeComponent();
             this.DataContext = this;
 
             _reservationService = InjectorService.CreateInstance<IReservationService>();
+           // _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>();
+            //States = (ReservationPostponementStatus)_reservationService.Get(LogInGuest.Id).Status;
 
             LogInGuest = (Guest)user;
+           // FindNotification();
         }
 
         private void AccommodationView(object sender, RoutedEventArgs e)
@@ -52,5 +60,32 @@ namespace WpfApp1.View
             GuestPostponementsOverview guestPostponementsOverview = new GuestPostponementsOverview(LogInGuest);
             guestPostponementsOverview.Show();
         }
+
+        //private void FindNotification()
+        //{
+        //    ReservationPostponementStatus state = (ReservationPostponementStatus)_reservationService.Get(LogInGuest.Id).Status;
+        //    if(state != States)
+        //    {
+        //        string result = "Oslobodilo Vam se " + state.ToString() + " apartaman, ocenite goste";
+        //        MessageBox.Show(result, "Obavestenje");
+
+        //    }
+        //}
+
+        //private void FindNotification()
+        //{
+        //    foreach(ReservationPostponement r in  _reservationPostponementService.GetAll().FindAll(b => b.Reservation.IdGuest == LogInGuest.Id))
+        //    {
+        //        if(r.Status != ReservationPostponementStatus.Waiting && r.Status != ReservationPostponementStatus.Notification)
+        //        {
+        //            string result = "Doslo je do promene statusa rezervacije";
+        //            if(r.Status == ReservationPostponementStatus.Approved)
+        //            {
+        //                MessageBox.Show
+        //            }
+        //            r.Status = ReservationPostponementStatus.Notification;
+        //        }
+        //    }
+        //}
     }
 }

@@ -8,6 +8,6 @@ namespace WpfApp1.Model.Enums
 {
     public enum ReservationPostponementStatus
     {
-        Approved, Rejected, Waiting 
+        Approved, Rejected, Waiting
     }
 }
