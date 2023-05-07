@@ -31,7 +31,7 @@ namespace WpfApp1.Views
         public BookedTours()
         {
             InitializeComponent();
-           
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             BookedToursViewModel bookedToursViewModel = new BookedToursViewModel();
             DataContext = bookedToursViewModel;
 

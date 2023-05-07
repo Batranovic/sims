@@ -33,7 +33,15 @@ namespace WpfApp1.ViewModel
         public string Languages { get; set; }
         public string Duration { get; set; }
 
-        private string _state;
+
+        private void ChosenState()
+        {
+            Cities.Clear();
+            foreach (string city in _locationService.GetCitiesFromStates(SelectedState))
+            {
+                Cities.Add(city);
+            }
+        }
 
         private string _maxGuests;
         public string MaxGuests
@@ -47,6 +55,7 @@ namespace WpfApp1.ViewModel
         }
 
         public string SelectedCity { get; set; }
+        private string _state;
         public string SelectedState
         {
             get => _state;
@@ -55,7 +64,8 @@ namespace WpfApp1.ViewModel
                 if (_state != value)
                 {
                     _state = value;
-                    OnPropertyChanged("SelectedState");
+                    ChosenState();
+                    OnPropertyChanged(_state);
                 }
             }
         }
@@ -67,9 +77,8 @@ namespace WpfApp1.ViewModel
 
             Tours = new ObservableCollection<Tour>(_tourService.GetAll());
 
-            
-
-
+            States = new ObservableCollection<string>(_locationService.GetStates());
+            Cities = new ObservableCollection<string>();
 
             Languages = "";
             Duration = "";
@@ -81,7 +90,6 @@ namespace WpfApp1.ViewModel
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
             IncrementCommand = new RelayCommand(Execute_Increment, CanExecute_Command);
             DecrementCommand = new RelayCommand(Execute_Decrement, CanExecute_Command);
-            //ChosenStateCommand = new RelayCommand(Execute_ChoseState, CanExecute_Command);
             ViewMoreCommand = new RelayCommand(Execute_ViewMore, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
         }
@@ -214,20 +222,6 @@ namespace WpfApp1.ViewModel
             }
         }
 
-
-    
-        /*
-        private void Execute_ChoseState(object sender)
-        {
-
-            SelectedState = (string).SelectedItem;
-            cbChoseCity.Items.Clear();
-            foreach (string city in _locationService.GetCitiesFromStates(SelectedState))
-            {
-                cbChoseCity.Items.Add(city);
-            }
-        }
-        */
 
         private void Execute_RequestTour(object sender)
         {

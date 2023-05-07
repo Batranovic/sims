@@ -7,7 +7,10 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         xmlns:val="clr-namespace:WpfApp1.Validation"
         mc:Ignorable="d"
-        Title="TourSearchAndOverview" Height="624" Width="1042">
+        Title="TourAdvisor" Height="624" Width="1042">
+    <Window.Icon>
+        <ImageSource>/Images/car.png</ImageSource>
+    </Window.Icon>
     <Window.Resources>
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
@@ -24,16 +27,45 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="347.333"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <!-- Content goes here -->
-                <Button  Command="{Binding AllToursCommand}"  IsEnabled="False" Background="#f9cb9e" Content="All tours" HorizontalAlignment="Left" Width="110" Margin="36,8,0,0"/>
-                <Button Command="{Binding BookedToursCommand}" Background="#f9cb9e" Content="Booked tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0"/>
-                <Button Command ="{Binding RequestTourCommand}" Background="#f9cb9e" Content="Request new tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="327,8,0,0" Grid.ColumnSpan="2"/>
-                <Button Background="#f9cb9e" Content="Request list" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="132,8,0,0"/>
-                <Button Command ="{Binding LogOutCommand}" Background="#f9cb9e" Content="My profile" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0"/>
+                <Button Command="{Binding AllToursCommand}" IsEnabled="False" Background="#f9cb9e" Margin="35,8,206,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/location_not.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="All tours"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding BookedToursCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/location.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="Booked tours"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="327,8,0,0" Grid.ColumnSpan="2">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/mechanics.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="Request new tours"/>
+                    </StackPanel>
+                </Button>
+                <Button Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="157,6,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/list.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="Request list"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding LogOutCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/user.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="My profile"/>
+                    </StackPanel>
+                </Button>
+
             </Grid>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" Width="1050" >
@@ -67,27 +99,25 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2">State</Label>
-                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="1" Grid.Column="0" Height="30" Margin="0,35,0,16" Grid.ColumnSpan="2">City</Label>
-                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2">Language</Label>
-                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="3" Grid.Column="0" Height="30" Margin="0,35,0,16" Grid.ColumnSpan="2">MaxGuests</Label>
-                            <Label  FontSize="13" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2" >Duration</Label>
+                            <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2">Location</TextBlock>
+                            <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="3" Grid.Column="0" Height="30" Margin="0,25,0,26" Grid.ColumnSpan="2">Language</TextBlock>
+                            <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Height="30" Margin="0,35,0,16" Grid.ColumnSpan="2">MaxGuests</TextBlock>
+                            <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Height="30" Margin="0,10,0,40" Grid.ColumnSpan="2" >Duration</TextBlock>
 
-                           <!-- <ComboBox x:Name="cbChoseState" SelectionChanged="{Binding ChosenStateCommand}" Grid.Row="0" Height="30" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}"  Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" Width="NaN"/> -->
-                            <ComboBox x:Name="cbChoseCity" Grid.Row="1" Height="30"  SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" Margin="0,70,0,61" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="NaN" />
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="2" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" />
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="3" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" HorizontalAlignment="Left" Width="116" />
-                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="4" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,-17">
-                            </TextBox>
+                            <ComboBox  Grid.Row="0" Height="30" ItemsSource="{Binding States}" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}"  Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" Width="NaN"/>
+                            <ComboBox Grid.Row="1" ItemsSource="{Binding Cities}"  SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" Margin="0,41,0,10" Grid.ColumnSpan="2" Width="NaN" />
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="2" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,45,0,5" />
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="4" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,-20" HorizontalAlignment="Left" Width="116" />
+                            <TextBox BorderBrush="Black" BorderThickness="1" Background="#dedbd9" Grid.Row="3" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30" Grid.ColumnSpan="2" Margin="0,60,0,71" Grid.RowSpan="2"/>
                         </Grid>
                         <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" />
                         <Button Background="#f9cb9e" Content="Search" IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding SearchCommand}"
               Margin="36,94,0,0" Grid.Row="1" Height="36" Width="110" Grid.ColumnSpan="2"/>
                     </Grid>
-                    <Button Background="LightGray" Content="^" IsCancel="True"  Width="16" Height="16"
-                      Command="{Binding IncrementCommand}"  Margin="130,36,27,230" Grid.Row="1"/>
+                    <Button Background="LightGray" Content="^" IsCancel="True"
+                      Command="{Binding IncrementCommand}"  Margin="130,117,27,151" Grid.Row="1"/>
                     <Button Background="LightGray" Content="^" IsCancel="True" Width="16" Height="16"
-                        Command="{Binding DecrementCommand}" Margin="144,66,8,200" Grid.Row="1">
+                        Command="{Binding DecrementCommand}" Margin="146,145,11,118" Grid.Row="1">
                         <Button.RenderTransform>
                             <RotateTransform Angle="180"/>
                         </Button.RenderTransform>
@@ -104,9 +134,9 @@
                                         <DockPanel>
                                             <DockPanel DockPanel.Dock="Left">
                                                 <Border Margin="25,25,25,25" BorderBrush="Black" BorderThickness="1">
-                                                      <Image  Width="150" Height="100"/>
+                                                    <Image  Width="150" Height="100"/>
                                                 </Border>
-                                              
+
                                             </DockPanel>
                                             <DockPanel DockPanel.Dock="Right">
                                                 <DockPanel DockPanel.Dock="Top">

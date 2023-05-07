@@ -40,6 +40,7 @@ namespace WpfApp1.ViewModel
                 if (_selectedTourEvent != value)
                 {
                     _selectedTourEvent = value;
+                    IsTourEventSelected = (_selectedTourEvent != null);
                     OnPropertyChanged("SelectedTourEvent");
                 }
             }
@@ -183,6 +184,17 @@ namespace WpfApp1.ViewModel
                     logOutCommand = value;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        private bool _isTourEventSelected;
+        public bool IsTourEventSelected
+        {
+            get { return _isTourEventSelected; }
+            set
+            {
+                _isTourEventSelected = value;
+                OnPropertyChanged(nameof(IsTourEventSelected));
             }
         }
 

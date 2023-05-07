@@ -275,7 +275,9 @@ namespace WpfApp1.ViewModel
                         SelectedVoucher = null;
                     }
 
-                    MessageBox.Show("Successful reservation!");
+                    MessageBox.Show("          Successfully reserved! " + Environment.NewLine +
+                "    View tour in BOOKED TOURS!" + Environment.NewLine +
+                "    \t     (F7)", "Success ");
                 }
 
             }

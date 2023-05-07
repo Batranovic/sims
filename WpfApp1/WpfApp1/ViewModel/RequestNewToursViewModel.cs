@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -17,6 +18,10 @@ namespace WpfApp1.ViewModel
 {
     public class RequestNewToursViewModel : ViewModelBase
     {
+        private readonly ILocationService _locationService;
+        public ObservableCollection<string> States { get; set; }
+
+        public ObservableCollection<string> Cities { get; set; }
         public Action CloseAction { get; set; }
 
         private string _maxGuests = "0";
@@ -29,9 +34,38 @@ namespace WpfApp1.ViewModel
                 OnPropertyChanged(nameof(MaxGuests));
             }
         }
+        public string SelectedCity { get; set; }
+        private string _state;
+        public string SelectedState
+        {
+            get => _state;
+            set
+            {
+                if (_state != value)
+                {
+                    _state = value;
+                    ChosenState();
+                    OnPropertyChanged(_state);
+                }
+            }
+        }
+
+        private void ChosenState()
+        {
+            Cities.Clear();
+            foreach (string city in _locationService.GetCitiesFromStates(SelectedState))
+            {
+                Cities.Add(city);
+            }
+        }
         public RequestNewToursViewModel() {
 
 
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            States = new ObservableCollection<string>(_locationService.GetStates());
+            Cities = new ObservableCollection<string>();
+
+            SelectedState = "State";
             MaxGuests = "";
 
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);

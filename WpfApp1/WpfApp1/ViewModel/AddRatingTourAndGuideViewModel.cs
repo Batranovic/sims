@@ -83,7 +83,7 @@ namespace WpfApp1.ViewModel
             SelectedKnowledge = 0;
             SelectedLanguage = 0;
             SelectedInterest = 0;
-
+            Comment = "Leave a review";
 
             SubmitImageCommand = new RelayCommand(Execute_SubmitImage, CanExecute_Command);
             RemoveImageCommand = new RelayCommand(Execute_RemoveImage, CanExecute_Command);
@@ -190,6 +190,8 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
+
+
 
 
         public string Error => null;

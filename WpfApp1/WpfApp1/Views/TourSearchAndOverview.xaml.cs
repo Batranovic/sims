@@ -24,8 +24,9 @@ namespace WpfApp1.Views
         public TourSearchAndOverview()
         {
             InitializeComponent();
-           // this.DataContext = this;
-            
+            // this.DataContext = this;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             TourSearchAndOverviewViewModel tourSearch = new TourSearchAndOverviewViewModel();
             DataContext = tourSearch;
 

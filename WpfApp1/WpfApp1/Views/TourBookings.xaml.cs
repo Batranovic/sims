@@ -41,6 +41,9 @@ namespace WpfApp1.Views
             {
                 tourBooking.CloseAction = new Action(this.Close);
             }
+
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
         }
 
         protected void OnPropertyChanged(string propertyName)

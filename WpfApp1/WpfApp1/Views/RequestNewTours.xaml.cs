@@ -35,7 +35,7 @@ namespace WpfApp1.Views
             {
                 requestNewToursViewModel.CloseAction = new Action(this.Close);
             }
-
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
         }
 

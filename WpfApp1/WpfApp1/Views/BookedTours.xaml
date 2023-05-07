@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="BookedTours" Height="660" Width="1024" Background="WhiteSmoke">
+        Title="TourAdvisor" Height="660" Width="1024" Background="WhiteSmoke">
+    <Window.Icon>
+        <ImageSource>/Images/car.png</ImageSource>
+    </Window.Icon>
     <Grid>
         <DockPanel DockPanel.Dock="Top"  Background="#f3dcc4" Margin="0,0,0,573">
             <Grid>
@@ -18,11 +21,39 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- Content goes here -->
-                <Button Background="#f9cb9e" Command="{Binding AllToursCommand}" Content="All tours" HorizontalAlignment="Left" Width="110" Margin="36,8,0,0" />
-                <Button Background="#f9cb9e"  Content="Booked tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0" IsEnabled="False" />
-                <Button Background="#f9cb9e" Command ="{Binding RequestTourCommand}" Content="Request new tours" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="327,8,0,0" Grid.ColumnSpan="2"/>
-                <Button Background="#f9cb9e" Content="Request list" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="132,8,0,0"/>
-                <Button Background="#f9cb9e" Command ="{Binding LogOutCommand}" Content="My profile" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0"/>
+                <Button Command="{Binding AllToursCommand}"  Background="#f9cb9e" Margin="35,8,206,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/location_not.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="All tours"/>
+                    </StackPanel>
+                </Button>
+
+                <Button  IsEnabled="False" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="171,10,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/location.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="Booked tours"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="318,10,0,0" Grid.ColumnSpan="2">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/mechanics.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="Request new tours"/>
+                    </StackPanel>
+                </Button>
+                <Button Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="171,10,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/list.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="Request list"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding LogOutCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/user.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="My profile"/>
+                    </StackPanel>
+                </Button>
             </Grid>
         </DockPanel>
         <DataGrid DockPanel.Dock="Left" Background="White"
@@ -54,7 +85,8 @@
                 <DataGridTextColumn  Header="Name" Binding="{Binding Name}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Background="#f9cb9e" Command="{Binding LeaveReviewCommand}" Content="Leave a review" HorizontalAlignment="Left" Margin="306,568,0,0" VerticalAlignment="Top" Height="36" Width="98"/>
+        <Button Background="#f9cb9e" Command="{Binding LeaveReviewCommand}" Content="Leave a review" HorizontalAlignment="Left" Margin="306,568,0,0" VerticalAlignment="Top" Height="36" Width="98" IsEnabled="{Binding IsTourEventSelected}"/>
+
         <ToggleButton x:Name="myToggleButton" IsChecked="{Binding IsPopupOpen}" Width="50" Height="50" HorizontalAlignment="Left" Margin="217,561,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Command="{Binding ShowPopUpCommand}"   >
             <ToggleButton.Template>
                 <ControlTemplate TargetType="ToggleButton">

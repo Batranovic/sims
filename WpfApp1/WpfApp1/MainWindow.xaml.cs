@@ -40,6 +40,7 @@ namespace WpfApp1
         {
             InitializeComponent();
             this.DataContext = this;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             _ownerService = InjectorService.CreateInstance<IOwnerService>();
             _guestService = InjectorService.CreateInstance<IGuestService>();
