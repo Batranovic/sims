@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Service;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.View
 {
@@ -22,65 +23,10 @@ namespace WpfApp1.View
     /// </summary>
     public partial class OwnerAccount : Window
     {
-        public Owner LogInOwner { get; set; }
-
-        private readonly IReservationService _reservationService;
         public OwnerAccount(User user)
         {
             InitializeComponent();
-            this.DataContext = this;
-
-            _reservationService = InjectorService.CreateInstance<IReservationService>();
-     
-            LogInOwner = (Owner)user;
-
-            FindNotification();
-        }
-
-        private void FindNotification()
-        {
-            int numberNotification = _reservationService.GetUnratedById(LogInOwner.Id).Count;
-            if (numberNotification == 0)
-            {
-                btnRatingGuest.IsEnabled = false;
-                return;
-            }
-            string result = "Oslobodilo Vam se " + numberNotification.ToString() + " apartaman, ocenite goste";
-            MessageBox.Show(result, "Obavestenje");
-            btnRatingGuest.IsEnabled = true;
-        }
-
-        private void SignInAccomodation(object sender, RoutedEventArgs e)
-        {
-            SignInAccommodation signInAccommodation = new SignInAccommodation(LogInOwner);
-            signInAccommodation.Show();
-        }
-
-        private void ViewExpiredReservation(object sender, RoutedEventArgs e)
-        {
-            ExpiredReservation expiredReservation = new ExpiredReservation(LogInOwner);
-            expiredReservation.Show();
-        }
-
-        private void ViewOwnerRatings(object sender, RoutedEventArgs e)
-        {
-            OwnerRatingView ownerRatingView = new OwnerRatingView(LogInOwner);
-            ownerRatingView.Show();
-        }
-
-        private void ReservationPostponementOverview(object sender, RoutedEventArgs e)
-        {
-            ReservationPostponementOverview reservationPostponementOverview = new ReservationPostponementOverview(LogInOwner);
-            reservationPostponementOverview.Show(); 
-        }
-
-        private void LogOut(object sender, RoutedEventArgs e)
-        {
-            User user = MainWindow.LogInUser;
-            user.Id = -1;
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            this.Close();
+            this.DataContext = new OwnerAccountViewModel(user);
         }
     }
 }
