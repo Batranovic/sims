@@ -225,7 +225,7 @@ namespace WpfApp1.ViewModel
 
                 if (columnName == "Comment")
                 {
-                    if (Comment == null)
+                    if (Comment == null || Comment=="Leave a review")
                     {
                         return "missing comment";
                     }

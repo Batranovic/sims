@@ -23,34 +23,34 @@
                 <!-- Content goes here -->
                 <Button Command="{Binding AllToursCommand}"  Background="#f9cb9e" Margin="35,8,206,0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/location_not.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <Image Source="/Images/dot.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="All tours"/>
                     </StackPanel>
                 </Button>
 
                 <Button  IsEnabled="False" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="171,10,0,0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/location.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <Image Source="/Images/book.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Booked tours"/>
                     </StackPanel>
                 </Button>
 
                 <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="318,10,0,0" Grid.ColumnSpan="2">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/mechanics.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <Image Source="/Images/service.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request new tours"/>
                     </StackPanel>
                 </Button>
                 <Button Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="171,10,0,0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/list.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <Image Source="/Images/checklist.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request list"/>
                     </StackPanel>
                 </Button>
 
                 <Button Command="{Binding LogOutCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/user.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                        <Image Source="/Images/profile.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="My profile"/>
                     </StackPanel>
                 </Button>

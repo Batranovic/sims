@@ -13,10 +13,12 @@ using System.Xml.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Reflection.Metadata;
+using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace WpfApp1.ViewModel
 {
-    public class TourBookingsViewModel :  ViewModelBase
+    public class TourBookingsViewModel : ViewModelBase, IDataErrorInfo
     {
         public Action CloseAction { get; set; }
         public ObservableCollection<TourEvent> TourEvents { get; set; }
@@ -36,7 +38,7 @@ namespace WpfApp1.ViewModel
 
         private Voucher _selectedVoucher;
 
-        public int NumberOfPeople { get; set; }
+        private int _numberOfPeople;
         public string Name { get; set; }
         public DateTime ExpirationDate { get; set; }
 
@@ -52,6 +54,19 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
+        public int NumberOfPeople
+        {
+            get => _numberOfPeople;
+            set
+            {
+                if (_numberOfPeople != value)
+                {
+                    _numberOfPeople = value;
+                    OnPropertyChanged("NumberOfPeople");
+                }
+            }
+        }
+
 
         public int AvailableSpots
         {
@@ -92,7 +107,7 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
-        
+
 
         public TourBookingsViewModel(Tour tour)
         {
@@ -257,7 +272,7 @@ namespace WpfApp1.ViewModel
         private void Execute_Reserve(object sender)
         {
 
-            if (AvailableSpots >= NumberOfPeople)
+            if (AvailableSpots >= NumberOfPeople && IsValid)
             {
                 TourBooking existingTourBooking = _tourBookingService.GetTourBookingForTourEventAndUser(SelectedTourEvent.Id, MainWindow.LogInUser.Id);
                 if (existingTourBooking != null)
@@ -325,6 +340,40 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        public string Error => null;
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "NumberOfPeople")
 
+                {
+                    if (NumberOfPeople <= 0)
+                    {
+                        return "positive number";
+                    }
+                    if(NumberOfPeople >= 50)
+                    {
+                        return "choose a smaller number";
+                    }
+                }
+                return null;
+            }
+        }
+        private readonly string[] _validatedProperties = { "NumberOfPeople" };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
     }
 }
