@@ -163,10 +163,13 @@
                     </DataGrid>
                     <TextBlock  VerticalAlignment="Top" Margin="-2,10,36,0" Text=" Use a voucher"  FontSize="20" FontWeight="Bold" Height="36"/>
                     <TextBlock Margin="2,59,31,0"  Text=" Make a reservation"  FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Grid.RowSpan="2" Grid.Row="1" Height="33"/>
-                    <TextBlock Text="Reserve for" FontStyle="Oblique" FontWeight="Bold" Margin="38,66,230,0" Grid.Row="2" VerticalAlignment="Top" Height="17"/>
-                    <Button Command="{Binding CheckAvailabilityCommand}" Background="#f9cb9e"  Content="Availability" HorizontalAlignment="Left" Margin="114,153,0,0" Grid.Row="2" VerticalAlignment="Top" Width="88"/>
-                    <!-- <TextBlock  Margin="27,104,219,159" Grid.Row="2" Text="{Binding AvailableSpotsText, UpdateSourceTrigger=PropertyChanged}" FontStyle="Oblique" FontWeight="Bold"/> -->
-                    <TextBlock  Margin="38,113,208,148" Grid.Row="2" Text="Available for" FontStyle="Oblique" FontWeight="Bold"/>
+                    <TextBlock Text="Reserve for" FontStyle="Oblique" FontWeight="Bold" Margin="27,66,241,0" Grid.Row="2" VerticalAlignment="Top" Height="17"/>
+                    <Button Command="{Binding CheckAvailabilityCommand}" Background="#f9cb9e"  Content="Availability" HorizontalAlignment="Left" Margin="27,166,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98"/>
+                    <Border BorderThickness="0.2" BorderBrush="Black" Margin="187,160,59,105" Grid.Row="2">
+                          <TextBlock  Margin="187,166,59,97" Grid.Row="2" Text="{Binding AvailableSpotsText, UpdateSourceTrigger=PropertyChanged}" FontStyle="Oblique" FontWeight="Bold"/>
+                    </Border>
+                  
+                    <TextBlock  Margin="27,118,219,148" Grid.Row="2" Text="Available for" FontStyle="Oblique" FontWeight="Bold"/>
                     <Border BorderThickness="0.2" BorderBrush="Black" 
         Margin="186,107,104,158" Grid.Row="2">
                         <TextBlock Text="{Binding AvailableSpots, UpdateSourceTrigger=PropertyChanged}"
@@ -174,7 +177,7 @@
                     </Border>
 
                     <Button Command="{Binding SuggestMoreCommand}" Background="#f9cb9e" Content="Suggest more" HorizontalAlignment="Left" Margin="27,215,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98"/>
-                    <Button Command="{Binding ReserveCommand}" Background="#f9cb9e" Content="Reserve"  HorizontalAlignment="Left" Margin="194,215,0,0" Grid.Row="2" VerticalAlignment="Top" Width="91"/>
+                    <Button Command="{Binding ReserveCommand}" Background="#f9cb9e" Content="Reserve"  HorizontalAlignment="Left" Margin="187,215,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98"/>
                     <TextBox Margin="186,61,104,0" Grid.Row="2"  Text="{Binding NumberOfPeople, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Top" Height="22"/>
                 </Grid>
             </DockPanel>

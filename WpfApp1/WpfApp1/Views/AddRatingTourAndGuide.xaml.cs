@@ -51,5 +51,15 @@ namespace WpfApp1.Views
         }
 
 
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+            if (textBox.Text == "Leave a review")
+            {
+                textBox.Text = string.Empty;
+            }
+        }
+
+
     }
 }

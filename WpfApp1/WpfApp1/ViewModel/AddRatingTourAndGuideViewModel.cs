@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
@@ -28,11 +29,52 @@ namespace WpfApp1.ViewModel
         public Tourist LogInTourist { get; set; }
 
         public TourBooking SelectedTourBooking { get; set; }
-        public int SelectedKnowledge { get; set; }
-        public int SelectedLanguage { get; set; }
-        public int SelectedInterest { get; set; }
+        
         public string SelectedUrl { get; set; }
 
+
+        private int _selectedKnowledge;
+        public int SelectedKnowledge
+        {
+            get => _selectedKnowledge;
+            set
+            {
+                if (value != _selectedKnowledge)
+                {
+                    _selectedKnowledge = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private int _selectedLanguage;
+        public int SelectedLanguage
+        {
+            get => _selectedLanguage;
+            set
+            {
+                if (value != _selectedLanguage)
+                {
+                    _selectedLanguage = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+        private int _selectedInterest;
+        public int SelectedInterest
+        {
+            get => _selectedInterest;
+            set
+            {
+                if (value != _selectedInterest)
+                {
+                    _selectedInterest = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private string _comment;
         public string Comment
@@ -62,6 +104,7 @@ namespace WpfApp1.ViewModel
             }
         }
 
+    
 
 
         public AddRatingTourAndGuideViewModel(TourBooking tourBooking) {
@@ -74,22 +117,21 @@ namespace WpfApp1.ViewModel
             Images = new ObservableCollection<string>();
             Scores = new ObservableCollection<int>();
 
-            Scores.Add(1);
-            Scores.Add(2);
-            Scores.Add(3);
-            Scores.Add(4);
-            Scores.Add(5);
+
             SelectedTourBooking = tourBooking;
-            SelectedKnowledge = 0;
-            SelectedLanguage = 0;
-            SelectedInterest = 0;
+            SelectedKnowledge = 3;
+            SelectedLanguage = 3;
+            SelectedInterest = 3;
             Comment = "Leave a review";
 
             SubmitImageCommand = new RelayCommand(Execute_SubmitImage, CanExecute_Command);
             RemoveImageCommand = new RelayCommand(Execute_RemoveImage, CanExecute_Command);
             ConfirmCommand = new RelayCommand(Execute_Confirm, CanExecute_Command);
             RejectCommand = new RelayCommand(Execute_Reject, CanExecute_Command);
+
         }
+
+
 
         private bool CanExecute_Command(object parameter)
         {
@@ -225,7 +267,7 @@ namespace WpfApp1.ViewModel
 
                 if (columnName == "Comment")
                 {
-                    if (Comment == null || Comment=="Leave a review")
+                    if (Comment == "" || Comment=="Leave a review")
                     {
                         return "missing comment";
                     }

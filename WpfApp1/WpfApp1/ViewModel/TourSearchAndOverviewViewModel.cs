@@ -310,9 +310,12 @@ namespace WpfApp1.ViewModel
 
         private void Execute_Search(object sender)
         {
+            if (IsValid)
+            {
+                List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
+                RefreshTours(searchedTours);
+            }
 
-            List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
-            RefreshTours(searchedTours);
         }
         private void Execute_AllTours(object sender)
         {

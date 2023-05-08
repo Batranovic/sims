@@ -10,6 +10,7 @@ using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Views;
 using WpfApp1.ViewModel;
 using System;
+using System.Windows.Input;
 
 namespace WpfApp1.Views
 {
