@@ -1,20 +1,142 @@
 ﻿<Window x:Class="WpfApp1.Views.OwnerAccount"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:WpfApp1.ViewModel"
+        xmlns:view="clr-namespace:WpfApp1.Views"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
         Title="OwnerAccount" Height="650" Width="950"
         Name="OwnerStart">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:OwnerProfileViewModel}">
+            <view:OwnerProfile/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SignInAccommodationViewModel}">
+            <view:SignInAccommodation/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ReservationOverviewViewModel}">
+            <view:ReservationOvewview/>
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
-        <DockPanel  Width="800">
+        <DockPanel  Width="950">
             <DockPanel DockPanel.Dock="Top" Background="blue" Height="80" >
-                
+                <WrapPanel Background="white">
+                    <WrapPanel Width="100" Height="80">
+
+                    </WrapPanel>
+
+                   
+
+                    <WrapPanel  Height="80" Width="600">
+                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="1" >Acommodations</Button>
+                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="2">Reservations</Button>
+                        <Button  Height="50" Width="95" Margin="14">Renovations</Button>
+                        <Button  Height="50" Width="95" Margin="14">Forum</Button>
+
+                    </WrapPanel>
+
+                    <WrapPanel  Height="80" Width="250" >
+                        <Button  Width="53" Height="50" Margin="8, 15, 0, 15">
+                            <Image Source="..\..\WpfApp1\Resources\Image\Owner\pdf.png"></Image>
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid>
+                                        <Ellipse />
+                                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button  Width="50" Height="50" Margin="8, 15, 0, 15" Command="{Binding WizardCommand}">
+                            
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid>
+                                        <Ellipse Fill="Red"/>
+                                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                       
+                        <Button  Width="50" Height="50" Margin="8, 15, 0, 15" >
+                            <Image Source="..\..\WpfApp1\Resources\Image\Owner\notification.webp"></Image>
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid>
+                                        <Ellipse/>
+                                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button  Width="50" Height="50" Margin="8, 15, 0, 15" Command="{Binding NavCommand}"  CommandParameter="0">
+                            
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid>
+                                        <Ellipse Fill="Red"/>
+                                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+
+                        <Popup IsOpen="{Binding VisibilityPopUp}"
+                               Width="270" 
+                                Height="170" 
+                                Margin="0,70,10,0"
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right" 
+                                Panel.ZIndex="1000">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding ShowCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                            <WrapPanel Width="270" Height="170" Orientation="Vertical" Background="AliceBlue">
+                                <Label Content="{Binding LoggedOwner.Name}" Width="200" Height="30"/>
+                                <Label Content="{Binding LoggedOwner.Surname}" Width="200" Height="30"/>
+                                <Label Content="{Binding UserType}" Width="200" Height="30"/>
+                                <Button Content="Log out" />
+                            </WrapPanel>
+                        </Popup>
+
+                        <Popup IsOpen="{Binding VisibilityWizard}"
+                               Width="270" 
+                                Height="170" 
+                                Margin="0,70,10,0"
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right" 
+                                Panel.ZIndex="1000">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding WizardCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                            <WrapPanel Width="270" Height="170" Orientation="Vertical" Background="AliceBlue">
+                                <Label Content="{Binding WizardText}" Width="200" Height="30"/>
+                            </WrapPanel>
+                        </Popup>
+                        
+                    </WrapPanel>
+                </WrapPanel>
             </DockPanel>
 
-            <DockPanel DockPanel.Dock="Bottom" Background="red" >
-
+            <DockPanel DockPanel.Dock="Bottom"  Width="950" >
+                <ContentControl Content="{Binding CurrentViewModel}"/>
             </DockPanel>
         </DockPanel>
     </Grid>

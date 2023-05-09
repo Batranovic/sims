@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
@@ -14,82 +19,130 @@ namespace WpfApp1.ViewModel
 {
     public class OwnerAccountViewModel : ViewModelBase
     {
-        public Owner LoggedOwner { get; set; }
-        private readonly IReservationService _reservationService;
-        private Window _window;
-        public RelayCommand SignInAccomodationCommand { get; set; }
-        public RelayCommand ViewExpiredReservationCommand { get; set; }
-        public RelayCommand ViewOwnerRatingsCommand { get; set; }
-        public RelayCommand ReservationPostponementOverviewCommand { get; set; }
-        public RelayCommand LogOutCommand { get; set; }
-        public OwnerAccountViewModel(User user)
+        private ViewModelBase _currentViewModel;
+        private OwnerProfileViewModel _ownerProfileViewModel;
+        private SignInAccommodationViewModel _signInAccommodationViewModel;
+        private ReservationOverviewViewModel _reservationOverviewViewModel;
+        //    private AccommodationRenovationViewModel _accommodationRenovationViewModel;
+        //    private RenovationHistoryViewModel _renovationHistoryViewModel;
+
+        private bool _visibilityWizard;
+        public bool VisibilityWizard
         {
-            _reservationService = InjectorService.CreateInstance<IReservationService>();
-              _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
-
-            InitCommand();
-            LoggedOwner = (Owner)user;
-
-            FindNotification();
-        }
-
-        private void InitCommand()
-        {
-            SignInAccomodationCommand = new RelayCommand(param => Execute_SignInAccomodation(), param => CanExecute_Command());
-            ViewExpiredReservationCommand = new RelayCommand(param => Execute_ViewExpiredReservation(), param => CanExecute_Command());
-            ViewOwnerRatingsCommand = new RelayCommand(param => Execute_ViewOwnerRatings(), param => CanExecute_Command());
-            ReservationPostponementOverviewCommand = new RelayCommand(param => Execute_ReservationPostponementOverview(), param => CanExecute_Command());
-            LogOutCommand = new RelayCommand(param => Execute_LogOut(), param => CanExecute_Command());
-        }
-
-        private void FindNotification()
-        {
-            int numberNotification = _reservationService.GetUnratedById(LoggedOwner.Id).Count;
-            if (numberNotification == 0)
+            get => _visibilityWizard;
+            set
             {
-                return;
+                _visibilityWizard = value;
+                OnPropertyChanged(nameof(Visibility));
             }
-            string result = "Oslobodilo Vam se " + numberNotification.ToString() + " apartaman, ocenite goste";
-            MessageBox.Show(result, "Obavestenje");
         }
+        public string WizardText { get; set; }
+        public RelayCommand WizardCommand { get; set; }
 
-        private void Execute_SignInAccomodation()
+        private string _visibility;
+        public string Visibility
         {
-            SignInAccommodation signInAccommodation = new SignInAccommodation(LoggedOwner);
-            signInAccommodation.Show();
+            get => _visibility;
+            set
+            {
+                _visibility = value;
+                OnPropertyChanged(nameof(Visibility));
+            }
         }
-
-        private void Execute_ViewExpiredReservation()
+        private bool _visibilityPopUp;
+        public bool VisibilityPopUp
         {
-            ExpiredReservation expiredReservation = new ExpiredReservation(LoggedOwner);
-            expiredReservation.Show();
+            get => _visibilityPopUp;    
+            set
+            {
+                _visibilityPopUp = value;
+                OnPropertyChanged(nameof(VisibilityPopUp));
+            }
         }
-
-        private void Execute_ViewOwnerRatings()
+        public string UserType { get; set; }
+        public Owner LoggedOwner { get; set; }
+        public ViewModelBase CurrentViewModel
         {
-            OwnerRatingView ownerRatingView = new OwnerRatingView(LoggedOwner);
-            ownerRatingView.Show();
+            get => _currentViewModel;
+            set
+            {
+                if (_currentViewModel != value)
+                {
+                    _currentViewModel = value;
+                    OnPropertyChanged(nameof(CurrentViewModel));
+                }
+            }
         }
+        public RelayCommand NavCommand { get; set; }
+        public RelayCommand ShowCommand { get; set; }
 
-        private void Execute_ReservationPostponementOverview()
+        public OwnerAccountViewModel(Owner owner)
         {
-            ReservationPostponementOverview reservationPostponementOverview = new ReservationPostponementOverview(LoggedOwner);
-            reservationPostponementOverview.Show();
+            _reservationOverviewViewModel = new ReservationOverviewViewModel(owner);
+            _ownerProfileViewModel = new OwnerProfileViewModel(owner);
+            _signInAccommodationViewModel = new SignInAccommodationViewModel(owner);
+            CurrentViewModel = new OwnerProfileViewModel(owner);
+
+            Init(owner);
+            IntiCommand();
         }
 
-        private void Execute_LogOut()
+        private void IntiCommand()
         {
-            User user = MainWindow.LogInUser;
-            user.Id = -1;
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            _window.Close();
+            NavCommand = new RelayCommand(Execute_NavCommand, CanExecute_NavCommand);
+            ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
+            WizardCommand = new(param => Execute_WizardCommand(), param  => CanExecute());
+        }
+        private void Init(Owner owner)
+        {
+            VisibilityWizard = false;
+            VisibilityPopUp = false;
+            Visibility = "Visible";
+            LoggedOwner = owner;
+            UserType = LoggedOwner.Super ? "Super" : "Basic";
+            WizardText = "Hello dear user,\nYou have a big section(buttons on top of\n window), when you select one section then\nnew window open up. In new window you\nhave a  vertical tabs with more features.";
         }
 
-        private bool CanExecute_Command()
+        public void Execute_WizardCommand()
+        {
+            VisibilityWizard = !VisibilityWizard;
+        }
+        public bool CanExecute_NavCommand(object parameter)
+        {
+            if (parameter == null || !int.TryParse(parameter.ToString(), out int index))
+            {
+                return false;
+            }
+
+            return index >= 0 && index <= 2;
+        }
+
+        public void Execute_NavCommand(object parameter)
+        {
+            int index = int.Parse(parameter.ToString());
+            switch (index)
+            {
+                case 0:
+                    CurrentViewModel = _ownerProfileViewModel;
+                    Execute_ShowCommand();
+                    break;
+                case 1:
+                    CurrentViewModel = _signInAccommodationViewModel;
+                    break;
+                case 2:
+                    CurrentViewModel = _reservationOverviewViewModel;
+                    break;
+            }
+        }
+
+        public void Execute_ShowCommand()
+        {
+            VisibilityPopUp = !VisibilityPopUp;
+        }
+
+        public bool CanExecute()
         {
             return true;
         }
-
     }
 }

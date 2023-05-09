@@ -66,7 +66,7 @@ namespace WpfApp1
             LogInUser = _ownerService.GetByUsernameAndPassword(Username, Password);   
             if(LogInUser != null)
             {
-                OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
+                OwnerAccount ownerAccount = new OwnerAccount();
                 ownerAccount.Show();
                 Close();
                 return;

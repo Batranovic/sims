@@ -18,17 +18,18 @@ namespace WpfApp1.ViewModel
 {
     public class SignInAccommodationViewModel : ViewModelBase, IDataErrorInfo
     {
-        public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
-        public AccommodationKind SelectedAccommodationKind { get; set; }
-
         private readonly ILocationService _locationService;
         private readonly IAccommodationService _accommodationService;
         private readonly IImageService _imageService;
-        private Window _window;
 
+        public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
         public ObservableCollection<string> States { get; set; }
         public ObservableCollection<string> Cities { get; set; }
+        public ObservableCollection<Accommodation> Accommodations { get; set; }
 
+        public AccommodationKind SelectedAccommodationKind { get; set; }
+
+        
         public string SelectedCity { get; set; }
         public Owner LoggedOwner { get; set; }
 
@@ -37,11 +38,10 @@ namespace WpfApp1.ViewModel
         public RelayCommand AddUrlCommand { get; set; }
         public SignInAccommodationViewModel(Owner owner)
         {
-            _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "AddAccommodation");
             _locationService = InjectorService.CreateInstance<ILocationService>();
             _accommodationService = InjectorService.CreateInstance<IAccommodationService>();
             _imageService = InjectorService.CreateInstance<IImageService>();
-
+            InitCommand();
             Init(owner);
         }
 
@@ -56,10 +56,9 @@ namespace WpfApp1.ViewModel
         {
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
-
+            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetAll());
             LoggedOwner = (Owner)owner;
             AccommodationKind = new ObservableCollection<AccommodationKind>(Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>());
-
         }
 
         private string _state;
@@ -73,6 +72,7 @@ namespace WpfApp1.ViewModel
                     _state = value;
                     ChosenState();
                     OnPropertyChanged(_state);
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -87,6 +87,7 @@ namespace WpfApp1.ViewModel
                 {
                     _name = value;
                     OnPropertyChanged("NameA");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -102,6 +103,7 @@ namespace WpfApp1.ViewModel
                 {
                     _maxGuests = value;
                     OnPropertyChanged("MaxGuests");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -115,6 +117,7 @@ namespace WpfApp1.ViewModel
                 {
                     _minResevation = value;
                     OnPropertyChanged("MinResevation");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -128,6 +131,7 @@ namespace WpfApp1.ViewModel
                 {
                     _cancelDay = value;
                     OnPropertyChanged("CancelDay");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -142,10 +146,10 @@ namespace WpfApp1.ViewModel
                 {
                     _url = value;
                     OnPropertyChanged("Url");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
-
 
         private List<Domain.Models.Image> MakeImages(Accommodation accommodation)
         {
@@ -162,13 +166,11 @@ namespace WpfApp1.ViewModel
         }
         private void Execute_Confirm()
         {
-           
             Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
             Accommodation accommodation = new Accommodation(NameA, location, SelectedAccommodationKind, MaxGuests, MinResevation, CancelDay, LoggedOwner);
             _accommodationService.Create(accommodation);
             accommodation.Images = MakeImages(accommodation);
             LoggedOwner.Accommodations.Add(accommodation);
-            _window.Close();
         }
 
         private bool CanExecute_Confrim()
@@ -178,7 +180,6 @@ namespace WpfApp1.ViewModel
 
         private void Execute_Reject()
         {
-            _window.Close();
         }
 
        private bool CanExecute()

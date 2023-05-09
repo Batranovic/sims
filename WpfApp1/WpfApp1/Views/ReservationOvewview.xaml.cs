@@ -10,23 +10,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
-using WpfApp1.Service;
 using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for OwnerAccount.xaml
+    /// Interaction logic for ReservationOvewview.xaml
     /// </summary>
-    public partial class OwnerAccount : Window
+    public partial class ReservationOvewview : UserControl
     {
-        public OwnerAccount()
+        public ReservationOvewview()
         {
             InitializeComponent();
-            this.DataContext = new OwnerAccountViewModel((Owner)MainWindow.LogInUser);
+            this.DataContext = new ReservationOverviewViewModel((Owner)MainWindow.LogInUser);
         }
     }
 }
