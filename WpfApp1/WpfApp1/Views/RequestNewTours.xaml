@@ -6,6 +6,11 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
         Title="TourAdvisor" Height="660" Width="1024">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding AllToursCommand}" Key="A" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding BookedToursCommand}" Key="B" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding LogOutCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
+    </Window.InputBindings>
     <Window.Icon>
         <ImageSource>/Images/car.png</ImageSource>
     </Window.Icon>

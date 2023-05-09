@@ -6,6 +6,12 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
         Title="TourAdvisor" Height="660" Width="1024">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding AllToursCommand}" Key="A" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding BookedToursCommand}" Key="B" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding RequestTourCommand}" Key="R" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding LogOutCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
+    </Window.InputBindings>
     <Window.Icon>
         <ImageSource>/Images/car.png</ImageSource>
     </Window.Icon>
@@ -117,11 +123,11 @@
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn  Header="State" Binding="{Binding Tour.Location.State}" Width="80"/>
-                                <DataGridTextColumn  Header="City" Binding="{Binding Tour.Location.City}" Width="90"/>
-                                <DataGridTextColumn  Header="Languages" Binding="{Binding Tour.Languages}" Width="90"/>
-                                <DataGridTextColumn  Header="MaxGuests" Binding="{Binding Tour.MaxGuests}" Width="90"/>
-                                <DataGridTextColumn  Header="Duration" Binding="{Binding Tour.Duration}" Width="90"/>
-                                <DataGridTextColumn  Header="Date" Binding="{Binding StartTime}" Width="115"/>
+                                <DataGridTextColumn  Header="City" Binding="{Binding Tour.Location.City}" Width="85"/>
+                                <DataGridTextColumn  Header="Languages" Binding="{Binding Tour.Languages}" Width="80"/>
+                                <DataGridTextColumn  Header="MaxGuests" Binding="{Binding Tour.MaxGuests}" Width="80"/>
+                                <DataGridTextColumn  Header="Duration" Binding="{Binding Tour.Duration}" Width="80"/>
+                                <DataGridTextColumn  Header="Date" Binding="{Binding StartTime}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
@@ -157,26 +163,34 @@
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="2,55,31,52" Grid.RowSpan="2" >
                         <!--SelectionChanged="DataGrid_SelectionChanged"-->
                         <DataGrid.Columns>
-                            <DataGridTextColumn  Header="Name" Binding="{Binding Name}" Width="175"/>
+                            <DataGridTextColumn  Header="Name" Binding="{Binding Name}" Width="160"/>
                             <DataGridTextColumn  Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <TextBlock  VerticalAlignment="Top" Margin="-2,10,36,0" Text=" Use a voucher"  FontSize="20" FontWeight="Bold" Height="36"/>
                     <TextBlock Margin="2,59,31,0"  Text=" Make a reservation"  FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Grid.RowSpan="2" Grid.Row="1" Height="33"/>
-                    <TextBlock Text="Reserve for" FontStyle="Oblique" FontWeight="Bold" Margin="27,66,241,0" Grid.Row="2" VerticalAlignment="Top" Height="17"/>
-                    <Button Command="{Binding CheckAvailabilityCommand}" Background="#f9cb9e"  Content="Availability" HorizontalAlignment="Left" Margin="27,215,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98"/>
-                    <Border BorderThickness="0.2" BorderBrush="Black" Margin="28,153,58,110" Grid.Row="2">
-                        <TextBlock Margin="0,3,0,-1" Grid.Row="2" Text="{Binding AvailableSpotsText, UpdateSourceTrigger=PropertyChanged}" FontStyle="Oblique" FontWeight="Bold"/>
+                    <TextBlock Text="Reserve for" FontStyle="Oblique" FontWeight="Bold" Margin="71,67,197,0" Grid.Row="2" VerticalAlignment="Top" Height="17"/>
+                    <Button Command="{Binding CheckAvailabilityCommand}" Background="#f9cb9e"  Content="Availability" HorizontalAlignment="Left" Margin="41,215,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98"/>
+                    <Border BorderThickness="0.3" BorderBrush="Black" Margin="71,156,109,105" Grid.Row="2" RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform AngleX="0"/>
+                                <RotateTransform/>
+                                <TranslateTransform X="0"/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <TextBlock Margin="0,1,0,-1" Grid.Row="2" Text="{Binding AvailableSpotsText, UpdateSourceTrigger=PropertyChanged}" FontStyle="Oblique" FontWeight="Bold"/>
                     </Border>
 
-                    <TextBlock  Margin="27,118,219,148" Grid.Row="2" Text="Available for" FontStyle="Oblique" FontWeight="Bold"/>
-                    <Border BorderThickness="0.2" BorderBrush="Black" 
-        Margin="186,107,104,158" Grid.Row="2">
+                    <TextBlock  Margin="71,115,175,148" Grid.Row="2" Text="Available for" FontStyle="Oblique" FontWeight="Bold"/>
+                    <Border BorderThickness="0.3" BorderBrush="Black"
+        Margin="186,107,102,155" Grid.Row="2">
                         <TextBlock Text="{Binding AvailableSpots, UpdateSourceTrigger=PropertyChanged}"
-               FontStyle="Oblique" Margin="0,0,0,-1"/>
+               HorizontalAlignment="Center" Width="50" Margin="0,2,0,0" Height="33" VerticalAlignment="Top"/>
                     </Border>
-                    <Button Command="{Binding ReserveCommand}" Background="#f9cb9e" Content="Reserve"  HorizontalAlignment="Left" Margin="187,215,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98"/>
-                    <TextBox Margin="186,61,104,0" Grid.Row="2"  Text="{Binding NumberOfPeople, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Top" Height="22"/>
+                    <Button Command="{Binding ReserveCommand}" Background="#f9cb9e" Content="Reserve"  HorizontalAlignment="Left" Margin="172,215,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98"/>
+                    <TextBox Margin="187,63,102,0" Grid.Row="2"  Text="{Binding NumberOfPeople, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Top" Height="25"/>
                 </Grid>
             </DockPanel>
 

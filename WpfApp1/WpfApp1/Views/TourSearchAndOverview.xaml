@@ -7,6 +7,11 @@
         xmlns:val="clr-namespace:WpfApp1.Validation"
         mc:Ignorable="d"
         Title="TourAdvisor" Height="624" Width="1042">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding BookedToursCommand}" Key="B" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding RequestTourCommand}" Key="R" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding LogOutCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
+    </Window.InputBindings>
     <Window.Icon>
         <ImageSource>/Images/car.png</ImageSource>
     </Window.Icon>
@@ -165,15 +170,15 @@
             </DockPanel>
             <DockPanel DockPanel.Dock="Right" Width="862" >
                 <Grid>
-                    <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Width="700" Height="500">
+                    <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Width="700" Height="500" Background="#f3dcc4">
                         <ItemsControl ItemsSource="{Binding Path=Tours}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="0" Height="240">
                                         <DockPanel>
                                             <DockPanel DockPanel.Dock="Left">
-                                                <Border Margin="38,38,38,38" BorderBrush="Black" BorderThickness="1">
-                                                    <Image  Width="150" Source ="{Binding Image}"  Stretch="UniformToFill" Height="160"/>
+                                                <Border Margin="38,43,38,43" BorderBrush="Black" BorderThickness="1">
+                                                    <Image  Width="140" Source ="{Binding Image}"  Stretch="UniformToFill" Height="150"/>
                                                 </Border>
 
                                             </DockPanel>
@@ -189,18 +194,18 @@
                                                         </Grid.RowDefinitions>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="100"/>
-                                                            <ColumnDefinition Width="100"/>
-                                                            <ColumnDefinition Width="100"/>
-                                                            <ColumnDefinition Width="100"/>
-                                                            <ColumnDefinition Width="100"/>
+                                                            <ColumnDefinition Width="90"/>
+                                                            <ColumnDefinition Width="90"/>
+                                                            <ColumnDefinition Width="90"/>
+                                                            <ColumnDefinition Width="90"/>
                                                         </Grid.ColumnDefinitions>
 
                                                         <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Text="{Binding Name}" TextDecorations="Underline"  FontWeight="Bold" FontSize="20"/>
-                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >State</TextBlock>
-                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center" >City</TextBlock>
-                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Center" >Duration</TextBlock>
-                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left"  VerticalAlignment="Center" >Language</TextBlock>
-                                                        <TextBlock  FontSize="13"  Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left"  VerticalAlignment="Center" >MaxGuests</TextBlock>
+                                                        <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >State</TextBlock>
+                                                        <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center" >City</TextBlock>
+                                                        <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Center" >Duration</TextBlock>
+                                                        <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left"  VerticalAlignment="Center" >Language</TextBlock>
+                                                        <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left"  VerticalAlignment="Center" >MaxGuests</TextBlock>
 
                                                         <TextBlock Text="{Binding Location.State}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                         <TextBlock Text="{Binding Location.City}" FontWeight="Bold" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -208,7 +213,7 @@
                                                         <TextBlock Text="{Binding Languages}" FontWeight="Bold" Grid.Row="2" Grid.Column="3"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                         <TextBlock Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="4"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                                                        <TextBlock  FontSize="13"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
+                                                        <TextBlock  FontSize="11"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
                                                         <TextBlock Text="{Binding Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                     </Grid>
                                                 </DockPanel>
@@ -223,7 +228,7 @@
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="50"/>
                                                         </Grid.RowDefinitions>
-                                                        <Button Content="View More" Background="#f9cb9e" Command="{Binding DataContext.ViewMoreCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                                                        <Button Content="  View More  " Background="WhiteSmoke" Command="{Binding DataContext.ViewMoreCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
                         CommandParameter="{Binding}" Margin="0,-5,0,25" Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Center" Grid.ColumnSpan="2" />
 
                                                     </Grid>

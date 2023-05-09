@@ -6,6 +6,11 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
         Title="TourAdvisor" Height="660" Width="1024" Background="WhiteSmoke">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding AllToursCommand}" Key="A" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding RequestTourCommand}" Key="R" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding LogOutCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
+    </Window.InputBindings>
     <Window.Icon>
         <ImageSource>/Images/car.png</ImageSource>
     </Window.Icon>
@@ -56,7 +61,7 @@
                 </Button>
             </Grid>
         </DockPanel>
-        <DataGrid DockPanel.Dock="Left" Background="White"
+        <DataGrid DockPanel.Dock="Left" Background="#f3dcc4"
                   SelectionMode="Single"
                   HorizontalAlignment="Stretch"
                   ItemsSource="{Binding Path=TourEvents, UpdateSourceTrigger=PropertyChanged}"
@@ -70,7 +75,7 @@
                 <DataGridTextColumn  Header="Date" Binding="{Binding StartTime}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid GridLinesVisibility="None" DockPanel.Dock="Right" Background="White"
+        <DataGrid GridLinesVisibility="None" DockPanel.Dock="Right" Background="#f3dcc4"
                        SelectionMode="Single"
                         ItemsSource="{Binding Path=SelectedTourEvent.Tour.TourPoints, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="724,159,33,0" Height="368" VerticalAlignment="Top">
