@@ -214,7 +214,7 @@
                                                         <TextBlock Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="4"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                                                         <TextBlock  FontSize="11"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
-                                                        <TextBlock Text="{Binding Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                        <TextBlock TextWrapping="Wrap" Text="{Binding Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                     </Grid>
                                                 </DockPanel>
                                                 <DockPanel DockPanel.Dock="Bottom">
