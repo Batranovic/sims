@@ -126,10 +126,10 @@ namespace WpfApp1.ViewModel
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
             CheckAvailabilityCommand = new RelayCommand(Execute_CheckAvailability, CanExecute_Command);
-            SuggestMoreCommand = new RelayCommand(Execute_SuggestMore, CanExecute_Command);
             ReserveCommand = new RelayCommand(Execute_Reserve, CanExecute_Command);
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
+
 
         }
 
@@ -240,20 +240,6 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private RelayCommand suggestMoreCommand;
-        public RelayCommand SuggestMoreCommand
-        {
-            get => suggestMoreCommand;
-            set
-            {
-                if (value != suggestMoreCommand)
-                {
-                    suggestMoreCommand = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         private RelayCommand reserveCommand;
         public RelayCommand ReserveCommand
         {
@@ -312,8 +298,11 @@ namespace WpfApp1.ViewModel
             }
             int reservedSpots = _tourEventService.CheckAvailability(SelectedTourEvent);
             AvailableSpots = SelectedTourEvent.Tour.MaxGuests - reservedSpots;
+
             if (AvailableSpots < NumberOfPeople)
             {
+                List<TourEvent> tourEventsForLocation = _tourEventService.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
+                RefreshTours(tourEventsForLocation);
                 AvailableSpotsText = "Not available";
             }
             else
@@ -322,15 +311,7 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private void Execute_SuggestMore(object sender)
-        {
-            if (SelectedTourEvent == null)
-            {
-                return;
-            }
-            List<TourEvent> tourEventsForLocation = _tourEventService.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
-            RefreshTours(tourEventsForLocation);
-        }
+    
         private void RefreshTours(List<TourEvent> tourEvents)
         {
             TourEvents.Clear();

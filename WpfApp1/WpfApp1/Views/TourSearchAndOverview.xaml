@@ -172,8 +172,8 @@
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="0" Height="240">
                                         <DockPanel>
                                             <DockPanel DockPanel.Dock="Left">
-                                                <Border Margin="25,25,25,25" BorderBrush="Black" BorderThickness="1">
-                                                    <Image  Width="150" Height="100"/>
+                                                <Border Margin="38,38,38,38" BorderBrush="Black" BorderThickness="1">
+                                                    <Image  Width="150" Source ="{Binding Image}"  Stretch="UniformToFill" Height="160"/>
                                                 </Border>
 
                                             </DockPanel>
