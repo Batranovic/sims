@@ -13,10 +13,11 @@ using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
 using WpfApp1.Commands;
+using WpfApp.Observer;
 
 namespace WpfApp1.ViewModel
 {
-    public class SignInAccommodationViewModel : ViewModelBase, IDataErrorInfo
+    public class SignInAccommodationViewModel : ViewModelBase, IDataErrorInfo, IObserver
     {
         private readonly ILocationService _locationService;
         private readonly IAccommodationService _accommodationService;
@@ -41,6 +42,7 @@ namespace WpfApp1.ViewModel
             _locationService = InjectorService.CreateInstance<ILocationService>();
             _accommodationService = InjectorService.CreateInstance<IAccommodationService>();
             _imageService = InjectorService.CreateInstance<IImageService>();
+            _accommodationService.Subscribe(this);
             InitCommand();
             Init(owner);
         }
@@ -202,6 +204,15 @@ namespace WpfApp1.ViewModel
         {
             _urls.Add(Url);
             Url = "";
+        }
+
+        public void Update()
+        {
+            Accommodations.Clear();
+            foreach(var a in _accommodationService.GetAll())
+            {
+                Accommodations.Add(a);
+            }
         }
 
         public string Error => null;

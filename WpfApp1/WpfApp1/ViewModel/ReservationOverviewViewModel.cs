@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
+using WpfApp1.Views;
 
 namespace WpfApp1.ViewModel
 {
@@ -14,14 +16,58 @@ namespace WpfApp1.ViewModel
         private readonly IReservationService _reservationService;
         private readonly IReservationPostponementService _reservationPostponementService;
 
+        private ReservationPostponement _selected;
+        public ReservationPostponement SelectedPostponements
+        {
+            get => _selected;
+            set
+            {
+                _selected = value;
+                AnswerPostCommand.RaiseCanExecuteChanged();
+            }
+        }
         public Owner LoggedOwner { get; set; }
         public List<Reservation> Reservations { get; set; }
+        
         public List<ReservationPostponement> ReservationPostponements { get; set; }
+
+        private string _notification;
+        public string NotificationReservation
+        {
+            get => _notification;
+            set
+            {
+                _notification = value;
+                OnPropertyChanged(nameof(NotificationReservation));
+            }
+        }
+        public RelayCommand AnswerPostCommand { get; set; }
+        public RelayCommand AproveCommand { get; set; }
+        public RelayCommand RejectCommand { get; set; }
+        private bool _visibiltyAnswer;
+        public bool VisibiltyAnswer
+        {
+            get => _visibiltyAnswer;
+            set
+            {
+                _visibiltyAnswer = value;
+                OnPropertyChanged(nameof(VisibiltyAnswer));
+            }
+        }
+
         public ReservationOverviewViewModel(Owner owner)
         {
             _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>();
             _reservationService = InjectorService.CreateInstance<IReservationService>();
             Init(owner);
+            InitCommand();
+        }
+
+        public void InitCommand()
+        {
+            AnswerPostCommand = new(param => Execute_VisibilityCommand(), param => CanExecute_VisibilityCommand());
+            AproveCommand = new(param => Execute_Aprove(), param => CanExecute());
+            RejectCommand = new(param => Execute_Reject(), param => CanExecute());
         }
 
         public void Init(Owner owner)
@@ -29,6 +75,44 @@ namespace WpfApp1.ViewModel
             LoggedOwner = owner;
             Reservations = new List<Reservation>(_reservationService.GetAll().FindAll(r => r.Accommodation.OwnerId == owner.Id));
             ReservationPostponements = new List<ReservationPostponement>(_reservationPostponementService.GetAllByOwnerIdAhead(LoggedOwner.Id));
+        }
+
+        private void Execute_VisibilityCommand()
+        {
+            bool freeDate = _reservationService.IsDateFree(SelectedPostponements.Reservation.IdAccommodation, SelectedPostponements.EndDate) && _reservationService.IsDateFree(SelectedPostponements.Reservation.IdAccommodation, SelectedPostponements.StartDate);
+            NotificationReservation = freeDate ? "Date is free" : "Date is taken";
+            VisibiltyAnswer = !VisibiltyAnswer;
+        }
+
+        private void Execute_Aprove()
+        {
+            SelectedPostponements.Status = Domain.Models.Enums.ReservationPostponementStatus.Approved;
+            SelectedPostponements.Reservation.StartDate = SelectedPostponements.StartDate;
+            SelectedPostponements.Reservation.EndDate = SelectedPostponements.EndDate;
+            _reservationService.Update(SelectedPostponements.Reservation);
+            _reservationPostponementService.Update(SelectedPostponements);
+            VisibiltyAnswer = false;
+        }
+
+        private void Execute_Reject()
+        {
+            SelectedPostponements.Status = Domain.Models.Enums.ReservationPostponementStatus.Rejected;
+
+            AddComment addComment = new AddComment(SelectedPostponements);
+            addComment.Show();
+
+            _reservationPostponementService.Update(SelectedPostponements);
+            VisibiltyAnswer = false;
+        }
+
+        private bool CanExecute_VisibilityCommand()
+        {
+            return SelectedPostponements != null;
+        }
+
+        private bool CanExecute()
+        {
+            return true;
         }
 
     }

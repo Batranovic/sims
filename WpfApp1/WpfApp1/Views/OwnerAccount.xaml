@@ -8,7 +8,7 @@
         xmlns:view="clr-namespace:WpfApp1.Views"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="OwnerAccount" Height="650" Width="950"
+        Title="OwnerAccount" Height="650" Width="967"
         Name="OwnerStart">
 
     <Window.Resources>
@@ -43,11 +43,13 @@
 
                     <WrapPanel  Height="80" Width="250" >
                         <Button  Width="53" Height="50" Margin="8, 15, 0, 15">
-                            <Image Source="..\..\WpfApp1\Resources\Image\Owner\pdf.png"></Image>
+                            <StackPanel>
+                                <Image Source="Image/Owner/pdf.png"></Image>
+                            </StackPanel>
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Grid>
-                                        <Ellipse />
+                                        <Ellipse/>
                                         <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
                                 </ControlTemplate>
@@ -64,9 +66,11 @@
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
-                       
-                        <Button  Width="50" Height="50" Margin="8, 15, 0, 15" >
-                            <Image Source="..\..\WpfApp1\Resources\Image\Owner\notification.webp"></Image>
+
+                        <Button  Width="53" Height="50" Margin="8, 15, 0, 15">
+                            <StackPanel>
+                                <Image Source="Image/Owner/pdf.png"></Image>
+                            </StackPanel>
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Grid>
@@ -91,9 +95,9 @@
 
 
                         <Popup IsOpen="{Binding VisibilityPopUp}"
-                               Width="270" 
-                                Height="170" 
-                                Margin="0,70,10,0"
+                               Width="250" 
+                                Height="150" 
+                                Margin="0,100,10,0"
                                 VerticalAlignment="Top" 
                                 HorizontalAlignment="Right" 
                                 Panel.ZIndex="1000">
@@ -104,20 +108,19 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
-                            <WrapPanel Width="270" Height="170" Orientation="Vertical" Background="AliceBlue">
-                                <Label Content="{Binding LoggedOwner.Name}" Width="200" Height="30"/>
-                                <Label Content="{Binding LoggedOwner.Surname}" Width="200" Height="30"/>
+                            <WrapPanel Width="250" Height="170" Orientation="Vertical" Background="AliceBlue">
+                                <Label Width="200" Height="30" Content="{Binding NameSurname}"></Label>
                                 <Label Content="{Binding UserType}" Width="200" Height="30"/>
-                                <Button Content="Log out" />
+                                <Button Content="Log out" Command="{Binding LogoutCommand}"/>
                             </WrapPanel>
                         </Popup>
 
                         <Popup IsOpen="{Binding VisibilityWizard}"
                                Width="270" 
                                 Height="170" 
+                                PlacementTarget="{Binding ElementName=OwnerStart}"
+                                Placement="Center"
                                 Margin="0,70,10,0"
-                                VerticalAlignment="Top" 
-                                HorizontalAlignment="Right" 
                                 Panel.ZIndex="1000">
 
                             <i:Interaction.Triggers>
@@ -127,7 +130,11 @@
                             </i:Interaction.Triggers>
 
                             <WrapPanel Width="270" Height="170" Orientation="Vertical" Background="AliceBlue">
-                                <Label Content="{Binding WizardText}" Width="200" Height="30"/>
+                                <Label Width="250" Height="30">Hello dear user,</Label>
+                                <Label Width="250" Height="30">You have a big section(buttons on top of</Label>
+                                <Label Width="250" Height="30">window), when you select one section then</Label>
+                                <Label Width="250" Height="30">new window open up. In new window you</Label>
+                                <Label Width="250" Height="30">have a  vertical tabs with more features.</Label>
                             </WrapPanel>
                         </Popup>
                         

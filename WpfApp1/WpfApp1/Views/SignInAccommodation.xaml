@@ -7,9 +7,9 @@
              xmlns:val="clr-namespace:WpfApp1.Validation"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="950">
-        
+
     <TabControl TabStripPlacement="Left">
-        <TabItem Header="Ovewview" Width="90" Height="25">
+        <TabItem Header="Overview" Width="90" Height="25">
             <ListView ItemsSource="{Binding Accommodations}">
                 <ListView.View>
                     <GridView>
@@ -43,13 +43,13 @@
                     </ListView>
 
                     <Separator Visibility="Hidden"  Width="150"></Separator>
-                    
+
                     <WrapPanel Orientation="Vertical" >
                         <Label FontSize="22">Best year</Label>
                         <Label FontSize="22">2021</Label>
                         <Button>Detail</Button>
-                    </WrapPanel>    
-                    
+                    </WrapPanel>
+
                 </WrapPanel>
 
                 <WrapPanel Grid.Row="1" >
@@ -77,11 +77,11 @@
 
                 </WrapPanel>
 
-                
-                
+
+
             </Grid>
         </TabItem>
-        <TabItem Header="Reviews" Width="90" Height="25" Margin="-1,0,1,0" VerticalAlignment="Bottom">
+        <TabItem Header="Create" Width="90" Height="25" Margin="-1,0,1,0" VerticalAlignment="Bottom">
             <Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -234,9 +234,9 @@
                                 </ControlTemplate>
                             </Validation.ErrorTemplate>
                         </TextBox>
-                        <WrapPanel Grid.Row="7"  FlowDirection="LeftToRight" HorizontalAlignment="Left"  Grid.Column="1"  Width="370">
-                            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Center" VerticalAlignment="Center"   Height="30" Margin="0, 10" Width="300"></TextBox>
-                            <Button Content="+ " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"   Command="{Binding AddUrlCommand}" />
+                        <WrapPanel Grid.Row="6"  FlowDirection="LeftToRight" HorizontalAlignment="Center"  Grid.Column="1"  Width="396" Margin="0,45,0,0" Grid.RowSpan="2">
+                            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Center" VerticalAlignment="Center"   Height="25" Width="363"/>
+                            <Button Content="+" IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"   Command="{Binding AddUrlCommand}" />
                         </WrapPanel>
 
                     </Grid>

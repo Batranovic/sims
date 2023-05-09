@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
+using WpfApp.Observer;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
@@ -23,8 +24,20 @@ namespace WpfApp1.ViewModel
         private OwnerProfileViewModel _ownerProfileViewModel;
         private SignInAccommodationViewModel _signInAccommodationViewModel;
         private ReservationOverviewViewModel _reservationOverviewViewModel;
+        private Window _window;
         //    private AccommodationRenovationViewModel _accommodationRenovationViewModel;
         //    private RenovationHistoryViewModel _renovationHistoryViewModel;
+
+        private string _nameSurname;
+        public string NameSurname
+        {
+            get => _nameSurname;
+            set
+            {
+                _nameSurname = value;
+                OnPropertyChanged(nameof(NameSurname));
+            }
+        }
 
         private bool _visibilityWizard;
         public bool VisibilityWizard
@@ -33,22 +46,11 @@ namespace WpfApp1.ViewModel
             set
             {
                 _visibilityWizard = value;
-                OnPropertyChanged(nameof(Visibility));
+                OnPropertyChanged(nameof(VisibilityWizard));
             }
         }
-        public string WizardText { get; set; }
         public RelayCommand WizardCommand { get; set; }
-
-        private string _visibility;
-        public string Visibility
-        {
-            get => _visibility;
-            set
-            {
-                _visibility = value;
-                OnPropertyChanged(nameof(Visibility));
-            }
-        }
+      
         private bool _visibilityPopUp;
         public bool VisibilityPopUp
         {
@@ -75,6 +77,7 @@ namespace WpfApp1.ViewModel
         }
         public RelayCommand NavCommand { get; set; }
         public RelayCommand ShowCommand { get; set; }
+        public RelayCommand LogoutCommand { get; set; }
 
         public OwnerAccountViewModel(Owner owner)
         {
@@ -92,19 +95,20 @@ namespace WpfApp1.ViewModel
             NavCommand = new RelayCommand(Execute_NavCommand, CanExecute_NavCommand);
             ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
             WizardCommand = new(param => Execute_WizardCommand(), param  => CanExecute());
+            LogoutCommand = new(param => Execute_LogoutCommand(), param => CanExecute());
         }
         private void Init(Owner owner)
         {
+            _window = _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
             VisibilityWizard = false;
             VisibilityPopUp = false;
-            Visibility = "Visible";
             LoggedOwner = owner;
-            UserType = LoggedOwner.Super ? "Super" : "Basic";
-            WizardText = "Hello dear user,\nYou have a big section(buttons on top of\n window), when you select one section then\nnew window open up. In new window you\nhave a  vertical tabs with more features.";
+            UserType = LoggedOwner.Super ? "Super owner" : "Basic owner";
         }
 
         public void Execute_WizardCommand()
         {
+            NameSurname = LoggedOwner.Name + " " + LoggedOwner.Surname;
             VisibilityWizard = !VisibilityWizard;
         }
         public bool CanExecute_NavCommand(object parameter)
@@ -117,6 +121,13 @@ namespace WpfApp1.ViewModel
             return index >= 0 && index <= 2;
         }
 
+        public void Execute_LogoutCommand()
+        {
+            MainWindow mw = new();
+            mw.Show();
+            MainWindow.LogInUser = null;
+            _window.Close();
+        }
         public void Execute_NavCommand(object parameter)
         {
             int index = int.Parse(parameter.ToString());
@@ -144,5 +155,7 @@ namespace WpfApp1.ViewModel
         {
             return true;
         }
+
+      
     }
 }
