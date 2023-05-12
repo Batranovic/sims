@@ -15,6 +15,7 @@ using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
 using WpfApp1.Views;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace WpfApp1.ViewModel
@@ -22,12 +23,13 @@ namespace WpfApp1.ViewModel
     public class RequestNewToursViewModel : ViewModelBase, IDataErrorInfo
     {
         private readonly ILocationService _locationService;
+
+        private readonly ISimpleTourRequestService _simpleTourRequestService;
         public ObservableCollection<string> States { get; set; }
 
         public ObservableCollection<string> Cities { get; set; }
         public Action CloseAction { get; set; }
 
-        private string _maxGuests ;
 
         private string _language;
         public string Language
@@ -58,7 +60,7 @@ namespace WpfApp1.ViewModel
 
         }
         private DateTime _selectedStartDate;
-        public DateTime SelectedStartDate
+        public DateTime StartDate
         {
             get => _selectedStartDate;
             set
@@ -73,7 +75,7 @@ namespace WpfApp1.ViewModel
         }
 
         private DateTime _selectedEndDate;
-        public DateTime SelectedEndDate
+        public DateTime EndDate
         {
             get => _selectedEndDate;
             set
@@ -87,7 +89,7 @@ namespace WpfApp1.ViewModel
             }
         }
 
-
+        private string _maxGuests;
         public string MaxGuests
         {
             get => _maxGuests;
@@ -139,12 +141,12 @@ namespace WpfApp1.ViewModel
         }
         public RequestNewToursViewModel() {
 
-
+            _simpleTourRequestService = InjectorService.CreateInstance<ISimpleTourRequestService>();
             _locationService = InjectorService.CreateInstance<ILocationService>();
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
 
-            SelectedState = "State";
+           
             MaxGuests = "";
 
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
@@ -154,6 +156,7 @@ namespace WpfApp1.ViewModel
             RequestComplexTourCommand = new RelayCommand(Execute_RequestComplexTour, CanExecute_Command);
             IncrementCommand = new RelayCommand(Execute_Increment, CanExecute_Command);
             DecrementCommand = new RelayCommand(Execute_Decrement, CanExecute_Command);
+            RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
         }
 
         private void Execute_RequestSimpleTour(object sender)
@@ -162,23 +165,28 @@ namespace WpfApp1.ViewModel
             {
                 MessageBox.Show("Please wait for guide's answer." + Environment.NewLine +
                                 "View status in REQUEST LIST" + Environment.NewLine +
-                                "\t     (F9)", "Request sent ");
-                SelectedState = null;
-                SelectedCity = null;
-                MaxGuests = null;
-                Language = null;
-                Description = null;
-                SelectedStartDate = new DateTime(1, 1, 1);
-                SelectedEndDate = new DateTime(1, 1, 1);
+                                "\t   (CTRL + R)", "Request sent ");
+               
             }
             else
             {
                 MessageBox.Show("Please fix the errors before submitting the request.", "Error");
             }
+
+            int maxG = int.Parse(MaxGuests);
+            SimpleTourRequest simpleTour = new SimpleTourRequest(-1,SelectedState,SelectedCity,Description, Language, maxG, StartDate, EndDate, MainWindow.LogInUser);
+            _simpleTourRequestService.Create(simpleTour);
         }
 
 
+        private void Execute_RequestList(object sender)
+        {
+            TourRequest tourRequestList = new TourRequest();
+            tourRequestList.Show();
+            CloseAction();
 
+
+        }
         private void Execute_RequestComplexTour(object sender)
         {
             if (IsValid)
@@ -191,24 +199,11 @@ namespace WpfApp1.ViewModel
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    SelectedState = null;
-                    SelectedCity = null;
-                    MaxGuests = null;
-                    Language = null;
-                    Description = null;
-                    SelectedStartDate = new DateTime(1, 1, 1);
-                    SelectedEndDate = new DateTime(1, 1, 1);
-                    // Handle "Yes" button clicked
+                   
                 }
                 else if (result == MessageBoxResult.No)
                 {
-                    SelectedState = null;
-                    SelectedCity = null;
-                    MaxGuests = null;
-                    Language = null;
-                    Description = null;
-                    SelectedStartDate = new DateTime(1, 1, 1);
-                    SelectedEndDate = new DateTime(1, 1, 1);
+                   
                     // Handle "No" button clicked
                 }
             } else
@@ -265,6 +260,20 @@ namespace WpfApp1.ViewModel
             }
         }
 
+
+        private RelayCommand requestListCommand;
+        public RelayCommand RequestListCommand
+        {
+            get => requestListCommand;
+            set
+            {
+                if (value != requestListCommand)
+                {
+                    requestListCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private RelayCommand incrementCommand;
         public RelayCommand IncrementCommand
@@ -425,27 +434,27 @@ namespace WpfApp1.ViewModel
                     }
                 }
 
-                if(columnName == "SelectedStartDate")
+                if(columnName == "StartDate")
                 { 
                     
-                    if (SelectedStartDate < DateTime.Today)
+                    if (StartDate < DateTime.Today)
                     {
                         return "Please select a future date.";
                     }
-                     else if (SelectedStartDate > DateTime.Today.AddYears(5))
+                     else if (StartDate > DateTime.Today.AddYears(5))
                     {
                          return "Please select a date within the next 5 years.";
                      }
                 }
 
-                if (columnName == "SelectedEndDate")
+                if (columnName == "EndDate")
                 {
 
-                    if (SelectedEndDate < SelectedStartDate)
+                    if (EndDate < StartDate)
                     {
                         return "Please select a future date.";
                     }
-                    else if (SelectedEndDate > SelectedStartDate.AddDays(15))
+                    else if (EndDate > StartDate.AddDays(15))
                     {
                         return "Add up to 15 days to start date";
                     }
@@ -461,7 +470,7 @@ namespace WpfApp1.ViewModel
 
         }
 
-        private readonly string[] _validatedProperties = { "SelectedState", "SelectedCity", "MaxGuests", "Language", "Description", "SelectedStartDate", "SelectedEndDate" };
+        private readonly string[] _validatedProperties = { "SelectedState", "SelectedCity", "MaxGuests", "Language", "Description", "StartDate", "EndDate" };
 
         public bool IsValid
         {

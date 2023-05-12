@@ -29,7 +29,8 @@ namespace WpfApp1.Service
             { typeof(ITourEventService), new TourEventService() },
             { typeof(ITourBookingService), new TourBookingService() },
             { typeof(IRatingTourAndGuideService), new RatingTourAndGuideService() },
-            { typeof(INotificationService), new NotificationService() }
+            { typeof(INotificationService), new NotificationService() },
+            { typeof(ISimpleTourRequestService), new SimpleTourRequestService() }
         };
         public static T CreateInstance<T>()
         {

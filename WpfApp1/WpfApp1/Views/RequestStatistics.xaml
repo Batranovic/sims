@@ -1,0 +1,86 @@
+﻿<Window x:Class="WpfApp1.Views.RequestStatistics"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Views"
+        mc:Ignorable="d"
+        Title="RequestStatistics" Height="400" Width="700">
+    <TabControl Background="#f3dcc4" BorderBrush="Black" BorderThickness="1.5">
+        <TabItem Header="Location" BorderBrush="Black" BorderThickness="1.5"  >
+            <TabItem.Background>
+                <SolidColorBrush Color="#f3dcc4"/>
+            </TabItem.Background>
+            <StackPanel Orientation="Horizontal">
+                <Grid Width="353" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" Margin="36,23,0,0">Year:</TextBlock>
+                    <ComboBox Grid.Row="1" Grid.Column="0" Margin="36,10,27,10"></ComboBox>
+                   <TextBlock Grid.Row="2" Grid.Column="0" FontSize="18" Grid.ColumnSpan="2" Margin="36,30,64,30" Grid.RowSpan="2">Accepted requests:</TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="0.5" Height="40" Grid.Column="1" Grid.Row="2" Margin="0,6,0,-8">
+                        <TextBlock Grid.Row="2" Grid.Column="1" Height="40" Background="WhiteSmoke" />
+                    </Border>
+                    <TextBlock Grid.Row="3" Grid.Column="0" FontSize="18" Grid.ColumnSpan="2" Margin="36,30,64,30" Grid.RowSpan="2">Denied requests:</TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="0.5" Height="40" Grid.Column="1" Grid.Row="3" Margin="0,6,0,-8">
+                        <TextBlock Grid.Row="3" Grid.Column="1" Height="40" Background="WhiteSmoke" />
+                    </Border>
+                    <TextBlock Grid.Row="4" Grid.Column="0" FontSize="18" Grid.ColumnSpan="2" Margin="36,30,64,30" Grid.RowSpan="2">Average number of people:</TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="0.5" Height="40" Grid.Column="1" Grid.Row="4" Margin="0,6,0,-8">
+                        <TextBlock Grid.Row="4" Grid.Column="1" Height="40" Background="WhiteSmoke" />
+                    </Border>
+                    <TextBlock Grid.Row="5" Grid.Column="0" FontSize="16" Grid.ColumnSpan="2" Margin="62,0,-2,0">(in accepted requests)</TextBlock>
+                </Grid>
+
+            </StackPanel>
+
+        </TabItem>
+        <TabItem Header="Language">
+            <TabItem.Background>
+                <SolidColorBrush Color="#f3dcc4"/>
+            </TabItem.Background>
+            <StackPanel Orientation="Horizontal">
+                <Grid Width="353" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" Margin="36,23,0,0">Year:</TextBlock>
+                    <ComboBox Grid.Row="1" Grid.Column="0" Margin="36,10,27,10"></ComboBox>
+                    <TextBlock Grid.Row="2" Grid.Column="0" FontSize="18" Grid.ColumnSpan="2" Margin="36,30,64,30" Grid.RowSpan="2">Accepted requests:</TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="0.5" Height="40" Grid.Column="1" Grid.Row="2" Margin="0,6,0,-8">
+                        <TextBlock Grid.Row="2" Grid.Column="1" Height="40" Background="WhiteSmoke" />
+                    </Border>
+                    <TextBlock Grid.Row="3" Grid.Column="0" FontSize="18" Grid.ColumnSpan="2" Margin="36,30,64,30" Grid.RowSpan="2">Denied requests:</TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="0.5" Height="40" Grid.Column="1" Grid.Row="3" Margin="0,6,0,-8">
+                        <TextBlock Grid.Row="3" Grid.Column="1" Height="40" Background="WhiteSmoke" />
+                    </Border>
+                    <TextBlock Grid.Row="4" Grid.Column="0" FontSize="18" Grid.ColumnSpan="2" Margin="36,30,64,30" Grid.RowSpan="2">Average number of people:</TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="0.5" Height="40" Grid.Column="1" Grid.Row="4" Margin="0,6,0,-8">
+                        <TextBlock Grid.Row="4" Grid.Column="1" Height="40" Background="WhiteSmoke" />
+                    </Border>
+                    <TextBlock Grid.Row="5" Grid.Column="0" FontSize="16" Grid.ColumnSpan="2" Margin="62,0,-2,0">(in accepted requests)</TextBlock>
+                </Grid>
+
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+</Window>

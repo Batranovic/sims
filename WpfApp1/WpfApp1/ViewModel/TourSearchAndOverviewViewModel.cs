@@ -139,8 +139,30 @@ namespace WpfApp1.ViewModel
             DecrementCommand = new RelayCommand(Execute_Decrement, CanExecute_Command);
             ViewMoreCommand = new RelayCommand(Execute_ViewMore, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
+            RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
         }
 
+        private RelayCommand requestListCommand;
+        public RelayCommand RequestListCommand
+        {
+            get => requestListCommand;
+            set
+            {
+                if (value != requestListCommand)
+                {
+                    requestListCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private void Execute_RequestList(object sender)
+        {
+            TourRequest tourRequestList = new TourRequest();
+            tourRequestList.Show();
+            CloseAction();
+
+
+        }
         private RelayCommand searchCommand;
         public RelayCommand SearchCommand
         {

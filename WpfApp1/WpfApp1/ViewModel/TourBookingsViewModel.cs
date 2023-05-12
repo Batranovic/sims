@@ -129,6 +129,29 @@ namespace WpfApp1.ViewModel
             ReserveCommand = new RelayCommand(Execute_Reserve, CanExecute_Command);
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
+            RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
+
+
+        }
+
+        private RelayCommand requestListCommand;
+        public RelayCommand RequestListCommand
+        {
+            get => requestListCommand;
+            set
+            {
+                if (value != requestListCommand)
+                {
+                    requestListCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private void Execute_RequestList(object sender)
+        {
+            TourRequest tourRequestList = new TourRequest();
+            tourRequestList.Show();
+            CloseAction();
 
 
         }

@@ -28,7 +28,8 @@ namespace WpfApp1.Service
             { typeof(ITourEventRepository), TourEventRepository.GetInstance() },
             { typeof(ITourBookingRepository), TourBookingRepository.GetInstance() },
             { typeof(INotificationRepository), NotificationRepository.GetInstance() },
-            { typeof(IRatingTourAndGuideRepository), RatingTourAndGuideRepository.GetInstance() }
+            { typeof(IRatingTourAndGuideRepository), RatingTourAndGuideRepository.GetInstance() },
+            { typeof(ISimpleTourRequestRepository), SimpleTourRequestRepository.GetInstance() }
         };
         public static T CreateInstance<T>()
         {
