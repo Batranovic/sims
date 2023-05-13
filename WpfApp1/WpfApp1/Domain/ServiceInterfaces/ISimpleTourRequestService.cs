@@ -16,6 +16,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void Unsubscribe(IObserver observer);
 
         List<SimpleTourRequest> RequestsForTourist(int userId);
+        List<string> GetAllYears();
 
     }
 }

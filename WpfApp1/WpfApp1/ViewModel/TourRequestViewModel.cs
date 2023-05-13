@@ -29,6 +29,21 @@ namespace WpfApp1.ViewModel
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
+            StatisticsCommand = new RelayCommand(Execute_Statistics, CanExecute_Command);
+        }
+
+        private RelayCommand statisticsCommand;
+        public RelayCommand StatisticsCommand
+        {
+            get => statisticsCommand;
+            set
+            {
+                if (value != statisticsCommand)
+                {
+                    statisticsCommand = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private RelayCommand allToursCommand;
@@ -88,7 +103,11 @@ namespace WpfApp1.ViewModel
             }
         }
 
-
+        private void Execute_Statistics(object sender)
+        {
+            RequestStatistics request = new RequestStatistics();
+            request.Show();
+        }
         private void Execute_RequestTour(object sender)
         {
             RequestNewTours requestNewTour = new RequestNewTours();

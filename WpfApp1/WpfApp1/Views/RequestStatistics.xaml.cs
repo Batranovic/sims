@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Domain.Models;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
@@ -22,6 +24,25 @@ namespace WpfApp1.Views
         public RequestStatistics()
         {
             InitializeComponent();
+
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+
+            RequestStatisticsViewModel request = new RequestStatisticsViewModel();
+            DataContext = request;
+
+            if (request.CloseAction == null)
+            {
+                request.CloseAction = new Action(this.Close);
+            }
+
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+          
+
+
         }
+
+      
     }
 }

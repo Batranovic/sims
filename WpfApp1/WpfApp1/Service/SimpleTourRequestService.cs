@@ -32,6 +32,20 @@ namespace WpfApp1.Service
             }
         }
 
+        public List<string> GetAllYears()
+        {
+            List<string> years = _simpleTourRequestRepository.GetAll()
+                .Select(l => l.StartDate.Year.ToString())
+                .Distinct()
+                .OrderBy(y => y)
+                .ToList();
+
+            years.Insert(0, "All Years");
+
+            return years;
+        }
+
+    
         public List<SimpleTourRequest> RequestsForTourist(int userId)
         {
             List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
@@ -42,7 +56,7 @@ namespace WpfApp1.Service
                 var request = allRequests.ElementAt(i);
                 if (request.Tourist.Id == userId)
                 {
-                    if ((request.StartDate - DateTime.Today).TotalDays <= 2)
+                    if ((request.StartDate - DateTime.Today).TotalDays <= 2 && request.RequestStatus != RequestStatus.Accepted)
                     {
                         request.RequestStatus = (RequestStatus)Enum.Parse(typeof(RequestStatus), "Denied");
                         _simpleTourRequestRepository.Update(request);

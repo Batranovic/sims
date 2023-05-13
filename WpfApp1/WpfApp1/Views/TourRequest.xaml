@@ -125,7 +125,12 @@
                 </TabItem>
             </TabControl>
         </DockPanel>
-        <Button Content="See statistics on requests" Background="#f9cb9e" HorizontalAlignment="Center" Margin="0,561,0,0" VerticalAlignment="Top"/>
+        <Button  Command="{Binding StatisticsCommand}" Background="#f9cb9e" HorizontalAlignment="Center" Margin="0,561,0,0" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" Height="24" Width="171">
+                <Image Source="/Images/average.png" Width="20" Height="20" Margin="4,0,6,2"/>
+                <TextBlock Text="See statistics on requests "  Width="139" Height="18" />
+            </StackPanel>
+        </Button>
 
 
 

@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\average.png" />
     <None Remove="Images\book.png" />
+    <None Remove="Images\calendar.png" />
     <None Remove="Images\car.png" />
+    <None Remove="Images\check.png" />
     <None Remove="Images\checklist.png" />
+    <None Remove="Images\close.png" />
     <None Remove="Images\destination.png" />
     <None Remove="Images\dot.png" />
     <None Remove="Images\map.png" />
@@ -26,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\average.png" />
+    <Resource Include="Images\calendar.png" />
+    <Resource Include="Images\check.png" />
     <Resource Include="Images\checklist.png" />
   </ItemGroup>
 
@@ -34,8 +41,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Syncfusion.SfChart.WPF" Version="21.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\book.png" />
     <Resource Include="Images\car.png" />
+    <Resource Include="Images\close.png" />
     <Resource Include="Images\destination.png" />
     <Resource Include="Images\dot.png" />
     <Resource Include="Images\map.png" />

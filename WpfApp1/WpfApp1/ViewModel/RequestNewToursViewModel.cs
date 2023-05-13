@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -68,7 +69,7 @@ namespace WpfApp1.ViewModel
                 if(value != _selectedStartDate)
                 {
                     _selectedStartDate = value;
-                    OnPropertyChanged("SelectedStartDate");
+                    OnPropertyChanged("StartDate");
                 }
                
             }
@@ -83,7 +84,7 @@ namespace WpfApp1.ViewModel
                 if (value != _selectedEndDate)
                 {
                     _selectedEndDate = value;
-                    OnPropertyChanged("SelectedEndDate");
+                    OnPropertyChanged("EndDate");
                 }
 
             }
@@ -148,6 +149,8 @@ namespace WpfApp1.ViewModel
 
            
             MaxGuests = "";
+            StartDate = DateTime.Now;
+            EndDate = DateTime.Now;
 
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
@@ -159,6 +162,8 @@ namespace WpfApp1.ViewModel
             RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
         }
 
+
+
         private void Execute_RequestSimpleTour(object sender)
         {
             if (IsValid)
@@ -166,16 +171,25 @@ namespace WpfApp1.ViewModel
                 MessageBox.Show("Please wait for guide's answer." + Environment.NewLine +
                                 "View status in REQUEST LIST" + Environment.NewLine +
                                 "\t   (CTRL + R)", "Request sent ");
-               
+                int maxG = int.Parse(MaxGuests);
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, StartDate, EndDate, MainWindow.LogInUser);
+                _simpleTourRequestService.Create(simpleTour);
+                SelectedCity = null;
+                SelectedState = null;
+                Description = "";
+                Language = "";
+                MaxGuests = "";
+                StartDate = DateTime.Today; 
+                EndDate = DateTime.Today;
+                
+
             }
             else
             {
                 MessageBox.Show("Please fix the errors before submitting the request.", "Error");
             }
 
-            int maxG = int.Parse(MaxGuests);
-            SimpleTourRequest simpleTour = new SimpleTourRequest(-1,SelectedState,SelectedCity,Description, Language, maxG, StartDate, EndDate, MainWindow.LogInUser);
-            _simpleTourRequestService.Create(simpleTour);
+           
         }
 
 

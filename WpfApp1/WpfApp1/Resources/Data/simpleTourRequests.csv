@@ -1,7 +1,8 @@
 0,Srbija,Beograd,Panoramsko razgledanje grada.,srpski,3,6/6/2023 12:00:00 AM,6/7/2023 12:00:00 AM,2,Pending
-1,Francuska,Nica,Bla ,engleski,4,5/13/2023 12:00:00 AM,5/18/2023 12:00:00 AM,1,Denied
-2,Spanija,Valensija,Putovanje,spanski,5,9/9/2023 12:00:00 AM,9/12/2023 12:00:00 AM,1,Pending
+1,Francuska,Nica,Bla ,engleski,4,5/13/2022 12:00:00 AM,5/18/2022 12:00:00 AM,1,Accepted
+2,Spanija,Valensija,Putovanje,spanski,5,9/9/2023 12:00:00 AM,9/12/2023 12:00:00 AM,1,Denied
 3,Spanija,Barselona,Tura po Barseloni,engleski,3,6/6/2023 12:00:00 AM,6/8/2023 12:00:00 AM,1,Pending
 4,Italija,Rim,Obilazak grada,srpski,6,5/14/2023 12:00:00 AM,5/16/2023 12:00:00 AM,1,Denied
-5,Srbija,Nis,Obilzak Nisa,srpski,10,7/8/2024 12:00:00 AM,7/12/2024 12:00:00 AM,1,Pending
-6,Francuska,Nica,Obillazak Nice,engleski,5,9/9/2023 12:00:00 AM,9/14/2023 12:00:00 AM,1,Pending
+5,Srbija,Nis,Obilzak Nisa,srpski,10,7/8/2024 12:00:00 AM,7/12/2024 12:00:00 AM,1,Accepted
+6,Srbija,Beograd,BG,srpski,4,6/6/2025 12:00:00 AM,6/7/2025 12:00:00 AM,1,Accepted
+7,Italija,Rim,Koloseum i Forum,italijanski,5,6/7/2024 12:00:00 AM,6/9/2024 12:00:00 AM,1,Pending
