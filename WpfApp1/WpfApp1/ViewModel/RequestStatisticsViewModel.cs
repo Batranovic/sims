@@ -29,14 +29,22 @@ namespace WpfApp1.ViewModel
                 if (_selectedYear != value)
                 {
                     _selectedYear = value;
-                    GetDeniedRequests();
+                    UpdateStatistics();
                     OnPropertyChanged("SelectedYear");
                 }
             }
         }
+        private void UpdateStatistics()
+        {
+            RequestsByLocation = simpleTourRequestService.CountRequestsByLocation(MainWindow.LogInUser.Id);
+            RequestsByLanguage = simpleTourRequestService.CountRequestsByLanguage(MainWindow.LogInUser.Id);
+            AcceptedNumber = simpleTourRequestService.GetAcceptedRequestsCount(SelectedYear);
+            DeniedNumber = simpleTourRequestService.GetDeniedRequestsCount(SelectedYear);
+            AverageNumber = simpleTourRequestService.GetAverageMaxGuests(SelectedYear);
+        }
 
-        private int _acceptedNumber;
-        public int AcceptedNumber
+        private string _acceptedNumber;
+        public string AcceptedNumber
         {
             get => _acceptedNumber;
             set
@@ -50,8 +58,8 @@ namespace WpfApp1.ViewModel
         }
 
 
-        private int _deniedNumber;
-        public int DeniedNumber
+        private string _deniedNumber;
+        public string DeniedNumber
         {
             get => _deniedNumber;
             set
@@ -78,29 +86,8 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        
-        private void GetDeniedRequests()
-        {
-            IEnumerable<SimpleTourRequest> requests = simpleTourRequestService.GetAll();
+      
 
-            if (SelectedYear != "All Years" && int.TryParse(SelectedYear, out int year))
-            {
-                requests = requests.Where(r => r.StartDate.Year == year);
-            }
-
-            DeniedNumber = requests.Count(r => r.RequestStatus == RequestStatus.Denied);
-            AcceptedNumber = requests.Count(r => r.RequestStatus == RequestStatus.Accepted);
-
-            int acceptedCount = requests.Count(r => r.RequestStatus == RequestStatus.Accepted);
-            if (acceptedCount == 0)
-            {
-                AverageNumber = 0;
-            }
-            else
-            {
-                AverageNumber = (int)Math.Round(requests.Where(r => r.RequestStatus == RequestStatus.Accepted).Average(r => r.MaxGuests));
-            }
-        }
 
         private Dictionary<string, int> _requestsByLanguage;
         public Dictionary<string, int> RequestsByLanguage
@@ -114,31 +101,6 @@ namespace WpfApp1.ViewModel
                     OnPropertyChanged("RequestsByLanguage");
                 }
             }
-        }
-
-        private Dictionary<string, int> CountRequestsByLanguage()
-        {
-            var languagesCount = new Dictionary<string, int>();
-            var allRequests = simpleTourRequestService.GetAll();
-            foreach (var request in allRequests)
-            {
-                if (request.Tourist.Id == MainWindow.LogInUser.Id)
-                {
-                    var languages = request.Languages.Split(',');
-                    foreach (var language in languages)
-                    {
-                        if (languagesCount.ContainsKey(language))
-                        {
-                            languagesCount[language]++;
-                        }
-                        else
-                        {
-                            languagesCount[language] = 1;
-                        }
-                    }
-                }
-            }
-            return languagesCount;
         }
 
 
@@ -156,36 +118,13 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private Dictionary<string, int> CountRequestsByLocation()
-        {
-            var locationsCount = new Dictionary<string, int>();
-            var allRequests = simpleTourRequestService.GetAll();
-            foreach (var request in allRequests)
-            {
-                if (request.Tourist.Id == MainWindow.LogInUser.Id)
-                {
-                    var location = request.City;
-                    if (locationsCount.ContainsKey(location))
-                    {
-                        locationsCount[location]++;
-                    }
-                    else
-                    {
-                        locationsCount[location] = 1;
-                    }
-                }
-            }
-            return locationsCount;
-        }
-
-
 
         public RequestStatisticsViewModel() {
 
             simpleTourRequestService = InjectorService.CreateInstance<ISimpleTourRequestService>();
             Years = new ObservableCollection<string>(simpleTourRequestService.GetAllYears());
-            RequestsByLocation = CountRequestsByLocation();
-            RequestsByLanguage = CountRequestsByLanguage();
+            RequestsByLocation = simpleTourRequestService.CountRequestsByLocation(MainWindow.LogInUser.Id);
+            RequestsByLanguage = simpleTourRequestService.CountRequestsByLanguage(MainWindow.LogInUser.Id);
             CloseCommand = new RelayCommand(Execute_Close, CanExecute_Command);
         }
 

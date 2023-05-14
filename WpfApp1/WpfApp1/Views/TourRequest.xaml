@@ -65,72 +65,81 @@
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" Margin="46,112,46,48" >
             <TabControl Background="#f3dcc4" BorderBrush="Black" BorderThickness="1.5">
-                <TabItem Header="SimpleTour" BorderBrush="Black" BorderThickness="1.5"  >
+                <TabItem Header="Simple tours" BorderBrush="Black" BorderThickness="1.5">
                     <TabItem.Background>
                         <SolidColorBrush Color="#f3dcc4"/>
-                        <!-- Set the background color here -->
                     </TabItem.Background>
-                    <DataGrid 
-                       SelectionMode="Single" BorderBrush="Black" BorderThickness="1.5"
+                    <StackPanel>
+                        <DataGrid SelectionMode="Single" BorderBrush="Black" BorderThickness="1.5"
                   ItemsSource="{Binding SimpleTourRequests, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Height="338" Width="845" >
-                        <DataGrid.Resources>
-                            <Style TargetType="{x:Type DataGridColumnHeader}">
-                                <Setter Property="Background" Value="#f9cb9e"/>
-                                <Setter Property="Foreground" Value="Black"/>
-                            </Style>
-                        </DataGrid.Resources>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn  Header="State" Binding="{Binding State}" Width="120"/>
-                            <DataGridTextColumn  Header="City" Binding="{Binding City}" Width="120"/>
-                            <DataGridTextColumn  Header="Description" Binding="{Binding Description}" Width="120"/>
-                            <DataGridTextColumn  Header="Language" Binding="{Binding Languages}" Width="120"/>
-                            <DataGridTextColumn  Header="Number of people" Binding="{Binding MaxGuests}" Width="120"/>
-                            <DataGridTextColumn  Header="Date" Binding="{Binding StartDate}" Width="120"/>
-                            <DataGridTextColumn  Header="Status" Binding="{Binding RequestStatus}" Width="120"/>
-                        
-                        </DataGrid.Columns>
-                    </DataGrid>
+                  AutoGenerateColumns="False" IsReadOnly="True" Height="350" Width="853" Margin="10,40,10,10">
+                            <DataGrid.Resources>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="Background" Value="#f9cb9e"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="State" Binding="{Binding State}" Width="120"/>
+                                <DataGridTextColumn Header="City" Binding="{Binding City}" Width="120"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="120"/>
+                                <DataGridTextColumn Header="Language" Binding="{Binding Languages}" Width="120"/>
+                                <DataGridTextColumn Header="Number of people" Binding="{Binding MaxGuests}" Width="120"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding StartDate}" Width="120"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding RequestStatus}" Width="120"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button  Width="177" Margin="10" Command="{Binding StatisticsCommand}" Background="#f9cb9e" Height="31">
+                            <StackPanel Orientation="Horizontal" Height="24" Width="171">
+                                <Image Source="/Images/average.png" Width="20" Height="20" Margin="4,0,6,2"/>
+                                <TextBlock Text="See statistics on requests "  Width="139" Height="18" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                 </TabItem>
-                <TabItem Header="Complex Tour">
+
+                <TabItem Header="Complex tours">
                     <TabItem.Background>
                         <SolidColorBrush Color="#f3dcc4"/>
                     </TabItem.Background>
 
                 </TabItem>
-                <TabItem Header="Created denied tours" Height="22" Margin="-2,0,-2,0" VerticalAlignment="Bottom">
+                <TabItem Header="Created tours" Height="22" Margin="-2,0,-2,0" VerticalAlignment="Bottom">
                     <TabItem.Background>
                         <SolidColorBrush Color="#f3dcc4"/>
                     </TabItem.Background>
-                    <DataGrid 
-                       SelectionMode="Single" Background="#f3dcc4"  BorderBrush="Black" BorderThickness="1.5"
-                
-                  AutoGenerateColumns="False" IsReadOnly="True" Height="338" Width="845" >
-                        <DataGrid.Resources>
-                            <Style TargetType="{x:Type DataGridColumnHeader}">
-                                <Setter Property="Background" Value="#f9cb9e"/>
-                            </Style>
-                        </DataGrid.Resources>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn  Header="State" Binding="{Binding Location.State}" Width="120" />
-                            <DataGridTextColumn  Header="City" Binding="{Binding Location.City}" Width="120"/>
-                            <DataGridTextColumn  Header="Description" Binding="{Binding Description}" Width="120"/>
-                            <DataGridTextColumn  Header="Langugae" Binding="{Binding Langugae}" Width="120"/>
-                            <DataGridTextColumn  Header="Number of people" Binding="{Binding MaxGuests}" Width="120"/>
-                            <DataGridTextColumn  Header="Date" Binding="{Binding StartTime}" Width="120"/>
-                            <DataGridTextColumn  Header="Status" Binding="{Binding Status}" Width="120"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <StackPanel>
+                        <DataGrid SelectionMode="Single" BorderBrush="Black" BorderThickness="1.5"
+                  ItemsSource="{Binding AcceptedRequests, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Height="350" Width="853" Margin="10,40,10,10">
+                            <DataGrid.Resources>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="Background" Value="#f9cb9e"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="State" Binding="{Binding State}" Width="120"/>
+                                <DataGridTextColumn Header="City" Binding="{Binding City}" Width="120"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="120"/>
+                                <DataGridTextColumn Header="Language" Binding="{Binding Languages}" Width="120"/>
+                                <DataGridTextColumn Header="Number of people" Binding="{Binding MaxGuests}" Width="120"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding StartDate}" Width="120"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding RequestStatus}" Width="120"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button  Width="85" Margin="10" Command="{Binding RefreshToursCommand}" Background="#f9cb9e" Height="31">
+                            <StackPanel Orientation="Horizontal" Height="24" Width="171">
+                                <Image Source="/Images/refresh.png" Width="20" Height="20" Margin="4,0,6,2"/>
+                                <TextBlock Text="Refresh"  Width="139" Height="18" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
 
                 </TabItem>
             </TabControl>
         </DockPanel>
-        <Button  Command="{Binding StatisticsCommand}" Background="#f9cb9e" HorizontalAlignment="Center" Margin="0,561,0,0" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal" Height="24" Width="171">
-                <Image Source="/Images/average.png" Width="20" Height="20" Margin="4,0,6,2"/>
-                <TextBlock Text="See statistics on requests "  Width="139" Height="18" />
-            </StackPanel>
-        </Button>
+
 
 
 

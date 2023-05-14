@@ -32,7 +32,127 @@ namespace WpfApp1.Service
             }
         }
 
-        public List<string> GetAllYears()
+        public string GetDeniedRequestsCount(string SelectedYear)
+        {
+            IEnumerable<SimpleTourRequest> requests = _simpleTourRequestRepository.GetAll()
+                .Where(r => r.Tourist.Id == MainWindow.LogInUser.Id);
+
+            if (SelectedYear != "All Years" && int.TryParse(SelectedYear, out int year))
+            {
+                requests = requests.Where(r => r.StartDate.Year == year);
+            }
+
+            int totalRequests = requests.Count();
+            int deniedCount = requests.Count(r => r.RequestStatus == RequestStatus.Denied && r.Tourist.Id == MainWindow.LogInUser.Id);
+
+            if (totalRequests == 0)
+            {
+                return "0%";
+            }
+            else
+            {
+                double percentage = (double)deniedCount / totalRequests * 100;
+                return Math.Round(percentage).ToString() + "%";
+            }
+        }
+
+
+        public string GetAcceptedRequestsCount(string selectedYear)
+        {
+            IEnumerable<SimpleTourRequest> requests = _simpleTourRequestRepository.GetAll()
+                .Where(r => r.Tourist.Id == MainWindow.LogInUser.Id);
+
+            if (selectedYear != "All Years" && int.TryParse(selectedYear, out int year))
+            {
+                requests = requests.Where(r => r.StartDate.Year == year);
+            }
+
+            int totalRequests = requests.Count();
+            int acceptedCount = requests.Count(r => r.RequestStatus == RequestStatus.Accepted && r.Tourist.Id == MainWindow.LogInUser.Id);
+
+            if (totalRequests == 0)
+            {
+                return "0%";
+            }
+            else
+            {
+                return Math.Round((double)acceptedCount / totalRequests * 100).ToString() + "%";
+            }
+        }
+
+
+        public int GetAverageMaxGuests(string SelectedYear)
+        {
+            IEnumerable<SimpleTourRequest> requests = _simpleTourRequestRepository.GetAll()
+                .Where(r => r.Tourist.Id == MainWindow.LogInUser.Id);
+
+            if (SelectedYear != "All Years" && int.TryParse(SelectedYear, out int year))
+            {
+                requests = requests.Where(r => r.StartDate.Year == year);
+            }
+
+            int acceptedCount = requests.Count(r => r.RequestStatus == RequestStatus.Accepted);
+            if (acceptedCount == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                int averageMaxGuests = (int)Math.Round(requests.Where(r => r.RequestStatus == RequestStatus.Accepted).Average(r => r.MaxGuests));
+                return averageMaxGuests;
+            }
+        }
+
+
+        public Dictionary<string, int> CountRequestsByLocation(int userId)
+        {
+            var locationsCount = new Dictionary<string, int>();
+            var requests = _simpleTourRequestRepository.GetAll().Where(r => r.Tourist.Id == userId);
+            foreach (var request in requests)
+            {
+                var location = request.City;
+                if (locationsCount.ContainsKey(location))
+                {
+                    locationsCount[location]++;
+                }
+                else
+                {
+                    locationsCount[location] = 1;
+                }
+            }
+            return locationsCount;
+        }
+        public Dictionary<string, int> CountRequestsByLanguage(int userId)
+        {
+            var languagesCount = new Dictionary<string, int>();
+            var allRequests = _simpleTourRequestRepository.GetAll();
+
+            foreach (var request in allRequests)
+            {
+                if (request.Tourist.Id == userId)
+                {
+                    var languages = request.Languages.Split(',');
+
+                    foreach (var language in languages)
+                    {
+                        if (languagesCount.ContainsKey(language))
+                        {
+                            languagesCount[language]++;
+                        }
+                        else
+                        {
+                            languagesCount[language] = 1;
+                        }
+                    }
+                }
+            }
+
+            return languagesCount;
+        }
+    
+
+
+         public List<string> GetAllYears()
         {
             List<string> years = _simpleTourRequestRepository.GetAll()
                 .Select(l => l.StartDate.Year.ToString())
@@ -54,13 +174,28 @@ namespace WpfApp1.Service
             for (int i=0; i< allRequests.Count();i++)
             {
                 var request = allRequests.ElementAt(i);
-                if (request.Tourist.Id == userId)
+                if (request.Tourist.Id == userId && (request.RequestStatus == RequestStatus.Pending || request.RequestStatus == RequestStatus.Denied))
                 {
                     if ((request.StartDate - DateTime.Today).TotalDays <= 2 && request.RequestStatus != RequestStatus.Accepted)
                     {
-                        request.RequestStatus = (RequestStatus)Enum.Parse(typeof(RequestStatus), "Denied");
+                        request.RequestStatus = RequestStatus.Denied;
                         _simpleTourRequestRepository.Update(request);
                     }
+                    simple.Add(request);
+                }
+
+            }
+            return simple;
+        }
+
+        public List<SimpleTourRequest> AcceptedRequestsForTourist(int userId)
+        {
+            List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
+           
+            foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
+            {
+                if (request.Tourist.Id == userId && request.RequestStatus == RequestStatus.Accepted)
+                {
                     simple.Add(request);
                 }
             }

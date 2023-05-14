@@ -21,6 +21,7 @@
     <None Remove="Images\point.png" />
     <None Remove="Images\profile.png" />
     <None Remove="Images\rating.png" />
+    <None Remove="Images\refresh.png" />
     <None Remove="Images\review.png" />
     <None Remove="Images\ruta.png" />
     <None Remove="Images\service.png" />
@@ -54,6 +55,7 @@
     <Resource Include="Images\point.png" />
     <Resource Include="Images\profile.png" />
     <Resource Include="Images\rating.png" />
+    <Resource Include="Images\refresh.png" />
     <Resource Include="Images\review.png" />
     <Resource Include="Images\ruta.png" />
     <Resource Include="Images\service.png" />

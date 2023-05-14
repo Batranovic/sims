@@ -17,6 +17,14 @@ namespace WpfApp1.Domain.ServiceInterfaces
 
         List<SimpleTourRequest> RequestsForTourist(int userId);
         List<string> GetAllYears();
+        List<SimpleTourRequest> AcceptedRequestsForTourist(int userId);
+
+        Dictionary<string, int> CountRequestsByLanguage(int userId);
+        Dictionary<string, int> CountRequestsByLocation(int userId);
+        string GetDeniedRequestsCount(string SelectedYear);
+        string GetAcceptedRequestsCount(string SelectedYear);
+
+        int GetAverageMaxGuests(string SelectedYear);
 
     }
 }

@@ -38,5 +38,10 @@ namespace WpfApp1.Views
         {
 
         }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
