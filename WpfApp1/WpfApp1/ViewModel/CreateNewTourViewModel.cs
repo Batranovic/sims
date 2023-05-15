@@ -91,7 +91,8 @@ namespace WpfApp1.ViewModel
             Tour newTour = new Tour(-1, "", location.Id, "", -1, Language, -1, new List<string>(),new List<DateTime>(), "");
             newTour.Location = location;
             _tourService.Create(newTour);
-            MessageBox.Show("New tour has been created!");
+            MessageBox.Show("New tour for "+ newTour.Languages + " and " + newTour.Location.City +
+                " has been created!");
             _simpleTourRequestService.NewTourFromStatistics(newTour);
             CloseAction();
             

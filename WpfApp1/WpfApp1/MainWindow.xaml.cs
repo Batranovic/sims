@@ -88,7 +88,9 @@ namespace WpfApp1
                 List<NewTourNotification> newTourNotifications = _tourNotificationService.GetNotificationForUser(MainWindow.LogInUser.Id);
                 foreach(NewTourNotification notification1 in newTourNotifications)
                 {
-                    MessageBox.Show("New tour has been created");
+                    string city = notification1.Tour.Location.City;
+                    string language = notification1.Tour.Languages;
+                    MessageBox.Show("New tour has been created in " + city + " in " + language);
                 }
 
                 TourSearchAndOverview tourSearchAndOverview = new TourSearchAndOverview();
