@@ -14,13 +14,14 @@ namespace WpfApp1.Service
 {
     class SimpleTourRequestService : ISimpleTourRequestService
     {
-
+        private readonly INewTourNotificationRepository _notificationRepository;
         private readonly ISimpleTourRequestRepository _simpleTourRequestRepository;
         public ILocationRepository _locationRepository { get; set; }
 
         public SimpleTourRequestService()
         {
             _simpleTourRequestRepository = InjectorRepository.CreateInstance<ISimpleTourRequestRepository>();
+            _notificationRepository = InjectorRepository.CreateInstance<INewTourNotificationRepository>();
             _locationRepository = InjectorRepository.CreateInstance<ILocationRepository>();
             BindLocation();
         }
@@ -200,6 +201,50 @@ namespace WpfApp1.Service
                 }
             }
             return simple;
+        }
+
+        public List<SimpleTourRequest> GetAllForUser(int userId)
+        {
+            return GetAll().Where(r => r.Tourist.Id == userId).ToList();
+        }
+
+        public void AddIfRequestWasNeverFullfilled(SimpleTourRequest requestForAdding, List<SimpleTourRequest> notFullfilledRequests)
+        {
+            foreach(SimpleTourRequest simpleTourRequest in notFullfilledRequests)
+            {
+                if(simpleTourRequest.Tourist.Id == requestForAdding.Tourist.Id)
+                {
+                    return;
+                }
+            }
+
+            foreach (SimpleTourRequest request in GetAllForUser(requestForAdding.Tourist.Id))
+            {
+                if(request.RequestStatus == RequestStatus.Accepted && request.Languages == requestForAdding.Languages && request.City == requestForAdding.City)
+                {
+                    return;
+                }
+            }
+            notFullfilledRequests.Add(requestForAdding);
+        }
+
+        public void NewTourFromStatistics(Tour tour)
+        {
+            List<SimpleTourRequest> notFullfilledRequests = new List<SimpleTourRequest>();
+            foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
+            {
+                if (request.RequestStatus != RequestStatus.Accepted && (request.City == tour.Location.City || request.Languages == tour.Languages))
+                {
+                    AddIfRequestWasNeverFullfilled(request, notFullfilledRequests);
+                }
+            }
+
+
+            foreach(SimpleTourRequest simpleTourRequest in notFullfilledRequests)
+            {
+                NewTourNotification newTourNotification = new NewTourNotification() { Tour = tour, Tourist = simpleTourRequest.Tourist, IsDelivered = false};
+                _notificationRepository.Create(newTourNotification);
+            }
         }
 
 

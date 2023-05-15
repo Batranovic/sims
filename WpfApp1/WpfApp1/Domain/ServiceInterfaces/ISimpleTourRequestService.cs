@@ -18,6 +18,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         List<SimpleTourRequest> RequestsForTourist(int userId);
         List<string> GetAllYears();
         List<SimpleTourRequest> AcceptedRequestsForTourist(int userId);
+        List<SimpleTourRequest> GetAllForUser(int userId);
 
         Dictionary<string, int> CountRequestsByLanguage(int userId);
         Dictionary<string, int> CountRequestsByLocation(int userId);
@@ -25,6 +26,10 @@ namespace WpfApp1.Domain.ServiceInterfaces
         string GetAcceptedRequestsCount(string SelectedYear);
 
         int GetAverageMaxGuests(string SelectedYear);
+
+        void NewTourFromStatistics(Tour tour);
+        void AddIfRequestWasNeverFullfilled(SimpleTourRequest requestForAdding, List<SimpleTourRequest> notFullfilledRequests);
+
 
     }
 }

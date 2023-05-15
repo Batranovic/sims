@@ -19,6 +19,8 @@ namespace WpfApp1.ViewModel
         private readonly ISimpleTourRequestService _simpleTourRequestSrvice;
 
         private readonly IRequestNotifactionService _requestNotifactionSrvice;
+
+        private readonly INewTourNotificationService newTourNotificationService;
         public Action CloseAction { get; set; }
 
 
@@ -27,6 +29,7 @@ namespace WpfApp1.ViewModel
         {
             _requestNotifactionSrvice = InjectorService.CreateInstance<IRequestNotifactionService>();
             _simpleTourRequestSrvice = InjectorService.CreateInstance<ISimpleTourRequestService>();
+            newTourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
 
             SimpleTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id));
 
@@ -38,8 +41,10 @@ namespace WpfApp1.ViewModel
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
             StatisticsCommand = new RelayCommand(Execute_Statistics, CanExecute_Command);
             RefreshToursCommand = new RelayCommand(Execute_Refresh, CanExecute_Command);
+            CreateNewTourCommand = new RelayCommand(Execute_CreateNewTour, CanExecute_Command);
 
             ShowNotifications();
+            //ShowNewTourNotifications();
         }
 
         public void ShowNotifications()
@@ -50,6 +55,26 @@ namespace WpfApp1.ViewModel
                 string status = notification.RequestStatus.ToString();
                 string city = notification.SimpleTourRequest.City;
                 MessageBoxResult result = MessageBox.Show("Your request for " + city + "has been " + status);
+            }
+        }
+    
+        public void Execute_CreateNewTour(object sender)
+        {
+            CreateNewTour create = new CreateNewTour();
+            create.Show();
+        }
+
+        private RelayCommand createNew;
+        public RelayCommand CreateNewTourCommand
+        {
+            get => createNew;
+            set
+            {
+                if (value != createNew)
+                {
+                    createNew = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -174,6 +199,7 @@ namespace WpfApp1.ViewModel
         {
             TourSearchAndOverview tourSearch = new TourSearchAndOverview();
             tourSearch.Show();
+            CloseAction();
         }
         private void Execute_BookedTours(object sender)
         {

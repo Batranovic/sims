@@ -139,6 +139,7 @@
                 </TabItem>
             </TabControl>
         </DockPanel>
+        <Button Content="Create new tour" Command="{Binding CreateNewTourCommand}" HorizontalAlignment="Center" Margin="0,614,0,0" VerticalAlignment="Top"/>
 
 
 

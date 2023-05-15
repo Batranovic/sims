@@ -31,7 +31,8 @@ namespace WpfApp1.Service
             { typeof(IRatingTourAndGuideService), new RatingTourAndGuideService() },
             { typeof(INotificationService), new NotificationService() },
             { typeof(ISimpleTourRequestService), new SimpleTourRequestService() },
-            { typeof(IRequestNotifactionService), new RequestNotificationService() }
+            { typeof(IRequestNotifactionService), new RequestNotificationService() },
+            { typeof(INewTourNotificationService), new NewTourNotificationService() },
         };
         public static T CreateInstance<T>()
         {
