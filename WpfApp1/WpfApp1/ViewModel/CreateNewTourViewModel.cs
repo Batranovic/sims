@@ -22,6 +22,7 @@ namespace WpfApp1.ViewModel
 
         private readonly ILocationService _locationService;
         private readonly ITourService _tourService;
+        private readonly ISimpleTourRequestService _simpleTourRequestService;
         private string _language;
         public string Language
         {
@@ -77,6 +78,7 @@ namespace WpfApp1.ViewModel
         {
             _locationService = InjectorService.CreateInstance<ILocationService>();
             _tourService = InjectorService.CreateInstance<ITourService>();
+            _simpleTourRequestService = InjectorService.CreateInstance<ISimpleTourRequestService>();
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
 
@@ -87,8 +89,10 @@ namespace WpfApp1.ViewModel
         {
             Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
             Tour newTour = new Tour(-1, "", location.Id, "", -1, Language, -1, new List<string>(),new List<DateTime>(), "");
+            newTour.Location = location;
             _tourService.Create(newTour);
             MessageBox.Show("New tour has been created!");
+            _simpleTourRequestService.NewTourFromStatistics(newTour);
             CloseAction();
             
 
