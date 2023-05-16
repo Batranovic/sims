@@ -22,7 +22,17 @@ namespace WpfApp1.ViewModel
         private readonly IReservationPostponementService _reservationPostponementService;
         public ObservableCollection<Reservation> Reservations { get; set; }
 
-        public Reservation SelectedReservation { get; set; }
+        private Reservation _selectedReservation;
+        public Reservation SelectedReservation
+        {
+            get => _selectedReservation;
+            set
+            {
+                _selectedReservation = value;
+                OnPropertyChanged(nameof(SelectedReservation));
+                OwnerRatingCommand.RaiseCanExecuteChanged();
+            }
+        }
 
         private Window _window;
 
