@@ -12,8 +12,8 @@
                 <ListView ItemsSource="{Binding OwnerRatings}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="First name" Width="170" DisplayMemberBinding="{Binding Reservation.Accommodation.Owner.Name}" />
-                            <GridViewColumn Header="Last name" Width="170" DisplayMemberBinding="{Binding Reservation.Accommodation.Owner.Surname}" />
+                            <GridViewColumn Header="First name" Width="170" DisplayMemberBinding="{Binding Reservation.Guest.Name}" />
+                            <GridViewColumn Header="Last name" Width="170" DisplayMemberBinding="{Binding Reservation.Guest.Surname}" />
                             <GridViewColumn Header="Accommodation" Width="170" DisplayMemberBinding="{Binding Reservation.Accommodation.Name}" />
                             <GridViewColumn Header="Comment" Width="330" DisplayMemberBinding="{Binding Comment}" />
                         </GridView>
@@ -22,12 +22,12 @@
             </TabItem>
             <TabItem Header="Rating" Width="90" Height="25" Margin="-1,2,1,-2">
                 <DockPanel>
-                    <ListView DockPanel.Dock="Top" Height="250" SelectionMode="Single" SelectedItem="{Binding SelectedReservation}" ItemsSource="{Binding OwnerRatings,UpdateSourceTrigger=PropertyChanged}" >
+                    <ListView DockPanel.Dock="Top" Height="250" SelectionMode="Single" SelectedItem="{Binding SelectedReservation}" ItemsSource="{Binding ExpiredReservations,UpdateSourceTrigger=PropertyChanged}" >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="First name" Width="290" DisplayMemberBinding="{Binding Reservation.Accommodation.Owner.Name}" />
-                                <GridViewColumn Header="Last name" Width="280" DisplayMemberBinding="{Binding Reservation.Accommodation.Owner.Surname}" />
-                                <GridViewColumn Header="Accommodation" Width="270" DisplayMemberBinding="{Binding Reservation.Accommodation.Name}" />
+                                <GridViewColumn Header="First name" Width="290" DisplayMemberBinding="{Binding Guest.Name}" />
+                                <GridViewColumn Header="Last name" Width="280" DisplayMemberBinding="{Binding Guest.Surname}" />
+                                <GridViewColumn Header="Accommodation" Width="270" DisplayMemberBinding="{Binding Accommodation.Name}" />
                             </GridView>
                         </ListView.View>
                     </ListView>

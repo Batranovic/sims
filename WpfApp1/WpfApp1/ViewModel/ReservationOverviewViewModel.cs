@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp.Observer;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
@@ -11,7 +13,7 @@ using WpfApp1.Views;
 
 namespace WpfApp1.ViewModel
 {
-    public class ReservationOverviewViewModel : ViewModelBase
+    public class ReservationOverviewViewModel : ViewModelBase, IObserver
     {
         private readonly IReservationService _reservationService;
         private readonly IReservationPostponementService _reservationPostponementService;
@@ -27,9 +29,9 @@ namespace WpfApp1.ViewModel
             }
         }
         public Owner LoggedOwner { get; set; }
-        public List<Reservation> Reservations { get; set; }
+        public ObservableCollection<Reservation> Reservations { get; set; }
         
-        public List<ReservationPostponement> ReservationPostponements { get; set; }
+        public ObservableCollection<ReservationPostponement> ReservationPostponements { get; set; }
 
         private string _notification;
         public string NotificationReservation
@@ -73,8 +75,8 @@ namespace WpfApp1.ViewModel
         public void Init(Owner owner)
         {
             LoggedOwner = owner;
-            Reservations = new List<Reservation>(_reservationService.GetAll().FindAll(r => r.Accommodation.OwnerId == owner.Id));
-            ReservationPostponements = new List<ReservationPostponement>(_reservationPostponementService.GetAllByOwnerIdAhead(LoggedOwner.Id));
+            Reservations = new (_reservationService.GetAll().FindAll(r => r.Accommodation.OwnerId == owner.Id));
+            ReservationPostponements = new (_reservationPostponementService.GetAllByOwnerIdAhead(LoggedOwner.Id));
         }
 
         private void Execute_VisibilityCommand()
@@ -89,8 +91,9 @@ namespace WpfApp1.ViewModel
             SelectedPostponements.Status = Domain.Models.Enums.ReservationPostponementStatus.Approved;
             SelectedPostponements.Reservation.StartDate = SelectedPostponements.StartDate;
             SelectedPostponements.Reservation.EndDate = SelectedPostponements.EndDate;
-            _reservationService.Update(SelectedPostponements.Reservation);
             _reservationPostponementService.Update(SelectedPostponements);
+            _reservationService.Update(SelectedPostponements.Reservation);
+            Update();
             VisibiltyAnswer = false;
         }
 
@@ -115,5 +118,18 @@ namespace WpfApp1.ViewModel
             return true;
         }
 
+        public void Update()
+        {
+            ReservationPostponements.Clear();
+            foreach(ReservationPostponement r in _reservationPostponementService.GetAllByOwnerIdAhead(LoggedOwner.Id))
+            {
+                ReservationPostponements.Add(r);
+            }
+            Reservations.Clear();
+            foreach(Reservation r in _reservationService.GetAll().FindAll(r => r.Accommodation.OwnerId == LoggedOwner.Id))
+            {
+                Reservations.Add(r);
+            }
+        }
     }
 }

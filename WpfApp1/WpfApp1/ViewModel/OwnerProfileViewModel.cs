@@ -28,6 +28,7 @@ namespace WpfApp1.ViewModel
         public RelayCommand LogOutCommand { get; set; }
         public RelayCommand ConfirmCommand { get; set; }
         public List<OwnerRating> OwnerRatings { get; set; }
+        public ObservableCollection<Reservation> ExpiredReservations { get; set; }
         public ObservableCollection<int> Grades { get; set; }
         public int Cleanness { get; set; }
         public int Damage { get; set; }
@@ -57,7 +58,6 @@ namespace WpfApp1.ViewModel
                 ConfirmCommand.RaiseCanExecuteChanged();
             }
         }
-        public List<Reservation> Reservations { get; set; }
         public OwnerProfileViewModel(Owner owner)
         {
             _reservationService = InjectorService.CreateInstance<IReservationService>();
@@ -65,21 +65,21 @@ namespace WpfApp1.ViewModel
             _guestRatingService = InjectorService.CreateInstance<IGuestRatingService>();
             InitCommand();
             Init(owner);
-            FindNotification();
+        //    FindNotification();
         }
 
         private void Init(Owner owner)
         {
             _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
             LoggedOwner = owner;
-            OwnerRatings = new List<OwnerRating>(_ownerRatingService.GetAll());
+            OwnerRatings = new List<OwnerRating>(_ownerRatingService.GetAllOwnerRewies(owner.Id));  
             Grades = new ObservableCollection<int>();
             Grades.Add(1);
             Grades.Add(2);
             Grades.Add(3);
             Grades.Add(4);
             Grades.Add(5);
-            Reservations = new List<Reservation>(_reservationService.GetUnratedById(LoggedOwner.Id));
+            ExpiredReservations = new(_reservationService.GetUnratedById(LoggedOwner.Id));
             Cleanness = Damage = Timeliness = FollowingRules = Noise = 1;
             SelectedReservation = new();
         }
