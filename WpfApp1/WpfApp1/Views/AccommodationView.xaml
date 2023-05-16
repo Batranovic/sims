@@ -5,75 +5,131 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="AccommodationView" Height="720" Width="1280">
-    <DockPanel>
-        <TextBlock Background="PaleTurquoise" DockPanel.Dock="Left">
-            <Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="155"/>
-                        <ColumnDefinition Width="230"/>
-                    </Grid.ColumnDefinitions>
+        Title="AccommodationView" Name="AccommodationViewName"  Height="768" Width="1024">
+    <Grid Background="Firebrick">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="655"/>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Booking"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="White"
+                   FontSize="25"/>
+            
+        </WrapPanel>
+        <TabControl Grid.Row="1" Margin="0,0,-824,0">
+            <TabItem Header="Overview" FontSize=" 12">
+                <Grid Height="625" Margin="0,0,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="450"></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="550">
+                        </RowDefinition>
                     </Grid.RowDefinitions>
-                    
-                    <Grid Grid.Row="0" Grid.Column="0" Margin="25,25,25,25" Grid.ColumnSpan="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        
-                        <Label Grid.Row="0" Grid.Column="0" Height="30">Name</Label>
-                        <Label Grid.Row="1" Grid.Column="0" Height="30">State</Label>
-                        <Label Grid.Row="2" Grid.Column="0" Height="30">City</Label>
-                        <Label Grid.Row="3" Grid.Column="0" Height="30">Type</Label>
-                        <Label Grid.Row="4" Grid.Column="0" Height="30">Guest number</Label>
-                        <Label Grid.Row="5" Grid.Column="0" Height="30">Reservation days</Label>
-                        
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=NameE, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
-                        <ComboBox x:Name="cbChoseState" SelectionChanged="ChosenState" Grid.Row="1" Grid.Column="1" Height="30" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
-                        <ComboBox x:Name="cbChoseCity" Grid.Row="2" Grid.Column="1" Height="30"  SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" ></ComboBox>
-                        <ComboBox x:Name="cbChoseType" Grid.Row="3" Grid.Column="1" Height="30" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
-                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" Height="30"></TextBox>
-                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=ReservationDays,UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" Height="30"></TextBox>
-                    </Grid>
-                    <WrapPanel Grid.Row="1" FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="60,0,0,0">
-                        <Button Content="Show images" Click="ShowImage" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10"/>
+                    <WrapPanel Grid.Row="0">
+                        <Separator Width="17" Visibility="Hidden" ></Separator>
+                        <TextBox Text="{Binding Path=NameE, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="130"></TextBox>
+                        <Separator Width="17" Visibility="Hidden" ></Separator>
+                        <ComboBox  Height="30" ItemsSource="{Binding States}" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}" Width="130"></ComboBox>
+                        <Separator Width="15" Visibility="Hidden" ></Separator>
+                        <ComboBox  Height="30" ItemsSource="{Binding Cities}" SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" Width="130"></ComboBox>
+                        <Separator Width="15" Visibility="Hidden" ></Separator>
+                        <ComboBox  Height="30" ItemsSource="{Binding AccommodationKind}"  SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}" Width="130"></ComboBox>
+                        <Separator Width="15" Visibility="Hidden" ></Separator>
+                        <TextBox Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" Height="30" Width="130"></TextBox>
+                        <Separator Width="15" Visibility="Hidden" ></Separator>
+                        <TextBox Text="{Binding Path=ReservationDays,UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" Height="30" Width="130"></TextBox>
+                        <Separator Width="15" Visibility="Hidden" ></Separator>
+                        <Button Content="Search"  Width="106" Height="28" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,10,10,10" Command="{Binding SearchCommand}"  />
                     </WrapPanel>
-                    <WrapPanel Grid.Row="1" FlowDirection="RightToLeft" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Margin="20,0,0,0">
-                        <Button Content="Search" Click="Search" Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,10,10,10" />
-                        <Button Content="Reserve" Click="Reserve"  Width="106" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin=" 10,10,10,10"/>
+                    <WrapPanel Grid.Row="1">
+                        <DatePicker  Height="22" SelectedDate="{Binding StartedDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="320,0,0,0"></DatePicker>
+                        <DatePicker  Height="22" SelectedDate="{Binding EndedDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="150,0,0,0"></DatePicker>
                     </WrapPanel>
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Width="984" Height="495" >
+                        <ItemsControl ItemsSource="{Binding Path=Accommodations}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="1" Margin="0" Height="240">
+                                        <DockPanel>
+                                            <DockPanel DockPanel.Dock="Left">
+                                                <Border Margin="20,20,20,20" BorderBrush="Black" BorderThickness="1">
+                                                    <Image Width="160" Source="{Binding MainImage.Path}" Stretch="UniformToFill" Height="90"/>
+                                                </Border>
+                                            </DockPanel>
+                                            <DockPanel DockPanel.Dock="Right">
+                                                <DockPanel DockPanel.Dock="Top">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="30"/>
+                                                            <RowDefinition Height="60"/>
+                                                            <RowDefinition Height="60"/>
+                                                            <RowDefinition Height="60"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="170"/>
+                                                            <ColumnDefinition Width="230"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Name}" FontSize="25" FontWeight="SemiBold"/>
+                                                        <WrapPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                            <Label  FontSize="18" FontWeight="Regular" >State:</Label>
+                                                            <TextBlock Text="{Binding Location.State}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium"></TextBlock>
+                                                        </WrapPanel>
+                                                        <WrapPanel Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                            <Label FontSize="18" FontWeight="Regular">City:</Label>
+                                                            <TextBlock Text="{Binding Location.City}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium"/>
+                                                        </WrapPanel>
+                                                        <WrapPanel Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                            <Label FontSize="18" FontWeight="Regular">Type:</Label>
+                                                            <TextBlock Text="{Binding AccommodationKind}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium"   ></TextBlock>
+                                                        </WrapPanel>
+                                                        <WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                            <Label  FontSize="18" FontWeight="Regular">Max Guests:</Label>
+                                                            <TextBlock Text="{Binding MaxGuests}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium"   ></TextBlock>
+                                                        </WrapPanel>
+                                                        <WrapPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                            <Label FontSize="18" FontWeight="Regular">Min days of reservation:</Label>
+                                                            <TextBlock Text="{Binding MinResevation}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium"   ></TextBlock>
+                                                        </WrapPanel>
+                                                        <WrapPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                            <Label FontSize="18" FontWeight="Regular">Cancel in advance:</Label>
+                                                            <TextBlock Text="{Binding CancelDay}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium"   ></TextBlock>
+                                                        </WrapPanel>
+                                                        <WrapPanel Grid.Row="3" Grid.Column="4" Margin="280,0,0,0">
+                                                            <Button Content="Reserve" Background="DarkGoldenrod" Command="{Binding DataContext.ReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"></Button>
+                                                        </WrapPanel>
+                                                        <WrapPanel Grid.Row="2" Grid.Column="4" Margin="280,0,0,0">
+                                                            <Button Content="Images" Background="DarkSalmon" Command="{Binding DataContext.ShowImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"></Button>
+                                                        </WrapPanel>
+                                                    </Grid>
+                                                </DockPanel>
+                                            </DockPanel>
+                                        </DockPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
                 </Grid>
-            </Grid>
-        </TextBlock>
-        <TextBlock Background="LightSalmon" DockPanel.Dock="Right">
-            <DockPanel>
-                <DataGrid DockPanel.Dock="Right" Width="850" Height="650"
-                          AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
-                          Margin="25,25,20,25" IsReadOnly="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="120"></DataGridTextColumn>
-                        <DataGridTextColumn Header="State" Binding="{Binding Location.State}" Width="120"></DataGridTextColumn>
-                        <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="120"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Type" Binding="{Binding AccommodationKind}" Width="120"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="120"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Min days" Binding="{Binding MinResevation}" Width="120"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Cancel due date" Binding="{Binding CancelDay}" Width="*"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </DockPanel>
-        </TextBlock>
-    </DockPanel>
+            </TabItem>
+            <TabItem Header="Leave a review" FontSize=" 12">
+                <!-- Content for Tab 2 -->
+            </TabItem>
+            <TabItem Header="Owner reviews" FontSize=" 12">
+                <!-- Content for Tab 3 -->
+            </TabItem>
+            <TabItem Header="My reservations" FontSize=" 12">
+
+            </TabItem>
+            <TabItem Header="Forum" FontSize=" 12">
+
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Window>

@@ -20,6 +20,38 @@ namespace WpfApp1.Service
             _guestRepository = InjectorRepository.CreateInstance<IGuestRepository>();
         }
 
+        //public void SetKind()
+        //{
+        //    foreach(Guest g in GetAll())
+        //    {
+        //        if(g.Reservations.Count >= 10)
+        //        {
+        //            g.Super = true;
+        //            g.BonusPoints = 5;
+        //            g.SuperGuestExpirationDate = DateTime.Now.AddYears(1);
+        //        }
+        //        else
+        //        {
+        //            g.Super = false;
+        //            g.BonusPoints = 0;
+        //            g.SuperGuestExpirationDate = DateTime.MinValue;
+        //        }
+        //    }
+        //}
+
+        public bool CanUseBonusPoints(Guest guest)
+        {
+            return guest.Super && guest.BonusPoints > 0 && DateTime.Now.Date <= guest.SuperGuestExpirationDate.Date;
+        }
+
+        public void ResetBonusPoints(Guest guest)
+        {
+            if (DateTime.Now > guest.SuperGuestExpirationDate || !guest.Super)
+            {
+                guest.BonusPoints = 0;
+            }
+        }
+
         public Guest Get(int id)
         {
             return _guestRepository.Get(id);

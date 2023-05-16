@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Service;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
@@ -22,44 +23,10 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class GuestAccount : Window
     {
-        public Guest LogInGuest { get; set; }
-
-        private readonly IReservationService _reservationService;
         public GuestAccount(User user)
         {
             InitializeComponent();
-            this.DataContext = this;
-
-            _reservationService = InjectorService.CreateInstance<IReservationService>();
-
-            LogInGuest = (Guest)user;
-        }
-
-        private void AccommodationView(object sender, RoutedEventArgs e)
-        {
-            AccommodationView accommodationView = new AccommodationView(LogInGuest);
-            accommodationView.Show();
-        }
-
-        private void ReservationView(object sender, RoutedEventArgs e)
-        {
-            ReservationView reservationView = new ReservationView(LogInGuest);
-            reservationView.Show();
-        }
-
-        private void PostponementsOverview(object sender, RoutedEventArgs e)
-        {
-            GuestPostponementsOverview guestPostponementsOverview = new GuestPostponementsOverview(LogInGuest);
-            guestPostponementsOverview.Show();
-        }
-
-        private void LogOut(object sender, RoutedEventArgs e)
-        {
-            User user = MainWindow.LogInUser;
-            user.Id = -1;
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            this.Close();
+            this.DataContext = new GuestAccountViewModel(user);
         }
     }
 }

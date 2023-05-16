@@ -21,6 +21,8 @@ namespace WpfApp1.Domain.Models
         private int _cancelDay = 1;
         private int _ownerId;
         private Owner _owner;
+        
+        public Image MainImage { get; set; }
         public List<Image> Images { get; set; }
         public Image MainImage { get; set; }
         public bool IsRenovated { get; set; }

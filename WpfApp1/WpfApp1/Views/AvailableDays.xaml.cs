@@ -15,6 +15,7 @@ using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 using WpfApp1.Service;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
@@ -23,35 +24,10 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class AvailableDays : Window
     {
-
-        public Dictionary<DateTime, DateTime> Range { get; set; }
-
-        public readonly IReservationService _reservationService;
-
-        public KeyValuePair<DateTime,DateTime> SelectedRange { get; set; }
-
-        public Guest Guest { get; set; }
-
-        public Accommodation Accommodation { get; set; }
         public AvailableDays(Dictionary<DateTime, DateTime> range, Accommodation accommodation, Guest guest)
         {
             InitializeComponent();
-            this.DataContext = this;
-
-            _reservationService = InjectorService.CreateInstance<IReservationService>();
-
-            Range = range;
-            Accommodation = accommodation;
-            Guest = guest;
+            this.DataContext = new AvailableDaysViewModel(range, accommodation, guest); 
         }
-
-        private void Confirm(object sender, RoutedEventArgs e)
-        {
-            Reservation reservation = new Reservation(Guest, Accommodation, SelectedRange.Value, SelectedRange.Key, Domain.Models.Enums.GuestRatingStatus.Reserved, Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Disabled);
-            _reservationService.Create(reservation);
-            this.Close();
-        }
-
-
     }
 }

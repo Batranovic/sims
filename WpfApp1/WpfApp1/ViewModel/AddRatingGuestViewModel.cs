@@ -22,6 +22,7 @@ namespace WpfApp1.ViewModel
         public int SelectedNoise { get; set; }
         public int SelectedDamage { get; set; }
         public int SelectedTimeliness { get; set; }
+
         public Reservation SelectedResevation { get; set; }
         private readonly IGuestRatingService _guestRatingService;
         private readonly IReservationService _reservationService;
@@ -59,6 +60,7 @@ namespace WpfApp1.ViewModel
             SelectedNoise = 0;
             SelectedTimeliness = 0;
             SelectedFollowingRules = 0;
+
         }
 
         private string _comment;

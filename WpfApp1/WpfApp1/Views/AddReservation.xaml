@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="AddReservation" Height="480" Width="700">
+        Title="Creating Reservation" Name ="AddReservationName"  Height="480" Width="700">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -29,22 +29,22 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Height="30">Reservation days</Label>
-                <Label Grid.Row="1" Grid.Column="0" Height="30">Start date</Label>
-                <Label Grid.Row="2" Grid.Column="0" Height="30">End date</Label>
-                <Label Grid.Row="4" Grid.Column="0" Height="30">Number of guests</Label>
+                <Label Grid.Row="0" Grid.Column="0" Height="30">Number of guests</Label>
+                <Label Grid.Row="1" Grid.Column="0" Height="30">Reservation days</Label>
+                <Label Grid.Row="2" Grid.Column="0" Height="30">Start date</Label>
+                <Label Grid.Row="3" Grid.Column="0" Height="30">End date</Label>
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=ReservationDays}"  Height="30"></TextBox>
-                <DatePicker x:Name="StartDatePicker" Grid.Row="1"  Grid.Column="1"  Height="30" SelectedDate="{Binding StartlDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
-                <DatePicker x:Name="EndDatePicker" Grid.Row="2" Grid.Column="1"  Height="30" SelectedDate="{Binding EndDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=GuestsNumber}"  Height="30"></TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=ReservationDays}"  Height="30"></TextBox>
+                <DatePicker x:Name="StartDatePicker" Grid.Row="2"  Grid.Column="1"  Height="30" SelectedDate="{Binding StartlDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
+                <DatePicker x:Name="EndDatePicker" Grid.Row="3" Grid.Column="1"  Height="30" SelectedDate="{Binding EndDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
                 <WrapPanel Grid.Row="3"  FlowDirection="LeftToRight" HorizontalAlignment="Left"  Grid.Column="1"  Width="370"></WrapPanel>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=GuestsNumber}"  Height="30"></TextBox>
 
             </Grid>
-            <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
-                <Button Content=" Confirm " IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Click="Confirm"
+            <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="-40,0,0,0" >
+                <Button Content=" Find reservation " IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Command="{Binding ConfirmCommand}"
               />
-                <Button Content="Cancel " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Click="Cancel"
+                <Button Content="Cancel " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Command="{Binding CancelCommand}"
                />
             </WrapPanel>
         </Grid>

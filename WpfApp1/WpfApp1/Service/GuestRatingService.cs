@@ -67,6 +67,11 @@ namespace WpfApp1.Service
             _guestRatingRepository.Unsubscribe(observer);
         }
 
+        public List<GuestRating> GetAllGuestReviews(int idGuest)
+        {
+            return GetAll().FindAll(r => r.Reservation.IdGuest == idGuest && r.Reservation.Status == Domain.Models.Enums.GuestRatingStatus.Rated);
+        }
+
      
     }
 }

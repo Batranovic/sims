@@ -5,17 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.Models;
-using WpfApp1.Service;
 
 namespace WpfApp1.Domain.ServiceInterfaces
 {
-    public interface IGuestRatingService : IService<GuestRating>
+    public interface IAccommodationRenovationSuggestionService : IService<AccommodationRenovationSuggestion>
     {
-        void Create(GuestRating entity);
-        void Delete(GuestRating entity);
+        void Create(AccommodationRenovationSuggestion entity);
+        void Delete(AccommodationRenovationSuggestion entity);
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
 
-        List<GuestRating> GetAllGuestReviews(int idGuest);
     }
 }
