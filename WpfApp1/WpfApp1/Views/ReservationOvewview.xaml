@@ -10,7 +10,7 @@
     <Grid>
         <TabControl TabStripPlacement="Left" >
             <TabItem Header="Ovewview" Width="90" Height="25">
-                <ListView ItemsSource="{Binding Reservations}" >
+                <ListView ItemsSource="{Binding Reservations,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Accommodation" Width="170" DisplayMemberBinding="{Binding Accommodation.Name}" />
@@ -23,7 +23,7 @@
                 </ListView>
             </TabItem>
             <TabItem Header="Request" Width="90" Height="25">
-                <ListView ItemsSource="{Binding ReservationPostponements}" SelectedItem="{Binding SelectedPostponements}">
+                <ListView ItemsSource="{Binding ReservationPostponements,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedPostponements}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding AnswerPostCommand}" />
