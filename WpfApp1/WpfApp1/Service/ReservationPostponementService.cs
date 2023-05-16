@@ -95,5 +95,10 @@ namespace WpfApp1.Service
             return _reservationPostponementRepository.GetByReservation(idReservation);
         }
 
+        public List<ReservationPostponement> GetByAccommodation(int idAccommodation)
+        {
+            return GetAll().FindAll(r => r.Reservation.IdAccommodation == idAccommodation);
+        }
+
     }
 }

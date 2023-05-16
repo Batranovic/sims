@@ -17,7 +17,7 @@ using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 using WpfApp1.Service;
-using WpfApp1.View;
+using WpfApp1.Views;
 
 namespace WpfApp1
 {
@@ -29,7 +29,7 @@ namespace WpfApp1
         private readonly IOwnerService _ownerService;
         private readonly IGuestService _guestService;
         private readonly ITouristService _touristService;
-
+        private readonly INewTourNotificationService  _tourNotificationService;
         public static User LogInUser { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -40,12 +40,15 @@ namespace WpfApp1
         {
             InitializeComponent();
             this.DataContext = this;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             _ownerService = InjectorService.CreateInstance<IOwnerService>();
             _guestService = InjectorService.CreateInstance<IGuestService>();
             _touristService = InjectorService.CreateInstance<ITouristService>();
             _notificationService = InjectorService.CreateInstance<INotificationService>();
-            
+            _tourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
+
+
 
         }
         private void TourSearchAndOverview(object sender, RoutedEventArgs e)
@@ -67,7 +70,7 @@ namespace WpfApp1
             LogInUser = _ownerService.GetByUsernameAndPassword(Username, Password);   
             if(LogInUser != null)
             {
-                OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
+                OwnerAccount ownerAccount = new OwnerAccount();
                 ownerAccount.Show();
                 Close();
                 return;
@@ -81,6 +84,15 @@ namespace WpfApp1
                     string tourName = notification.TourBooking.TourEvent.Tour.Name;
                     MessageBoxResult result = MessageBox.Show(this, "You have been added to " + tourName);
                 }
+
+                List<NewTourNotification> newTourNotifications = _tourNotificationService.GetNotificationForUser(MainWindow.LogInUser.Id);
+                foreach(NewTourNotification notification1 in newTourNotifications)
+                {
+                    string city = notification1.Tour.Location.City;
+                    string language = notification1.Tour.Languages;
+                    MessageBox.Show("New tour has been created in " + city + " in " + language);
+                }
+
                 TourSearchAndOverview tourSearchAndOverview = new TourSearchAndOverview();
                 tourSearchAndOverview.Show();
                 Close();

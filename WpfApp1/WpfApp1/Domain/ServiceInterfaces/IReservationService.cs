@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp.Observer;
 using WpfApp1.Domain.Models;
+using WpfApp1.DTO;
 
 namespace WpfApp1.Domain.ServiceInterfaces
 {
     public interface IReservationService : IService<Reservation>
     {
+        Reservation GetWithDeleted(int id);
+        List<Reservation> GetAllWithDeleted();
         void Create(Reservation entity);
         void Delete(Reservation entity);
         void Subscribe(IObserver observer);
@@ -21,6 +24,6 @@ namespace WpfApp1.Domain.ServiceInterfaces
         bool IsDateFree(int idAccommodation, DateTime date);
         Dictionary<DateTime, DateTime> GetAvailableDates(int idAccommodation, DateTime endDate, int duration);
         List<Reservation> GetGuestReservations(int id);
-        
+
     }
 }
