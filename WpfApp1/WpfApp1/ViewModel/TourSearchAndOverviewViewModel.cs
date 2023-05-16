@@ -356,8 +356,6 @@ namespace WpfApp1.ViewModel
         private void Execute_LogOut(object sender)
         {
             MessageBox.Show("You are logging out!");
-            User user = MainWindow.LogInUser;
-            user.Id = -1;
             MainWindow mw = new MainWindow();
             mw.Show();
             CloseAction();
