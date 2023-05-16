@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="WpfApp1.Views.SignInAccommodation"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1.Views"
@@ -8,21 +9,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="950">
 
-    <TabControl TabStripPlacement="Left">
+    <TabControl TabStripPlacement="Left" SelectedIndex="{Binding TabPosition}">
         <TabItem Header="Overview" Width="90" Height="25">
-            <ListView ItemsSource="{Binding Accommodations}">
+            <ListView ItemsSource="{Binding Accommodations}" SelectedItem="{Binding SelectedAccommodation}" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding ShowStatisticCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Name" Width="170" DisplayMemberBinding="{Binding Name}" />
-                        <GridViewColumn Header="City" Width="170" DisplayMemberBinding="{Binding Location.City}" />
-                        <GridViewColumn Header="Type" Width="170" DisplayMemberBinding="{Binding AccommodationKind}" />
-                        <GridViewColumn Header="Max number of guests" Width="170" DisplayMemberBinding="{Binding MaxGuests}" />
-                        <GridViewColumn Header="Min reservation" Width="160" DisplayMemberBinding="{Binding MinResevation}" />
+                        <GridViewColumn Header="Photo" Width="140">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Height="100" Width="140" Source="{Binding MainImage.Path}"></Image>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Name" Width="115" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="City" Width="115" DisplayMemberBinding="{Binding Location.City}" />
+                        <GridViewColumn Header="Type" Width="130" DisplayMemberBinding="{Binding AccommodationKind}" />
+                        <GridViewColumn Header="Max number of guests" Width="130" DisplayMemberBinding="{Binding MaxGuests}" />
+                        <GridViewColumn Header="Min reservation" Width="100" DisplayMemberBinding="{Binding MinResevation}" />
+                        <GridViewColumn Header="Renovated" Width="95" DisplayMemberBinding="{Binding IsRenovated}" />
                     </GridView>
                 </ListView.View>
             </ListView>
         </TabItem>
-        <TabItem Header="Statistics" Width="90" Height="25">
+        <TabItem Header="Statistics" Width="90" Height="25" Margin="-1,0,1,0" VerticalAlignment="Bottom">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
@@ -30,14 +44,14 @@
                 </Grid.RowDefinitions>
 
                 <WrapPanel Grid.Row="0" >
-                    <ListView  Height="198">
+                    <ListView  Height="198" SelectedItem="{Binding SelectedAccommodationStatisticDTO, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccommodationStatisticDTOs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Year" Width="100" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Header="Reservation" Width="100" DisplayMemberBinding="{Binding Location.City}" />
-                                <GridViewColumn Header="Cancelation" Width="100" DisplayMemberBinding="{Binding AccommodationKind}" />
-                                <GridViewColumn Header="Resheduling" Width="100" DisplayMemberBinding="{Binding MaxGuests}" />
-                                <GridViewColumn Header="Renovation advice" Width="100" DisplayMemberBinding="{Binding MinResevation}" />
+                                <GridViewColumn Header="Year" Width="100" DisplayMemberBinding="{Binding Year}" />
+                                <GridViewColumn Header="Reservation" Width="100" DisplayMemberBinding="{Binding Reservations}" />
+                                <GridViewColumn Header="Cancelation" Width="100" DisplayMemberBinding="{Binding Cancelations}" />
+                                <GridViewColumn Header="Resheduling" Width="100" DisplayMemberBinding="{Binding Rescheduling}" />
+                                <GridViewColumn Header="Renovation advice" Width="100" DisplayMemberBinding="{Binding Renovations}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -46,21 +60,23 @@
 
                     <WrapPanel Orientation="Vertical" >
                         <Label FontSize="22">Best year</Label>
-                        <Label FontSize="22">2021</Label>
-                        <Button>Detail</Button>
+                        <Label FontSize="22" Content="{Binding BestYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
+                        <Button Width="80" Height="30" Command="{Binding ShowMonthStatistics}">Detail</Button>
+                        <Separator Height ="10" Visibility="Hidden"></Separator>
+                        <Button Width="80" Height="30"  >Schudeling renovation</Button>
                     </WrapPanel>
 
                 </WrapPanel>
 
                 <WrapPanel Grid.Row="1" >
-                    <ListView  Height="199">
+                    <ListView  Height="199" ItemsSource="{Binding AccommodationStatisticMonthDTOs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Month" Width="100" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Header="Reservation" Width="100" DisplayMemberBinding="{Binding Location.City}" />
-                                <GridViewColumn Header="Cancelation" Width="100" DisplayMemberBinding="{Binding AccommodationKind}" />
-                                <GridViewColumn Header="Resheduling" Width="100" DisplayMemberBinding="{Binding MaxGuests}" />
-                                <GridViewColumn Header="Renovation advice" Width="100" DisplayMemberBinding="{Binding MinResevation}" />
+                                <GridViewColumn Header="Month" Width="100" DisplayMemberBinding="{Binding Month}" />
+                                <GridViewColumn Header="Reservation" Width="100" DisplayMemberBinding="{Binding Reservations}" />
+                                <GridViewColumn Header="Cancelation" Width="100" DisplayMemberBinding="{Binding Cancelations}" />
+                                <GridViewColumn Header="Resheduling" Width="100" DisplayMemberBinding="{Binding Rescheduling}" />
+                                <GridViewColumn Header="Renovation advice" Width="100" DisplayMemberBinding="{Binding Renovations}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -68,11 +84,11 @@
                     <Separator Visibility="Hidden" Width="150"></Separator>
 
                     <WrapPanel Orientation="Vertical" >
-                        <Label FontSize="18">Best year</Label>
-                        <Label FontSize="18">2021</Label>
+                        <Label FontSize="18">Selected year</Label>
+                        <Label FontSize="18" Content="{Binding SelectedAccommodationStatisticDTO.Year, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                         <Separator Height="20" Visibility="Hidden"></Separator>
                         <Label FontSize="18">Best month</Label>
-                        <Label FontSize="18">Januar</Label>
+                        <Label FontSize="18" Content="{Binding BestMonth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ></Label>
                     </WrapPanel>
 
                 </WrapPanel>

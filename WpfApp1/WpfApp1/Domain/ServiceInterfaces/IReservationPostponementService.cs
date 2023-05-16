@@ -22,5 +22,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
 
         public List<ReservationPostponement> GetByReservation(int idReservation);
 
+        public List<ReservationPostponement> GetByAccommodation(int idAccommodation);
+
     }
 }

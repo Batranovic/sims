@@ -21,9 +21,12 @@ namespace WpfApp1.ViewModel
     public class OwnerAccountViewModel : ViewModelBase
     {
         private ViewModelBase _currentViewModel;
+        private readonly IReservationService _reservationService;
         private OwnerProfileViewModel _ownerProfileViewModel;
         private SignInAccommodationViewModel _signInAccommodationViewModel;
         private ReservationOverviewViewModel _reservationOverviewViewModel;
+        private RenovationOverviewViewModel _renovationOverviewViewModel;
+
         private Window _window;
         //    private AccommodationRenovationViewModel _accommodationRenovationViewModel;
         //    private RenovationHistoryViewModel _renovationHistoryViewModel;
@@ -75,6 +78,9 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
+
+       
+
         public RelayCommand NavCommand { get; set; }
         public RelayCommand ShowCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
@@ -85,11 +91,25 @@ namespace WpfApp1.ViewModel
             _ownerProfileViewModel = new OwnerProfileViewModel(owner);
             _signInAccommodationViewModel = new SignInAccommodationViewModel(owner);
             CurrentViewModel = new OwnerProfileViewModel(owner);
+            _renovationOverviewViewModel = new(owner);
+            _reservationService = InjectorService.CreateInstance<IReservationService>();
 
             Init(owner);
             IntiCommand();
         }
 
+        private void FindNotification()
+        {
+            int numberNotification = _reservationService.GetUnratedById(LoggedOwner.Id).Count;
+            if (numberNotification == 0)
+            {
+              //  btnRatingGuest.IsEnabled = false;
+                return;
+            }
+            string result = "Oslobodilo Vam se " + numberNotification.ToString() + " apartaman, ocenite goste";
+            MessageBox.Show(result, "Obavestenje");
+          //  btnRatingGuest.IsEnabled = true;
+        }
         private void IntiCommand()
         {
             NavCommand = new RelayCommand(Execute_NavCommand, CanExecute_NavCommand);
@@ -108,7 +128,6 @@ namespace WpfApp1.ViewModel
 
         public void Execute_WizardCommand()
         {
-            NameSurname = LoggedOwner.Name + " " + LoggedOwner.Surname;
             VisibilityWizard = !VisibilityWizard;
         }
         public bool CanExecute_NavCommand(object parameter)
@@ -118,7 +137,7 @@ namespace WpfApp1.ViewModel
                 return false;
             }
 
-            return index >= 0 && index <= 2;
+            return index >= 0 && index <= 3;
         }
 
         public void Execute_LogoutCommand()
@@ -143,11 +162,15 @@ namespace WpfApp1.ViewModel
                 case 2:
                     CurrentViewModel = _reservationOverviewViewModel;
                     break;
+                case 3:
+                    CurrentViewModel = _renovationOverviewViewModel;
+                    break;
             }
         }
 
         public void Execute_ShowCommand()
         {
+            NameSurname = LoggedOwner.Name + " " + LoggedOwner.Surname;
             VisibilityPopUp = !VisibilityPopUp;
         }
 

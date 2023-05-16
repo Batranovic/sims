@@ -8,7 +8,7 @@
         xmlns:view="clr-namespace:WpfApp1.Views"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="OwnerAccount" Height="650" Width="967"
+        Title="OwnerAccount" Height="650" Width="967" ResizeMode="NoResize"
         Name="OwnerStart">
 
     <Window.Resources>
@@ -21,6 +21,9 @@
         <DataTemplate DataType="{x:Type viewModel:ReservationOverviewViewModel}">
             <view:ReservationOvewview/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:RenovationOverviewViewModel}">
+            <view:RenovationOverview/>
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -31,68 +34,113 @@
 
                     </WrapPanel>
 
-                   
-
                     <WrapPanel  Height="80" Width="600">
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="1" >Acommodations</Button>
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="2">Reservations</Button>
-                        <Button  Height="50" Width="95" Margin="14">Renovations</Button>
+                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="3">Renovations</Button>
                         <Button  Height="50" Width="95" Margin="14">Forum</Button>
 
                     </WrapPanel>
 
                     <WrapPanel  Height="80" Width="250" >
-                        <Button  Width="53" Height="50" Margin="8, 15, 0, 15">
-                            <StackPanel>
-                                <Image Source="Image/Owner/pdf.png"></Image>
-                            </StackPanel>
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Grid>
-                                        <Ellipse/>
-                                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                        <Button  Width="50" Height="50" Margin="8, 15, 0, 15" Command="{Binding WizardCommand}">
-                            
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Grid>
-                                        <Ellipse Fill="Red"/>
-                                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-
-                        <Button  Width="53" Height="50" Margin="8, 15, 0, 15">
-                            <StackPanel>
-                                <Image Source="Image/Owner/pdf.png"></Image>
-                            </StackPanel>
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Grid>
-                                        <Ellipse/>
-                                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10">
+                            <Image Source="../Views/Image/Owner/pdf.png" Width="40" Height="40" />
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="White" />
+                                </Style>
+                            </Button.Style>
                         </Button>
 
-                        <Button  Width="50" Height="50" Margin="8, 15, 0, 15" Command="{Binding NavCommand}"  CommandParameter="0">
-                            
-                            <Button.Template>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Grid>
-                                        <Ellipse Fill="Red"/>
-                                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
+
+
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding WizardCommand}">
+                            <Image Source="../Views/Image/Owner/wizard1.png" Width="40" Height="40" />
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="White" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        
+
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10">
+                            <Image Source="../Views/Image/Owner/notification.webp" Width="40" Height="40" />
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="White" />
+                                </Style>
+                            </Button.Style>
                         </Button>
 
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0">
+                                <Image Source="../Views/Image/Owner/profile.png" Width="40" Height="40" />
+                                <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="White" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
                         <Popup IsOpen="{Binding VisibilityPopUp}"
                                Width="250" 
@@ -108,10 +156,10 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
-                            <WrapPanel Width="250" Height="170" Orientation="Vertical" Background="AliceBlue">
-                                <Label Width="200" Height="30" Content="{Binding NameSurname}"></Label>
-                                <Label Content="{Binding UserType}" Width="200" Height="30"/>
-                                <Button Content="Log out" Command="{Binding LogoutCommand}"/>
+                            <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                                <Label Width="200" Height="40" FontSize="25" Content="{Binding NameSurname}"></Label>
+                                <Label Content="{Binding UserType}" FontSize="25" Width="200" Height="40"/>
+                                <Button Margin="20" Height="30" Width="70" Content="Log out" Command="{Binding LogoutCommand}"/>
                             </WrapPanel>
                         </Popup>
 
