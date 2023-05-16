@@ -13,21 +13,27 @@ using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
 using WpfApp1.Commands;
+using WpfApp.Observer;
+using WpfApp1.DTO;
+using System.Windows.Data;
 
 namespace WpfApp1.ViewModel
 {
-    public class SignInAccommodationViewModel : ViewModelBase, IDataErrorInfo
+    public class SignInAccommodationViewModel : ViewModelBase, IDataErrorInfo, IObserver
     {
-        public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
-        public AccommodationKind SelectedAccommodationKind { get; set; }
-
         private readonly ILocationService _locationService;
         private readonly IAccommodationService _accommodationService;
+        private readonly IReservationService _reservationService;
         private readonly IImageService _imageService;
-        private Window _window;
 
+        public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
         public ObservableCollection<string> States { get; set; }
         public ObservableCollection<string> Cities { get; set; }
+        public ObservableCollection<Accommodation> Accommodations { get; set; }
+
+        public AccommodationKind SelectedAccommodationKind { get; set; }
+
+        public static Accommodation SelectedAccommodation { get; set; }
 
         public string SelectedCity { get; set; }
         public Owner LoggedOwner { get; set; }
@@ -35,13 +41,45 @@ namespace WpfApp1.ViewModel
         public RelayCommand ConfrimCommand { get; set; }
         public RelayCommand RejectCommand { get; set; } 
         public RelayCommand AddUrlCommand { get; set; }
+        public RelayCommand ShowStatisticCommand { get; set; }
+
+        public RelayCommand ShowMonthStatistics { get; set; }
+
+        private int _tabPositon;
+        public int TabPosition
+        {
+            get => _tabPositon;
+            set
+            {
+                _tabPositon = value;
+                OnPropertyChanged(nameof(TabPosition));
+            }
+        }
+
+        public ObservableCollection<AccommodationStatisticDTO> AccommodationStatisticDTOs { get; set; }
+
+        private AccommodationStatisticDTO _selectedAccommodationStatisticDTO;
+        public AccommodationStatisticDTO SelectedAccommodationStatisticDTO
+        {
+            get => _selectedAccommodationStatisticDTO;
+            set
+            {
+                _selectedAccommodationStatisticDTO = value;
+                OnPropertyChanged(nameof(SelectedAccommodationStatisticDTO));
+                ShowMonthStatistics.RaiseCanExecuteChanged();
+            }
+        }
+
+        public ObservableCollection<AccommodationStatisticDTO> AccommodationStatisticMonthDTOs { get; set; }
+
         public SignInAccommodationViewModel(Owner owner)
         {
-            _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "AddAccommodation");
             _locationService = InjectorService.CreateInstance<ILocationService>();
             _accommodationService = InjectorService.CreateInstance<IAccommodationService>();
             _imageService = InjectorService.CreateInstance<IImageService>();
-
+            _reservationService = InjectorService.CreateInstance<IReservationService>();
+            _accommodationService.Subscribe(this);
+            InitCommand();
             Init(owner);
         }
 
@@ -50,16 +88,44 @@ namespace WpfApp1.ViewModel
             ConfrimCommand = new RelayCommand(param => Execute_Confirm(), param => CanExecute_Confrim());
             RejectCommand = new RelayCommand(param => Execute_Reject(), param => CanExecute());
             AddUrlCommand = new RelayCommand(param => Execute_AddURL(), param => CanExecute());
+            ShowStatisticCommand = new(param => Execute_ShowStatisticCommand(), param => CanExecute_ShowStatisticCommand());
+            ShowMonthStatistics = new(param => Execute_ShowMonthStatistics(), param => CanExecute_ShowMonthStatistics());
         }
 
         public void Init(Owner owner)
         {
+            AccommodationStatisticMonthDTOs = new();
+            AccommodationStatisticDTOs = new ();
+            TabPosition = 0;
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
-
+            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetAll());
             LoggedOwner = (Owner)owner;
             AccommodationKind = new ObservableCollection<AccommodationKind>(Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>());
+        }
 
+        private bool CanExecute_ShowMonthStatistics()
+        {
+            return SelectedAccommodationStatisticDTO != null;
+        }
+        private string _bestMonth;
+        public string BestMonth
+        {
+            get => _bestMonth;
+            set
+            {
+                _bestMonth = value;
+                OnPropertyChanged(nameof(BestMonth));
+            }
+        }
+        public void Execute_ShowMonthStatistics()
+        {
+            AccommodationStatisticMonthDTOs.Clear();
+            foreach (AccommodationStatisticDTO a in _accommodationService.StatisticByMonthForAccommodation(SelectedAccommodation.Id, SelectedAccommodationStatisticDTO.Year))
+            {
+                AccommodationStatisticMonthDTOs.Add(a);
+            }
+            BestMonth = AccommodationStatisticMonthDTOs.Where(ac => ac.Reservations == AccommodationStatisticMonthDTOs.Max(a => a.Reservations)).Select(a => a.Month).ElementAt(0);
         }
 
         private string _state;
@@ -73,6 +139,7 @@ namespace WpfApp1.ViewModel
                     _state = value;
                     ChosenState();
                     OnPropertyChanged(_state);
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -87,6 +154,7 @@ namespace WpfApp1.ViewModel
                 {
                     _name = value;
                     OnPropertyChanged("NameA");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -102,6 +170,7 @@ namespace WpfApp1.ViewModel
                 {
                     _maxGuests = value;
                     OnPropertyChanged("MaxGuests");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -115,6 +184,7 @@ namespace WpfApp1.ViewModel
                 {
                     _minResevation = value;
                     OnPropertyChanged("MinResevation");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -128,6 +198,7 @@ namespace WpfApp1.ViewModel
                 {
                     _cancelDay = value;
                     OnPropertyChanged("CancelDay");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -142,10 +213,10 @@ namespace WpfApp1.ViewModel
                 {
                     _url = value;
                     OnPropertyChanged("Url");
+                    ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
         }
-
 
         private List<Domain.Models.Image> MakeImages(Accommodation accommodation)
         {
@@ -162,13 +233,11 @@ namespace WpfApp1.ViewModel
         }
         private void Execute_Confirm()
         {
-           
             Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
             Accommodation accommodation = new Accommodation(NameA, location, SelectedAccommodationKind, MaxGuests, MinResevation, CancelDay, LoggedOwner);
             _accommodationService.Create(accommodation);
             accommodation.Images = MakeImages(accommodation);
             LoggedOwner.Accommodations.Add(accommodation);
-            _window.Close();
         }
 
         private bool CanExecute_Confrim()
@@ -176,15 +245,39 @@ namespace WpfApp1.ViewModel
             return IsValid;
         }
 
+        private int _bestYear;
+        public int BestYear
+        {
+            get => _bestYear;
+            set
+            {
+                _bestYear = value; 
+                OnPropertyChanged(nameof(BestYear));
+            }
+        }
+        private void Execute_ShowStatisticCommand()
+        {
+            TabPosition = 1;
+            AccommodationStatisticDTOs.Clear();
+            foreach(AccommodationStatisticDTO a in _accommodationService.StatisticByYearForAccommodation(SelectedAccommodation.Id))
+            {
+                AccommodationStatisticDTOs.Add(a);
+            }
+            BestYear = AccommodationStatisticDTOs.Where(ac => ac.Reservations == AccommodationStatisticDTOs.Max(a => a.Reservations)).Select(a => a.Year).ElementAt(0);
+        }
+        private bool CanExecute_ShowStatisticCommand()
+        {
+            return SelectedAccommodation != null;
+        }
+
         private void Execute_Reject()
         {
-            _window.Close();
         }
 
        private bool CanExecute()
-        {
+       {
             return true;
-        }
+       }
 
         private void ChosenState()
         {
@@ -201,6 +294,15 @@ namespace WpfApp1.ViewModel
         {
             _urls.Add(Url);
             Url = "";
+        }
+
+        public void Update()
+        {
+            Accommodations.Clear();
+            foreach(var a in _accommodationService.GetAll())
+            {
+                Accommodations.Add(a);
+            }
         }
 
         public string Error => null;

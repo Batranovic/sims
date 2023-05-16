@@ -10,18 +10,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Domain.Models;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using WpfApp.Observer;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
-using Application = System.Windows.Application;
-using WpfApp1.Service;
-using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Domain.Models.Enums;
 using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
@@ -29,16 +20,12 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for SignInAccommodation.xaml
     /// </summary>
-    public partial class SignInAccommodation : Window
+    public partial class SignInAccommodation : UserControl
     {
-        
-        public SignInAccommodation(Owner owner)
+        public SignInAccommodation()
         {
             InitializeComponent();
-            this.DataContext = new SignInAccommodationViewModel(owner);
-
+            this.DataContext = new SignInAccommodationViewModel((Owner)MainWindow.LogInUser);
         }
-
-
     }
 }

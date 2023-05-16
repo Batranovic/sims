@@ -23,10 +23,10 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class OwnerAccount : Window
     {
-        public OwnerAccount(User user)
+        public OwnerAccount()
         {
             InitializeComponent();
-            this.DataContext = new OwnerAccountViewModel(user);
+            this.DataContext = new OwnerAccountViewModel((Owner)MainWindow.LogInUser);
         }
     }
 }

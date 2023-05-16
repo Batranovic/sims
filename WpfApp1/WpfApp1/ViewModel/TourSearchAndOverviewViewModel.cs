@@ -13,10 +13,12 @@ using System.Xml.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Reflection.Metadata;
+using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace WpfApp1.ViewModel  
 {
-    public class TourSearchAndOverviewViewModel : ViewModelBase
+    public class TourSearchAndOverviewViewModel : ViewModelBase, IDataErrorInfo
     {
         private readonly ILocationService _locationService;
 
@@ -30,10 +32,46 @@ namespace WpfApp1.ViewModel
         public ObservableCollection<string> States { get; set; }
 
         public ObservableCollection<string> Cities { get; set; }
-        public string Languages { get; set; }
-        public string Duration { get; set; }
+       
+        private string _duration;
 
-        private string _state;
+        public string Duration
+        {
+            get => _duration;
+            set
+            {
+                if (value != _duration)
+                {
+                    _duration = value;
+                    OnPropertyChanged("Duration");
+                }
+            }
+
+        } 
+        
+        private string _languages;
+        public string Languages
+        {
+            get => _languages;
+            set
+            {
+                if (value != _languages)
+                {
+                    _languages = value;
+                    OnPropertyChanged("Languages");
+                }
+            }
+        }
+
+
+        private void ChosenState()
+        {
+            Cities.Clear();
+            foreach (string city in _locationService.GetCitiesFromStates(SelectedState))
+            {
+                Cities.Add(city);
+            }
+        }
 
         private string _maxGuests;
         public string MaxGuests
@@ -42,11 +80,26 @@ namespace WpfApp1.ViewModel
             set
             {
                 _maxGuests = value;
-                OnPropertyChanged(nameof(MaxGuests));
+                OnPropertyChanged("MaxGuests");
             }
         }
 
-        public string SelectedCity { get; set; }
+
+
+        private string _city;
+        public string SelectedCity
+        {
+            get => _city;
+            set
+            {
+                if (_city != value)
+                {
+                    _city = value;
+                    OnPropertyChanged("SelectedCity");
+                }
+            }
+        }
+        private string _state;
         public string SelectedState
         {
             get => _state;
@@ -55,6 +108,7 @@ namespace WpfApp1.ViewModel
                 if (_state != value)
                 {
                     _state = value;
+                    ChosenState();
                     OnPropertyChanged("SelectedState");
                 }
             }
@@ -67,9 +121,11 @@ namespace WpfApp1.ViewModel
 
             Tours = new ObservableCollection<Tour>(_tourService.GetAll());
 
-            
+            States = new ObservableCollection<string>(_locationService.GetStates());
+            Cities = new ObservableCollection<string>();
 
-
+           // SelectedState = null;
+            //SelectedCity = null;
 
             Languages = "";
             Duration = "";
@@ -81,11 +137,32 @@ namespace WpfApp1.ViewModel
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
             IncrementCommand = new RelayCommand(Execute_Increment, CanExecute_Command);
             DecrementCommand = new RelayCommand(Execute_Decrement, CanExecute_Command);
-            //ChosenStateCommand = new RelayCommand(Execute_ChoseState, CanExecute_Command);
             ViewMoreCommand = new RelayCommand(Execute_ViewMore, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
+            RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
         }
 
+        private RelayCommand requestListCommand;
+        public RelayCommand RequestListCommand
+        {
+            get => requestListCommand;
+            set
+            {
+                if (value != requestListCommand)
+                {
+                    requestListCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private void Execute_RequestList(object sender)
+        {
+            TourRequest tourRequestList = new TourRequest();
+            tourRequestList.Show();
+            CloseAction();
+
+
+        }
         private RelayCommand searchCommand;
         public RelayCommand SearchCommand
         {
@@ -172,20 +249,6 @@ namespace WpfApp1.ViewModel
         }
 
 
-        private RelayCommand chosenStateCommand;
-        public RelayCommand ChosenStateCommand
-        {
-            get => chosenStateCommand;
-            set
-            {
-                if (value != chosenStateCommand)
-                {
-                    chosenStateCommand = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         private RelayCommand viewMoreCommand;
         public RelayCommand ViewMoreCommand
         {
@@ -214,20 +277,6 @@ namespace WpfApp1.ViewModel
             }
         }
 
-
-    
-        /*
-        private void Execute_ChoseState(object sender)
-        {
-
-            SelectedState = (string).SelectedItem;
-            cbChoseCity.Items.Clear();
-            foreach (string city in _locationService.GetCitiesFromStates(SelectedState))
-            {
-                cbChoseCity.Items.Add(city);
-            }
-        }
-        */
 
         private void Execute_RequestTour(object sender)
         {
@@ -283,9 +332,12 @@ namespace WpfApp1.ViewModel
 
         private void Execute_Search(object sender)
         {
+            if (IsValid)
+            {
+                List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
+                RefreshTours(searchedTours);
+            }
 
-            List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
-            RefreshTours(searchedTours);
         }
         private void Execute_AllTours(object sender)
         {
@@ -304,8 +356,6 @@ namespace WpfApp1.ViewModel
         private void Execute_LogOut(object sender)
         {
             MessageBox.Show("You are logging out!");
-            User user = MainWindow.LogInUser;
-            user.Id = -1;
             MainWindow mw = new MainWindow();
             mw.Show();
             CloseAction();
@@ -317,21 +367,65 @@ namespace WpfApp1.ViewModel
         {
             get
             {
+
+                if (columnName == "SelectedCity")
+                {
+                    if (SelectedCity == null || SelectedCity=="City")
+                    {
+                        return "choose a city";
+
+                    }
+                }
+
+
+                if (columnName == "SelectedState")
+                {
+                    if (SelectedState == null || SelectedState == "State")
+                    {
+                        return "choose a state";
+
+                    }
+                }
+
                 if (columnName == "Duration")
                 {
-                    int duration;
-                    if (!int.TryParse(Duration, out duration) || duration <= 0)
+                    if (columnName == "Duration")
                     {
-                        return "Must be positive number.";
+                        if (!string.IsNullOrEmpty(Duration) && !Regex.IsMatch(Duration, @"^\d+(\.\d+)?$") || Duration=="0")
+                        {
+                            return "only valid positive number.";
+                        }
+                        // Do something with the valid input
                     }
+
+
                 }
 
                 if (columnName == "MaxGuests")
                 {
-                    int maxGuests;
-                    if (!int.TryParse(MaxGuests, out maxGuests) || maxGuests <= 0)
+                    if (!string.IsNullOrEmpty(MaxGuests) && !Regex.IsMatch(MaxGuests, "^[1-9][0-9]*$"))
                     {
-                        return "Must be positive number.";
+                        if (MaxGuests.StartsWith("-"))
+                        {
+                            return "please enter only positive numbers";
+                        }
+                        else
+                        {
+                            return "please enter only numbers";
+                        }
+                    }
+                }
+
+
+                if (columnName == "Languages")
+                {
+                    if (!string.IsNullOrEmpty(Languages))
+                    {
+
+                        if (!Regex.IsMatch(Languages.TrimEnd(), "^[a-zA-Z]+(\\s)*$"))
+                        {
+                            return "enter only letters";
+                        }
                     }
                 }
 
@@ -340,7 +434,7 @@ namespace WpfApp1.ViewModel
             }
 
         }
-        private readonly string[] _validatedProperties = { "Duration", "MaxGuests"};
+        private readonly string[] _validatedProperties = { "Duration", "MaxGuests", "Languages","SelectedCity", "SelectedState"};
 
         public bool IsValid
         {

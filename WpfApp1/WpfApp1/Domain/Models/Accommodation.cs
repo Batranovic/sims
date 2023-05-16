@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Domain.Domain.Models.Enums;
+using WpfApp1.Util;
 
 namespace WpfApp1.Domain.Models
 {
@@ -23,6 +24,8 @@ namespace WpfApp1.Domain.Models
         
         public Image MainImage { get; set; }
         public List<Image> Images { get; set; }
+        public Image MainImage { get; set; }
+        public bool IsRenovated { get; set; }
 
         public int Id
         {
@@ -178,7 +181,7 @@ namespace WpfApp1.Domain.Models
                 MaxGuests.ToString(),
                 MinResevation.ToString(),
                 CancelDay.ToString(),
-                OwnerId.ToString()
+                OwnerId.ToString(),
             };
             return csvValues;
         }

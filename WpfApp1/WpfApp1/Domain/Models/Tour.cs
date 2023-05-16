@@ -19,7 +19,7 @@ namespace WpfApp1.Domain.Models
         private string _language;        
         private int _maxGuests;
         public List<string> KeyPoints { get; set; }
-        public List<string> Images { get; set; }
+        public string Image { get; set; }
         public List<DateTime> Date { get; set; }
         public List<TourEvent> TourEvents { get; set; }
 
@@ -128,9 +128,9 @@ namespace WpfApp1.Domain.Models
             TourPoints = new List<TourPoint>();
         }
 
-        public Tour(int id, string name, int idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<string> images, List<DateTime> date)
+        public Tour(int id, string name, int idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<DateTime> date, string image)
         {
-            Id = id;
+            Id = id; 
             Name = name;
             IdLocation = idLocation;
             Description = description;
@@ -138,8 +138,8 @@ namespace WpfApp1.Domain.Models
             Languages = language;
             MaxGuests = maxGuests;
             KeyPoints = keyPoints;
-            Images = images;
             Date = date;
+            Image = image;
             TourEvents = new List<TourEvent>();
             TourPoints = new List<TourPoint>();
 
@@ -157,6 +157,7 @@ namespace WpfApp1.Domain.Models
                     Duration.ToString(),
                     Languages,
                     MaxGuests.ToString(),
+                    Image,
                 };
             return csvValues;
         }
@@ -170,6 +171,7 @@ namespace WpfApp1.Domain.Models
             Duration = Double.Parse(values[4]);
             Languages = values[5];
             MaxGuests = int.Parse(values[6]);
+            Image = values[7];
         }
     }
 }

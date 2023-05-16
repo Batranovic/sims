@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="WpfApp1.Views.RenovationOverview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="570" d:DesignWidth="950">
+    <Grid>
+        <TabControl TabStripPlacement="Left"  >
+            <TabItem Header="Overview" Width="90" Height="25">
+                <ListView ItemsSource="{Binding Renovations, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedRenovation}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding NotificationCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Accommodation" Width="170" DisplayMemberBinding="{Binding Accommodation.Name}" />
+                            <GridViewColumn Header="Start date" Width="170" DisplayMemberBinding="{Binding StartDate}" />
+                            <GridViewColumn Header="End date" Width="170" DisplayMemberBinding="{Binding EndDate}" />
+                            <GridViewColumn Header="Description" Width="330" DisplayMemberBinding="{Binding Description}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Schudeling" Width="90" Height="25" Margin="-1,2,1,0" VerticalAlignment="Top">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"></RowDefinition>
+                        <RowDefinition Height="350"></RowDefinition>
+                        <RowDefinition ></RowDefinition>     
+                    </Grid.RowDefinitions>
+
+                    <WrapPanel Grid.Row="0">
+                        <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
+                            <Label Content="Start date" FontSize="30" />
+                            <DatePicker FontSize="23" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
+                        </WrapPanel>
+                        
+                        <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
+                            <Label Content="End date" FontSize="30" />
+                            <DatePicker FontSize="23" SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
+                        </WrapPanel>
+
+                        <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
+                            <Label Content="Duration:" FontSize="30" />
+                            <TextBox FontSize="23" Height="38" Text="{Binding Duration}"></TextBox>
+                        </WrapPanel>
+
+                        <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
+                            <Button Margin="0, 30, 0, 0" FontSize="30" Width="120" Height="55" Content="Search" Command="{Binding SearchCommand}"/>
+                        </WrapPanel>
+
+                    </WrapPanel>
+
+                    <WrapPanel Grid.Row="1">
+                        <WrapPanel Orientation="Vertical">
+                            <Label Content="Avaiable date:" FontSize="30"/>
+                            <ListView Width="360" Height="250" ItemsSource="{Binding AvailableDays, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedDate}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Start date" Width="178" DisplayMemberBinding="{Binding StartDate}" />
+                                        <GridViewColumn Header="End date" Width="177" DisplayMemberBinding="{Binding EndDate}" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </WrapPanel>
+                        <Separator Visibility="Hidden" Width="128"></Separator>
+                        <WrapPanel Orientation="Vertical">
+                            <Label Content="Add comment:" FontSize="30"/>
+                            <TextBox AcceptsReturn="True" TextWrapping="Wrap"  Width="360" Height="250"></TextBox>
+                        </WrapPanel>
+                    </WrapPanel>
+
+                    <WrapPanel Grid.Row="2">
+                        <Button FontSize="30" Margin="360, 0, 0, 0" Width="120" Command="{Binding ConfirmCommand}">Confirm</Button>
+                    </WrapPanel> 
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <Popup IsOpen="{Binding VisibilityNotification}" 
+               Width="270" 
+               Height="170" 
+               PlacementTarget="{Binding ElementName=OwnerStart}"
+               Placement="Center"
+               Margin="0,70,10,0"
+               Panel.ZIndex="1000">
+
+            <WrapPanel Width="270" Height="170" Orientation="Vertical" Background="AliceBlue">
+                <TextBlock Width="250" Height="55" FontSize="20" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Margin="20, 40, 0, 0" Width="90" Height="55" FontSize="25" Command="{Binding ShutDownNotificationCommand}">Ok</Button>
+            </WrapPanel>
+        </Popup>
+        
+        <Popup IsOpen="{Binding VisibilityNotificationCancled}"
+                               Width="270" 
+                                Height="170" 
+                                PlacementTarget="{Binding ElementName=OwnerStart}"
+                                Placement="Center"
+                                Margin="0,70,10,0"
+                                Panel.ZIndex="1000">
+
+            <WrapPanel Width="270" Height="170" Orientation="Vertical" Background="AliceBlue">
+                <TextBlock Width="250" Height="55" FontSize="20" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <WrapPanel>
+                    <Button Margin="10, 40, 0, 0" Width="90" Height="55" FontSize="25" Command="{Binding ShutDownNotificationCommand}">Ok</Button>
+                    <Button Margin="10, 40, 0, 0" Width="90" Height="55" FontSize="25" Command="{Binding CancelCommand}">Cancel</Button>
+                </WrapPanel>
+            </WrapPanel>
+        </Popup>
+
+    </Grid>
+</UserControl>
