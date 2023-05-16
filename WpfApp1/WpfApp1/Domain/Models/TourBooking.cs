@@ -10,7 +10,8 @@ namespace WpfApp1.Domain.Models
     {
         private int _id;
         private int _numberOfGuests;
-        public User Tourist { get; set; }
+        public Tourist Tourist { get; set; }
+        public int TouristId { get; set; }
         public TourEvent TourEvent { get; set; }
 
         public Voucher Voucher { get; set; }
@@ -44,12 +45,13 @@ namespace WpfApp1.Domain.Models
 
         }
 
-        public TourBooking(int id, int numberOfPeople,TourEvent tourEvent, User tourist, Voucher voucher)
+        public TourBooking(int id, int numberOfPeople,TourEvent tourEvent, Tourist tourist, Voucher voucher)
         {
             Id = id;
             NumberOfGuests = numberOfPeople;
             TourEvent = tourEvent;
             Tourist = tourist;
+            TouristId = Tourist.Id;
             Voucher = voucher;
 
         }
@@ -61,7 +63,7 @@ namespace WpfApp1.Domain.Models
                 Id.ToString(),
                 NumberOfGuests.ToString(),
                 TourEvent.Id.ToString(),
-                Tourist.Id.ToString(),
+                TouristId.ToString(),
                 Voucher.Id.ToString()
             };
             return csvValues;
@@ -72,7 +74,7 @@ namespace WpfApp1.Domain.Models
             Id = Convert.ToInt32(values[0]);
             NumberOfGuests = Convert.ToInt32(values[1]);
             TourEvent = new TourEvent() { Id = Convert.ToInt32(values[2]) };
-            Tourist = new User() { Id = Convert.ToInt32(values[3]) };
+            TouristId = Convert.ToInt32(values[3]);
             Voucher = new Voucher() { Id = Convert.ToInt32(values[4]) };
         }
     }

@@ -114,7 +114,7 @@ namespace WpfApp1.Service
             List<TourEvent> tourEvents = new List<TourEvent>();
             foreach (TourBooking tourReservation in _tourBookingRepository.GetAll())
             {
-                if (tourReservation.Tourist.Id == userId)
+                if (tourReservation.TouristId == userId)
                 {
                     tourEvents.Add(tourReservation.TourEvent);
                 }
@@ -126,7 +126,7 @@ namespace WpfApp1.Service
         {
             foreach (TourBooking tourReservation in _tourBookingRepository.GetAll())
             {
-                if (tourReservation.Tourist.Id == userId && tourReservation.TourEvent.Id == tourEventId)
+                if (tourReservation.TouristId == userId && tourReservation.TourEvent.Id == tourEventId)
                 {
                     return tourReservation;
                 }

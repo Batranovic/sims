@@ -11,7 +11,8 @@ namespace WpfApp1.Domain.Models
     public class NewTourNotification : WpfApp1.Serializer.ISerializable
     {
         public int Id { get; set; }
-        public User Tourist { get; set; }
+        public Tourist Tourist { get; set; }
+        public int TouristId { get; set; }
 
         public Tour Tour { get; set; }
         public bool IsDelivered { get; set; }
@@ -24,11 +25,12 @@ namespace WpfApp1.Domain.Models
         }
         
 
-        public NewTourNotification(int id, User tourist, Tour tour, bool d)
+        public NewTourNotification(int id, Tourist tourist, Tour tour, bool d)
         {
             Id = id;
             Tour = tour;    
             Tourist = tourist;
+            TouristId = Tourist.Id;
             IsDelivered = d;
         }
 
@@ -39,7 +41,7 @@ namespace WpfApp1.Domain.Models
             string[] csvValues =
             {
                 Id.ToString(),
-                Tourist.Id.ToString(),
+                TouristId.ToString(),
                 Tour.Id.ToString(),
                 IsDelivered.ToString()
 
@@ -50,7 +52,7 @@ namespace WpfApp1.Domain.Models
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            Tourist = new User() { Id = Convert.ToInt32(values[1]) };
+            TouristId = int.Parse(values[1]);
             Tour = new Tour { Id = int.Parse(values[2]) };
             IsDelivered = Boolean.Parse(values[3]);
         }

@@ -16,6 +16,7 @@ using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
 using WpfApp1.Views;
+using WpfApp1.Domain.Models.Enums;
 using static System.Net.Mime.MediaTypeNames;
 
 
@@ -172,7 +173,8 @@ namespace WpfApp1.ViewModel
                                 "View status in REQUEST LIST" + Environment.NewLine +
                                 "\t   (CTRL + R)", "Request sent ");
                 int maxG = int.Parse(MaxGuests);
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, StartDate, EndDate, MainWindow.LogInUser);
+                Tourist t = (Tourist)MainWindow.LogInUser;
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, StartDate, EndDate,t,RequestStatus.Pending);
                 _simpleTourRequestService.Create(simpleTour);
                 SelectedCity = null;
                 SelectedState = null;

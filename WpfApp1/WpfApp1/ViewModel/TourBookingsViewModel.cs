@@ -288,7 +288,8 @@ namespace WpfApp1.ViewModel
                 }
                 else
                 {
-                    TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, MainWindow.LogInUser, SelectedVoucher);
+                    Tourist t = (Tourist)MainWindow.LogInUser;
+                    TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent,t, SelectedVoucher);
                     _tourBookingService.Create(tourBooking);
 
                     if (SelectedVoucher != null)

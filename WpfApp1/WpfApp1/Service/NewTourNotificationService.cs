@@ -82,7 +82,7 @@ namespace WpfApp1.Service
             for (int i = 0; i < allNotifications.Count(); i++)
             {
                 var notification = allNotifications.ElementAt(i);
-                if (!notification.IsDelivered && notification.Tourist.Id == userId)
+                if (!notification.IsDelivered && notification.TouristId == userId)
                 {
                     notification.IsDelivered = true;
                     _notificationRepository.Update(notification);
