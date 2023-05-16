@@ -50,6 +50,7 @@ namespace WpfApp1.Service
             {
                 Accommodation a = Get(i.ExternalId);
                 a.Images.Add(i);
+                a.MainImage = i;
             }
         }
         public List<Accommodation> GetAll()

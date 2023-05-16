@@ -30,6 +30,7 @@ namespace WpfApp1.Service
             _reservationPostponementRepository = InjectorRepository.CreateInstance<IReservationPostponementRepository>();
             BindAccommodation();
             BindGuest();
+            SetKind();
         }
         private void BindAccommodation()
         {
@@ -43,8 +44,36 @@ namespace WpfApp1.Service
             foreach (Reservation r in GetAllWithDeleted())
             {
                 r.Guest = _guestRepository.Get(r.IdGuest);
+                r.Guest.Reservations.Add(r);
             }
         }
+
+        private void SetKind()
+        {
+            foreach (Guest g in _guestRepository.GetAll())
+            {
+
+                if(g.Super)
+                {
+                    continue;
+                }
+                if (g.Reservations.Count >= 10)
+                {
+                    g.Super = true;
+                    g.BonusPoints = 5;
+                    g.SuperGuestExpirationDate = DateTime.Now.AddYears(1);
+                }
+                else
+                {
+                    g.Super = false;
+                    g.BonusPoints = 0;
+                    g.SuperGuestExpirationDate = DateTime.MinValue;
+                }
+            }
+        }
+
+
+
         public void Save()
         {
             _reservationRepository.Save();

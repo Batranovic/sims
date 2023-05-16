@@ -17,40 +17,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Domain.Models;
 using WpfApp1.Service;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
     /// <summary>
     /// Interaction logic for ImageView.xaml
     /// </summary>
-    public partial class ImageView : Window, INotifyPropertyChanged
+    public partial class ImageView : Window
     {
-        
-        public Accommodation Accommodation { get; set; }
-        // public Image Image { get; set; }
-
-        private readonly ImageService _imageService;
-        private Accommodation selectedAccommodation;
-
-        //public List<Image> Images { get; set; } 
         public ImageView(Accommodation accommodation)
         {
             InitializeComponent();
-            this.DataContext = this;
-
-            ListImages.ItemsSource = accommodation.Images;
-
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void Close(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            this.DataContext = new ImageViewModel(accommodation);
         }
     }    
      

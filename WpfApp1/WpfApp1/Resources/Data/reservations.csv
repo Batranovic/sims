@@ -2,4 +2,12 @@
 1,08/04/2023,10/04/2023,0,0,Rated,Rated,False
 2,16/04/2023,21/04/2023,5,0,Expired,Expired,False
 3,18/04/2023,23/04/2023,2,0,Expired,Expired,False
-4,21/04/2023,26/04/2023,0,0,Expired,Expired,False
+4,21/04/2023,13/05/2023,0,0,Unrated,Rated,False
+5,19/05/2023,22/05/2023,0,0,Reserved,Disabled,True
+6,27/05/2023,29/05/2023,0,0,Unrated,Unrated,True
+7,04/06/2023,09/06/2023,0,0,Reserved,Disabled,True
+8,29/05/2023,01/06/2023,0,0,Reserved,Disabled,False
+9,23/05/2023,25/05/2023,0,0,Reserved,Disabled,False
+10,13/07/2023,17/07/2023,0,0,Reserved,Disabled,False
+11,19/07/2023,22/07/2023,0,0,Reserved,Disabled,False
+12,14/09/2023,17/09/2023,0,0,Reserved,Disabled,False

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,23 +11,20 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
-using WpfApp1.Service;
 using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for GuestPostponementsOverview.xaml
+    /// Interaction logic for OwnerReviews.xaml
     /// </summary>
-    public partial class GuestPostponementsOverview : Window
+    public partial class OwnerReviews : Window
     {
-        public GuestPostponementsOverview(Guest guest)
+        public OwnerReviews(Guest guest)
         {
             InitializeComponent();
-            this.DataContext = new GuestPostponementsOverviewViewModel(guest);
-
+            this.DataContext = new OwnerReviewsViewModel(guest);
         }
     }
 }

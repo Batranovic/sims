@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="GuestAccount" Height="450" Width="800">
+        Title="GuestAccount" Name="GuestAccountViewName" Height="450" Width="800">
     <Grid>
         <DockPanel Background="red" Width="800">
             <DockPanel DockPanel.Dock="Left" Width="211" Background="black">
                 <StackPanel >
-                    <Button Click="AccommodationView">Accommodation view</Button>
-                    <Button x:Name="btnRatingGuest" Click="ReservationView" >Reservation view</Button>
-                    <Button x:Name="overview" Click="PostponementsOverview" >Postponements overview</Button>
-                    <Button Click="LogOut" >Log out</Button>
+                    <Button Command="{Binding AccommodationViewCommand}">Accommodation view</Button>
+                    <Button Command="{Binding ReservationViewCommand}" >Reservation view</Button>
+                    <Button Command="{Binding PostponementsOverviewCommand}" >Postponements overview</Button>
+                    <Button Command="{Binding OwnerReviewsCommand}" >Owner reviews</Button>
+                    <Button Command="{Binding LogOutCommand}">Log out</Button>
                 </StackPanel>
             </DockPanel>
 
