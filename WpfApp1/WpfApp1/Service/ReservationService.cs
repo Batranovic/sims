@@ -13,6 +13,7 @@ using WpfApp1.Domain.Models;
 using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Repository;
 using WpfApp1.Domain.Models.Enums;
+using WpfApp1.DTO;
 
 namespace WpfApp1.Service
 {
@@ -128,11 +129,11 @@ namespace WpfApp1.Service
         {
             while ((endDate - startDate).Days >= duration)
             {
-                if (IsDateInRange(r, startDate))
+                if (IsDateInRange(r, startDate) && InjectorService.CreateInstance<IRenovationService>().IsDateFree(startDate, r.IdAccommodation))
                 {
                     startDate = r.EndDate.AddDays(1);
                 }
-                else if (IsDateInRange(r, startDate.AddDays(duration)))
+                else if (IsDateInRange(r, startDate.AddDays(duration)) && InjectorService.CreateInstance<IRenovationService>().IsDateFree(startDate.AddDays(duration), r.IdAccommodation))
                 {
                     startDate = r.EndDate.AddDays(1);
                 }
@@ -172,13 +173,14 @@ namespace WpfApp1.Service
         }
         public bool IsDateFree(int idAccommodation, DateTime date)
         {
-            bool retVal = true;
-
             foreach (Reservation r in GetAheadReservationsForAccommodation(idAccommodation))
             {
-                retVal = retVal && !IsDateInRange(r, date);
+                if(IsDateInRange(r, date))
+                {
+                    return false;
+                }
             }
-            return retVal;
+            return true; 
         }
         public Dictionary<DateTime, DateTime> GetAvailableDates(int idAccommodation, DateTime endDate, int duration)
         {
@@ -190,7 +192,7 @@ namespace WpfApp1.Service
             {
                 endDate = temp.AddDays(duration);
 
-                if (IsDateFree(idAccommodation, endDate.AddDays(i)) && IsDateFree(idAccommodation, endDate.AddDays(duration)))
+                if (InjectorService.CreateInstance<IRenovationService>().IsDateFree(endDate.AddDays(i), idAccommodation) && InjectorService.CreateInstance<IRenovationService>().IsDateFree(endDate.AddDays(duration), idAccommodation) && IsDateFree(idAccommodation, endDate.AddDays(i)) && IsDateFree(idAccommodation, endDate.AddDays(duration)))
                 {
                       availableDates.Add(endDate.AddDays(i), temp.AddDays(i)); //contra bind
                 }
@@ -198,5 +200,8 @@ namespace WpfApp1.Service
             }
             return availableDates;
         }
+
+        
+
     }
 }

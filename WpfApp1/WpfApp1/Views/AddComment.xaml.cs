@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Service;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
@@ -22,27 +23,12 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class AddComment : Window
     {
-        public string Comment { get; set; }
-        private readonly IReservationPostponementService _reservationPostponementService;
-        public ReservationPostponement ReservationPostponement { get; set; }
+   
         public AddComment(ReservationPostponement reservationPostponement)
         {
             InitializeComponent();
-            this.DataContext = this;
-            ReservationPostponement = reservationPostponement;
-            _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>(); 
+            this.DataContext = new AddCommentViewModel(reservationPostponement);
         }
 
-        private void Confirm(object sender, RoutedEventArgs e)
-        {
-            ReservationPostponement.OwnerComment = Comment;
-            _reservationPostponementService.Update(ReservationPostponement);
-            Close();
-        }
-
-        private void Cancel(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
     }
 }

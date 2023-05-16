@@ -16,6 +16,7 @@ using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 using WpfApp1.Service;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
@@ -24,19 +25,11 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class OwnerRatingView : Window
     {
-        public ObservableCollection<OwnerRating> RatingOwners { get; set; }
-        private readonly IOwnerRatingService _ownerRatingService;
-
-        public Owner LogInOwner { get; set; }
-        public OwnerRatingView(Owner owner)
+         public OwnerRatingView(Owner owner)
         {
             InitializeComponent();
-            this.DataContext = this;
+            this.DataContext = new OwnerRatingViewViewModel(owner);
 
-            _ownerRatingService = InjectorService.CreateInstance<IOwnerRatingService>();
-
-            RatingOwners = new ObservableCollection<OwnerRating>(_ownerRatingService.GetAllOwnerRewies(owner.Id));
-            LogInOwner = owner;
         }
 
 

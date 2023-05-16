@@ -1,32 +1,198 @@
 ﻿<Window x:Class="WpfApp1.Views.OwnerAccount"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:WpfApp1.ViewModel"
+        xmlns:view="clr-namespace:WpfApp1.Views"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="OwnerAccount" Height="450" Width="800">
+        Title="OwnerAccount" Height="650" Width="967" ResizeMode="NoResize"
+        Name="OwnerStart">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:OwnerProfileViewModel}">
+            <view:OwnerProfile/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SignInAccommodationViewModel}">
+            <view:SignInAccommodation/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ReservationOverviewViewModel}">
+            <view:ReservationOvewview/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:RenovationOverviewViewModel}">
+            <view:RenovationOverview/>
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
-        <DockPanel  Width="800">
-            <DockPanel DockPanel.Dock="Left" Width="211" Background="black">
-                <StackPanel >
-                    <Button Click="SignInAccomodation">Sign in accommodation</Button>
-                    <Button x:Name="btnRatingGuest" Click="ViewExpiredReservation" >Rating guest</Button>
-                    <Button  Click="ViewOwnerRatings" >ViewOwnerRatings</Button>
-                    <Button  Click="ReservationPostponementOverview">ReservationPostponementOverview</Button>
-                    <Button  Click="LogOut">Log out</Button>
-                </StackPanel>
+        <DockPanel  Width="950">
+            <DockPanel DockPanel.Dock="Top" Background="blue" Height="80" >
+                <WrapPanel Background="white">
+                    <WrapPanel Width="100" Height="80">
+
+                    </WrapPanel>
+
+                    <WrapPanel  Height="80" Width="600">
+                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="1" >Acommodations</Button>
+                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="2">Reservations</Button>
+                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="3">Renovations</Button>
+                        <Button  Height="50" Width="95" Margin="14">Forum</Button>
+
+                    </WrapPanel>
+
+                    <WrapPanel  Height="80" Width="250" >
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10">
+                            <Image Source="../Views/Image/Owner/pdf.png" Width="40" Height="40" />
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="White" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+
+
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding WizardCommand}">
+                            <Image Source="../Views/Image/Owner/wizard1.png" Width="40" Height="40" />
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="White" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        
+
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10">
+                            <Image Source="../Views/Image/Owner/notification.webp" Width="40" Height="40" />
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="White" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0">
+                                <Image Source="../Views/Image/Owner/profile.png" Width="40" Height="40" />
+                                <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="White" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Popup IsOpen="{Binding VisibilityPopUp}"
+                               Width="250" 
+                                Height="150" 
+                                Margin="0,100,10,0"
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right" 
+                                Panel.ZIndex="1000">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding ShowCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                            <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                                <Label Width="200" Height="40" FontSize="25" Content="{Binding NameSurname}"></Label>
+                                <Label Content="{Binding UserType}" FontSize="25" Width="200" Height="40"/>
+                                <Button Margin="20" Height="30" Width="70" Content="Log out" Command="{Binding LogoutCommand}"/>
+                            </WrapPanel>
+                        </Popup>
+
+                        <Popup IsOpen="{Binding VisibilityWizard}"
+                               Width="270" 
+                                Height="170" 
+                                PlacementTarget="{Binding ElementName=OwnerStart}"
+                                Placement="Center"
+                                Margin="0,70,10,0"
+                                Panel.ZIndex="1000">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding WizardCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                            <WrapPanel Width="270" Height="170" Orientation="Vertical" Background="AliceBlue">
+                                <Label Width="250" Height="30">Hello dear user,</Label>
+                                <Label Width="250" Height="30">You have a big section(buttons on top of</Label>
+                                <Label Width="250" Height="30">window), when you select one section then</Label>
+                                <Label Width="250" Height="30">new window open up. In new window you</Label>
+                                <Label Width="250" Height="30">have a  vertical tabs with more features.</Label>
+                            </WrapPanel>
+                        </Popup>
+                        
+                    </WrapPanel>
+                </WrapPanel>
             </DockPanel>
 
-            <DockPanel DockPanel.Dock="Right">
-                <StackPanel>
-                    <Label  Width="79" Height="30" >Owner type</Label>
-                    <Label Content="{Binding Path=OwnerType}" Width="79" Height="30"/>
-                </StackPanel>
-
+            <DockPanel DockPanel.Dock="Bottom"  Width="950" >
+                <ContentControl Content="{Binding CurrentViewModel}"/>
             </DockPanel>
         </DockPanel>
-
-
     </Grid>
 </Window>

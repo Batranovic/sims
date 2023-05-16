@@ -77,8 +77,6 @@ namespace WpfApp1.Views
 
         }
 
-
-        
         private string _state;
 
         public string SelectedState
