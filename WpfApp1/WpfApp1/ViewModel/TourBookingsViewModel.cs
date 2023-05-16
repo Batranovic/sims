@@ -13,10 +13,12 @@ using System.Xml.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Reflection.Metadata;
+using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace WpfApp1.ViewModel
 {
-    public class TourBookingsViewModel :  ViewModelBase
+    public class TourBookingsViewModel : ViewModelBase, IDataErrorInfo
     {
         public Action CloseAction { get; set; }
         public ObservableCollection<TourEvent> TourEvents { get; set; }
@@ -36,7 +38,7 @@ namespace WpfApp1.ViewModel
 
         private Voucher _selectedVoucher;
 
-        public int NumberOfPeople { get; set; }
+        private int _numberOfPeople;
         public string Name { get; set; }
         public DateTime ExpirationDate { get; set; }
 
@@ -52,6 +54,19 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
+        public int NumberOfPeople
+        {
+            get => _numberOfPeople;
+            set
+            {
+                if (_numberOfPeople != value)
+                {
+                    _numberOfPeople = value;
+                    OnPropertyChanged("NumberOfPeople");
+                }
+            }
+        }
+
 
         public int AvailableSpots
         {
@@ -92,7 +107,7 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
-        
+
 
         public TourBookingsViewModel(Tour tour)
         {
@@ -111,18 +126,39 @@ namespace WpfApp1.ViewModel
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
             CheckAvailabilityCommand = new RelayCommand(Execute_CheckAvailability, CanExecute_Command);
-            SuggestMoreCommand = new RelayCommand(Execute_SuggestMore, CanExecute_Command);
             ReserveCommand = new RelayCommand(Execute_Reserve, CanExecute_Command);
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
+            RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
+
+
+        }
+
+        private RelayCommand requestListCommand;
+        public RelayCommand RequestListCommand
+        {
+            get => requestListCommand;
+            set
+            {
+                if (value != requestListCommand)
+                {
+                    requestListCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private void Execute_RequestList(object sender)
+        {
+            TourRequest tourRequestList = new TourRequest();
+            tourRequestList.Show();
+            CloseAction();
+
 
         }
 
         private void Execute_LogOut(object sender)
         {
             MessageBox.Show("You are logging out!");
-            User user = MainWindow.LogInUser;
-            user.Id = -1;
             MainWindow mw = new MainWindow();
             mw.Show();
             CloseAction();
@@ -225,20 +261,6 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private RelayCommand suggestMoreCommand;
-        public RelayCommand SuggestMoreCommand
-        {
-            get => suggestMoreCommand;
-            set
-            {
-                if (value != suggestMoreCommand)
-                {
-                    suggestMoreCommand = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         private RelayCommand reserveCommand;
         public RelayCommand ReserveCommand
         {
@@ -257,7 +279,7 @@ namespace WpfApp1.ViewModel
         private void Execute_Reserve(object sender)
         {
 
-            if (AvailableSpots >= NumberOfPeople)
+            if (AvailableSpots >= NumberOfPeople && IsValid)
             {
                 TourBooking existingTourBooking = _tourBookingService.GetTourBookingForTourEventAndUser(SelectedTourEvent.Id, MainWindow.LogInUser.Id);
                 if (existingTourBooking != null)
@@ -275,7 +297,9 @@ namespace WpfApp1.ViewModel
                         SelectedVoucher = null;
                     }
 
-                    MessageBox.Show("Successful reservation!");
+                    MessageBox.Show("          Successfully reserved! " + Environment.NewLine +
+                "    View tour in BOOKED TOURS!" + Environment.NewLine +
+                "    \t     (F7)", "Success ");
                 }
 
             }
@@ -295,8 +319,11 @@ namespace WpfApp1.ViewModel
             }
             int reservedSpots = _tourEventService.CheckAvailability(SelectedTourEvent);
             AvailableSpots = SelectedTourEvent.Tour.MaxGuests - reservedSpots;
+
             if (AvailableSpots < NumberOfPeople)
             {
+                List<TourEvent> tourEventsForLocation = _tourEventService.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
+                RefreshTours(tourEventsForLocation);
                 AvailableSpotsText = "Not available";
             }
             else
@@ -305,15 +332,7 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private void Execute_SuggestMore(object sender)
-        {
-            if (SelectedTourEvent == null)
-            {
-                return;
-            }
-            List<TourEvent> tourEventsForLocation = _tourEventService.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
-            RefreshTours(tourEventsForLocation);
-        }
+    
         private void RefreshTours(List<TourEvent> tourEvents)
         {
             TourEvents.Clear();
@@ -323,6 +342,40 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        public string Error => null;
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "NumberOfPeople")
 
+                {
+                    if (NumberOfPeople <= 0)
+                    {
+                        return "positive number";
+                    }
+                    if(NumberOfPeople >= 50)
+                    {
+                        return "choose a smaller number";
+                    }
+                }
+                return null;
+            }
+        }
+        private readonly string[] _validatedProperties = { "NumberOfPeople" };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
     }
 }

@@ -35,13 +35,18 @@ namespace WpfApp1.Views
             {
                 requestNewToursViewModel.CloseAction = new Action(this.Close);
             }
-
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
         }
 
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
