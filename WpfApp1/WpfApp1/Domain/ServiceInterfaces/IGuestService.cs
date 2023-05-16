@@ -10,5 +10,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
     public interface IGuestService : IService<Guest>
     {
         Guest GetByUsernameAndPassword(string username, string password);
+        bool CanUseBonusPoints(Guest guest);
+        void ResetBonusPoints(Guest guest);
     }
 }

@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Service;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
@@ -24,36 +25,11 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class GuestPostponementsOverview : Window
     {
-
-        public Guest LogInGuest { get; set; }
-
-        public ObservableCollection<ReservationPostponement> ReservationPostponements { get; set; }
-
-        private readonly IReservationPostponementService _reservationPostponementService;
         public GuestPostponementsOverview(Guest guest)
         {
             InitializeComponent();
-            this.DataContext = this;
+            this.DataContext = new GuestPostponementsOverviewViewModel(guest);
 
-            _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>();
-            LogInGuest = guest;
-            ReservationPostponements = new ObservableCollection<ReservationPostponement>(_reservationPostponementService.GetAllByGuestId(LogInGuest.Id));
-            
         }
-
-        private void CloseWindow(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        public void Update()
-        {
-            ReservationPostponements.Clear();
-            foreach (var r in _reservationPostponementService.GetAllByOwnerIdAhead(LogInGuest.Id))
-            {
-                ReservationPostponements.Add(r);
-            }
-        }
-
     }
 }

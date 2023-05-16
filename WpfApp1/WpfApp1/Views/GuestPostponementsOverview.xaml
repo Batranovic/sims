@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="GuestPostponementsOverview" Height="750" Width="980">
+        Title="GuestPostponementsOverview" Name="GuestPostponementsOverviewName" Height="750" Width="980">
     <Grid>
         <DockPanel>
             <DataGrid DockPanel.Dock="Right" Width="880" Height="600"
@@ -23,7 +23,7 @@
             </DataGrid>
         </DockPanel>
         <WrapPanel Grid.Row="0" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0" Margin="0,0,0,0">
-            <Button Content="Close" Click="CloseWindow" Width="156" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10"/>
+            <Button Content="Close" Width="156" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" Command="{Binding CloseWindowCommand}"/>
         </WrapPanel>
       
 

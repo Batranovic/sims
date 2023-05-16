@@ -103,8 +103,10 @@ namespace WpfApp1
             {
                 GuestAccount guestAccount = new GuestAccount(LogInUser);
                 guestAccount.Show();
+                _guestService.ResetBonusPoints((Guest)LogInUser);
                 Close();
             }
         }
+
     }
 }
