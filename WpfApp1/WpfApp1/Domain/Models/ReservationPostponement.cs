@@ -12,7 +12,6 @@ namespace WpfApp1.Domain.Models
     public class ReservationPostponement : WpfApp1.Serializer.ISerializable
     {
         public int Id { get; set; }
-        public int IdReservation { get; set; }
 
         public Reservation Reservation { get; set; }
 
@@ -28,12 +27,12 @@ namespace WpfApp1.Domain.Models
         public ReservationPostponement()
         {
             Deleted = false;
+            Reservation = new();
         }
 
-        public ReservationPostponement(int id, int idReservation, Reservation reservation, DateTime startDate, DateTime endDate, string ownerComment, ReservationPostponementStatus status)
+        public ReservationPostponement(int id, Reservation reservation, DateTime startDate, DateTime endDate, string ownerComment, ReservationPostponementStatus status)
         {
             Id = id;
-            IdReservation = idReservation;
             Reservation = reservation;
             StartDate = startDate;
             EndDate = endDate;
@@ -47,7 +46,7 @@ namespace WpfApp1.Domain.Models
             string[] csvValues =
             {
                 Id.ToString(),
-                IdReservation.ToString(),
+                Reservation.Id.ToString(),
                 DateHelper.DateToString(StartDate),
                 DateHelper.DateToString(EndDate),
                 OwnerComment,
@@ -60,7 +59,7 @@ namespace WpfApp1.Domain.Models
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            IdReservation = Convert.ToInt32(values[1]);
+            Reservation.Id = Convert.ToInt32(values[1]);
             StartDate = DateHelper.StringToDate(values[2]);
             EndDate = DateHelper.StringToDate(values[3]);
             OwnerComment = values[4];

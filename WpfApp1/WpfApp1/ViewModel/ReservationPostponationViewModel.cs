@@ -39,7 +39,7 @@ namespace WpfApp1.ViewModel
             EndedDay = DateTime.Now;
             ReservationPostponement = new ReservationPostponement();
             ReservationPostponement.Reservation = reservation;
-            ReservationPostponement.IdReservation = reservation.Id;
+            ReservationPostponement.Reservation.Id = reservation.Id;
 
             ConfirmCommand = new RelayCommand(param => Execute_Confirm(), param => CanExecute());
             CancelCommand = new RelayCommand(param => Execute_Cancel(), param => CanExecute());

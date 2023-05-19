@@ -27,7 +27,7 @@ namespace WpfApp1.Service
         {
             foreach (Renovation r in _renovationRepository.GetAll())
             {
-                r.Accommodation = _accommodationRepository.Get(r.IdAccommodation);
+                r.Accommodation = _accommodationRepository.Get(r.Accommodation.Id);
                 if(r.Accommodation.IsRenovated)
                 {
                     continue;
@@ -58,7 +58,7 @@ namespace WpfApp1.Service
 
         public List<Renovation> GetAllForAccommodation(int idAccommodation)
         {
-            return _renovationRepository.GetAll().FindAll(r => r.IdAccommodation == idAccommodation);
+            return _renovationRepository.GetAll().FindAll(r => r.Accommodation.Id == idAccommodation);
         }
 
 

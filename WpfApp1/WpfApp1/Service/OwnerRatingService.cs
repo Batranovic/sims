@@ -26,7 +26,7 @@ namespace WpfApp1.Service
         {
             foreach (OwnerRating r in GetAll())
             {
-                r.Reservation = _reservationRepository.GetWithDeleted(r.IdReservation);
+                r.Reservation = _reservationRepository.GetWithDeleted(r.Reservation.Id);
             }
         }
         public void Save()
@@ -70,12 +70,12 @@ namespace WpfApp1.Service
 
         public OwnerRating GetByIdReservation(int idReservation)
         {
-            return GetAll().Find(r => r.IdReservation == idReservation);
+            return GetAll().Find(r => r.Reservation.Id == idReservation);
         }
 
         public List<OwnerRating> GetAllOwnerRewies(int idOwner)
         {
-            return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Reservation.Status == Domain.Models.Enums.GuestRatingStatus.Rated);
+            return GetAll().FindAll(r => r.Reservation.Accommodation.Owner.Id == idOwner && r.Reservation.Status == Domain.Models.Enums.GuestRatingStatus.Rated);
         }
 
     }

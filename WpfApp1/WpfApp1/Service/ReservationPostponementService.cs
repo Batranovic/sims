@@ -29,7 +29,7 @@ namespace WpfApp1.Service
         {
             foreach (ReservationPostponement p in GetAll())
             {
-                p.Reservation = _reservationRepository.Get(p.IdReservation);
+                p.Reservation = _reservationRepository.Get(p.Reservation.Id);
             }
         }
         public void Save()
@@ -75,7 +75,7 @@ namespace WpfApp1.Service
         {
             try
             {
-                return GetAll().FindAll(r => r.Reservation.Accommodation.OwnerId == idOwner && r.Status == ReservationPostponementStatus.Waiting);
+                return GetAll().FindAll(r => r.Reservation.Accommodation.Owner.Id == idOwner && r.Status == ReservationPostponementStatus.Waiting);
             }
             catch(Exception ex)
             {
@@ -97,7 +97,7 @@ namespace WpfApp1.Service
 
         public List<ReservationPostponement> GetByAccommodation(int idAccommodation)
         {
-            return GetAll().FindAll(r => r.Reservation.IdAccommodation == idAccommodation);
+            return GetAll().FindAll(r => r.Reservation.Accommodation.Id == idAccommodation);
         }
 
     }

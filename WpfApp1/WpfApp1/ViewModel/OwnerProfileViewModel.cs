@@ -65,7 +65,6 @@ namespace WpfApp1.ViewModel
             _guestRatingService = InjectorService.CreateInstance<IGuestRatingService>();
             InitCommand();
             Init(owner);
-        //    FindNotification();
         }
 
         private void Init(Owner owner)
@@ -92,17 +91,6 @@ namespace WpfApp1.ViewModel
             ReservationPostponementOverviewCommand = new RelayCommand(param => Execute_ReservationPostponementOverview(), param => CanExecute_Command());
             LogOutCommand = new RelayCommand(param => Execute_LogOut(), param => CanExecute_Command());
             ConfirmCommand = new RelayCommand(param => Execute_Confrim(), param => CanExecute_Confirm());
-        }
-
-        private void FindNotification()
-        {
-            int numberNotification = _reservationService.GetUnratedById(LoggedOwner.Id).Count;
-            if (numberNotification == 0)
-            {
-                return;
-            }
-            string result = "Oslobodilo Vam se " + numberNotification.ToString() + " apartaman, ocenite goste";
-            MessageBox.Show(result, "Obavestenje");
         }
 
         private void Execute_SignInAccomodation()
