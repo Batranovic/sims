@@ -18,79 +18,19 @@ using WpfApp.Observer;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Service;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
     /// <summary>
     /// Interaction logic for ReservationView.xaml
     /// </summary>
-    public partial class ReservationView : Window, INotifyPropertyChanged, IObserver
+    public partial class ReservationView : Window
     {
-        private readonly IReservationService _reservationService;
-        private readonly IReservationPostponementService _reservationPostponementService;
-        public ObservableCollection<Reservation> Reservations { get; set; }
-
-        public Reservation SelectedReservation { get; set; }
-
-        public Guest LogInGuest { get; set; }
         public ReservationView(Guest guest)
         {
             InitializeComponent();
-            this.DataContext = this;
-
-            _reservationService = InjectorService.CreateInstance<IReservationService>();
-            _reservationPostponementService = InjectorService.CreateInstance<IReservationPostponementService>();
-            _reservationService.Subscribe(this);
-
-            LogInGuest = guest;
-            Reservations = new ObservableCollection<Reservation>(_reservationService.GetGuestReservations(LogInGuest.Id));
-
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void OwnerRating(object sender, RoutedEventArgs e)    //ime
-        {
-            if (SelectedReservation == null || SelectedReservation.GuestReservationStatus != Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Unrated)
-            {
-                return;
-            }
-            AccommodationAndOwnerRating acoommodationAndOwnerRating = new AccommodationAndOwnerRating(SelectedReservation);
-            acoommodationAndOwnerRating.Show();
-        }
-
-
-        public void ReservationPostponement(object sender, RoutedEventArgs e)
-        {
-            if (SelectedReservation == null)
-            {
-                return;
-            }
-
-            ReservationPostponation reservationPostponation = new ReservationPostponation(SelectedReservation);
-            reservationPostponation.Show();
-        }
-
-        public void CancelReservation(object sender, RoutedEventArgs e)
-        {
-            if (SelectedReservation.StartDate < DateTime.Now.AddDays(-SelectedReservation.Accommodation.CancelDay) && SelectedReservation.EndDate <= DateTime.Now)
-            {
-                return;
-            }
-            _reservationService.Delete(SelectedReservation);
-        }
-
-        public void Update()
-        {
-            Reservations.Clear();
-            foreach (Reservation r in _reservationService.GetAll())
-            {
-                Reservations.Add(r);
-            }
+            this.DataContext = new ReservationViewModel(guest);
         }
     }
 }

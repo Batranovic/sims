@@ -43,12 +43,14 @@ namespace WpfApp1.Repository
             entity.Id = NextId();
             _accommodations.Add(entity);
             Save();
+            NotifyObservers();
             return entity;
         }
         public Accommodation Delete(Accommodation entity)
         {
             _accommodations.Remove(entity);
             Save();
+            NotifyObservers();
             return entity;
         }
         public Accommodation Get(int id)
@@ -85,6 +87,7 @@ namespace WpfApp1.Repository
             }
             oldEntity = entity;
             Save();
+            NotifyObservers();
             return oldEntity;
         }
         public void Subscribe(IObserver observer)

@@ -30,9 +30,12 @@ namespace WpfApp1.Service
             { typeof(ITourBookingService), new TourBookingService() },
             { typeof(IRatingTourAndGuideService), new RatingTourAndGuideService() },
             { typeof(INotificationService), new NotificationService() },
+            { typeof(IAccommodationRenovationSuggestionService), new AccommodationRenovationSuggestionService() },
+            { typeof(IRenovationService), new RenovationService() },
             { typeof(ISimpleTourRequestService), new SimpleTourRequestService() },
             { typeof(IRequestNotifactionService), new RequestNotificationService() },
             { typeof(INewTourNotificationService), new NewTourNotificationService() },
+            { typeof(INotificationAccommodationReleaseService), new NotificationAccommodationReleaseService() }
         };
         public static T CreateInstance<T>()
         {

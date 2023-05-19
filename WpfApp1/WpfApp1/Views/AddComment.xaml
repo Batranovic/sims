@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="AddComment" Height="200" Width="350">
+        Title="AddComment" Height="200" Width="350"
+        Name="AddCommentName">
     <Grid>
         <TextBox HorizontalAlignment="Left"  Margin="43,36,0,0" TextWrapping="Wrap" Text="{Binding Path=Comment}" VerticalAlignment="Top" Width="270" Height="99" RenderTransformOrigin="0.338,0.133"/>
         <Label Content="Add comment" HorizontalAlignment="Left" Margin="43,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.48,0.72" Width="96"/>
-        <Button Content="Confirm" Click="Confirm" HorizontalAlignment="Left" Margin="68,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.435,1.734" Height="19"/>
-        <Button Content="Cancel" Click="Cancel" HorizontalAlignment="Left" Margin="175,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.435,1.734" Height="19"/>
+        <Button Content="Confirm" Command="{Binding ConfrimCommand}"  HorizontalAlignment="Left" Margin="68,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.435,1.734" Height="19"/>
+        <Button Content="Cancel" Command="{Binding CancelCommand}"  HorizontalAlignment="Left" Margin="175,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.435,1.734" Height="19"/>
 
     </Grid>
 </Window>

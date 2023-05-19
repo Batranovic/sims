@@ -8,6 +8,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <Compile Remove="Resources\Images\**" />
+    <EmbeddedResource Remove="Resources\Images\**" />
+    <None Remove="Resources\Images\**" />
+    <Page Remove="Resources\Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Image\Owner\notification.webp" />
+    <None Remove="Views\Image\Owner\notification1.png" />
+    <None Remove="Views\Image\Owner\pdf.png" />
+    <None Remove="Views\Image\Owner\profile.png" />
+    <None Remove="Views\Image\Owner\wizard.png" />
+    <None Remove="Views\Image\Owner\wizard1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Views\Image\Owner\notification.webp" />
+    <Resource Include="Views\Image\Owner\notification1.png" />
+    <Resource Include="Views\Image\Owner\pdf.png" />
+    <Resource Include="Views\Image\Owner\profile.png" />
+    <Resource Include="Views\Image\Owner\wizard1.png" />
     <None Remove="Images\average.png" />
     <None Remove="Images\book.png" />
     <None Remove="Images\calendar.png" />
@@ -39,6 +66,7 @@
 
   <ItemGroup>
     <Folder Include="Resources\Images\" />
+
   </ItemGroup>
 
   <ItemGroup>

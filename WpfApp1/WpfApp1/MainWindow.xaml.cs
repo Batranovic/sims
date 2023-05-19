@@ -70,8 +70,9 @@ namespace WpfApp1
             LogInUser = _ownerService.GetByUsernameAndPassword(Username, Password);   
             if(LogInUser != null)
             {
-                OwnerAccount ownerAccount = new OwnerAccount(LogInUser);
+                OwnerAccount ownerAccount = new OwnerAccount();
                 ownerAccount.Show();
+                _ownerService.SetKind((Owner)LogInUser);
                 Close();
                 return;
             }
@@ -103,8 +104,10 @@ namespace WpfApp1
             {
                 GuestAccount guestAccount = new GuestAccount(LogInUser);
                 guestAccount.Show();
+                _guestService.ResetBonusPoints((Guest)LogInUser);
                 Close();
             }
         }
+
     }
 }

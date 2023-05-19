@@ -1,76 +1,297 @@
-﻿<Window x:Class="WpfApp1.Views.SignInAccommodation"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1.Views"
-        mc:Ignorable="d"
-        Title="SignInAccommodation" Height="500" Width="800">
-    <Window.Resources>
-        <ControlTemplate x:Key="ValidationTemplate">
-            <StackPanel>
-                <!-- Placeholder for the TextBox itself -->
-                <AdornedElementPlaceholder x:Name="textBox" />
-                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
-            </StackPanel>
+﻿<UserControl x:Class="WpfApp1.Views.SignInAccommodation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views"
+             xmlns:val="clr-namespace:WpfApp1.Validation"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="950">
 
-        </ControlTemplate>
-    </Window.Resources>
-    <Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="65*"/>
-                <ColumnDefinition Width="436*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="370"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" Grid.Column="0" Margin="30,2,30,3" Grid.ColumnSpan="2">
+    <TabControl TabStripPlacement="Left" SelectedIndex="{Binding TabPosition}">
+        <TabItem Header="Overview" Width="90" Height="25">
+            <ListView ItemsSource="{Binding Accommodations}" SelectedItem="{Binding SelectedAccommodation}" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding ShowStatisticCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Photo" Width="140">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Height="100" Width="140" Source="{Binding MainImage.Path}"></Image>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Name" Width="115" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="City" Width="115" DisplayMemberBinding="{Binding Location.City}" />
+                        <GridViewColumn Header="Type" Width="130" DisplayMemberBinding="{Binding AccommodationKind}" />
+                        <GridViewColumn Header="Max number of guests" Width="130" DisplayMemberBinding="{Binding MaxGuests}" />
+                        <GridViewColumn Header="Min reservation" Width="100" DisplayMemberBinding="{Binding MinResevation}" />
+                        <GridViewColumn Header="Renovated" Width="95" DisplayMemberBinding="{Binding IsRenovated}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </TabItem>
+        <TabItem Header="Statistics" Width="90" Height="25" Margin="-1,0,1,0" VerticalAlignment="Bottom">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Height="30">Name</Label>
-                <Label Grid.Row="1" Grid.Column="0" Height="30">State</Label>
-                <Label Grid.Row="2" Grid.Column="0" Height="30">City</Label>
-                <Label Grid.Row="3" Grid.Column="0" Height="30">Kind of accommodation</Label>
-                <Label Grid.Row="4" Grid.Column="0" Height="30">Max guests</Label>
-                <Label Grid.Row="5" Grid.Column="0" Height="30">Min reservation</Label>
-                <Label Grid.Row="6" Grid.Column="0" Height="30">Cancel day</Label>
-                <Label Grid.Row="7" Grid.Column="0" Height="30">Link of images</Label>
+                <WrapPanel Grid.Row="0" >
+                    <ListView  Height="198" SelectedItem="{Binding SelectedAccommodationStatisticDTO, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AccommodationStatisticDTOs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Year" Width="100" DisplayMemberBinding="{Binding Year}" />
+                                <GridViewColumn Header="Reservation" Width="100" DisplayMemberBinding="{Binding Reservations}" />
+                                <GridViewColumn Header="Cancelation" Width="100" DisplayMemberBinding="{Binding Cancelations}" />
+                                <GridViewColumn Header="Resheduling" Width="100" DisplayMemberBinding="{Binding Rescheduling}" />
+                                <GridViewColumn Header="Renovation advice" Width="100" DisplayMemberBinding="{Binding Renovations}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=NameA, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30"></TextBox>
-                <ComboBox x:Name="SelectState" SelectionChanged="ChosenState" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=States}" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
-                <ComboBox x:Name="SelectCity" Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Cities}" SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
-                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></TextBox>
-                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=MinResevation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30"></TextBox>
-                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Path=CancelDay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></TextBox>
-                <WrapPanel Grid.Row="7"  FlowDirection="LeftToRight" HorizontalAlignment="Left"  Grid.Column="1"  Width="370">
-                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  HorizontalAlignment="Center" VerticalAlignment="Center" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30" Margin="0, 10" Width="300"> </TextBox>
-                    <Button Content="+ " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"   Click="AddURL" />
+                    <Separator Visibility="Hidden"  Width="150"></Separator>
+
+                    <WrapPanel Orientation="Vertical" >
+                        <Label FontSize="22">Best year</Label>
+                        <Label FontSize="22" Content="{Binding BestYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
+                        <Button Width="80" Height="30" Command="{Binding ShowMonthStatistics}">Detail</Button>
+                        <Separator Height ="10" Visibility="Hidden"></Separator>
+                        <Button Width="80" Height="30"  >Schudeling renovation</Button>
+                    </WrapPanel>
+
                 </WrapPanel>
-                
+
+                <WrapPanel Grid.Row="1" >
+                    <ListView  Height="199" ItemsSource="{Binding AccommodationStatisticMonthDTOs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Month" Width="100" DisplayMemberBinding="{Binding Month}" />
+                                <GridViewColumn Header="Reservation" Width="100" DisplayMemberBinding="{Binding Reservations}" />
+                                <GridViewColumn Header="Cancelation" Width="100" DisplayMemberBinding="{Binding Cancelations}" />
+                                <GridViewColumn Header="Resheduling" Width="100" DisplayMemberBinding="{Binding Rescheduling}" />
+                                <GridViewColumn Header="Renovation advice" Width="100" DisplayMemberBinding="{Binding Renovations}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Separator Visibility="Hidden" Width="150"></Separator>
+
+                    <WrapPanel Orientation="Vertical" >
+                        <Label FontSize="18">Selected year</Label>
+                        <Label FontSize="18" Content="{Binding SelectedAccommodationStatisticDTO.Year, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                        <Separator Height="20" Visibility="Hidden"></Separator>
+                        <Label FontSize="18">Best month</Label>
+                        <Label FontSize="18" Content="{Binding BestMonth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ></Label>
+                    </WrapPanel>
+
+                </WrapPanel>
+
+
+
             </Grid>
-            <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
-                <Button Content=" Potvrdi " IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
-              Click="Confirm"/>
-                <Button Content="Odustani " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
-               Click="Reject" />
+        </TabItem>
+        <TabItem Header="Create" Width="90" Height="25" Margin="-1,0,1,0" VerticalAlignment="Bottom">
+            <Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="65*"/>
+                        <ColumnDefinition Width="436*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="370"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="0" Margin="30,2,30,3" Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Height="30">Name</Label>
+                        <Label Grid.Row="1" Grid.Column="0" Height="30">State</Label>
+                        <Label Grid.Row="2" Grid.Column="0" Height="30">City</Label>
+                        <Label Grid.Row="3" Grid.Column="0" Height="30">Kind of accommodation</Label>
+                        <Label Grid.Row="4" Grid.Column="0" Height="30">Max guests</Label>
+                        <Label Grid.Row="5" Grid.Column="0" Height="30">Min reservation</Label>
+                        <Label Grid.Row="6" Grid.Column="0" Height="30">Cancel day</Label>
+                        <Label Grid.Row="7" Grid.Column="0" Height="30">Link of images</Label>
+
+                        <TextBox  Grid.Column="1" Height="30" >
+                            <TextBox.Text>
+                                <Binding Path="NameA" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <val:RequiredFieldValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                            <Validation.ErrorTemplate>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border BorderBrush="LightBlue" BorderThickness="2"
+                                            Width="{Binding ActualWidth, ElementName=txtCountry}"
+                                            Height="{Binding ActualHeight, ElementName=txtCountry}"/>
+                                        <AdornedElementPlaceholder x:Name="textBox"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding [0].ErrorContent}" Foreground="Gray" FontSize="14"
+                                                TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" Margin="2"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Validation.ErrorTemplate>
+                        </TextBox>
+
+                        <ComboBox x:Name="SelectState"  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=States}" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}"  Height="30"></ComboBox>
+                        <ComboBox x:Name="SelectCity" Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Cities}" SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
+                        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"  Height="30"></ComboBox>
+                        <TextBox Grid.Row="4" Grid.Column="1" Height="30" >
+                            <TextBox.Text>
+                                <Binding Path="MaxGuests" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <val:IntegerNumberValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                            <Validation.ErrorTemplate>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border BorderBrush="LightBlue" BorderThickness="2"
+                                            Width="{Binding ActualWidth, ElementName=txtCountry}"
+                                            Height="{Binding ActualHeight, ElementName=txtCountry}"/>
+                                        <AdornedElementPlaceholder x:Name="textBox"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding [0].ErrorContent}" Foreground="Gray" FontSize="14"
+                                                TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" Margin="2"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Validation.ErrorTemplate>
+                        </TextBox>
+                        <TextBox Grid.Row="5" Grid.Column="1" Height="30" >
+                            <TextBox.Text>
+                                <Binding Path="MinResevation" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <val:IntegerNumberValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                            <Validation.ErrorTemplate>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border BorderBrush="LightBlue" BorderThickness="2"
+                                            Width="{Binding ActualWidth, ElementName=txtCountry}"
+                                            Height="{Binding ActualHeight, ElementName=txtCountry}"/>
+                                        <AdornedElementPlaceholder x:Name="textBox"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding [0].ErrorContent}" Foreground="Gray" FontSize="14"
+                                                TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" Margin="2"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Validation.ErrorTemplate>
+                        </TextBox>
+                        <TextBox Grid.Row="6" Grid.Column="1" Height="30" >
+                            <TextBox.Text>
+                                <Binding Path="CancelDay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <val:IntegerNumberValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                            <Validation.ErrorTemplate>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border BorderBrush="LightBlue" BorderThickness="2"
+                                            Width="{Binding ActualWidth, ElementName=txtCountry}"
+                                            Height="{Binding ActualHeight, ElementName=txtCountry}"/>
+                                        <AdornedElementPlaceholder x:Name="textBox"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding [0].ErrorContent}" Foreground="Gray" FontSize="14"
+                                                TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" Margin="2"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Validation.ErrorTemplate>
+                        </TextBox>
+                        <WrapPanel Grid.Row="6"  FlowDirection="LeftToRight" HorizontalAlignment="Center"  Grid.Column="1"  Width="396" Margin="0,45,0,0" Grid.RowSpan="2">
+                            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Center" VerticalAlignment="Center"   Height="25" Width="363"/>
+                            <Button Content="+" IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"   Command="{Binding AddUrlCommand}" />
+                        </WrapPanel>
+
+                    </Grid>
+                    <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
+                        <Button Content="Confirm" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
+              Command="{Binding ConfrimCommand}"/>
+                        <Button Content="Odustani " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
+                Command="{Binding RejectCommand}"/>
+                    </WrapPanel>
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Suggestions" Width="90" Height="25">
+            <WrapPanel>
+                <WrapPanel Orientation="Vertical">
+                    <ListView ItemsSource="{Binding Accommodations}" Height="300">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Popular locations" Width="350" DisplayMemberBinding="{Binding Name}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Button Width="90" Height="30" Margin="0, 20, 0, 0">Create</Button>
+                </WrapPanel>
+                <Separator Visibility="Hidden" Width="132" ></Separator>
+
+                <WrapPanel Orientation="Vertical">
+                    <ListView ItemsSource="{Binding Accommodations}" Height="300">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Unpopular locations" Width="350" DisplayMemberBinding="{Binding Name}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Button Width="90" Height="30" Margin="0, 20, 0, 0">Delete</Button>
+                </WrapPanel>
             </WrapPanel>
-        </Grid>
-    </Grid>
-</Window>
+        </TabItem>
+    </TabControl>
+</UserControl>

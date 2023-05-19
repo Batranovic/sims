@@ -9,7 +9,7 @@
     <Grid>
         <DataGrid DockPanel.Dock="Right" Width="600"
                           AutoGenerateColumns="False" ItemsSource="{Binding Path=ReservationPostponements, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=SelectedPostponements, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Notification"
+                          SelectedItem="{Binding Path=SelectedPostponements, UpdateSourceTrigger=PropertyChanged}" 
                           Margin="102,52,98,71" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Accommodation" Binding="{Binding Reservation.Accommodation.Name}" Width="120"></DataGridTextColumn>
@@ -20,9 +20,10 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Content=" Potvrdi " IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="268,404,0,0"
-              Click="Aprove" />
+             Command="{Binding AproveCommand}"/>
         <Button Content="Odustani " IsDefault="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="474,404,0,0"
-               Click="Reject" />
-
+             Command="{Binding RejectCommand}"/>
+        <Button Content="Obavestenje " IsDefault="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="365,404,0,0"
+             Command="{Binding NotificationCommand}"/>
     </Grid>
 </Window>
