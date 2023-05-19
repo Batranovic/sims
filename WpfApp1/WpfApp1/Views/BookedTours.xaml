@@ -62,16 +62,21 @@
                 </Button>
             </Grid>
         </DockPanel>
-        <Button Background="#f9cb9e" Command="{Binding LeaveReviewCommand}" Content="Leave a review" HorizontalAlignment="Left" Margin="306,568,0,0" VerticalAlignment="Top" Height="36" Width="98" IsEnabled="{Binding IsTourEventSelected}"/>
+        <Button Background="#f9cb9e" Command="{Binding LeaveReviewCommand}" Content="Leave a review" HorizontalAlignment="Left" Margin="815,524,0,0" VerticalAlignment="Top" Height="36" Width="98" IsEnabled="{Binding IsTourEventSelected}" Click="Button_Click">
+            <Button.Effect>
+                <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+            </Button.Effect>
+        </Button>
 
-        <ToggleButton x:Name="myToggleButton" IsChecked="{Binding IsPopupOpen}" Width="50" Height="50" HorizontalAlignment="Left" Margin="219,561,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Command="{Binding ShowPopUpCommand}"   >
+
+        <ToggleButton x:Name="myToggleButton" IsChecked="{Binding IsPopupOpen}" Width="50" Height="50" HorizontalAlignment="Left" Margin="740,517,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Command="{Binding ShowPopUpCommand}"   >
             <ToggleButton.Template>
                 <ControlTemplate TargetType="ToggleButton">
                     <Grid>
-                        <Ellipse Width="30" Height="30" Fill="White" Stroke="Red" StrokeThickness="2"/>
-                        <TextBlock Text="i" FontSize="24" FontWeight="Bold" Foreground="Red">
+                        <Ellipse Width="20" Height="20"  Fill="White" Stroke="Red" StrokeThickness="2" Margin="23,15,7,15"/>
+                        <TextBlock Text="i" FontSize="15" FontWeight="Bold" Foreground="Red" Margin="8,0,-8,0">
                             <TextBlock.RenderTransform>
-                                <TranslateTransform X="22" Y="8"/>
+                                <TranslateTransform X="23" Y="15"/>
                             </TextBlock.RenderTransform>
                         </TextBlock>
                     </Grid>
@@ -86,98 +91,104 @@
 
             </Grid>
         </Popup>
-        <TextBlock  Text=" Booked tours" FontSize="20"  Margin="60,66,591,487" FontWeight="Bold" />
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="60,106,338,95" Background="#f3dcc4">
-        
-         
-            <ItemsControl ItemsSource="{Binding Path=TourEvents}" Margin="0,0,0,0">
-
-                <ItemsControl.ItemTemplate>
-
-                    <DataTemplate>
-                        <Border BorderBrush="Black" BorderThickness="1" Margin="0" Height="240">
-                            <DockPanel>
-                                <DockPanel DockPanel.Dock="Left">
-                                    <Border Margin="38,43,38,43" BorderBrush="Black" BorderThickness="1">
-                                        <Image  Width="140" Source ="{Binding Tour.Image}"  Stretch="UniformToFill" Height="150"/>
-                                    </Border>
-
-                                </DockPanel>
-                                <DockPanel DockPanel.Dock="Right">
-                                    <DockPanel DockPanel.Dock="Top">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="50"/>
-                                                <RowDefinition Height="30"/>
-                                                <RowDefinition Height="40"/>
-                                                <RowDefinition Height="30"/>
-                                                <RowDefinition Height="30"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="90"/>
-                                                <ColumnDefinition Width="90"/>
-                                                <ColumnDefinition Width="90"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Tour.Name}" TextDecorations="Underline"  FontWeight="Bold" FontSize="20"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-                                            <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >State</TextBlock>
-                                            <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center" >City</TextBlock>
-                                            <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Center" >Duration</TextBlock>
-
-                                            <TextBlock Text="{Binding Tour.Location.State}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Tour.Location.City}" FontWeight="Bold" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Tour.Duration}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Status}" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Status}" Value="Active">
-                                                                <Setter Property="Foreground" Value="LightSeaGreen" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Status}" Value="Finished">
-                                                                <Setter Property="Foreground" Value="LightSkyBlue" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Status}" Value="Inactive">
-                                                                <Setter Property="Foreground" Value="Red" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-
-                                            <TextBlock  FontSize="11"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
-                                            <TextBlock TextWrapping="Wrap" Text="{Binding Tour.Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </DockPanel>
-                                  
+        <TextBlock  Text="My booked tours" FontSize="20"  Margin="60,66,591,487" FontWeight="Bold" />
 
 
-                                </DockPanel>
+
+        <ListBox ItemsSource="{Binding Path=TourEvents}"  SelectedItem="{Binding Path=SelectedTourEvent, UpdateSourceTrigger=PropertyChanged}"  IsSynchronizedWithCurrentItem="True" Background="#f3dcc4" Margin="60,108,342,54">
+
+            <ListBox.ItemTemplate >
+
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="-4,-1,-10,-2" Height="235" Width="585">
+                        <DockPanel>
+                            <DockPanel DockPanel.Dock="Left">
+                                <Border Margin="38,43,38,43" BorderBrush="Black" BorderThickness="1">
+                                    <Image  Width="140" Source ="{Binding Tour.Image}"  Stretch="UniformToFill" Height="150"/>
+                                </Border>
+
                             </DockPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-        <TextBlock  Text=" Tour points" FontSize="20"  Margin="724,66,-73,487" FontWeight="Bold" />
-        <DataGrid GridLinesVisibility="None" DockPanel.Dock="Right" Background="#f3dcc4"
-                       SelectionMode="Single"
-                        ItemsSource="{Binding Path=SelectedTourEvent.Tour.TourPoints, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="724,106,33,0" Height="422" VerticalAlignment="Top">
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Status" Binding="{Binding Active}" Width="50" IsReadOnly="True">
-                    <DataGridCheckBoxColumn.CellStyle>
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                        </Style>
-                    </DataGridCheckBoxColumn.CellStyle>
-                </DataGridCheckBoxColumn>
-                <DataGridTextColumn  Header="Name" Binding="{Binding Name}" Width="*"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                            <DockPanel DockPanel.Dock="Right">
+                                <DockPanel DockPanel.Dock="Top">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="40"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="90"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Tour.Name}" TextDecorations="Underline"  FontWeight="Bold" FontSize="20"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                                        <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >State</TextBlock>
+                                        <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center" >City</TextBlock>
+                                        <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Center" >Duration</TextBlock>
+
+                                        <TextBlock Text="{Binding Tour.Location.State}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Tour.Location.City}" FontWeight="Bold" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Tour.Duration}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Status}" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Active">
+                                                            <Setter Property="Foreground" Value="LightSeaGreen" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Finished">
+                                                            <Setter Property="Foreground" Value="LightSkyBlue" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Inactive">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
+                                        <TextBlock  FontSize="11"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding Tour.Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </DockPanel>
 
 
+
+                            </DockPanel>
+                        </DockPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel DockPanel.Dock="Right" Margin="717,129,58,0" Height="351" VerticalAlignment="Top">
+            <Border BorderBrush="Black" BorderThickness="1">
+                <ListBox Background="#f3dcc4" SelectionMode="Single" Width="248" Height="349"
+                 ItemsSource="{Binding SelectedTourEvent.Tour.TourPoints, UpdateSourceTrigger=PropertyChanged}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Data row -->
+                                <CheckBox Grid.Column="0" Height="35" Background="#f3dcc4" IsChecked="{Binding Active}" VerticalAlignment="Center" IsEnabled="False" HorizontalAlignment="Left" />
+                                <TextBlock Grid.Column="1" Height="35" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+        </StackPanel>
+
+        <TextBlock HorizontalAlignment="Left" FontSize="17"  FontWeight="Bold" Margin="740,100,0,0"  TextWrapping="Wrap" Text="Where you are currently:" VerticalAlignment="Top" Width="204" Height="23"/>
+        <TextBlock HorizontalAlignment="Left" FontSize="17"  FontWeight="Bold" Margin="740,485,0,0"  TextWrapping="Wrap" Text="How was your experince?" VerticalAlignment="Top" Width="248" Height="24" RenderTransformOrigin="0.548,0.51"/>
 
     </Grid>
 </Window>

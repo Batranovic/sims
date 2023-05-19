@@ -175,7 +175,7 @@ namespace WpfApp1.Service
             for (int i=0; i< allRequests.Count();i++)
             {
                 var request = allRequests.ElementAt(i);
-                if (request.TouristId == userId && (request.RequestStatus == RequestStatus.Pending || request.RequestStatus == RequestStatus.Denied))
+                if (request.Tourist.Id == userId && (request.RequestStatus == RequestStatus.Pending || request.RequestStatus == RequestStatus.Denied))
                 {
                     if ((request.StartDate - DateTime.Today).TotalDays <= 2 && request.RequestStatus != RequestStatus.Accepted)
                     {
@@ -195,7 +195,7 @@ namespace WpfApp1.Service
            
             foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
             {
-                if (request.TouristId == userId && request.RequestStatus == RequestStatus.Accepted)
+                if (request.Tourist.Id == userId && request.RequestStatus == RequestStatus.Accepted)
                 {
                     simple.Add(request);
                 }
@@ -205,20 +205,20 @@ namespace WpfApp1.Service
 
         public List<SimpleTourRequest> GetAllForUser(int userId)
         {
-            return GetAll().Where(r => r.TouristId == userId).ToList();
+            return GetAll().Where(r => r.Tourist.Id == userId).ToList();
         }
 
         public void AddIfRequestWasNeverFullfilled(SimpleTourRequest requestForAdding, List<SimpleTourRequest> notFullfilledRequests)
         {
             foreach(SimpleTourRequest simpleTourRequest in notFullfilledRequests)
             {
-                if(simpleTourRequest.TouristId == requestForAdding.TouristId)
+                if(simpleTourRequest.Tourist.Id == requestForAdding.Tourist.Id)
                 {
                     return;
                 }
             }
 
-            foreach (SimpleTourRequest request in GetAllForUser(requestForAdding.TouristId))
+            foreach (SimpleTourRequest request in GetAllForUser(requestForAdding.Tourist.Id))
             {
                 if(request.RequestStatus == RequestStatus.Accepted && request.Languages == requestForAdding.Languages && request.City == requestForAdding.City)
                 {

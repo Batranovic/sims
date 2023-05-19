@@ -153,7 +153,7 @@ namespace WpfApp1.ViewModel
             StartDate = DateTime.Now;
             EndDate = DateTime.Now;
 
-            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
             RequestSimpleTourCommand = new RelayCommand(Execute_RequestSimpleTour, CanExecute_Command);
@@ -173,8 +173,7 @@ namespace WpfApp1.ViewModel
                                 "View status in REQUEST LIST" + Environment.NewLine +
                                 "\t   (CTRL + R)", "Request sent ");
                 int maxG = int.Parse(MaxGuests);
-                Tourist t = (Tourist)MainWindow.LogInUser;
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, StartDate, EndDate,t,RequestStatus.Pending);
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, StartDate, EndDate,MainWindow.LogInUser,RequestStatus.Pending);
                 _simpleTourRequestService.Create(simpleTour);
                 SelectedCity = null;
                 SelectedState = null;
@@ -228,12 +227,11 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private void Execute_LogOut(object sender)
+        private void Execute_MyProfile(object sender)
         {
-            MessageBox.Show("You are logging out!");
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            CloseAction();
+           TouristProfile profile = new TouristProfile();   
+           profile.Show();
+           CloseAction();
 
         }
 
@@ -318,15 +316,15 @@ namespace WpfApp1.ViewModel
         }
 
 
-        private RelayCommand logOutCommand;
-        public RelayCommand LogOutCommand
+        private RelayCommand myProfileCommand;
+        public RelayCommand MyProfileCommand
         {
-            get => logOutCommand;
+            get => myProfileCommand;
             set
             {
-                if (value != logOutCommand)
+                if (value != myProfileCommand)
                 {
-                    logOutCommand = value;
+                    myProfileCommand = value;
                     OnPropertyChanged();
                 }
             }

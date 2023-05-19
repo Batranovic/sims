@@ -32,7 +32,7 @@ namespace WpfApp1.Service
                 }
                 else
                 {
-                    Console.WriteLine("Error in binding tourBooking and notification");
+                    Console.WriteLine("Error in binding");
                 }
             }
         }

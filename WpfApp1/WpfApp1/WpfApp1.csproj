@@ -44,7 +44,9 @@
     <None Remove="Images\close.png" />
     <None Remove="Images\destination.png" />
     <None Remove="Images\dot.png" />
+    <None Remove="Images\location-pin.png" />
     <None Remove="Images\map.png" />
+    <None Remove="Images\out.png" />
     <None Remove="Images\point.png" />
     <None Remove="Images\profile.png" />
     <None Remove="Images\rating.png" />
@@ -79,7 +81,9 @@
     <Resource Include="Images\close.png" />
     <Resource Include="Images\destination.png" />
     <Resource Include="Images\dot.png" />
+    <Resource Include="Images\location-pin.png" />
     <Resource Include="Images\map.png" />
+    <Resource Include="Images\out.png" />
     <Resource Include="Images\point.png" />
     <Resource Include="Images\profile.png" />
     <Resource Include="Images\rating.png" />

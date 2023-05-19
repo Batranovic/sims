@@ -37,7 +37,7 @@ namespace WpfApp1.ViewModel
 
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
-            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
             StatisticsCommand = new RelayCommand(Execute_Statistics, CanExecute_Command);
             RefreshToursCommand = new RelayCommand(Execute_Refresh, CanExecute_Command);
@@ -134,15 +134,15 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private RelayCommand logOutCommand;
-        public RelayCommand LogOutCommand
+        private RelayCommand myProfileCommand;
+        public RelayCommand MyProfileCommand
         {
-            get => logOutCommand;
+            get => myProfileCommand;
             set
             {
-                if (value != logOutCommand)
+                if (value != myProfileCommand)
                 {
-                    logOutCommand = value;
+                    myProfileCommand = value;
                     OnPropertyChanged();
                 }
             }
@@ -210,11 +210,10 @@ namespace WpfApp1.ViewModel
 
         }
 
-        private void Execute_LogOut(object sender)
+        private void Execute_MyProfile(object sender)
         {
-            MessageBox.Show("You are logging out!");
-            MainWindow mw = new MainWindow();
-            mw.Show();
+            TouristProfile profile = new TouristProfile();
+            profile.Show();
             CloseAction();
 
         }

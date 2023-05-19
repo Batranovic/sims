@@ -57,6 +57,8 @@ namespace WpfApp1.ViewModel
             _tourPointService = InjectorService.CreateInstance<ITourPointService>();
 
             TourEvents = new ObservableCollection<TourEvent>(_tourBookingService.TouristTourEvents(MainWindow.LogInUser.Id));
+
+            SelectedTourEvent = TourEvents[0];
            
             LeaveReviewCommand = new RelayCommand(Execute_LeaveReview, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);

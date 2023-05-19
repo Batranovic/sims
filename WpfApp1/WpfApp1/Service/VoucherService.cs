@@ -103,7 +103,7 @@ namespace WpfApp1.Service
             var unusedValidVouchers = GetVouchersThatArentUsed(validVouchers);
             foreach (Voucher voucher in unusedValidVouchers)
             {
-                if (voucher.TouristId == userId)
+                if (voucher.Tourist.Id == userId)
                 {
                     vouchers.Add(voucher);
                 }

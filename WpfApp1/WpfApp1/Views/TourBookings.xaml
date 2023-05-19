@@ -10,7 +10,7 @@
         <KeyBinding Command="{Binding AllToursCommand}" Key="A" Modifiers="Ctrl"></KeyBinding>
         <KeyBinding Command="{Binding BookedToursCommand}" Key="B" Modifiers="Ctrl"></KeyBinding>
         <KeyBinding Command="{Binding RequestTourCommand}" Key="R" Modifiers="Ctrl"></KeyBinding>
-        <KeyBinding Command="{Binding LogOutCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding MyProfileCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
         <KeyBinding Command="{Binding RequestListCommand}" Key="L" Modifiers="Ctrl"></KeyBinding>
     </Window.InputBindings>
     <Window.Icon>
@@ -65,7 +65,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding LogOutCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
+                <Button Command="{Binding MyProfileCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/profile.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="My profile"/>
@@ -100,7 +100,7 @@
                         <Border  Grid.Row="2" Grid.Column="0" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1,0,1,0" />
                         <Border  Grid.Row="2" Grid.Column="4" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="0,0,1,0" />
                         <TextBlock  Text=" About tour"  Grid.Row="0" Grid.ColumnSpan="5"  FontSize="20" Margin="0,10,0,10" FontWeight="Bold" />
-                        <TextBlock Text=" In the same location" Grid.Row="7" Grid.ColumnSpan="5"  FontSize="20" Margin="0,10,0,10" FontWeight="Bold" />
+                        <TextBlock Text=" Choose a tour event" Grid.Row="7" Grid.ColumnSpan="5"  FontSize="20" Margin="0,10,0,10" FontWeight="Bold" />
                         <Border Grid.Row="1" Grid.Column="0" Margin="15,15,15,15"  Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1">
                             <Image Source ="{Binding SelectedTourEvent.Tour.Image }" Stretch="UniformToFill"></Image>
                         </Border>

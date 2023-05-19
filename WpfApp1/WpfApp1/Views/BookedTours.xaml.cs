@@ -54,7 +54,9 @@ namespace WpfApp1.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
-        
+        }
     }
 }

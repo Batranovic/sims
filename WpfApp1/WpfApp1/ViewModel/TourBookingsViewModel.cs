@@ -122,12 +122,15 @@ namespace WpfApp1.ViewModel
 
             Vouchers = new ObservableCollection<Voucher>(_voucherService.VoucherForTourist(MainWindow.LogInUser.Id));
 
+            
+            SelectedTourEvent = TourEvents[0];
+            
 
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
             CheckAvailabilityCommand = new RelayCommand(Execute_CheckAvailability, CanExecute_Command);
             ReserveCommand = new RelayCommand(Execute_Reserve, CanExecute_Command);
-            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
             RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
 
@@ -156,13 +159,11 @@ namespace WpfApp1.ViewModel
 
         }
 
-        private void Execute_LogOut(object sender)
-        {
-            MessageBox.Show("You are logging out!");
-            MainWindow mw = new MainWindow();
-            mw.Show();
+        private void Execute_MyProfile(object sender)
+        {   
+            TouristProfile profile = new TouristProfile();
+            profile.Show();
             CloseAction();
-
         }
         private void Execute_RequestTour(object sender)
         {
@@ -204,15 +205,15 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private RelayCommand logOutCommand;
-        public RelayCommand LogOutCommand
+        private RelayCommand myProfileCommand;
+        public RelayCommand MyProfileCommand
         {
-            get => logOutCommand;
+            get => myProfileCommand;
             set
             {
-                if (value != logOutCommand)
+                if (value != myProfileCommand)
                 {
-                    logOutCommand = value;
+                    myProfileCommand = value;
                     OnPropertyChanged();
                 }
             }
@@ -288,8 +289,7 @@ namespace WpfApp1.ViewModel
                 }
                 else
                 {
-                    Tourist t = (Tourist)MainWindow.LogInUser;
-                    TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent,t, SelectedVoucher);
+                    TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, MainWindow.LogInUser, SelectedVoucher);
                     _tourBookingService.Create(tourBooking);
 
                     if (SelectedVoucher != null)
@@ -325,11 +325,11 @@ namespace WpfApp1.ViewModel
             {
                 List<TourEvent> tourEventsForLocation = _tourEventService.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
                 RefreshTours(tourEventsForLocation);
-                AvailableSpotsText = "Not available";
+               
             }
             else
             {
-                AvailableSpotsText = "Available";
+                
             }
         }
 

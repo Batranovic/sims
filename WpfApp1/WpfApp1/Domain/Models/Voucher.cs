@@ -15,8 +15,7 @@ namespace WpfApp1.Domain.Models
 
         private DateTime _expirationDate;
 
-        public Tourist Tourist { get; set; }
-        public int TouristId { get; set; }
+        public User Tourist { get; set; }
 
         private Boolean _isUsed;
 
@@ -58,13 +57,12 @@ namespace WpfApp1.Domain.Models
         {
 
         }
-        public Voucher(int id, int name, DateTime date, Tourist tourist, Boolean isUsed)
+        public Voucher(int id, int name, DateTime date, User tourist, Boolean isUsed)
         {
            Id = id;
            Name = Name;
            ExpirationDate = date;   
            Tourist = tourist;
-           TouristId = Tourist.Id;
            IsUsed = isUsed;
         }
 
@@ -88,7 +86,7 @@ namespace WpfApp1.Domain.Models
                     Id.ToString(),
                     Name, 
                     ExpirationDate.ToString(),
-                    TouristId.ToString(),
+                    Tourist.Id.ToString(),
                     IsUsed.ToString()
                 };
             return csvValues;
@@ -99,7 +97,7 @@ namespace WpfApp1.Domain.Models
             Id = int.Parse(values[0]);
             Name = values[1];
             ExpirationDate = DateTime.Parse(values[2]);
-            TouristId = int.Parse(values[3]);
+            Tourist = new User() { Id = Convert.ToInt32(values[3]) };
             IsUsed = Convert.ToBoolean(values[4]);
         }
     }
