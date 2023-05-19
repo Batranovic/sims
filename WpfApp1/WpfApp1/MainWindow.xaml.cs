@@ -72,6 +72,7 @@ namespace WpfApp1
             {
                 OwnerAccount ownerAccount = new OwnerAccount();
                 ownerAccount.Show();
+                _ownerService.SetKind((Owner)LogInUser);
                 Close();
                 return;
             }

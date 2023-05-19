@@ -117,7 +117,7 @@ namespace WpfApp1.ViewModel
 
         private void Execute_ConfirmCommand()
         {
-            Renovation renovation = new(SelectedAccommodation.Id, SelectedAccommodation, SelectedDate.StartDate, SelectedDate.EndDate, Description);
+            Renovation renovation = new(SelectedAccommodation, SelectedDate.StartDate, SelectedDate.EndDate, Description);
             _renovationService.Create(renovation);
             Renovations.Clear();
             foreach (var r in _renovationService.GetAllForAccommodation(SelectedAccommodation.Id))

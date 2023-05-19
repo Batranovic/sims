@@ -9,7 +9,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
 {
     public interface IOwnerService : IService<Owner>
     {
-        void SetKind();
+        void SetKind(Owner owner);
         double GetAverageRating(List<OwnerRating> ratings);
         void CalculateAverageRating();
         Owner GetByUsernameAndPassword(string username, string password);

@@ -51,6 +51,7 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Grid>
+                                                    
                                                     <Ellipse Fill="{TemplateBinding Background}" />
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Grid>
@@ -92,10 +93,15 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        
 
-                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10">
-                            <Image Source="../Views/Image/Owner/notification.webp" Width="40" Height="40" />
+
+                        <Button Name="textCountry" Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10">
+                            <Border BorderBrush="{Binding HaveNotification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="2" CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
+                                <Grid>
+                                    <Ellipse Fill="White" />
+                                    <Image Source="../Views/Image/Owner/notification1.png" Width="40" Height="40" />
+                                </Grid>
+                            </Border>
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
@@ -119,8 +125,9 @@
                         </Button>
 
                         <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0">
-                                <Image Source="../Views/Image/Owner/profile.png" Width="40" Height="40" />
-                                <Button.Style>
+                            <Image Source="../Views/Image/Owner/profile.png" Width="40" Height="40" />
+
+                            <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
                                         <Setter.Value>
@@ -185,7 +192,7 @@
                                 <Label Width="250" Height="30">have a  vertical tabs with more features.</Label>
                             </WrapPanel>
                         </Popup>
-                        
+
                     </WrapPanel>
                 </WrapPanel>
             </DockPanel>

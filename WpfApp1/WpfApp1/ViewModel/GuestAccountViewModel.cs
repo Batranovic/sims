@@ -26,6 +26,7 @@ namespace WpfApp1.ViewModel
 
         private Window _window;
 
+        public string SuperGuest { get; set; }
         public RelayCommand AccommodationViewCommand { get; set; }
 
         public RelayCommand ReservationViewCommand { get; set; }
@@ -49,6 +50,7 @@ namespace WpfApp1.ViewModel
             PostponementsOverviewCommand = new RelayCommand(param => Execute_PostponementsOverview(), param => CanExecute());
             LogOutCommand = new RelayCommand(param => Execute_LogOut(), param => CanExecute());
             OwnerReviewsCommand = new RelayCommand(param => Execute_OwnerReviewsCommand(),param => CanExecute());
+            SuperGuest = LogInGuest.Super ? "Super guest" : "Basic guest";
 
         }
 

@@ -27,6 +27,8 @@ namespace WpfApp1.ViewModel
         private ReservationOverviewViewModel _reservationOverviewViewModel;
         private RenovationOverviewViewModel _renovationOverviewViewModel;
 
+        public string HaveNotification { get; set; }
+
         private Window _window;
         //    private AccommodationRenovationViewModel _accommodationRenovationViewModel;
         //    private RenovationHistoryViewModel _renovationHistoryViewModel;
@@ -94,6 +96,7 @@ namespace WpfApp1.ViewModel
             _renovationOverviewViewModel = new(owner);
             _reservationService = InjectorService.CreateInstance<IReservationService>();
 
+            
             Init(owner);
             IntiCommand();
         }
@@ -112,7 +115,7 @@ namespace WpfApp1.ViewModel
         }
         private void IntiCommand()
         {
-            NavCommand = new RelayCommand(Execute_NavCommand, CanExecute_NavCommand);
+            NavCommand = new(Execute_NavCommand, CanExecute_NavCommand);
             ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
             WizardCommand = new(param => Execute_WizardCommand(), param  => CanExecute());
             LogoutCommand = new(param => Execute_LogoutCommand(), param => CanExecute());
@@ -120,6 +123,7 @@ namespace WpfApp1.ViewModel
         private void Init(Owner owner)
         {
             _window = _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
+            HaveNotification =  _reservationService.GetUnratedById(owner.Id).Count == 0 ? "White" :  "Green";
             VisibilityWizard = false;
             VisibilityPopUp = false;
             LoggedOwner = owner;

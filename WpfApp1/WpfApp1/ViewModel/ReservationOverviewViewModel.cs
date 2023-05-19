@@ -75,13 +75,14 @@ namespace WpfApp1.ViewModel
         public void Init(Owner owner)
         {
             LoggedOwner = owner;
-            Reservations = new (_reservationService.GetAll().FindAll(r => r.Accommodation.OwnerId == owner.Id));
+            _reservationService.GetUnratedById(owner.Id);
+            Reservations = new (_reservationService.GetAll().FindAll(r => r.Accommodation.Owner.Id == owner.Id));
             ReservationPostponements = new (_reservationPostponementService.GetAllByOwnerIdAhead(LoggedOwner.Id));
         }
 
         private void Execute_VisibilityCommand()
         {
-            bool freeDate = _reservationService.IsDateFree(SelectedPostponements.Reservation.IdAccommodation, SelectedPostponements.EndDate) && _reservationService.IsDateFree(SelectedPostponements.Reservation.IdAccommodation, SelectedPostponements.StartDate);
+            bool freeDate = _reservationService.IsDateFree(SelectedPostponements.Reservation.Accommodation.Id, SelectedPostponements.EndDate) && _reservationService.IsDateFree(SelectedPostponements.Reservation.Accommodation.Id, SelectedPostponements.StartDate);
             NotificationReservation = freeDate ? "Date is free" : "Date is taken";
             VisibiltyAnswer = !VisibiltyAnswer;
         }
@@ -126,7 +127,7 @@ namespace WpfApp1.ViewModel
                 ReservationPostponements.Add(r);
             }
             Reservations.Clear();
-            foreach(Reservation r in _reservationService.GetAll().FindAll(r => r.Accommodation.OwnerId == LoggedOwner.Id))
+            foreach(Reservation r in _reservationService.GetAll().FindAll(r => r.Accommodation.Owner.Id == LoggedOwner.Id))
             {
                 Reservations.Add(r);
             }

@@ -134,7 +134,7 @@
                         <Label Grid.Row="6" Grid.Column="0" Height="30">Cancel day</Label>
                         <Label Grid.Row="7" Grid.Column="0" Height="30">Link of images</Label>
 
-                        <TextBox Grid.Column="1" Height="30" >
+                        <TextBox  Grid.Column="1" Height="30" >
                             <TextBox.Text>
                                 <Binding Path="NameA" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
