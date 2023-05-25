@@ -20,7 +20,7 @@ namespace WpfApp1.Domain.Models
         public int MaxGuests { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public User Tourist { get; set; }
+        public Tourist Tourist { get; set; }
         public RequestStatus RequestStatus { get; set; }
 
         public SimpleTourRequest()
@@ -28,7 +28,7 @@ namespace WpfApp1.Domain.Models
            
         }
 
-        public SimpleTourRequest(int id, string state, string city, string description, string language, int maxGuests, DateTime start, DateTime end, User tourist, RequestStatus r)
+        public SimpleTourRequest(int id, string state, string city, string description, string language, int maxGuests, DateTime start, DateTime end, Tourist tourist, RequestStatus r)
         {
             Id = id;
             State = state;
@@ -72,7 +72,7 @@ namespace WpfApp1.Domain.Models
             MaxGuests = int.Parse(values[5]);
             StartDate = DateTime.Parse(values[6]);
             EndDate = DateTime.Parse(values[7]);
-            Tourist = new User() { Id = Convert.ToInt32(values[8]) };
+            Tourist = new Tourist() { Id = Convert.ToInt32(values[8]) };
             RequestStatus = (RequestStatus)Enum.Parse(typeof(RequestStatus), values[9]);
         }
     }

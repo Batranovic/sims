@@ -173,7 +173,8 @@ namespace WpfApp1.ViewModel
                                 "View status in REQUEST LIST" + Environment.NewLine +
                                 "\t   (CTRL + R)", "Request sent ");
                 int maxG = int.Parse(MaxGuests);
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, StartDate, EndDate,MainWindow.LogInUser,RequestStatus.Pending);
+                Tourist tourist = (Tourist)MainWindow.LogInUser;
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, StartDate, EndDate,tourist,RequestStatus.Pending);
                 _simpleTourRequestService.Create(simpleTour);
                 SelectedCity = null;
                 SelectedState = null;

@@ -288,8 +288,8 @@ namespace WpfApp1.ViewModel
                     MessageBox.Show("Already reserved this tour!");
                 }
                 else
-                {
-                    TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, MainWindow.LogInUser, SelectedVoucher);
+                {   Tourist tourist = (Tourist)MainWindow.LogInUser;
+                    TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, tourist, SelectedVoucher);
                     _tourBookingService.Create(tourBooking);
 
                     if (SelectedVoucher != null)
