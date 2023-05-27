@@ -62,7 +62,7 @@ namespace WpfApp1.ViewModel
 
         }
         private DateTime _selectedStartDate;
-        public DateTime StartDate
+        public DateTime SelectedStartDate
         {
             get => _selectedStartDate;
             set
@@ -70,14 +70,14 @@ namespace WpfApp1.ViewModel
                 if(value != _selectedStartDate)
                 {
                     _selectedStartDate = value;
-                    OnPropertyChanged("StartDate");
+                    OnPropertyChanged("SelectedStartDate");
                 }
                
             }
         }
 
         private DateTime _selectedEndDate;
-        public DateTime EndDate
+        public DateTime SelectedEndDate
         {
             get => _selectedEndDate;
             set
@@ -85,7 +85,7 @@ namespace WpfApp1.ViewModel
                 if (value != _selectedEndDate)
                 {
                     _selectedEndDate = value;
-                    OnPropertyChanged("EndDate");
+                    OnPropertyChanged("SelectedEndDate");
                 }
 
             }
@@ -149,9 +149,9 @@ namespace WpfApp1.ViewModel
             Cities = new ObservableCollection<string>();
 
            
-            MaxGuests = "";
-            StartDate = DateTime.Now;
-            EndDate = DateTime.Now;
+            MaxGuests = "0";
+            SelectedStartDate = DateTime.Today;
+            SelectedEndDate = DateTime.Today;
 
             MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
@@ -167,6 +167,7 @@ namespace WpfApp1.ViewModel
 
         private void Execute_RequestSimpleTour(object sender)
         {
+            IsSubmitClicked = true;
             if (IsValid)
             {
                 MessageBox.Show("Please wait for guide's answer." + Environment.NewLine +
@@ -174,16 +175,17 @@ namespace WpfApp1.ViewModel
                                 "\t   (CTRL + R)", "Request sent ");
                 int maxG = int.Parse(MaxGuests);
                 Tourist tourist = (Tourist)MainWindow.LogInUser;
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, StartDate, EndDate,tourist,RequestStatus.Pending);
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, SelectedStartDate, SelectedEndDate,tourist,RequestStatus.Pending);
                 _simpleTourRequestService.Create(simpleTour);
                 SelectedCity = null;
                 SelectedState = null;
                 Description = "";
                 Language = "";
                 MaxGuests = "";
-                StartDate = DateTime.Today; 
-                EndDate = DateTime.Today;
-                
+                SelectedStartDate = DateTime.Today;
+                SelectedEndDate = DateTime.Today;
+
+                IsSubmitClicked = false;
 
             }
             else
@@ -205,6 +207,9 @@ namespace WpfApp1.ViewModel
         }
         private void Execute_RequestComplexTour(object sender)
         {
+
+            IsSubmitClicked = true;
+
             if (IsValid)
             {
                 MessageBoxResult result = MessageBox.Show(
@@ -391,104 +396,118 @@ namespace WpfApp1.ViewModel
         {
             get
             {
-                if (columnName == "SelectedState")
+                if (IsSubmitClicked)
                 {
-                    if (string.IsNullOrEmpty(SelectedState))
+                    if (columnName == "SelectedState")
                     {
-                        return "choose a state";
-                    }
-                }
-
-                if (columnName == "SelectedCity")
-                {
-                    if (SelectedCity == null)
-                    {
-                        return "choose a location";
-
-                    }
-                }
-                if (columnName == "MaxGuests")
-                {
-                    if (string.IsNullOrEmpty(MaxGuests) || MaxGuests=="0")
-                    {
-                        return "choose number of people";
-                    }
-                    else if (!Regex.IsMatch(MaxGuests, "^[0-9]+$"))
-                    {
-                        if (MaxGuests.StartsWith("-"))
+                        if (string.IsNullOrEmpty(SelectedState))
                         {
-                            return "please enter only positive numbers";
-                        }
-                        else
-                        {
-                            return "please enter only numbers";
+                            return "Please choose a state.";
                         }
                     }
+
+                    if (columnName == "SelectedCity")
+                    {
+                        if (string.IsNullOrEmpty(SelectedCity))
+                        {
+                            return "Please choose a location.";
+                        }
+                    }
+
+                    if (columnName == "MaxGuests")
+                    {
+                        if (string.IsNullOrEmpty(MaxGuests) || MaxGuests == "0")
+                        {
+                            return "Please choose the number of people.";
+                        }
+                        else if (!int.TryParse(MaxGuests, out int maxGuests) || maxGuests <= 0)
+                        {
+                            return "Please enter a positive integer.";
+                        }
+                    }
+
+                    if (columnName == "Language")
+                    {
+                        if (string.IsNullOrEmpty(Language))
+                        {
+                            return "Please enter a language.";
+                        }
+                        else if (!Regex.IsMatch(Language.TrimEnd(), "^[a-zA-Z]+(\\s)*$"))
+                        {
+                            return "Language must contain only letters.";
+                        }
+                    }
+
+                    if (columnName == "Description")
+                    {
+                        if (string.IsNullOrEmpty(Description))
+                        {
+                            return "Please write a description.";
+                        }
+                    }
+
+                    if (columnName == "SelectedStartDate")
+                    {
+                        if (SelectedStartDate <= DateTime.Today)
+                        {
+                            return "Please select a future date.";
+                        }
+                        else if (SelectedStartDate > DateTime.Today.AddYears(5))
+                        {
+                            return "Please select a date within the next 5 years.";
+                        }
+                    }
+
+                    if (columnName == "SelectedEndDate")
+                    {
+                        if (SelectedEndDate <= SelectedStartDate)
+                        {
+                            return "Please select a future date.";
+                        }
+                        else if (SelectedEndDate > SelectedStartDate.AddDays(15))
+                        {
+                            return "Please select an end date within 15 days from the start date.";
+                        }
+                    }
                 }
-
-                if(columnName == "Language")
-                {
-                    if (string.IsNullOrEmpty(Language))
-                    {
-                        return "enter a language.";
-                    }
-                    else if (!Regex.IsMatch(Language.TrimEnd(), "^[a-zA-Z]+(\\s)*$"))
-                    {
-                        return "must contain only letters.";
-                    }
-
-                }
-
-                if (columnName == "Description")
-                {
-                    if (string.IsNullOrEmpty(Description))
-                    {
-                        return "write a description";
-                    }
-                }
-
-                if(columnName == "StartDate")
-                { 
-                    
-                    if (StartDate < DateTime.Today)
-                    {
-                        return "Please select a future date.";
-                    }
-                     else if (StartDate > DateTime.Today.AddYears(5))
-                    {
-                         return "Please select a date within the next 5 years.";
-                     }
-                }
-
-                if (columnName == "EndDate")
-                {
-
-                    if (EndDate < StartDate)
-                    {
-                        return "Please select a future date.";
-                    }
-                    else if (EndDate > StartDate.AddDays(15))
-                    {
-                        return "Add up to 15 days to start date";
-                    }
-
-                }
-
 
                 return null;
-
-
-
             }
-
         }
 
-        private readonly string[] _validatedProperties = { "SelectedState", "SelectedCity", "MaxGuests", "Language", "Description", "StartDate", "EndDate" };
+
+        private bool _isSubmitClicked = false;
+
+        public bool IsSubmitClicked
+        {
+            get { return _isSubmitClicked; }
+            set
+            {
+                if (_isSubmitClicked != value)
+                {
+                    _isSubmitClicked = value;
+                    OnPropertyChanged("IsSubmitClicked");
+
+                    // Trigger re-evaluation of validation errors
+                    OnPropertyChanged("SelectedState");
+                    OnPropertyChanged("SelectedCity");
+                    OnPropertyChanged("MaxGuests");
+                    OnPropertyChanged("Language");
+                    OnPropertyChanged("Description");
+                    OnPropertyChanged("SelectedStartDate");
+                    OnPropertyChanged("SelectedEndDate");
+                }
+            }
+        }
+
+
+        private readonly string[] _validatedProperties = { "SelectedState", "SelectedCity", "MaxGuests", "Language", "Description", "SelectedStartDate", "SelectedEndDate" };
 
         public bool IsValid
         {
             get
             {
+                
                 foreach (var property in _validatedProperties)
                 {
                     if (this[property] != null)

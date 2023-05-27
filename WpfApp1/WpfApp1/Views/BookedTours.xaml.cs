@@ -23,7 +23,7 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for BookedTours.xaml
     /// </summary>
-    public partial class BookedTours : Window, INotifyPropertyChanged
+    public partial class BookedTours : Window
     {
      
         
@@ -42,21 +42,5 @@ namespace WpfApp1.Views
 
         }
 
-
-     
-
-
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

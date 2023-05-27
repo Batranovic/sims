@@ -121,11 +121,11 @@
                     <TextBlock Text="From" Grid.Row="12" Grid.Column="1" Height="30" Margin="15,12,140,38" Grid.ColumnSpan="2" Grid.RowSpan="2" />
                     <TextBlock Text="To" Grid.Row="13" Grid.Column="1" Height="30" Margin="15,27,12,23" Grid.RowSpan="2" />
                     <DatePicker Grid.Row="12" Grid.Column="2"  Height="30" Margin="0,10,15,0"
-                      SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                      SelectedDate="{Binding SelectedStartDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                       Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
 
                     <DatePicker Grid.Row="13" Grid.Column="2" Height="30" Margin="0,23,15,27"
-                      SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                      SelectedDate="{Binding SelectedEndDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                       Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.RowSpan="2"/>
 
                     <Button Command="{Binding RequestSimpleTourCommand}" Background="#f9cb9e" Content=" Request simple tour " Grid.Row="15" Grid.Column="1" Height="30" Width="130" Margin="7,20,8,30" Grid.RowSpan="2">
@@ -140,7 +140,7 @@
                         </Button.Effect>
                     </Button>
                     <Button Command="{Binding IncrementCommand}" IsCancel="True" Grid.Column="2" Content="^" HorizontalAlignment="Left" Margin="115,2,0,0" Grid.Row="10" VerticalAlignment="Center" Width="15" Height="15" Grid.RowSpan="2"/>
-                    <Button Command="{Binding DecrementCommand}" IsCancel="True" Grid.Column="2" Content="^" HorizontalAlignment="Left" Margin="130,23,0,0" Grid.Row="11" VerticalAlignment="Top"  Width="15" Height="15" Click="Button_Click">
+                    <Button Command="{Binding DecrementCommand}" IsCancel="True" Grid.Column="2" Content="^" HorizontalAlignment="Left" Margin="130,23,0,0" Grid.Row="11" VerticalAlignment="Top"  Width="15" Height="15" >
                         <Button.RenderTransform>
                             <RotateTransform Angle="180"/>
                         </Button.RenderTransform>

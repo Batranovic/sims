@@ -351,11 +351,11 @@ namespace WpfApp1.ViewModel
                 if (columnName == "NumberOfPeople")
 
                 {
-                    if (NumberOfPeople <= 0)
+                    if (NumberOfPeople < 0)
                     {
                         return "positive number";
                     }
-                    if(NumberOfPeople >= 50)
+                    if(NumberOfPeople >= 60)
                     {
                         return "choose a smaller number";
                     }

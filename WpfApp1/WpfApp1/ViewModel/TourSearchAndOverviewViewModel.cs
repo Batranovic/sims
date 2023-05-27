@@ -124,8 +124,8 @@ namespace WpfApp1.ViewModel
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
 
-           // SelectedState = null;
-            //SelectedCity = null;
+            //SelectedState = "";
+            //SelectedCity = "";
 
             Languages = "";
             Duration = "";
@@ -332,11 +332,11 @@ namespace WpfApp1.ViewModel
 
         private void Execute_Search(object sender)
         {
-            if (IsValid)
-            {
-                List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
+
+          
+            List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
                 RefreshTours(searchedTours);
-            }
+            
 
         }
         private void Execute_AllTours(object sender)
@@ -366,25 +366,6 @@ namespace WpfApp1.ViewModel
         {
             get
             {
-
-                if (columnName == "SelectedCity")
-                {
-                    if (SelectedCity == null || SelectedCity=="City")
-                    {
-                        return "choose a city";
-
-                    }
-                }
-
-
-                if (columnName == "SelectedState")
-                {
-                    if (SelectedState == null || SelectedState == "State")
-                    {
-                        return "choose a state";
-
-                    }
-                }
 
                 if (columnName == "Duration")
                 {

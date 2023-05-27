@@ -122,7 +122,7 @@ namespace WpfApp1.ViewModel
             SelectedKnowledge = 3;
             SelectedLanguage = 3;
             SelectedInterest = 3;
-            Comment = "Leave a review";
+            Comment = "";
 
             SubmitImageCommand = new RelayCommand(Execute_SubmitImage, CanExecute_Command);
             RemoveImageCommand = new RelayCommand(Execute_RemoveImage, CanExecute_Command);
@@ -139,19 +139,21 @@ namespace WpfApp1.ViewModel
         }
         private void Execute_Confirm(object sender)
         {
+            IsSubmitClicked = true; 
             List<RatingTourAndGuide> ratedTourBookings = _ratingTourAndGuideService.GetReviewFromTourist(SelectedTourBooking.Id, MainWindow.LogInUser.Id);
             if (ratedTourBookings.Count > 0)
             {
                 MessageBox.Show("You have already rated this tour booking");
                 return;
             }
-            if (!IsValid)
-            {
+
+            if (!IsValid )
+            { 
                 MessageBox.Show("You didn't finish your review");
                 return;
             }
             List<string> images = new List<string>(Images);
-            RatingTourAndGuide ratingTourAndGuide = new RatingTourAndGuide(-1, SelectedKnowledge, SelectedLanguage, SelectedInterest, Comment, SelectedTourBooking.Id, SelectedTourBooking, images);
+            RatingTourAndGuide ratingTourAndGuide = new RatingTourAndGuide(-1, SelectedKnowledge, SelectedLanguage, SelectedInterest, Comment, SelectedTourBooking, images);
             _ratingTourAndGuideService.Create(ratingTourAndGuide);
             MessageBox.Show("Your review has been sent!");
            // this.Close();
@@ -241,47 +243,64 @@ namespace WpfApp1.ViewModel
         {
             get
             {
-                if (columnName == "SelectedKnowledge")
+                if (IsSubmitClicked)
                 {
-                    if (SelectedKnowledge == 0)
+                    if (columnName == "SelectedKnowledge")
                     {
-                        return "missing review";
+                        if (SelectedKnowledge == 0)
+                        {
+                            return "missing review";
+                        }
+                    }
+
+                    if (columnName == "SelectedLanguage")
+                    {
+                        if (SelectedLanguage == 0)
+                        {
+                            return "missing review";
+
+                        }
+                    }
+                    if (columnName == "SelectedInterest")
+                    {
+                        if (SelectedInterest == 0)
+                        {
+                            return "missing review";
+                        }
+                    }
+
+                    if (columnName == "Comment")
+                    {
+                        if (Comment == "")
+                        {
+                            return "missing review";
+                        }
                     }
                 }
-
-                if (columnName == "SelectedLanguage")
-                {
-                    if (SelectedLanguage == 0)
-                    {
-                        return "missing review";
-
-                    }
-                }
-                if (columnName == "SelectedInterest")
-                {
-                    if (SelectedInterest == 0)
-                    {
-                        return "missing review";
-                    }
-                }
-
-                if (columnName == "Comment")
-                {
-                    if (Comment == "" || Comment=="Leave a review")
-                    {
-                        return "missing comment";
-                    }
-                }
-
                 return null;
-
-
 
             }
 
         }
 
-        private readonly string[] _validatedProperties = { "SelectedKnowledge", "SelectedLanguage", "SelectedInterest", "Comment" };
+
+        private bool _isSubmitClicked = false;
+
+        public bool IsSubmitClicked
+        {
+            get { return _isSubmitClicked; }
+            set
+            {
+                if (_isSubmitClicked != value)
+                {
+                    _isSubmitClicked = value;
+                    OnPropertyChanged("IsSubmitClicked");
+                    OnPropertyChanged("Comment");
+                }
+            }
+        }
+
+        private readonly string[] _validatedProperties = { "SelectedKnowledge", "SelectedLanguage", "SelectedInterest", "SelectedInterest", "Comment" };
 
         public bool IsValid
         {

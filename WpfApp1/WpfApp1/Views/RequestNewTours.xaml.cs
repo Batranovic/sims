@@ -20,10 +20,9 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for RequestNewTours.xaml
     /// </summary>
-    public partial class RequestNewTours : Window,  INotifyPropertyChanged
+    public partial class RequestNewTours : Window
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        
 
         public RequestNewTours()
         {
@@ -39,14 +38,6 @@ namespace WpfApp1.Views
 
         }
 
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

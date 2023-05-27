@@ -16,7 +16,7 @@ namespace WpfApp1.Domain.Models
         private int _interest;
         private string _comment;
 
-        private int _idTourBooking;
+        //private int _idTourBooking;
         private TourBooking _tourBooking;
 
         public List<string> Images { get; set; }
@@ -33,8 +33,7 @@ namespace WpfApp1.Domain.Models
             }
         }
 
-       
-        public int IdTourBooking
+       /*public int IdTourBooking
         {
             get => _idTourBooking;
             set
@@ -44,7 +43,7 @@ namespace WpfApp1.Domain.Models
                     _idTourBooking = value;
                 }
             }
-        }
+        }*/
 
         public int Knowledge
         {
@@ -111,14 +110,14 @@ namespace WpfApp1.Domain.Models
 
         }
 
-        public RatingTourAndGuide(int id, int knowledge, int language, int interest, string comment, int idTourBooking, TourBooking tourBooking, List<string> images)
+        public RatingTourAndGuide(int id, int knowledge, int language, int interest, string comment,TourBooking tourBooking, List<string> images)
         {
             _id = id;
             _knowledge = knowledge;
             _language = language;
             _interest = interest;
             _comment = comment;
-            _idTourBooking = idTourBooking;
+            //_idTourBooking = idTourBooking;
             _tourBooking = tourBooking;
             Images = images;
         }
@@ -128,7 +127,7 @@ namespace WpfApp1.Domain.Models
             string[] result =
             {
                 Id.ToString(),
-                IdTourBooking.ToString(),
+                TourBooking.Id.ToString(),
                 Knowledge.ToString(),
                 Language.ToString(),
                 Interest.ToString(),
@@ -142,7 +141,7 @@ namespace WpfApp1.Domain.Models
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            IdTourBooking = Convert.ToInt32(values[1]);
+            TourBooking = new TourBooking() { Id = Convert.ToInt32(values[2]) };
             Knowledge = Convert.ToInt32(values[2]);
             Language = Convert.ToInt32(values[3]);
             Interest = Convert.ToInt32(values[4]);

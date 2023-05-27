@@ -26,12 +26,9 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for AddRatingTourAndGuide.xaml
     /// </summary>
-    public partial class AddRatingTourAndGuide : Window, INotifyPropertyChanged
+    public partial class AddRatingTourAndGuide : Window
     {
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        
-        
         public AddRatingTourAndGuide(TourBooking tourBooking)
         {
             InitializeComponent();
@@ -43,21 +40,6 @@ namespace WpfApp1.Views
                 addRating.CloseAction = new Action(this.Close);
             }
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            var textBox = (TextBox)sender;
-            if (textBox.Text == "Leave a review")
-            {
-                textBox.Text = string.Empty;
-            }
         }
 
 

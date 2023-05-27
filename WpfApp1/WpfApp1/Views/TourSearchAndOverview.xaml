@@ -261,7 +261,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </ScrollViewer>
-                    <Image Margin="682,387,0,26" Width="180" Source="/Images/ruta.png" Stretch="Fill" Height="180"/>
+                    <Image Margin="0,403,682,10" Width="180" Source="/Images/ruta.png" Stretch="Fill" Height="180"/>
 
 
 

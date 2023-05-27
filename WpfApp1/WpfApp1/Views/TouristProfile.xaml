@@ -104,6 +104,70 @@
                     <TabItem.Background>
                         <SolidColorBrush Color="#f3dcc4"/>
                     </TabItem.Background>
+                    <StackPanel>
+                        <ListBox ItemsSource="{Binding TourBookings}" Margin="40,70,0,0" Background="#f3dcc4" Height="300" Width="500" BorderThickness="0.6" BorderBrush="Black">
+
+                            <ListBox.ItemTemplate >
+
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Location: " FontSize="14" />
+                                            <StackPanel Grid.Row="0"  Grid.Column="1" Orientation="Horizontal">
+                                                <TextBlock Text="{Binding TourEvent.Tour.Location.State}" FontSize="14" />
+                                                <TextBlock Text=" - " FontSize="14"/>
+                                                <TextBlock Text="{Binding TourEvent.Tour.Location.City}" FontSize="14"/>
+                                            </StackPanel>
+
+                                            <TextBlock Grid.Row="1"  Grid.Column="0" Text="Start time: " FontSize="14" />
+                                            <TextBlock Grid.Row="1"  Grid.Column="1" Text="{Binding TourEvent.StartTime}" FontSize="14" />
+
+                                            <TextBlock Grid.Row="2"  Grid.Column="0" Text="Language: " FontSize="14" />
+                                            <TextBlock Grid.Row="2"  Grid.Column="1" Text="{Binding TourEvent.Tour.Languages}" FontSize="14" />
+
+                                            <TextBlock Grid.Row="3"  Grid.Column="0" Text="Duration: " FontSize="14" />
+                                            <TextBlock Grid.Row="3"  Grid.Column="1" Text="{Binding TourEvent.Tour.Duration}" FontSize="14" />
+
+                                            <TextBlock Grid.Row="4"  Grid.Column="0" Text="Number of people: " FontSize="14" />
+                                            <TextBlock Grid.Row="4"  Grid.Column="1" Text="{Binding NumberOfGuests}" FontSize="14"/>
+
+                                            <TextBlock Grid.Row="5"  Grid.Column="0" Text="Description: " FontSize="14" />
+                                            <TextBlock Grid.Row="5"  Grid.Column="1" Text="{Binding TourEvent.Tour.Description}" FontSize="14"/>
+
+                                            <Separator Grid.Row="6" Grid.ColumnSpan="3"  Width="465"/>
+                                        </Grid>
+
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Width="110" Command="{Binding DownloadPDFCommand}" Margin="35" Background="#f9cb9e" Height="29">
+                            <Button.Effect>
+                                <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                            </Button.Effect>
+                            <StackPanel Orientation="Horizontal" Height="24" Width="55" RenderTransformOrigin="0.537,0.494">
+                                <Image Source="/Images/average.png" Width="20" Height="20" Margin="4,0,6,2"/>
+                                <TextBlock Text="PDF" Width="35" Height="18" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                   
 
                 </TabItem>
                 <TabItem Header="Shortcuts" Height="22" Margin="-2,0,-2,0" VerticalAlignment="Bottom">

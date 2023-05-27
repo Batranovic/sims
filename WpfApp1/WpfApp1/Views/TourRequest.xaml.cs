@@ -33,15 +33,5 @@ namespace WpfApp1.Views
                 tourRequestListViewModel.CloseAction = new Action(this.Close);
             }
         }
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }

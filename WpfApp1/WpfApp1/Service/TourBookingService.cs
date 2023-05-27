@@ -112,11 +112,11 @@ namespace WpfApp1.Service
         public List<TourEvent> TouristTourEvents(int userId)
         {
             List<TourEvent> tourEvents = new List<TourEvent>();
-            foreach (TourBooking tourReservation in _tourBookingRepository.GetAll())
+            foreach (TourBooking tourBooking in _tourBookingRepository.GetAll())
             {
-                if (tourReservation.Tourist.Id == userId)
+                if (tourBooking.Tourist.Id == userId)
                 {
-                    tourEvents.Add(tourReservation.TourEvent);
+                    tourEvents.Add(tourBooking.TourEvent);
                 }
             }
             return tourEvents;
@@ -124,15 +124,28 @@ namespace WpfApp1.Service
 
         public TourBooking GetTourBookingForTourEventAndUser(int tourEventId, int userId)
         {
-            foreach (TourBooking tourReservation in _tourBookingRepository.GetAll())
+            foreach (TourBooking tourBooking in _tourBookingRepository.GetAll())
             {
-                if (tourReservation.Tourist.Id == userId && tourReservation.TourEvent.Id == tourEventId)
+                if (tourBooking.Tourist.Id == userId && tourBooking.TourEvent.Id == tourEventId)
                 {
-                    return tourReservation;
+                    return tourBooking;
                 }
             }
             return null;
 
+        }
+
+        public List<TourBooking> GetTourBookingsForTourist(int userId)
+        {
+            List<TourBooking> bookings = new List<TourBooking>();
+            foreach (TourBooking tourBooking in _tourBookingRepository.GetAll())
+            {
+                if (tourBooking.Tourist.Id == userId)
+                {
+                    bookings.Add(tourBooking);
+                }
+            }
+            return bookings;
         }
 
 

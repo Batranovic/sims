@@ -62,7 +62,7 @@
                 </Button>
             </Grid>
         </DockPanel>
-        <Button Background="#f9cb9e" Command="{Binding LeaveReviewCommand}" Content="Leave a review" HorizontalAlignment="Left" Margin="815,524,0,0" VerticalAlignment="Top" Height="36" Width="98" IsEnabled="{Binding IsTourEventSelected}" Click="Button_Click">
+        <Button Background="#f9cb9e" Command="{Binding LeaveReviewCommand}" Content="Leave a review" HorizontalAlignment="Left" Margin="815,524,0,0" VerticalAlignment="Top" Height="36" Width="98" IsEnabled="{Binding IsTourEventSelected}">
             <Button.Effect>
                 <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
             </Button.Effect>

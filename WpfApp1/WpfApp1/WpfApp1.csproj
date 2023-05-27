@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\chat %281%29.png" />
     <None Remove="Views\Image\Owner\notification.webp" />
     <None Remove="Views\Image\Owner\notification1.png" />
     <None Remove="Views\Image\Owner\pdf.png" />
@@ -26,10 +27,14 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
+    <PackageReference Include="PDFsharp" Version="1.50.5147" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\chat (1).png" />
     <Resource Include="Views\Image\Owner\notification.webp" />
     <Resource Include="Views\Image\Owner\notification1.png" />
     <Resource Include="Views\Image\Owner\pdf.png" />
