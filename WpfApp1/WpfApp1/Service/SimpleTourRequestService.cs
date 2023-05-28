@@ -23,14 +23,6 @@ namespace WpfApp1.Service
             _simpleTourRequestRepository = InjectorRepository.CreateInstance<ISimpleTourRequestRepository>();
             _notificationRepository = InjectorRepository.CreateInstance<INewTourNotificationRepository>();
             _locationRepository = InjectorRepository.CreateInstance<ILocationRepository>();
-            BindLocation();
-        }
-        private void BindLocation()
-        {
-            foreach (SimpleTourRequest tour in _simpleTourRequestRepository.GetAll())
-            {
-                tour.Location = _locationRepository.Get(tour.IdLocation);
-            }
         }
 
         public string GetDeniedRequestsCount(string SelectedYear)
@@ -111,7 +103,7 @@ namespace WpfApp1.Service
             var requests = _simpleTourRequestRepository.GetAll().Where(r => r.Tourist.Id == userId);
             foreach (var request in requests)
             {
-                var location = request.City;
+                var location = request.Location.City;
                 if (locationsCount.ContainsKey(location))
                 {
                     locationsCount[location]++;
@@ -220,7 +212,7 @@ namespace WpfApp1.Service
 
             foreach (SimpleTourRequest request in GetAllForUser(requestForAdding.Tourist.Id))
             {
-                if(request.RequestStatus == RequestStatus.Accepted && request.Languages == requestForAdding.Languages && request.City == requestForAdding.City)
+                if(request.RequestStatus == RequestStatus.Accepted && request.Languages == requestForAdding.Languages && request.Location.City == requestForAdding.Location.City)
                 {
                     return;
                 }
@@ -233,7 +225,7 @@ namespace WpfApp1.Service
             List<SimpleTourRequest> notFullfilledRequests = new List<SimpleTourRequest>();
             foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
             {
-                if (request.RequestStatus != RequestStatus.Accepted && (request.City == tour.Location.City || request.Languages == tour.Languages))
+                if (request.RequestStatus != RequestStatus.Accepted && (request.Location.City == tour.Location.City || request.Languages == tour.Languages))
                 {
                     AddIfRequestWasNeverFullfilled(request, notFullfilledRequests);
                 }

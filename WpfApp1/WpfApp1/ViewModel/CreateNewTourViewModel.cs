@@ -88,7 +88,7 @@ namespace WpfApp1.ViewModel
         private void Execute_Create(object sender)
         {
             Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
-            Tour newTour = new Tour(-1, "", location.Id, "", -1, Language, -1, new List<string>(),new List<DateTime>(), "");
+            Tour newTour = new Tour(-1, "", location, "", -1, Language, -1, new List<string>(),new List<DateTime>(), "");
             newTour.Location = location;
             _tourService.Create(newTour);
             MessageBox.Show("New tour for "+ newTour.Languages + " and " + newTour.Location.City +

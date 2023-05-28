@@ -12,7 +12,6 @@ namespace WpfApp1.Domain.Models
     {
         private int _id;
         private string _name;
-        private int _idLocation;
         private Location _location;
         private string _description;
         private double _duration;
@@ -50,17 +49,6 @@ namespace WpfApp1.Domain.Models
             }
         }
 
-        public int IdLocation
-        {
-            get => _idLocation;
-            set
-            {
-                if (value != null)
-                {
-                    _idLocation = value;
-                }
-            }
-        }
 
         public Location Location
         {
@@ -128,11 +116,11 @@ namespace WpfApp1.Domain.Models
             TourPoints = new List<TourPoint>();
         }
 
-        public Tour(int id, string name, int idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<DateTime> date, string image)
+        public Tour(int id, string name, Location idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<DateTime> date, string image)
         {
             Id = id; 
             Name = name;
-            IdLocation = idLocation;
+            Location = idLocation;
             Description = description;
             Duration = duration;
             Languages = language;
@@ -152,7 +140,7 @@ namespace WpfApp1.Domain.Models
            {
                     Id.ToString(),
                     Name,
-                    IdLocation.ToString(), 
+                    Location.Id.ToString(), 
                     Description.ToString(),
                     Duration.ToString(),
                     Languages,
@@ -166,7 +154,7 @@ namespace WpfApp1.Domain.Models
         {
             Id = int.Parse(values[0]);
             Name = values[1];
-            IdLocation = int.Parse(values[2]);
+            Location = new Location() { Id = Convert.ToInt32(values[2]) };
             Description = values[3];
             Duration = Double.Parse(values[4]);
             Languages = values[5];

@@ -7,20 +7,22 @@ using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace WpfApp1.ViewModel
 {
     public class TourRequestViewModel : ViewModelBase
     {
         public ObservableCollection<SimpleTourRequest> SimpleTourRequests { get; set; }
-
+        public ObservableCollection<ComplexTourRequest> ComplexTourRequests { get; set; }
         public ObservableCollection<SimpleTourRequest> AcceptedRequests { get; set; }
 
         private readonly ISimpleTourRequestService _simpleTourRequestSrvice;
+        private readonly IComplexTourRequestService _complexTourRequestService;
 
         private readonly IRequestNotifactionService _requestNotifactionSrvice;
 
-        private readonly INewTourNotificationService newTourNotificationService;
+        private readonly INewTourNotificationService _newTourNotificationService;
         public Action CloseAction { get; set; }
 
 
@@ -29,10 +31,11 @@ namespace WpfApp1.ViewModel
         {
             _requestNotifactionSrvice = InjectorService.CreateInstance<IRequestNotifactionService>();
             _simpleTourRequestSrvice = InjectorService.CreateInstance<ISimpleTourRequestService>();
-            newTourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
+            _complexTourRequestService = InjectorService.CreateInstance<IComplexTourRequestService>();
+            _newTourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
 
             SimpleTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id));
-
+            ComplexTourRequests = new ObservableCollection<ComplexTourRequest>(_complexTourRequestService.RequestsForTourist(MainWindow.LogInUser.Id));
             AcceptedRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.AcceptedRequestsForTourist(MainWindow.LogInUser.Id));
 
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
@@ -44,7 +47,6 @@ namespace WpfApp1.ViewModel
             CreateNewTourCommand = new RelayCommand(Execute_CreateNewTour, CanExecute_Command);
 
             ShowNotifications();
-            //ShowNewTourNotifications();
         }
 
         public void ShowNotifications()
@@ -53,7 +55,7 @@ namespace WpfApp1.ViewModel
             foreach (RequestNotification notification in notifications)
             {
                 string status = notification.RequestStatus.ToString();
-                string city = notification.SimpleTourRequest.City;
+                string city = notification.SimpleTourRequest.Location.City;
                 MessageBoxResult result = MessageBox.Show("Your request for " + city + "has been " + status);
             }
         }

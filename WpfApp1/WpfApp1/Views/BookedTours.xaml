@@ -9,7 +9,7 @@
     <Window.InputBindings>
         <KeyBinding Command="{Binding AllToursCommand}" Key="A" Modifiers="Ctrl"></KeyBinding>
         <KeyBinding Command="{Binding RequestTourCommand}" Key="R" Modifiers="Ctrl"></KeyBinding>
-        <KeyBinding Command="{Binding LogOutCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding MyProfileCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
         <KeyBinding Command="{Binding RequestListCommand}" Key="L" Modifiers="Ctrl"></KeyBinding>
     </Window.InputBindings>
     <Window.Icon>
@@ -54,7 +54,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding LogOutCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
+                <Button Command="{Binding MyProfileCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/profile.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="My profile"/>
@@ -188,7 +188,7 @@
         </StackPanel>
 
         <TextBlock HorizontalAlignment="Left" FontSize="17"  FontWeight="Bold" Margin="740,100,0,0"  TextWrapping="Wrap" Text="Where you are currently:" VerticalAlignment="Top" Width="204" Height="23"/>
-        <TextBlock HorizontalAlignment="Left" FontSize="17"  FontWeight="Bold" Margin="740,485,0,0"  TextWrapping="Wrap" Text="How was your experince?" VerticalAlignment="Top" Width="248" Height="24" RenderTransformOrigin="0.548,0.51"/>
+        <TextBlock HorizontalAlignment="Left" FontSize="17"  FontWeight="Bold" Margin="740,485,0,0"  TextWrapping="Wrap" Text="How was your experience?" VerticalAlignment="Top" Width="248" Height="24" RenderTransformOrigin="0.548,0.51"/>
 
     </Grid>
 </Window>

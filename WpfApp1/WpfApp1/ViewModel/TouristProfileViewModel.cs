@@ -58,9 +58,15 @@ namespace WpfApp1.ViewModel
             RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
             LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
             DownloadPDFCommand = new RelayCommand(Execute_PDF, CanExecute_Command);
+            ShowPopUpCommand = new RelayCommand(Execute_ShowPopUp, CanExecute_Command);
         }
 
-
+        private bool _isPopupOpen;
+        public bool IsPopupOpen
+        {
+            get { return _isPopupOpen; }
+            set { _isPopupOpen = value; OnPropertyChanged(nameof(IsPopupOpen)); }
+        }
         private RelayCommand logOutCommand;
         public RelayCommand LogOutCommand
         {
@@ -88,6 +94,23 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        private RelayCommand showPopUpCommand;
+        public RelayCommand ShowPopUpCommand
+        {
+            get => showPopUpCommand;
+            set
+            {
+                if (value != showPopUpCommand)
+                {
+                    showPopUpCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private void Execute_ShowPopUp(object sender)
+        {
+            IsPopupOpen = true;
+        }
         private void Execute_LogOut(object sender)
         {
             MessageBoxResult result = MessageBox.Show(

@@ -16,8 +16,12 @@
         <ImageSource>/Images/car.png</ImageSource>
     </Window.Icon>
     <Grid Height="644" VerticalAlignment="Bottom">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="303*"/>
+            <ColumnDefinition Width="721*"/>
+        </Grid.ColumnDefinitions>
 
-        <DockPanel DockPanel.Dock="Top"  Background="#f3dcc4" Margin="0,0,0,555">
+        <DockPanel  Background="#f3dcc4" Margin="0,10,0,566" Grid.ColumnSpan="2">
             <Grid Height="49">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -63,15 +67,15 @@
                 </Button>
             </Grid>
         </DockPanel>
-        <DockPanel DockPanel.Dock="Bottom" Margin="46,112,46,35" >
-            <TabControl Background="#f3dcc4" BorderBrush="Black" BorderThickness="1.5" Height="495">
+        <DockPanel Margin="46,112,46,35" Grid.ColumnSpan="2" >
+            <TabControl Background="WhiteSmoke" BorderBrush="Black" BorderThickness="1.5" Height="495">
                 <TabItem Header="Your vouchers" BorderBrush="Black" BorderThickness="1.5">
                     <TabItem.Background>
                         <SolidColorBrush Color="#f3dcc4"/>
                     </TabItem.Background>
                     <StackPanel>
-                        <TextBlock Text="Your vouchers" FontSize="18" FontWeight="Bold" Margin="-490,40,0,0" Height="42" Width="200"></TextBlock>
-                        <ListBox ItemsSource="{Binding Vouchers}" SelectedItem="{Binding SelectedVoucher}" Margin="-380,5,10,10" Background="#f3dcc4" Height="300" Width="300">
+                        <TextBlock Text="Your vouchers" FontSize="18" FontWeight="Bold" Margin="-105,40,0,0" Height="42" Width="200"></TextBlock>
+                        <ListBox ItemsSource="{Binding Vouchers}" SelectedItem="{Binding SelectedVoucher}" Margin="0,5,10,10" Background="#f3dcc4" Height="188" Width="300">
                             <ListBox.ItemTemplate >
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="-5,-1,-9,-1" Height="30" Width="275">
@@ -91,12 +95,32 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <TextBlock Text="Date of validity" FontSize="18" FontWeight="Bold" Margin="-490,-680,-800,0" Height="42" Width="200"></TextBlock>
-                        <TextBlock TextWrapping="Wrap" Margin="180,-400,0,0" FontSize="14" FontWeight="DemiBold" Width="40" Height="20" Text="From:"/>
-                        <TextBox  TextWrapping="Wrap" Margin="460,-400,0,0" FontSize="14" FontWeight="DemiBold" Width="190" Height="30" Text="{Binding StartDate}"/>
-                        <TextBlock TextWrapping="Wrap" Margin="180,-230,0,0" FontSize="14" FontWeight="DemiBold" Width="40" Height="20" Text="To:"/>
-                        <Rectangle Stroke="Black" Height="304" Width="290" Margin="400,-320,0,0"/>
-                        <TextBox  TextWrapping="Wrap" Margin="460,-230,0,0" FontSize="14" FontWeight="DemiBold" Width="190" Height="30" Text="{Binding SelectedVoucher.ExpirationDate}"/>
+                        <TextBlock Text="Date of validity" FontSize="18" FontWeight="Bold" Margin="-100,10,0,0" Height="43" Width="200"></TextBlock>
+                        <TextBox  TextWrapping="Wrap" Margin="-300,10,-300,0" TextAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="300" Height="30" Text="{Binding SelectedVoucher.ExpirationDate}"/>
+
+
+                        <ToggleButton x:Name="myToggleButton" IsChecked="{Binding IsPopupOpen}" Width="50" Height="50" HorizontalAlignment="Left" Margin="425,-350,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Command="{Binding ShowPopUpCommand}"   >
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Grid>
+                                        <Ellipse Width="20" Height="20"  Fill="White" Stroke="Red" StrokeThickness="2" Margin="23,15,7,15"/>
+                                        <TextBlock Text="i" FontSize="15" FontWeight="Bold" Foreground="Red" Margin="8,0,-8,0">
+                                            <TextBlock.RenderTransform>
+                                                <TranslateTransform X="23" Y="15"/>
+                                            </TextBlock.RenderTransform>
+                                        </TextBlock>
+                                    </Grid>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+                        <Popup Name="myPopup" IsOpen="{Binding IsPopupOpen}" PlacementTarget="{Binding ElementName=myToggleButton}" StaysOpen="False" Placement="Top">
+                            <Grid Width="200" Background="Transparent">
+                                <Border Background="White"  Margin="1"  >
+                                    <TextBlock Text="Select one row to view date of validity for the selected voucher" FontSize="16" TextWrapping="Wrap" Width="160" Height="65"/>
+                                </Border>
+
+                            </Grid>
+                        </Popup>
                     </StackPanel>
                 </TabItem>
 
@@ -167,7 +191,7 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                   
+
 
                 </TabItem>
                 <TabItem Header="Shortcuts" Height="22" Margin="-2,0,-2,0" VerticalAlignment="Bottom">
@@ -212,13 +236,16 @@
                     </TabItem.Background>
                     <Grid>
                         <Border BorderBrush="Black" BorderThickness="1" Width="302" Height="203" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Rectangle Fill="#f9cb9e" Width="300" Height="201" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Rectangle Fill="#f3dcc4" Width="300" Height="201" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <Button Command="{Binding LogOutCommand}" Width="153" Height="78" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/Images/out.png" Width="32" Height="35" Margin="0,0,5,0" />
                                 <TextBlock Text="Log out" VerticalAlignment="Center" Height="17" Width="51" />
                             </StackPanel>
+                            <Button.Effect>
+                                <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                            </Button.Effect>
                         </Button>
 
                     </Grid>
@@ -226,6 +253,7 @@
 
             </TabControl>
         </DockPanel>
+
 
 
 

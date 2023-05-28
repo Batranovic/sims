@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Domain.Models;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Repository;
 
@@ -34,7 +35,8 @@ namespace WpfApp1.Service
             { typeof(ISimpleTourRequestRepository), SimpleTourRequestRepository.GetInstance() },
             { typeof(IRequestNotifactionRepository), RequestNotificationRepository.GetInstance() },
             { typeof(INewTourNotificationRepository), NewTourNotificationRepository.GetInstance() },
-            { typeof(INotificationAccommodationReleaseRepository), NotificationAccommodationReleaseRepository.GetInstance() }
+            { typeof(INotificationAccommodationReleaseRepository), NotificationAccommodationReleaseRepository.GetInstance() },
+            { typeof(IComplexTourRequestRepository), ComplexTourRequestRepository.GetInstance() }
         };
         public static T CreateInstance<T>()
         {

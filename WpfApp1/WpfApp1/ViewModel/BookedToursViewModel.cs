@@ -63,7 +63,7 @@ namespace WpfApp1.ViewModel
             LeaveReviewCommand = new RelayCommand(Execute_LeaveReview, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             ShowPopUpCommand = new RelayCommand(Execute_ShowPopUp, CanExecute_Command);
-            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
             RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
 
@@ -98,15 +98,13 @@ namespace WpfApp1.ViewModel
             set { _isPopupOpen = value; OnPropertyChanged(nameof(IsPopupOpen)); }
         }
 
-        private void Execute_LogOut(object sender)
+        private void Execute_MyProfile(object sender)
         {
-            MessageBox.Show("You are logging out!");
-            MainWindow mw = new MainWindow();
-            mw.Show();
+            TouristProfile profile = new TouristProfile();
+            profile.Show();
             CloseAction();
 
         }
-
         private void Execute_RequestTour(object sender)
         {
             RequestNewTours requestNewTour = new RequestNewTours();
@@ -219,15 +217,15 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private RelayCommand logOutCommand;
-        public RelayCommand LogOutCommand
+        private RelayCommand myProfileCommand;
+        public RelayCommand MyProfileCommand
         {
-            get => logOutCommand;
+            get => myProfileCommand;
             set
             {
-                if (value != logOutCommand)
+                if (value != myProfileCommand)
                 {
-                    logOutCommand = value;
+                    myProfileCommand = value;
                     OnPropertyChanged();
                 }
             }

@@ -44,20 +44,20 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding BookedToursCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0">
+                <Button Command="{Binding BookedToursCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="169,7,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/book.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Booked tours"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="327,8,0,0" Grid.ColumnSpan="2">
+                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="325,7,0,0" Grid.ColumnSpan="2">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/service.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request new tours"/>
                     </StackPanel>
                 </Button>
-                <Button Command="{Binding RequestListCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="157,6,0,0">
+                <Button Command="{Binding RequestListCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="174,8,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/checklist.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request list"/>

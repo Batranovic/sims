@@ -27,6 +27,7 @@ namespace WpfApp1.ViewModel
         private readonly ILocationService _locationService;
 
         private readonly ISimpleTourRequestService _simpleTourRequestService;
+        private readonly IComplexTourRequestService _complexTourRequestService;
         public ObservableCollection<string> States { get; set; }
 
         public ObservableCollection<string> Cities { get; set; }
@@ -144,6 +145,7 @@ namespace WpfApp1.ViewModel
         public RequestNewToursViewModel() {
 
             _simpleTourRequestService = InjectorService.CreateInstance<ISimpleTourRequestService>();
+            _complexTourRequestService = InjectorService.CreateInstance<IComplexTourRequestService>();
             _locationService = InjectorService.CreateInstance<ILocationService>();
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
@@ -175,7 +177,8 @@ namespace WpfApp1.ViewModel
                                 "\t   (CTRL + R)", "Request sent ");
                 int maxG = int.Parse(MaxGuests);
                 Tourist tourist = (Tourist)MainWindow.LogInUser;
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, SelectedStartDate, SelectedEndDate,tourist,RequestStatus.Pending);
+                Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate,tourist,RequestStatus.Pending);
                 _simpleTourRequestService.Create(simpleTour);
                 SelectedCity = null;
                 SelectedState = null;
@@ -196,6 +199,11 @@ namespace WpfApp1.ViewModel
            
         }
 
+        private void Execute_RequestComplexTour(object sender)
+        { }
+
+
+
 
         private void Execute_RequestList(object sender)
         {
@@ -205,34 +213,7 @@ namespace WpfApp1.ViewModel
 
 
         }
-        private void Execute_RequestComplexTour(object sender)
-        {
-
-            IsSubmitClicked = true;
-
-            if (IsValid)
-            {
-                MessageBoxResult result = MessageBox.Show(
-                    "   Want to add more than one tour to the list?\n\n" +
-                    "           Yes - \"MORE\"    No - \"SUBMIT\"",
-                    "Request sent",
-                    MessageBoxButton.YesNo);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                   
-                }
-                else if (result == MessageBoxResult.No)
-                {
-                   
-                    // Handle "No" button clicked
-                }
-            } else
-            {
-                MessageBox.Show("Please fix the errors before submitting the request.", "Error");
-            }
-        }
-
+      
         private void Execute_MyProfile(object sender)
         {
            TouristProfile profile = new TouristProfile();   
