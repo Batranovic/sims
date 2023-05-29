@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="570" d:DesignWidth="950">
     <Grid>
-        <TabControl TabStripPlacement="Left"  >
+        <TabControl TabStripPlacement="Left" SelectedIndex="{Binding TabPosition}">
             <TabItem Header="Overview" Width="90" Height="25">
                 <ListView ItemsSource="{Binding Renovations, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedRenovation}">
                     <i:Interaction.Triggers>
@@ -26,20 +26,27 @@
                     </ListView.View>
                 </ListView>
             </TabItem>
-            <TabItem Header="Schudeling" Width="90" Height="25" Margin="-1,2,1,0" VerticalAlignment="Top">
+            <TabItem Header="Schudeling" Width="90" Height="25" Margin="-1,2,1,0" VerticalAlignment="Top" >
+
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="60"></RowDefinition>
                         <RowDefinition Height="120"></RowDefinition>
-                        <RowDefinition Height="350"></RowDefinition>
-                        <RowDefinition ></RowDefinition>     
+                        <RowDefinition Height="280"></RowDefinition>
+                        <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <WrapPanel Grid.Row="0">
+                        <Label Margin="0,0, 30, 0" Height="60" Width="370" FontSize="30">Choosen accommodation:</Label>
+                        <Label Height="60" Width="442" FontSize="30" Content="{Binding SelectedAccommodation.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </WrapPanel>
+
+                    <WrapPanel Grid.Row="1">
                         <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
                             <Label Content="Start date" FontSize="30" />
                             <DatePicker FontSize="23" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
                         </WrapPanel>
-                        
+
                         <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
                             <Label Content="End date" FontSize="30" />
                             <DatePicker FontSize="23" SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
@@ -56,10 +63,10 @@
 
                     </WrapPanel>
 
-                    <WrapPanel Grid.Row="1">
+                    <WrapPanel Grid.Row="2">
                         <WrapPanel Orientation="Vertical">
                             <Label Content="Avaiable date:" FontSize="30"/>
-                            <ListView Width="360" Height="250" ItemsSource="{Binding AvailableDays, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedDate}">
+                            <ListView Width="360" Height="220" ItemsSource="{Binding AvailableDays, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedDate}">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Start date" Width="178" DisplayMemberBinding="{Binding StartDate}" />
@@ -71,13 +78,13 @@
                         <Separator Visibility="Hidden" Width="128"></Separator>
                         <WrapPanel Orientation="Vertical">
                             <Label Content="Add comment:" FontSize="30"/>
-                            <TextBox AcceptsReturn="True" TextWrapping="Wrap"  Width="360" Height="250"></TextBox>
+                            <TextBox AcceptsReturn="True" TextWrapping="Wrap"  Width="360" Height="220"></TextBox>
                         </WrapPanel>
                     </WrapPanel>
 
-                    <WrapPanel Grid.Row="2">
-                        <Button FontSize="30" Margin="360, 0, 0, 0" Width="120" Command="{Binding ConfirmCommand}">Confirm</Button>
-                    </WrapPanel> 
+                    <WrapPanel Grid.Row="3">
+                        <Button FontSize="30" Margin="360, 25, 0, 0" Width="120" Command="{Binding ConfirmCommand}">Confirm</Button>
+                    </WrapPanel>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -95,20 +102,36 @@
                 <Button Margin="20, 40, 0, 0" Width="90" Height="55" FontSize="25" Command="{Binding ShutDownNotificationCommand}">Ok</Button>
             </WrapPanel>
         </Popup>
-        
-        <Popup IsOpen="{Binding VisibilityNotificationCancled}"
-                               Width="270" 
-                                Height="170" 
+
+        <Popup IsOpen="{Binding VisibilityChooseAccommodation}"
+                                Width="470" 
+                                Height="450" 
                                 PlacementTarget="{Binding ElementName=OwnerStart}"
                                 Placement="Center"
                                 Margin="0,70,10,0"
                                 Panel.ZIndex="1000">
 
-            <WrapPanel Width="270" Height="170" Orientation="Vertical" Background="AliceBlue">
-                <TextBlock Width="250" Height="55" FontSize="20" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <WrapPanel>
-                    <Button Margin="10, 40, 0, 0" Width="90" Height="55" FontSize="25" Command="{Binding ShutDownNotificationCommand}">Ok</Button>
-                    <Button Margin="10, 40, 0, 0" Width="90" Height="55" FontSize="25" Command="{Binding CancelCommand}">Cancel</Button>
+            <WrapPanel Width="470" Height="450" Orientation="Vertical" Background="AliceBlue">
+                <WrapPanel Orientation="Vertical">
+                    <Label FontSize="20">Choose accommodation</Label>
+                    <ListView Height="350" Width="470" ItemsSource="{Binding Accommodations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Photo" Width="250">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Margin="32, 0, 0, 0" Height="100" Width="150" Source="{Binding MainImage.Path}"></Image>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Name" Width="192" DisplayMemberBinding="{Binding Name}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <WrapPanel>
+                        <Button Command="{Binding ChosenAccommodationCommand}" FontSize="20" Margin="140, 20, 0, 0">Confirm</Button>
+                        <Button Command="{Binding CloseChooseAccommodationCommand}" FontSize="20" Margin="25, 20, 0, 0">Cancel</Button>
+                    </WrapPanel>
                 </WrapPanel>
             </WrapPanel>
         </Popup>

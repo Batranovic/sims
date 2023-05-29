@@ -12,7 +12,9 @@ namespace WpfApp1.Domain.ServiceInterfaces
     {
         void Create(NotificationAccommodationRelease entity);
         void Delete(NotificationAccommodationRelease entity);
+
    
         List<NotificationAccommodationRelease> GetForOwner(int ownerId);
+        public void FindNotification(int ownerId);
     }
 }
