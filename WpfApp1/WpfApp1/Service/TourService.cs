@@ -83,7 +83,7 @@ namespace WpfApp1.Service
 
             if (duration != null && duration != "")
             {
-                int durationNum = Convert.ToInt32(duration);
+               double durationNum = Convert.ToDouble(duration);
                 retVal = retVal && tour.Duration >= durationNum;
             }
             return retVal;

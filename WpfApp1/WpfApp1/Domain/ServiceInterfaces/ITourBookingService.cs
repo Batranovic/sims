@@ -20,5 +20,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         public TourBooking GetTourBookingForTourEventAndUser(int tourEventId, int userId);
 
         public void GetExistingTourBooking(int tourEvent, int user, int numOfPeople);
+
+
     }
 }
