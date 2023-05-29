@@ -63,7 +63,6 @@
                         <Label FontSize="22" Content="{Binding BestYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
                         <Button Width="80" Height="30" Command="{Binding ShowMonthStatistics}">Detail</Button>
                         <Separator Height ="10" Visibility="Hidden"></Separator>
-                        <Button Width="80" Height="30"  >Schudeling renovation</Button>
                     </WrapPanel>
 
                 </WrapPanel>
@@ -138,7 +137,6 @@
                             <TextBox.Text>
                                 <Binding Path="NameA" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <val:RequiredFieldValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -170,7 +168,6 @@
                             <TextBox.Text>
                                 <Binding Path="MaxGuests" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <val:IntegerNumberValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -198,7 +195,6 @@
                             <TextBox.Text>
                                 <Binding Path="MinResevation" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <val:IntegerNumberValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -226,7 +222,6 @@
                             <TextBox.Text>
                                 <Binding Path="CancelDay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
-                                        <val:IntegerNumberValidationRule ValidatesOnTargetUpdated="True" ValidationStep="RawProposedValue"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>

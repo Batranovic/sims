@@ -92,7 +92,7 @@ namespace WpfApp1.ViewModel
             ShowMonthStatistics = new(param => Execute_ShowMonthStatistics(), param => CanExecute_ShowMonthStatistics());
         }
 
-        public void Init(Owner owner)
+    public void Init(Owner owner)
         {
             AccommodationStatisticMonthDTOs = new();
             AccommodationStatisticDTOs = new ();
@@ -387,5 +387,6 @@ namespace WpfApp1.ViewModel
                 return true;
             }
         }
+
     }
 }
