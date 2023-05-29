@@ -57,7 +57,19 @@ namespace WpfApp1.Service
 
         public List<NotificationAccommodationRelease> GetForOwner(int ownerId)
         {
-            return GetAll().FindAll(n => n.Accommodation.Owner.Id == ownerId);
+            return GetAll().FindAll(n => n.Accommodation.Owner.Id == ownerId && !n.IsDelivered);
         }
+
+        public void FindNotification(int ownerId)
+        {
+            foreach(Reservation r in InjectorService.CreateInstance<IReservationService>().GetUnratedById(ownerId))
+            {
+                if(GetAll().Find(n => n.Accommodation.Id == r.Accommodation.Id && !n.IsDelivered) == null)
+                {
+                    Create(new(r.Accommodation));
+                }
+            }
+        }
+
     }
 }

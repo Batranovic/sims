@@ -95,7 +95,7 @@
                         </Button>
 
 
-                        <Button Name="textCountry" Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10">
+                        <Button x:Name="btnNotification" Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NotificationCommand}">
                             <Border BorderBrush="{Binding HaveNotification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="2" CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
                                 <Grid>
                                     <Ellipse Fill="White" />
@@ -169,7 +169,35 @@
                                 <Button Margin="20" Height="30" Width="70" Content="Log out" Command="{Binding LogoutCommand}"/>
                             </WrapPanel>
                         </Popup>
+                        
+                        <Popup IsOpen="{Binding VisibilityNotification}"
+                                Width="250" 
+                                Height="200" 
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right" 
+                                Panel.ZIndex="1000">
 
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding NotificationCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                            <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                                <ListView Height="135" ItemsSource="{Binding Notifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedNotificationBase}" >
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Message" Width="225" DisplayMemberBinding="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                <WrapPanel Orientation="Horizontal">
+                                    <Button Margin="32, 20, 0, 0" Height="30" Width="70" Content="Delete" Command="{Binding DeleteNotificationCommand}"/>
+                                    <Button Margin="35, 20, 0, 0" Height="30" Width="70" Content="Delete all" Command="{Binding DeleteAllNotificationCommand}"/>
+                                </WrapPanel>
+                            </WrapPanel>
+                        </Popup>
+                        
                         <Popup IsOpen="{Binding VisibilityWizard}"
                                Width="270" 
                                 Height="170" 

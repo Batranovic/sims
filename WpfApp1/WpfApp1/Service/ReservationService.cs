@@ -138,10 +138,7 @@ namespace WpfApp1.Service
             {
                 return new List<Reservation>();
             }
-            //foreach(reservation r in list) 
-            //{
-            //    injectorservice.createinstance<inotificationaccommodationreleaseservice>().create(new(r.accommodation));   
-            //}
+            
             return list;
         }
 

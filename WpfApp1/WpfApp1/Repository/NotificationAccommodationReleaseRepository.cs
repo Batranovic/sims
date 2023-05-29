@@ -26,6 +26,7 @@ namespace WpfApp1.Repository
             }
             return _instance;
         }
+
         private NotificationAccommodationReleaseRepository()
         {
             _serializer = new Serializer<NotificationAccommodationRelease>();
@@ -34,30 +35,37 @@ namespace WpfApp1.Repository
             _observers = new List<IObserver>();
         }
 
-
         public NotificationAccommodationRelease Create(NotificationAccommodationRelease entity)
         {
+            if (_notifications.Find(n => n.Accommodation.Id == entity.Accommodation.Id && n.IsDelivered) == null)
+            {
+                return null;
+            }
             entity.Id = NextId();
             _notifications.Add(entity);
             Save();
             NotifyObservers();
             return entity;
         }
+
         public NotificationAccommodationRelease Delete(NotificationAccommodationRelease entity)
         {
             _notifications.Remove(entity);
-          //  Save();
+            Save();
             NotifyObservers();
             return entity;
         }
+        
         public NotificationAccommodationRelease Get(int id)
         {
             return _notifications.Find(a => a.Id == id);
         }
+        
         public List<NotificationAccommodationRelease> GetAll()
         {
             return _notifications;
         }
+        
         public int NextId()
         {
             if (_notifications.Count == 0) return 0;
@@ -71,10 +79,12 @@ namespace WpfApp1.Repository
             }
             return newId;
         }
+        
         public void Save()
         {
             _serializer.ToCSV(_filePath, _notifications);
         }
+        
         public NotificationAccommodationRelease Update(NotificationAccommodationRelease entity)
         {
             var oldEntity = Get(entity.Id);
@@ -87,14 +97,17 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return oldEntity;
         }
+        
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);
         }
+        
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
         }
+        
         public void NotifyObservers()
         {
             foreach (var observer in _observers)

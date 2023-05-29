@@ -20,8 +20,8 @@ namespace WpfApp1.Domain.Models
 
         public NotificationAccommodationRelease(Accommodation accommodation) : base()
         {
-            Accommodation = Accommodation;
-          //  Message = "The " + Accommodation.Name + " has been released.";
+            Accommodation = accommodation;
+            Message = "The " + Accommodation.Name + " has been released.";
         }
 
         public override string[] ToCSV()

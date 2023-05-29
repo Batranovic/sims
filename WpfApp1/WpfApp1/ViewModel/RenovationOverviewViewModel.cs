@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using WpfApp.Observer;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
@@ -19,8 +20,20 @@ namespace WpfApp1.ViewModel
     class RenovationOverviewViewModel : ViewModelBase, IObserver
     {
         private readonly IRenovationService _renovationService;
-        public Owner SelectedOwner { get; set; }
-        public Accommodation SelectedAccommodation { get; set; }
+        private readonly IAccommodationService _accommodationService;
+        public Owner LoggedOwner { get; set; }
+
+        private Accommodation _selectedAccommodation;
+        public  Accommodation SelectedAccommodation
+        {
+            get => _selectedAccommodation;
+            set
+            {
+                _selectedAccommodation = value;
+                 OnPropertyChanged(nameof(SelectedAccommodation));
+                ChosenAccommodationCommand.RaiseCanExecuteChanged();
+            }
+        }
 
         private string _message;
         public string Message
@@ -54,6 +67,18 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        private bool _visibilityChooseAccommodation;
+        public bool VisibilityChooseAccommodation
+        {
+            get => _visibilityChooseAccommodation;
+            set
+            {
+                _visibilityChooseAccommodation = value;
+                OnPropertyChanged(nameof(VisibilityChooseAccommodation));   
+            }
+        }
+
+
         private ObservableCollection<Renovation> _renovations;
         public ObservableCollection<Renovation> Renovations
         {
@@ -77,13 +102,30 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        private int _tabPosition;
+        public int TabPosition
+        {
+            get => _tabPosition;
+            set
+            {
+                _tabPosition = value;
+                OnPropertyChanged(nameof(TabPosition));
+                VisibilityChooseAccommodation =  _tabPosition == 1 ? true : false;
+            }
+        }
+
         public RelayCommand ConfirmCommand { get; set; }
         public RelayCommand SearchCommand { get; set; }
         public RelayCommand NotificationCommand { get; set; }
         public RelayCommand ShutDownNotificationCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
+        public RelayCommand ChosenAccommodationCommand { get; set; }
+        public RelayCommand CloseChooseAccommodationCommand { get; set; }
+
+        public ObservableCollection<Accommodation> Accommodations { get; set; }
         public RenovationOverviewViewModel(Owner owner)
         {
+            _accommodationService = InjectorService.CreateInstance<IAccommodationService>(); 
             _renovationService = InjectorService.CreateInstance<IRenovationService>();
             _renovationService.Subscribe(this);
             Init(owner);
@@ -97,15 +139,18 @@ namespace WpfApp1.ViewModel
             NotificationCommand = new(param => Execute_NotificationCommand(), param => CanExecute_NotificationCommand());
             ShutDownNotificationCommand = new(param => Execute_ShutDownNotificationCommand(), param => CanExecute());
             CancelCommand = new(param => Execute_CancelCommand(), param => CanExecute());
+            ChosenAccommodationCommand = new(param => Execute_ChosenAccommodationCommand(), param => CanExecute_ChosenAccommodationCommand());
+            CloseChooseAccommodationCommand = new(param => Execute_CloseChooseAccommodationCommand(), param => CanExecute());
         }
 
         public void Init(Owner owner)
         {
-            SelectedAccommodation = SignInAccommodationViewModel.SelectedAccommodation;
-            SelectedOwner = owner;
+            Accommodations = new(_accommodationService.GetAll().FindAll(a => a.Owner.Id == owner.Id));
+            VisibilityChooseAccommodation = false;
+            LoggedOwner = owner;
             StartDate = DateTime.Now;
             EndDate = DateTime.Now;
-            Renovations = new(_renovationService.GetAllForAccommodation(0));
+            Renovations = new(_renovationService.GetAll().FindAll(r => r.Accommodation.Owner.Id == owner.Id));
             AvailableDays = new();
         }
 
@@ -114,7 +159,7 @@ namespace WpfApp1.ViewModel
         public string Description { get; set; }
         public int Duration { get; set; }
 
-
+        
         private void Execute_ConfirmCommand()
         {
             Renovation renovation = new(SelectedAccommodation, SelectedDate.StartDate, SelectedDate.EndDate, Description);
@@ -158,12 +203,12 @@ namespace WpfApp1.ViewModel
                 Message = "Renovation is finished";
                 VisibilityNotification = true;
             }
-            else if (SelectedRenovation.StartDate.AddDays(5).Date <= DateTime.Now.Date)
+            else if (SelectedRenovation.StartDate.AddDays(5).Date < DateTime.Now.Date)
             {
                 Message = "Renovation can not be cancel because deadline is passed.";
                 VisibilityNotification = true;
             }
-            else if (SelectedRenovation.StartDate.AddDays(5).Date > DateTime.Now.Date)
+            else if (SelectedRenovation.StartDate.AddDays(5).Date < DateTime.Now.Date)
             {
                 Message = "You can cancel renovation.";
                 VisibilityNotificationCancled = true;
@@ -196,5 +241,23 @@ namespace WpfApp1.ViewModel
                 Renovations.Add(r);
             }
         }
+
+        private bool CanExecute_ChosenAccommodationCommand()
+        {
+            return SelectedAccommodation != null;
+        }
+
+        private void Execute_ChosenAccommodationCommand()
+        {
+            VisibilityChooseAccommodation = false;
+        }
+
+        private void Execute_CloseChooseAccommodationCommand()
+        {
+            TabPosition = 0;
+            VisibilityChooseAccommodation = false;
+        }
+
+
     }
 }
