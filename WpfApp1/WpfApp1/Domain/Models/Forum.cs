@@ -100,6 +100,7 @@ namespace WpfApp1.Domain.Models
         public Forum()
         {
             Comments = new List<string>();
+            Guest = new();
         }
 
         public string[] ToCSV()

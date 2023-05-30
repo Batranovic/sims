@@ -75,6 +75,10 @@ namespace WpfApp1
                 ownerAccount.Show();
                 _ownerService.SetKind((Owner)LogInUser);
                 _notificationAccommodation.FindNotification(LogInUser.Id);
+                foreach(var n in _notificationAccommodation.GetForOwner(LogInUser.Id))
+                { 
+                    ((Owner)LogInUser).Notifications.Add(n);
+                }
                 Close();
                 return;
             }
