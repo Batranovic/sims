@@ -12,17 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1.Domain.Models;
-using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for AccommodationDisplay.xaml
+    /// Interaction logic for PastReservationsView.xaml
     /// </summary>
-    public partial class AccommodationDisplay : UserControl
+    public partial class PastReservationsView : UserControl
     {
-        public AccommodationDisplay()
+        public PastReservationsView()
         {
             InitializeComponent();
         }

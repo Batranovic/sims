@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="WpfApp1.Views.PastReservationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="655" d:DesignWidth="1024"
+             Background="Bisque">
+    <Grid>
+        <DockPanel Height="560" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <ListView ItemsSource="{Binding Reservations}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Accommodation.Name}" Width="195"></GridViewColumn>
+                        <GridViewColumn Header="State" DisplayMemberBinding="{Binding Accommodation.Location.State}" Width="185"></GridViewColumn>
+                        <GridViewColumn Header="City" DisplayMemberBinding="{Binding Accommodation.Location.City}" Width="185"></GridViewColumn>
+                        <GridViewColumn Header="Start date" DisplayMemberBinding="{Binding StartDate }" Width="260"></GridViewColumn>
+                        <GridViewColumn Header="End date" DisplayMemberBinding="{Binding EndDate }" Width="182"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+        
+        <WrapPanel Grid.Row="0" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0"  >
+            <Button Content="Rate owner" Width="156" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,1,14" Command="{Binding OwnerRatingCommand}"/>
+        </WrapPanel>
+
+    </Grid>
+</UserControl>

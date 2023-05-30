@@ -24,7 +24,6 @@ namespace WpfApp1.Domain.Models
         
         public Image MainImage { get; set; }
         public List<Image> Images { get; set; }
-        public Image MainImage { get; set; }
         public bool IsRenovated { get; set; }
 
         public int Id
