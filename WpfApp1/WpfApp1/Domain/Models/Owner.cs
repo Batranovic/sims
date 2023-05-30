@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace WpfApp1.Domain.Models
         public List<OwnerRating> Ratings { get; set; }
         private double _averageRating;
         private bool _super;
+
+        public ObservableCollection<NotificationBase> Notifications { get; set; }
         public double AverageRating
         {
             get => _averageRating;
@@ -37,8 +40,9 @@ namespace WpfApp1.Domain.Models
         }
         public Owner() : base()
         {
-            Accommodations = new List<Accommodation>();
-            Ratings = new List<OwnerRating>();
+            Accommodations = new();
+            Ratings = new();
+            Notifications = new();
         }
         public override string[] ToCSV() 
         {

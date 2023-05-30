@@ -10,6 +10,7 @@ namespace WpfApp1.Domain.Models
     public class NotificationBase : ISerializable
     {
         public int Id { get; set; }
+     
         public bool IsDelivered { get; set; }
 
         public NotificationBase()

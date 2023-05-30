@@ -20,6 +20,7 @@ namespace WpfApp1.Service
             _notificationRepository = InjectorRepository.CreateInstance<INotificationAccommodationReleaseRepository>();
             _accommodationRepository = InjectorRepository.CreateInstance<IAccommodationRepository>();
             BindAccommodation();
+    
         }
 
         private void BindAccommodation()
@@ -27,6 +28,7 @@ namespace WpfApp1.Service
             foreach (var n in _notificationRepository.GetAll())
             {
                 n.Accommodation = _accommodationRepository.Get(n.Accommodation.Id);
+           //     n.Accommodation.Owner.Notifications.Add(n);
             }
         }
 
