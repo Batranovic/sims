@@ -9,7 +9,7 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
         Title="OwnerAccount" Height="650" Width="967" ResizeMode="NoResize"
-        Name="OwnerStart">
+        Name="OwnerStart" >
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:OwnerProfileViewModel}">
@@ -27,14 +27,14 @@
     </Window.Resources>
 
     <Grid>
-        <DockPanel  Width="950">
+        <DockPanel  Width="950" >
             <DockPanel DockPanel.Dock="Top" Background="blue" Height="80" >
                 <WrapPanel Background="white">
                     <WrapPanel Width="100" Height="80">
 
                     </WrapPanel>
 
-                    <WrapPanel  Height="80" Width="600">
+                    <WrapPanel  Height="80" Width="600" >
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="1" >Acommodations</Button>
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="2">Reservations</Button>
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="3">Renovations</Button>
@@ -184,7 +184,7 @@
                             </i:Interaction.Triggers>
 
                             <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
-                                <ListView Height="135" ItemsSource="{Binding Notifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedNotificationBase}" >
+                                <ListView Height="135" ItemsSource="{Binding LoggedOwner.Notifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedNotificationBase}" >
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="Message" Width="225" DisplayMemberBinding="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

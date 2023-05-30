@@ -136,8 +136,7 @@ namespace WpfApp1.ViewModel
         private void Init(Owner owner)
         {
             _window  = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
-            HaveNotification =  _notificationService.GetForOwner(owner.Id).Count == 0 ? "White" :  "Green";
-            Notifications = HaveNotification == "White" ? new() : new(_notificationService.GetForOwner(owner.Id));
+            HaveNotification = owner.Notifications.Count == 0 ? "White" :  "Green";
             VisibilityWizard = false;
             VisibilityPopUp = false;
             VisibilityNotification = false; 
@@ -145,7 +144,7 @@ namespace WpfApp1.ViewModel
             UserType = LoggedOwner.Super ? "Super owner" : "Basic owner";
         }
 
-        public ObservableCollection<NotificationBase> Notifications { get; set; }
+       
         private void Execute_NotificationCommand()
         {
             VisibilityNotification = !VisibilityNotification;
@@ -223,24 +222,24 @@ namespace WpfApp1.ViewModel
         {
             SelectedNotificationBase.IsDelivered = true;
             _notificationService.Update((NotificationAccommodationRelease)SelectedNotificationBase);
-            Notifications.Clear();
+            LoggedOwner.Notifications.Clear();
             foreach(NotificationAccommodationRelease n in _notificationService.GetForOwner(LoggedOwner.Id))
             {
-                Notifications.Add(n);
+                LoggedOwner.Notifications.Add(n);
             }
-            OnPropertyChanged(nameof(Notifications));
-            HaveNotification = Notifications.Count == 0 ? "White" : "Green"; 
+            OnPropertyChanged(nameof(LoggedOwner.Notifications));
+            HaveNotification = LoggedOwner.Notifications.Count == 0 ? "White" : "Green"; 
            
         }
 
         private void Execute_DeleteAllNotificationCommand()
         {
-            foreach(var n in Notifications)
+            foreach(var n in LoggedOwner.Notifications)
             {
                 n.IsDelivered = true;
                 _notificationService.Update((NotificationAccommodationRelease)n);
             }
-            Notifications.Clear();
+            LoggedOwner.Notifications.Clear();
             HaveNotification = "White";
         }
 

@@ -69,7 +69,7 @@ namespace WpfApp1.Service
 
         public List<GuestRating> GetAllGuestReviews(int idGuest)
         {
-            return GetAll().FindAll(r => r.Reservation.IdGuest == idGuest && r.Reservation.Status == Domain.Models.Enums.GuestRatingStatus.Rated);
+            return GetAll().FindAll(r => r.Reservation.Guest.Id == idGuest && r.Reservation.Status == Domain.Models.Enums.GuestRatingStatus.Rated);
         }
 
      

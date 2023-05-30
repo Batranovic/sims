@@ -16,7 +16,7 @@ namespace WpfApp1.Domain.Models
     public class Reservation : WpfApp1.Serializer.ISerializable
     {
         public int Id { get; set; }
-        public int IdGuest { get; set; }
+
         public Guest Guest { get; set; }
         public Accommodation Accommodation { get; set; }
         public DateTime StartDate { get; set; }
@@ -31,11 +31,11 @@ namespace WpfApp1.Domain.Models
         public Reservation()
         {
             Accommodation = new();
+            Guest = new();
         }
 
         public Reservation(Guest guest, Accommodation accommodation, DateTime startDate, DateTime endDate, GuestRatingStatus status, AccommodationAndOwnerRatingStatus guestReservationStatus)
         {
-            IdGuest = guest.Id;
             EndDate = endDate;
             Status = status;
             GuestReservationStatus = guestReservationStatus;
@@ -53,7 +53,7 @@ namespace WpfApp1.Domain.Models
                 DateHelper.DateToString(StartDate),
                 DateHelper.DateToString(EndDate),
                 Accommodation.Id.ToString(),
-                IdGuest.ToString(),
+                Guest.Id.ToString(),
                 Status.ToString(),
                 GuestReservationStatus.ToString(),
                 Deleted.ToString()
@@ -68,7 +68,7 @@ namespace WpfApp1.Domain.Models
             StartDate = DateHelper.StringToDate(values[1]);
             EndDate = DateHelper.StringToDate(values[2]);
             Accommodation.Id = Convert.ToInt32(values[3]);
-            IdGuest = Convert.ToInt32(values[4]);
+            Guest.Id = Convert.ToInt32(values[4]);
             Status = Enum.Parse<GuestRatingStatus>(values[5]);
             GuestReservationStatus = Enum.Parse<AccommodationAndOwnerRatingStatus>(values[6]);
             Deleted = Convert.ToBoolean(values[7]);
