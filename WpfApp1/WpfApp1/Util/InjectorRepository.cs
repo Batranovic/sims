@@ -34,10 +34,10 @@ namespace WpfApp1.Service
             { typeof(ISimpleTourRequestRepository), SimpleTourRequestRepository.GetInstance() },
             { typeof(IRequestNotifactionRepository), RequestNotificationRepository.GetInstance() },
             { typeof(INewTourNotificationRepository), NewTourNotificationRepository.GetInstance() },
-            { typeof(INotificationAccommodationReleaseRepository), NotificationAccommodationReleaseRepository.GetInstance() },
-            { typeof(IForumNotificationRepository), ForumNotificationRepository.GetInstance() },
-            { typeof(IForumRepository), ForumRepository.GetInstance() }
-
+            { typeof(INotificationAccommodationReleaseRepository), NotificationAccommodationReleaseRepository.GetInstance() }
+            //{ typeof(IForumRepository), ForumRepository.GetInstance() },
+          //  { typeof(IForumNotificationRepository), ForumNotificationRepository.GetInstance() },
+        //    { typeof(IForumCommentsRepository), ForumCommentsRepository.GetInstance() }
         };
         public static T CreateInstance<T>()
         {
