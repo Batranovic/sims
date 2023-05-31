@@ -10,19 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1.Domain.Models;
-using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for AccommodationDisplay.xaml
+    /// Interaction logic for ForumView.xaml
     /// </summary>
-    public partial class AccommodationDisplay : UserControl
+    public partial class ForumView : Window
     {
-        public AccommodationDisplay()
+        public ForumView()
         {
             InitializeComponent();
         }

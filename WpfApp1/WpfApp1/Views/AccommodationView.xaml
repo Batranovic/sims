@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WpfApp1.ViewModel"
         xmlns:v="clr-namespace:WpfApp1.Views"
-        xmlns:local="clr-namespace:WpfApp1.Views"
+        xmlns:local="clr-namespace:WpfApp1.Views" d:DataContext="{d:DesignInstance Type=vm:AccommodationViewModel}"
         mc:Ignorable="d"
         Title="AccommodationView" Name="AccommodationViewName"  Height="768" Width="1024">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:AccommodationDisplayViewModel}">
             <v:AccommodationDisplay/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UnratedReservationDisplay}">
+            <v:PastReservationsView/>
         </DataTemplate>
     </Window.Resources>
     <Grid Background="Firebrick">
@@ -29,14 +32,16 @@
                    Foreground="White"
                    FontSize="25"/>
         </WrapPanel>
-        <TabControl Grid.Row="1" Margin="0,0,-824,0">
+        <TabControl Grid.Row="1" Margin="0,0,-824,0" SelectedIndex="{Binding TabPosition}">
             <TabItem Header="Overview" FontSize=" 12">
                 <StackPanel>
-                    <ContentControl Content="{Binding CurrentVM}"/>
+                    <ContentControl Content="{Binding AccommodationDisplayViewModel}"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Leave a review" FontSize=" 12">
-                <!-- Content for Tab 2 -->
+                <StackPanel>
+                    <ContentControl Content="{Binding UnratedReservationDisplay}"/>
+                 </StackPanel>
             </TabItem>
             <TabItem Header="Owner reviews" FontSize=" 12">
                 <!-- Content for Tab 3 -->
