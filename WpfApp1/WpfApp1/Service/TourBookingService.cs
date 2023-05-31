@@ -8,17 +8,18 @@ using WpfApp1.Domain.Models;
 using WpfApp.Observer;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.RepositoryInterfaces;
+using System.Windows;
 
 namespace WpfApp1.Service 
 {
     public class TourBookingService : ITourBookingService
     {
         private ITourBookingRepository _tourBookingRepository;
-        private VoucherService _voucherService;
+        private IVoucherRepository _voucherRepository;
         public TourBookingService()
         {
             _tourBookingRepository = InjectorRepository.CreateInstance<ITourBookingRepository>();
-            _voucherService = new VoucherService();
+            _voucherRepository = InjectorRepository.CreateInstance<IVoucherRepository>();
             BindTourEvent();
             BindVoucher();
         }
@@ -80,7 +81,7 @@ namespace WpfApp1.Service
             if (tourBooking.Voucher.Id != -1)
             {
                 tourBooking.Voucher.IsUsed = true;
-                _voucherService.Update(tourBooking.Voucher);
+                _voucherRepository.Update(tourBooking.Voucher);
             }
 
 
@@ -160,6 +161,39 @@ namespace WpfApp1.Service
                 Update(existingTourBooking);
             }
         }
+
+        public Voucher WonVoucher(int userId)
+        {
+            var tourBookings = _tourBookingRepository.GetAll();
+            var filteredTourBookings = tourBookings.Where(t => t.Tourist.Id == userId);
+
+            var indexedTourBookings = filteredTourBookings.Select((booking, index) => new { Booking = booking, Index = index });
+
+            var fifthBookings = indexedTourBookings.Where(x => (x.Index + 1) % 5 == 0).Select(x => x.Booking);
+
+            if (fifthBookings.Any())
+            {
+                var lastFifthBooking = fifthBookings.Last();
+
+                DateTime sixMonthsLater = DateTime.Now.AddMonths(6);
+
+                Voucher newVoucher = new Voucher
+                {
+                    Tourist = new Tourist { Id = userId },
+                    ExpirationDate = sixMonthsLater,
+                    Name = "voucher"
+                };
+
+                _voucherRepository.Create(newVoucher);
+                _voucherRepository.Update(newVoucher);
+
+                return newVoucher;
+            }
+
+            return null;
+        }
+
+
 
 
 

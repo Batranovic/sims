@@ -149,7 +149,6 @@ namespace WpfApp1.ViewModel
 
             if (!IsValid )
             { 
-                MessageBox.Show("You didn't finish your review");
                 return;
             }
             List<string> images = new List<string>(Images);

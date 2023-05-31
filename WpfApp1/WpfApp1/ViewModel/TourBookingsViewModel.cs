@@ -128,7 +128,6 @@ namespace WpfApp1.ViewModel
 
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
-            CheckAvailabilityCommand = new RelayCommand(Execute_CheckAvailability, CanExecute_Command);
             ReserveCommand = new RelayCommand(Execute_Reserve, CanExecute_Command);
             MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
@@ -280,6 +279,8 @@ namespace WpfApp1.ViewModel
         private void Execute_Reserve(object sender)
         {
 
+            CheckAvailability();
+
             if (AvailableSpots >= NumberOfPeople && IsValid)
             {
                 TourBooking existingTourBooking = _tourBookingService.GetTourBookingForTourEventAndUser(SelectedTourEvent.Id, MainWindow.LogInUser.Id);
@@ -287,17 +288,25 @@ namespace WpfApp1.ViewModel
                 {
                     MessageBox.Show("Already reserved this tour!");
                 }
+                else if(NumberOfPeople <= 0)
+                {
+                    MessageBox.Show("Choose how many people you want to reserve for!");
+                }
                 else
                 {   Tourist tourist = (Tourist)MainWindow.LogInUser;
                     TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, tourist, SelectedVoucher);
                     _tourBookingService.Create(tourBooking);
-
+                    AvailableSpots = SelectedTourEvent.Tour.MaxGuests - NumberOfPeople;
                     if (SelectedVoucher != null)
                     {
                         Vouchers.Remove(SelectedVoucher);
                         SelectedVoucher = null;
                     }
-
+                   
+                   if( _tourBookingService.WonVoucher(tourist.Id) != null)
+                    {
+                         MessageBox.Show("You won a voucher");
+                    }
                     MessageBox.Show("          Successfully reserved! " + Environment.NewLine +
                 "    View tour in BOOKED TOURS!" + Environment.NewLine +
                 "    \t     (F7)", "Success ");
@@ -312,10 +321,11 @@ namespace WpfApp1.ViewModel
         }
 
 
-        private void Execute_CheckAvailability(object sender)
+        private void CheckAvailability()
         {
             if (SelectedTourEvent == null)
             {
+                MessageBox.Show("Please first select tour event!");
                 return;
             }
             int reservedSpots = _tourEventService.CheckAvailability(SelectedTourEvent);
@@ -325,12 +335,8 @@ namespace WpfApp1.ViewModel
             {
                 List<TourEvent> tourEventsForLocation = _tourEventService.GetAvailableTourEventsForLocation(SelectedTourEvent.Tour.Location, NumberOfPeople);
                 RefreshTours(tourEventsForLocation);
-               
             }
-            else
-            {
-                
-            }
+
         }
 
     

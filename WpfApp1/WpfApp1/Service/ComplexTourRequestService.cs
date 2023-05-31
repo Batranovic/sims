@@ -9,6 +9,7 @@ using WpfApp1.Domain.Models;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Repository;
+using System.Collections.ObjectModel;
 
 namespace WpfApp1.Service
 {
@@ -21,27 +22,28 @@ namespace WpfApp1.Service
             _complexTourRequestRepository = InjectorRepository.CreateInstance<IComplexTourRequestRepository>();
 
         }
+
         public List<ComplexTourRequest> RequestsForTourist(int userId)
         {
-            List<ComplexTourRequest> complex = new List<ComplexTourRequest>();
+            List<ComplexTourRequest> requests = new List<ComplexTourRequest>();
             var allRequests = _complexTourRequestRepository.GetAll();
 
             for (int i = 0; i < allRequests.Count(); i++)
             {
                 var request = allRequests.ElementAt(i);
-                if (request.Tourist.Id == userId && (request.RequestStatus == RequestStatus.Pending || request.RequestStatus == RequestStatus.Denied))
+                if (request.Tourist.Id == userId)
                 {
-                    if ((request.SimpleTourRequests[0].StartDate - DateTime.Today).TotalDays <= 2 && request.RequestStatus != RequestStatus.Accepted)
+                    if (request.SimpleTourRequests.Count > 0 && (request.SimpleTourRequests[0].StartDate - DateTime.Today).TotalDays <= 2 && request.RequestStatus != RequestStatus.Accepted)
                     {
                         request.RequestStatus = RequestStatus.Denied;
                         _complexTourRequestRepository.Update(request);
                     }
-                    complex.Add(request);
+                    requests.Add(request);
                 }
-
             }
-            return complex;
+            return requests;
         }
+     
 
         public List<ComplexTourRequest> GetAllForUser(int userId)
         {

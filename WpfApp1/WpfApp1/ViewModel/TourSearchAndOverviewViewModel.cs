@@ -124,12 +124,12 @@ namespace WpfApp1.ViewModel
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
 
-            //SelectedState = "";
-            //SelectedCity = "";
+            SelectedState = "";
+            SelectedCity = "";
 
             Languages = "";
             Duration = "";
-            MaxGuests = "";
+            MaxGuests = "1";
 
             SearchCommand = new RelayCommand(Execute_Search, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
@@ -332,10 +332,17 @@ namespace WpfApp1.ViewModel
 
         private void Execute_Search(object sender)
         {
-
-          
-            List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
+            IsSubmitClicked = true;
+            if (IsValid){
+                List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
                 RefreshTours(searchedTours);
+                if(searchedTours.Count == 0)
+                {
+                    MessageBox.Show("Currently we don't have that kind of tour.");
+                }
+                IsSubmitClicked = false;
+            }
+           
             
 
         }
@@ -360,6 +367,25 @@ namespace WpfApp1.ViewModel
             CloseAction();
 
         }
+        
+        private bool _isSubmitClicked = false;
+
+        public bool IsSubmitClicked
+        {
+            get { return _isSubmitClicked; }
+            set
+            {
+                if (_isSubmitClicked != value)
+                {
+                    _isSubmitClicked = value;
+                    OnPropertyChanged("IsSubmitClicked");
+                    OnPropertyChanged("Duration");
+                    OnPropertyChanged("MaxGuests");
+                    OnPropertyChanged("MaxGuests");
+                    OnPropertyChanged("Languages");
+                }
+            }
+        }
 
         public string Error => null;
         public string this[string columnName]
@@ -367,44 +393,48 @@ namespace WpfApp1.ViewModel
             get
             {
 
-                if (columnName == "Duration")
+                if (IsSubmitClicked)
                 {
+
                     if (columnName == "Duration")
                     {
-                        if (!string.IsNullOrEmpty(Duration) && !Regex.IsMatch(Duration, @"^\d+(\.\d+)?$") || Duration=="0")
+                        if (columnName == "Duration")
                         {
-                            return "only valid positive number.";
+                            if (!string.IsNullOrEmpty(Duration) && !Regex.IsMatch(Duration, @"^\d+(\.\d+)?$") || Duration == "0")
+                            {
+                                return "only valid positive number.";
+                            }
+                            // Do something with the valid input
                         }
-                        // Do something with the valid input
+
+
+                    }
+
+                    if (columnName == "MaxGuests")
+                    {
+                        if (!string.IsNullOrEmpty(MaxGuests) && !Regex.IsMatch(MaxGuests, "^[1-9][0-9]*$"))
+                        {
+                            if (MaxGuests.StartsWith("-"))
+                            {
+                                return "please enter only positive numbers";
+                            }
+                            else
+                            {
+                                return "please enter only numbers";
+                            }
+                        }
                     }
 
 
-                }
-
-                if (columnName == "MaxGuests")
-                {
-                    if (!string.IsNullOrEmpty(MaxGuests) && !Regex.IsMatch(MaxGuests, "^[1-9][0-9]*$"))
+                    if (columnName == "Languages")
                     {
-                        if (MaxGuests.StartsWith("-"))
+                        if (!string.IsNullOrEmpty(Languages))
                         {
-                            return "please enter only positive numbers";
-                        }
-                        else
-                        {
-                            return "please enter only numbers";
-                        }
-                    }
-                }
 
-
-                if (columnName == "Languages")
-                {
-                    if (!string.IsNullOrEmpty(Languages))
-                    {
-
-                        if (!Regex.IsMatch(Languages.TrimEnd(), "^[a-zA-Z]+(\\s)*$"))
-                        {
-                            return "enter only letters";
+                            if (!Regex.IsMatch(Languages.TrimEnd(), "^[a-zA-Z]+(\\s)*$"))
+                            {
+                                return "enter only letters";
+                            }
                         }
                     }
                 }

@@ -1,20 +1,20 @@
 3, voucher3,12/22/2023 12:00:00 PM,2,False
 2, voucher2,11/23/2023 11:00:00 AM,1,True
-4, voucher4,8/12/2023 12:00:00 AM,1,False
-5, voucher5,9/11/2023 11:00:00 AM,1,False
+4, Priroda i drustvo,8/12/2023 12:00:00 AM,1,False
+5, Besplatan put,9/11/2023 11:00:00 AM,1,False
 6, voucher6,12/12/2023 12:00:00 AM,1,True
 7, voucher7,11/12/2023 11:00:00 AM,1,True
 8, voucher8,9/9/2023 9:00:00 AM,1,True
 9, voucher9,10/10/2023 11:00:00 AM,2,False
-10, voucher10,12/22/2023 12:00:00 PM,1,False
+10, 3 dana gratis,12/22/2023 12:00:00 PM,1,False
 11, voucher11,11/23/2023 11:00:00 AM,1,True
-12, voucher12,8/12/2023 12:00:00 AM,1,False
-13, voucher13,9/11/2023 11:00:00 AM,1,False
-14, voucher14,12/12/2023 12:00:00 AM,1,False
+12, Besplatan prevoz,8/12/2023 12:00:00 AM,1,False
+13, Iskoristi priliku,9/11/2023 11:00:00 AM,1,False
+14, Vaucer,12/12/2023 12:00:00 AM,1,False
 15, voucher15,11/12/2023 11:00:00 AM,1,True
 16, voucher16,9/9/2023 9:00:00 AM,1,True
-17, voucher17,10/10/2023 11:00:00 AM,1,False
-18, voucher18,12/12/2023 12:00:00 AM,1,False
-19, voucher19,11/12/2023 11:00:00 AM,1,True
-20, voucher20,9/9/2023 9:00:00 AM,1,True
-21, voucher21,10/10/2023 11:00:00 AM,1,False
+17,voucher4,11/30/2023 9:32:47 PM,1,False
+18,voucher4,11/30/2023 9:34:12 PM,1,False
+19,voucher4,11/30/2023 9:34:23 PM,1,False
+20,voucher,11/30/2023 9:38:53 PM,1,False
+21,voucher,11/30/2023 9:39:38 PM,1,False

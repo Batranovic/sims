@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void Delete(ComplexTourRequest entity);
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
-
+        int NextId();
         List<ComplexTourRequest> RequestsForTourist(int userId);
     }
 }

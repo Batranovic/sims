@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         Title="TourAdvisor" Height="660" Width="1024">
     <Window.InputBindings>
         <KeyBinding Command="{Binding AllToursCommand}" Key="A" Modifiers="Ctrl"></KeyBinding>
@@ -25,7 +26,7 @@
         </ControlTemplate>
     </Window.Resources>
     <Grid>
-        <DockPanel DockPanel.Dock="Top"  Background="#f3dcc4" Margin="0,0,0,573">
+        <DockPanel DockPanel.Dock="Top"  Background="#f3dcc4" Margin="0,0,0,569">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -50,13 +51,13 @@
                     </StackPanel>
                 </Button>
 
-                <Button   IsEnabled="False"  Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="318,10,0,0" Grid.ColumnSpan="2">
+                <Button   IsEnabled="False"  Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="321,10,0,0" Grid.ColumnSpan="2">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/service.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request new tours"/>
                     </StackPanel>
                 </Button>
-                <Button  Command="{Binding RequestListCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="171,10,0,0">
+                <Button  Command="{Binding RequestListCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1"  Margin="174,8,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/checklist.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request list"/>
@@ -101,10 +102,10 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Background="WhiteSmoke" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1,1,1,0" />
-                    <Border Background="WhiteSmoke" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1,0,1,1" />
-                    <Border Background="WhiteSmoke" Grid.Row="3" Grid.Column="1" Grid.RowSpan="12" BorderThickness="1,0,0,1" BorderBrush="Black"></Border>
-                    <Border Background="WhiteSmoke" Grid.Row="3" Grid.Column="2" Grid.RowSpan="12" BorderThickness="0,0,1,1" BorderBrush="Black"></Border>
+                    <Border Background="#f3dcc4" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1,1,1,0" />
+                    <Border Background="#f3dcc4" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1,0,1,1" />
+                    <Border Background="#f3dcc4" Grid.Row="3" Grid.Column="1" Grid.RowSpan="12" BorderThickness="1,0,0,1" BorderBrush="Black"></Border>
+                    <Border Background="#f3dcc4" Grid.Row="3" Grid.Column="2" Grid.RowSpan="12" BorderThickness="0,0,1,1" BorderBrush="Black"></Border>
                     <!-- Add your content here... -->
 
 
@@ -112,19 +113,19 @@
                     <ComboBox  ItemsSource="{Binding States}" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Width="260" Height="30" Margin="15,30,15,20" Grid.RowSpan="2" ></ComboBox>
                     <ComboBox  ItemsSource="{Binding Cities}"  SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Width="260" Height="30" Margin="15,0,15,10"/>
                     <TextBlock Text="Description" Grid.Row="5" Grid.Column="1" Width="260" Grid.ColumnSpan="2" Height="20" Margin="15,5,15,15"></TextBlock>
-                    <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Width="260" Margin="15,25,15,35" Grid.RowSpan="3"/>
+                    <TextBox Background="WhiteSmoke" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Width="260" Margin="15,25,15,35" Grid.RowSpan="3"/>
                     <TextBlock Text="Language"  Grid.Row="7" Grid.Column="1" Width="260" Grid.ColumnSpan="2" Height="30" Margin="15,20,15,2" Grid.RowSpan="2"></TextBlock>
-                    <TextBox Text="{Binding Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Width="260" Grid.RowSpan="2" Margin="15,0,15,10"/>
+                    <TextBox  Background="WhiteSmoke" Text="{Binding Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Width="260" Grid.RowSpan="2" Margin="15,0,15,10"/>
 
                     <TextBlock Text="Number of people" Width="260"  Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Height="20" Margin="15,10,15,10" ></TextBlock>
-                    <TextBox Text="{Binding MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.Row="10" Grid.Column="1" Width="260" Grid.ColumnSpan="2" Height="30" Margin="15,33,15,17" Grid.RowSpan="2"></TextBox>
+                    <TextBox  Background="WhiteSmoke" Text="{Binding MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.Row="10" Grid.Column="1" Width="260" Grid.ColumnSpan="2" Height="30" Margin="15,33,15,17" Grid.RowSpan="2"></TextBox>
                     <TextBlock Text="From" Grid.Row="12" Grid.Column="1" Height="30" Margin="15,12,140,38" Grid.ColumnSpan="2" Grid.RowSpan="2" />
                     <TextBlock Text="To" Grid.Row="13" Grid.Column="1" Height="30" Margin="15,27,12,23" Grid.RowSpan="2" />
-                    <DatePicker Grid.Row="12" Grid.Column="2"  Height="30" Margin="0,10,15,0"
+                    <DatePicker  Background="WhiteSmoke"  Grid.Row="12" Grid.Column="2"  Height="30" Margin="0,10,15,0"
                       SelectedDate="{Binding SelectedStartDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                       Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
 
-                    <DatePicker Grid.Row="13" Grid.Column="2" Height="30" Margin="0,23,15,27"
+                    <DatePicker  Background="WhiteSmoke" Grid.Row="13" Grid.Column="2" Height="30" Margin="0,23,15,27"
                       SelectedDate="{Binding SelectedEndDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                       Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.RowSpan="2"/>
 
@@ -145,7 +146,7 @@
                             <RotateTransform Angle="180"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Image Grid.Column="2" Margin="122,30,124,2" Grid.RowSpan="8" Grid.Row="2" Source="/Images/travel-guide.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+                    <Image Grid.Column="2" Margin="122,16,124,16" Grid.RowSpan="8" Grid.Row="2" Source="/Images/travel-guide.png" Stretch="Fill" Grid.ColumnSpan="2" RenderTransformOrigin="0.51,0.433"/>
                     <Image Margin="165,0,10,0" Grid.RowSpan="5" Grid.Row="11" Source="/Images/travelling.png" Stretch="Fill"/>
                 </Grid>
             </DockPanel>

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         Title="TourAdvisor" Height="660" Width="1024" Background="WhiteSmoke">
     <Window.InputBindings>
         <KeyBinding Command="{Binding AllToursCommand}" Key="A" Modifiers="Ctrl"></KeyBinding>
@@ -41,13 +42,13 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="318,10,0,0" Grid.ColumnSpan="2">
+                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="321,10,0,0" Grid.ColumnSpan="2">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/service.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request new tours"/>
                     </StackPanel>
                 </Button>
-                <Button  Command="{Binding RequestListCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="171,10,0,0">
+                <Button  Command="{Binding RequestListCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="174,10,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/checklist.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request list"/>
@@ -62,35 +63,12 @@
                 </Button>
             </Grid>
         </DockPanel>
-        <Button Background="#f9cb9e" Command="{Binding LeaveReviewCommand}" Content="Leave a review" HorizontalAlignment="Left" Margin="815,524,0,0" VerticalAlignment="Top" Height="36" Width="98" IsEnabled="{Binding IsTourEventSelected}">
+        <Button Background="#f9cb9e" Command="{Binding LeaveReviewCommand}" Content="Leave a review" HorizontalAlignment="Left" Margin="790,524,0,0" VerticalAlignment="Top" Height="36" Width="98" IsEnabled="{Binding IsTourEventSelected}">
             <Button.Effect>
                 <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
             </Button.Effect>
         </Button>
-
-
-        <ToggleButton x:Name="myToggleButton" IsChecked="{Binding IsPopupOpen}" Width="50" Height="50" HorizontalAlignment="Left" Margin="740,517,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Command="{Binding ShowPopUpCommand}"   >
-            <ToggleButton.Template>
-                <ControlTemplate TargetType="ToggleButton">
-                    <Grid>
-                        <Ellipse Width="20" Height="20"  Fill="White" Stroke="Red" StrokeThickness="2" Margin="23,15,7,15"/>
-                        <TextBlock Text="i" FontSize="15" FontWeight="Bold" Foreground="Red" Margin="8,0,-8,0">
-                            <TextBlock.RenderTransform>
-                                <TranslateTransform X="23" Y="15"/>
-                            </TextBlock.RenderTransform>
-                        </TextBlock>
-                    </Grid>
-                </ControlTemplate>
-            </ToggleButton.Template>
-        </ToggleButton>
-        <Popup Name="myPopup" IsOpen="{Binding IsPopupOpen}" PlacementTarget="{Binding ElementName=myToggleButton}" StaysOpen="False" Placement="Top">
-            <Grid Width="200" Background="Transparent">
-                <Border Background="White"  Margin="1"  >
-                    <TextBlock Text="You can only review tours with FINISHED STATUS" FontSize="16" TextWrapping="Wrap" Width="160" Height="65"/>
-                </Border>
-
-            </Grid>
-        </Popup>
+        
         <TextBlock  Text="My booked tours" FontSize="20"  Margin="60,66,591,487" FontWeight="Bold" />
 
 
@@ -125,7 +103,7 @@
                                             <ColumnDefinition Width="90"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Tour.Name}" TextDecorations="Underline"  FontWeight="Bold" FontSize="20"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Tour.Name}" TextDecorations="Underline"  FontWeight="Bold" FontSize="20"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
                                         <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >State</TextBlock>
                                         <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center" >City</TextBlock>
                                         <TextBlock  FontSize="11"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Center" >Duration</TextBlock>
@@ -133,25 +111,28 @@
                                         <TextBlock Text="{Binding Tour.Location.State}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <TextBlock Text="{Binding Tour.Location.City}" FontWeight="Bold" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <TextBlock Text="{Binding Tour.Duration}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{Binding Status}" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Status}" Value="Active">
-                                                            <Setter Property="Foreground" Value="LightSeaGreen" />
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Status}" Value="Finished">
-                                                            <Setter Property="Foreground" Value="LightSkyBlue" />
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Status}" Value="Inactive">
-                                                            <Setter Property="Foreground" Value="Red" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                        <TextBlock Text="{Binding Status}" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" Padding="2" VerticalAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Active">
+                                                                <Setter Property="Foreground" Value="LightSeaGreen" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Finished">
+                                                                <Setter Property="Foreground" Value="LightSkyBlue" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Inactive">
+                                                                <Setter Property="Foreground" Value="Red" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                                <TextBlock.Effect>
+                                                    <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.4" BlurRadius="4" />
+                                                </TextBlock.Effect>
+                                            </TextBlock>
 
-                                        <TextBlock  FontSize="11"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
+                                            <TextBlock  FontSize="11"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
                                         <TextBlock TextWrapping="Wrap" Text="{Binding Tour.Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                     </Grid>
                                 </DockPanel>
@@ -187,8 +168,8 @@
             </Border>
         </StackPanel>
 
-        <TextBlock HorizontalAlignment="Left" FontSize="17"  FontWeight="Bold" Margin="740,100,0,0"  TextWrapping="Wrap" Text="Where you are currently:" VerticalAlignment="Top" Width="204" Height="23"/>
-        <TextBlock HorizontalAlignment="Left" FontSize="17"  FontWeight="Bold" Margin="740,485,0,0"  TextWrapping="Wrap" Text="How was your experience?" VerticalAlignment="Top" Width="248" Height="24" RenderTransformOrigin="0.548,0.51"/>
+        <TextBlock HorizontalAlignment="Left" FontSize="17"  FontWeight="Bold" Margin="730,100,0,0"  TextWrapping="Wrap" Text="Where you are currently:" VerticalAlignment="Top" Width="204" Height="23"/>
+        <TextBlock HorizontalAlignment="Left" FontSize="17"  FontWeight="Bold" Margin="730,485,0,0"  TextWrapping="Wrap" Text="How was your experience?" VerticalAlignment="Top" Width="248" Height="24" RenderTransformOrigin="0.548,0.51"/>
 
     </Grid>
 </Window>

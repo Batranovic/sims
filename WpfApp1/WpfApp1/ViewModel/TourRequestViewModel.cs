@@ -14,6 +14,7 @@ namespace WpfApp1.ViewModel
     public class TourRequestViewModel : ViewModelBase
     {
         public ObservableCollection<SimpleTourRequest> SimpleTourRequests { get; set; }
+        public ObservableCollection<SimpleTourRequest> PartsOfComplexTourRequests { get; set; }
         public ObservableCollection<ComplexTourRequest> ComplexTourRequests { get; set; }
         public ObservableCollection<SimpleTourRequest> AcceptedRequests { get; set; }
 
@@ -35,8 +36,10 @@ namespace WpfApp1.ViewModel
             _newTourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
 
             SimpleTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id));
+           // PartsOfComplexTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.PartsOfComplexTourRequests(MainWindow.LogInUser.Id));
             ComplexTourRequests = new ObservableCollection<ComplexTourRequest>(_complexTourRequestService.RequestsForTourist(MainWindow.LogInUser.Id));
             AcceptedRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.AcceptedRequestsForTourist(MainWindow.LogInUser.Id));
+
 
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);

@@ -25,7 +25,6 @@ namespace WpfApp1.ViewModel
     public class RequestNewToursViewModel : ViewModelBase, IDataErrorInfo
     {
         private readonly ILocationService _locationService;
-
         private readonly ISimpleTourRequestService _simpleTourRequestService;
         private readonly IComplexTourRequestService _complexTourRequestService;
         public ObservableCollection<string> States { get; set; }
@@ -44,6 +43,20 @@ namespace WpfApp1.ViewModel
                 {
                     _language = value;
                     OnPropertyChanged("Language");
+                }
+            }
+        }
+
+        private int id;
+        public int ComplexTourRequestId
+        {
+            get => id;
+            set
+            {
+                if (value != id)
+                {
+                    id = value;
+                    OnPropertyChanged("ComplexTourRequestId");
                 }
             }
         }
@@ -151,7 +164,7 @@ namespace WpfApp1.ViewModel
             Cities = new ObservableCollection<string>();
 
            
-            MaxGuests = "0";
+            MaxGuests = "1";
             SelectedStartDate = DateTime.Today;
             SelectedEndDate = DateTime.Today;
 
@@ -178,13 +191,13 @@ namespace WpfApp1.ViewModel
                 int maxG = int.Parse(MaxGuests);
                 Tourist tourist = (Tourist)MainWindow.LogInUser;
                 Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate,tourist,RequestStatus.Pending);
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate,tourist,RequestStatus.Pending, -1);
                 _simpleTourRequestService.Create(simpleTour);
                 SelectedCity = null;
                 SelectedState = null;
                 Description = "";
                 Language = "";
-                MaxGuests = "";
+                MaxGuests = "1";
                 SelectedStartDate = DateTime.Today;
                 SelectedEndDate = DateTime.Today;
 
@@ -198,10 +211,77 @@ namespace WpfApp1.ViewModel
 
            
         }
+        private List<SimpleTourRequest> simpleTourRequests = new List<SimpleTourRequest>();
 
         private void Execute_RequestComplexTour(object sender)
-        { }
+        {
+            if (IsValid)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    "   Want to add more than one tour to the list?\n\n" +
+                    "           Yes - \"MORE\"    No - \"SUBMIT\"",
+                    "Request sent",
+                    MessageBoxButton.YesNo);
 
+                if (result == MessageBoxResult.Yes)
+                {
+                    int maxG = int.Parse(MaxGuests);
+                    Tourist tourist = (Tourist)MainWindow.LogInUser;
+                    Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
+                    ComplexTourRequestId = _complexTourRequestService.NextId();
+                    SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, ComplexTourRequestId);
+                    _simpleTourRequestService.Create(simpleTour);
+                    simpleTourRequests.Add(simpleTour);
+
+
+                    SelectedCity = null;
+                    SelectedState = null;
+                    Description = "";
+                    Language = "";
+                    MaxGuests = "0";
+                    SelectedStartDate = DateTime.Today;
+                    SelectedEndDate = DateTime.Today;
+                }
+                else if (result == MessageBoxResult.No)
+                {
+                    if (simpleTourRequests.Count > 0)
+                    {
+                        Tourist tourist = (Tourist)MainWindow.LogInUser;
+                        int maxG = int.Parse(MaxGuests);
+                     
+                        Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
+                        ComplexTourRequestId = _complexTourRequestService.NextId();
+                        SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, ComplexTourRequestId);
+                        _simpleTourRequestService.Create(simpleTour);
+                        simpleTourRequests.Add(simpleTour);
+
+                        SelectedCity = null;
+                        SelectedState = null;
+                        Description = "";
+                        Language = "";
+                        MaxGuests = "0";
+                        SelectedStartDate = DateTime.Today;
+                        SelectedEndDate = DateTime.Today;
+                    }
+
+
+                    Tourist t = (Tourist)MainWindow.LogInUser;
+                    ComplexTourRequest complexTour = new ComplexTourRequest(-1, t, RequestStatus.Pending, simpleTourRequests);
+
+
+                    _complexTourRequestService.Create(complexTour);
+
+                    simpleTourRequests.Clear();
+
+                    IsSubmitClicked = false;
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Please fix the errors before submitting the request.", "Error");
+            }
+        }
 
 
 
@@ -468,8 +548,6 @@ namespace WpfApp1.ViewModel
                 {
                     _isSubmitClicked = value;
                     OnPropertyChanged("IsSubmitClicked");
-
-                    // Trigger re-evaluation of validation errors
                     OnPropertyChanged("SelectedState");
                     OnPropertyChanged("SelectedCity");
                     OnPropertyChanged("MaxGuests");

@@ -15,5 +15,6 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void Unsubscribe(IObserver observer);
 
         Tourist GetByUsernameAndPassword(string username, string password);
+        Tourist getName(int userId);
     }
 }

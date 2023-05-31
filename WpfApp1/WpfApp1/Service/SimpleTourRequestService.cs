@@ -167,7 +167,7 @@ namespace WpfApp1.Service
             for (int i=0; i< allRequests.Count();i++)
             {
                 var request = allRequests.ElementAt(i);
-                if (request.Tourist.Id == userId && (request.RequestStatus == RequestStatus.Pending || request.RequestStatus == RequestStatus.Denied))
+                if (request.Tourist.Id == userId && request.ComplexTourRequestId == -1 && (request.RequestStatus == RequestStatus.Pending || request.RequestStatus == RequestStatus.Denied))
                 {
                     if ((request.StartDate - DateTime.Today).TotalDays <= 2 && request.RequestStatus != RequestStatus.Accepted)
                     {
@@ -238,6 +238,11 @@ namespace WpfApp1.Service
                 _notificationRepository.Create(newTourNotification);
             }
         }
+
+
+
+
+
 
 
 

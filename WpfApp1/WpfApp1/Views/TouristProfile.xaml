@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         Title="TourAdvisore" Height="660" Width="1024">
     <Window.InputBindings>
         <KeyBinding Command="{Binding AllToursCommand}" Key="A" Modifiers="Ctrl"></KeyBinding>
@@ -12,6 +13,15 @@
         <KeyBinding Command="{Binding RequestTourCommand}" Key="R" Modifiers="Ctrl"></KeyBinding>
         <KeyBinding Command="{Binding RequestListCommand}" Key="L" Modifiers="Ctrl"></KeyBinding>
     </Window.InputBindings>
+    <Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
     <Window.Icon>
         <ImageSource>/Images/car.png</ImageSource>
     </Window.Icon>
@@ -21,7 +31,7 @@
             <ColumnDefinition Width="721*"/>
         </Grid.ColumnDefinitions>
 
-        <DockPanel  Background="#f3dcc4" Margin="0,10,0,566" Grid.ColumnSpan="2">
+        <DockPanel  Background="#f3dcc4" Margin="0,16,0,574" Grid.ColumnSpan="2">
             <Grid Height="49">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -46,20 +56,20 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="318,10,0,0" Grid.ColumnSpan="2">
+                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="321,10,0,0" Grid.ColumnSpan="2">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/service.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request new tours"/>
                     </StackPanel>
                 </Button>
-                <Button  Command="{Binding RequestListCommand }" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="171,10,0,0">
+                <Button  Command="{Binding RequestListCommand }" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1"  Margin="174,10,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/checklist.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request list"/>
                     </StackPanel>
                 </Button>
 
-                <Button IsEnabled="False"  Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
+                <Button IsEnabled="False"  Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2"  Margin="204,8,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/profile.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="My profile"/>
@@ -74,20 +84,22 @@
                         <SolidColorBrush Color="#f3dcc4"/>
                     </TabItem.Background>
                     <StackPanel>
-                        <TextBlock Text="Your vouchers" FontSize="18" FontWeight="Bold" Margin="-105,40,0,0" Height="42" Width="200"></TextBlock>
-                        <ListBox ItemsSource="{Binding Vouchers}" SelectedItem="{Binding SelectedVoucher}" Margin="0,5,10,10" Background="#f3dcc4" Height="188" Width="300">
+                        <TextBlock Text="Expiration date of vouchers" FontSize="18" FontWeight="Bold" Margin="-155,40,0,0" Height="42" Width="250"></TextBlock>
+                        <ListBox ItemsSource="{Binding Vouchers}" SelectedItem="{Binding SelectedVoucher}" Margin="0,5,10,10" Background="#f3dcc4" Height="250" Width="400">
                             <ListBox.ItemTemplate >
                                 <DataTemplate>
-                                    <Border BorderBrush="Black" BorderThickness="1" Margin="-5,-1,-9,-1" Height="30" Width="275">
+                                    <Border BorderBrush="Black" BorderThickness="1" Margin="-5,-1,-9,-1" Height="40" Width="375">
                                         <DockPanel>
                                             <Grid>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="20"/>
+                                                    <RowDefinition Height="30"/>
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="280"/>
+                                                    <ColumnDefinition Width="220"/>
+                                                    <ColumnDefinition Width="150"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Text="{Binding Name}" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock Text="{Binding Name}" Grid.Column="0" FontSize="13"  Margin="0,9,0,0"  HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock   Grid.Column="1" Text="{Binding ExpirationDate}"  FontSize="13" Margin="0,9,0,0" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
 
                                             </Grid>
                                         </DockPanel>
@@ -95,32 +107,7 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <TextBlock Text="Date of validity" FontSize="18" FontWeight="Bold" Margin="-100,10,0,0" Height="43" Width="200"></TextBlock>
-                        <TextBox  TextWrapping="Wrap" Margin="-300,10,-300,0" TextAlignment="Center" FontSize="14" FontWeight="DemiBold" Width="300" Height="30" Text="{Binding SelectedVoucher.ExpirationDate}"/>
 
-
-                        <ToggleButton x:Name="myToggleButton" IsChecked="{Binding IsPopupOpen}" Width="50" Height="50" HorizontalAlignment="Left" Margin="425,-350,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Command="{Binding ShowPopUpCommand}"   >
-                            <ToggleButton.Template>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Grid>
-                                        <Ellipse Width="20" Height="20"  Fill="White" Stroke="Red" StrokeThickness="2" Margin="23,15,7,15"/>
-                                        <TextBlock Text="i" FontSize="15" FontWeight="Bold" Foreground="Red" Margin="8,0,-8,0">
-                                            <TextBlock.RenderTransform>
-                                                <TranslateTransform X="23" Y="15"/>
-                                            </TextBlock.RenderTransform>
-                                        </TextBlock>
-                                    </Grid>
-                                </ControlTemplate>
-                            </ToggleButton.Template>
-                        </ToggleButton>
-                        <Popup Name="myPopup" IsOpen="{Binding IsPopupOpen}" PlacementTarget="{Binding ElementName=myToggleButton}" StaysOpen="False" Placement="Top">
-                            <Grid Width="200" Background="Transparent">
-                                <Border Background="White"  Margin="1"  >
-                                    <TextBlock Text="Select one row to view date of validity for the selected voucher" FontSize="16" TextWrapping="Wrap" Width="160" Height="65"/>
-                                </Border>
-
-                            </Grid>
-                        </Popup>
                     </StackPanel>
                 </TabItem>
 
@@ -129,64 +116,25 @@
                         <SolidColorBrush Color="#f3dcc4"/>
                     </TabItem.Background>
                     <StackPanel>
-                        <ListBox ItemsSource="{Binding TourBookings}" Margin="40,70,0,0" Background="#f3dcc4" Height="300" Width="500" BorderThickness="0.6" BorderBrush="Black">
+                        <Border BorderBrush="Black" BorderThickness="1" Margin="-7,92,0,0" Width="300" Height="188">
+                            <Rectangle Fill="#f3dcc4"/>
+                        </Border>
+                        <TextBlock  FontSize="18"  FontWeight="Bold"  Height="60" Width="318" Text="Download report" TextWrapping="Wrap"  Margin="20,-410,0,0"></TextBlock>
+                        <TextBlock Height="19" Width="70" Margin="-170,-250,0,0">From</TextBlock>
+                        <DatePicker Background="WhiteSmoke" Height="30" Width="140" Margin="40,-250,0,0"
+                      SelectedDate="{Binding SelectedStartDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+                        <TextBlock Height="19" Width="70" Margin="-170,-110,0,0">To</TextBlock>
+                        <DatePicker  Background="WhiteSmoke" Height="30" Width="140" Margin="40,-110,0,0"
+                      SelectedDate="{Binding SelectedEndDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
 
-                            <ListBox.ItemTemplate >
-
-                                <DataTemplate>
-                                    <StackPanel>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="120"/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition Width="100"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Location: " FontSize="14" />
-                                            <StackPanel Grid.Row="0"  Grid.Column="1" Orientation="Horizontal">
-                                                <TextBlock Text="{Binding TourEvent.Tour.Location.State}" FontSize="14" />
-                                                <TextBlock Text=" - " FontSize="14"/>
-                                                <TextBlock Text="{Binding TourEvent.Tour.Location.City}" FontSize="14"/>
-                                            </StackPanel>
-
-                                            <TextBlock Grid.Row="1"  Grid.Column="0" Text="Start time: " FontSize="14" />
-                                            <TextBlock Grid.Row="1"  Grid.Column="1" Text="{Binding TourEvent.StartTime}" FontSize="14" />
-
-                                            <TextBlock Grid.Row="2"  Grid.Column="0" Text="Language: " FontSize="14" />
-                                            <TextBlock Grid.Row="2"  Grid.Column="1" Text="{Binding TourEvent.Tour.Languages}" FontSize="14" />
-
-                                            <TextBlock Grid.Row="3"  Grid.Column="0" Text="Duration: " FontSize="14" />
-                                            <TextBlock Grid.Row="3"  Grid.Column="1" Text="{Binding TourEvent.Tour.Duration}" FontSize="14" />
-
-                                            <TextBlock Grid.Row="4"  Grid.Column="0" Text="Number of people: " FontSize="14" />
-                                            <TextBlock Grid.Row="4"  Grid.Column="1" Text="{Binding NumberOfGuests}" FontSize="14"/>
-
-                                            <TextBlock Grid.Row="5"  Grid.Column="0" Text="Description: " FontSize="14" />
-                                            <TextBlock Grid.Row="5"  Grid.Column="1" Text="{Binding TourEvent.Tour.Description}" FontSize="14"/>
-
-                                            <Separator Grid.Row="6" Grid.ColumnSpan="3"  Width="465"/>
-                                        </Grid>
-
-
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <Button Width="110" Command="{Binding DownloadPDFCommand}" Margin="35" Background="#f9cb9e" Height="29">
+                        <Button Width="110"  Margin="0,40,0,0" Command="{Binding DownloadPDFCommand}"  Background="#f9cb9e" Height="29">
                             <Button.Effect>
                                 <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
                             </Button.Effect>
                             <StackPanel Orientation="Horizontal" Height="24" Width="55" RenderTransformOrigin="0.537,0.494">
-                                <Image Source="/Images/average.png" Width="20" Height="20" Margin="4,0,6,2"/>
+                                <Image Source="/Images/file.png" Width="20" Height="20" Margin="4,0,6,2"/>
                                 <TextBlock Text="PDF" Width="35" Height="18" />
                             </StackPanel>
                         </Button>
@@ -194,7 +142,7 @@
 
 
                 </TabItem>
-                <TabItem Header="Shortcuts" Height="22" Margin="-2,0,-2,0" VerticalAlignment="Bottom">
+                <TabItem Header="Shortcuts" >
                     <TabItem.Background>
                         <SolidColorBrush Color="#f3dcc4"/>
                     </TabItem.Background>
@@ -215,7 +163,7 @@
 
                                 <!-- Content for each cell in the grid -->
                                 <TextBlock Text="View and search tours" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="5"/>
-                                <TextBlock Text="CTRL + T" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Margin="5"/>
+                                <TextBlock Text="CTRL + A" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Margin="5"/>
                                 <TextBlock Text="View booked tours" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="-20,0,0,0"/>
                                 <TextBlock Text="CTRL + B" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="5"/>
                                 <TextBlock Text="Make custom tour" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="-24,0,0,0"/>
@@ -235,10 +183,15 @@
                         <SolidColorBrush Color="#f3dcc4"/>
                     </TabItem.Background>
                     <Grid>
-                        <Border BorderBrush="Black" BorderThickness="1" Width="302" Height="203" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="129*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="777*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border BorderBrush="Black" BorderThickness="1" Width="302" Height="204" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Margin="164,0,0,0">
                             <Rectangle Fill="#f3dcc4" Width="300" Height="201" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-                        <Button Command="{Binding LogOutCommand}" Width="153" Height="78" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Command="{Binding LogOutCommand}" Width="153" Height="78" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Margin="238,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/Images/out.png" Width="32" Height="35" Margin="0,0,5,0" />
                                 <TextBlock Text="Log out" VerticalAlignment="Center" Height="17" Width="51" />
