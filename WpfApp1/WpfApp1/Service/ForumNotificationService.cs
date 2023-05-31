@@ -13,7 +13,7 @@ namespace WpfApp1.Service
     public class ForumNotificationService : IForumNotificationService
     {
         private readonly IForumNotificationRepository _notificationRepository;
-
+      
         public ForumNotificationService()
         {
             _notificationRepository = InjectorRepository.CreateInstance<IForumNotificationRepository>();

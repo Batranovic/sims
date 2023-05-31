@@ -11,8 +11,6 @@ namespace WpfApp1.Domain.Models
     {
         private int _id;
         private string _comment;
-
-        
         public Forum Forum { get; set; }
         public User Author { get; set; }
 

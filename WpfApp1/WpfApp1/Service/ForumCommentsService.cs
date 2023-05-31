@@ -21,14 +21,19 @@ namespace WpfApp1.Service
         {
             _forumCommentsRepository = InjectorRepository.CreateInstance<IForumCommentsRepository>();
             _forumRepository = InjectorRepository.CreateInstance<IForumRepository>();
+            _ownerRepository = InjectorRepository.CreateInstance<IOwnerRepository>();
+            _guestRepository = InjectorRepository.CreateInstance<IGuestRepository>();
             BindForum();
+            BindGuest();
+            BindOwner();
         }
 
+       
         private void BindOwner()
         {
             foreach(ForumComments f in GetAll().FindAll(k => k.Author.UserKind == Domain.Models.Enums.UserKind.Owner))
             {
-                f.Author = _ownerRepository.Get(f.Author.Id);                
+                f.Author = _ownerRepository.Get(f.Author.Id);  
             }
         }
 
@@ -45,6 +50,8 @@ namespace WpfApp1.Service
             foreach(ForumComments f in GetAll())
             {
                 f.Forum = _forumRepository.Get(f.Forum.Id);
+                f.Forum.Comments.Add(f);
+                f.Forum.FirstComment = f.Forum.Comments[0]; 
             }
         }
         public List<ForumComments> GetAll()

@@ -26,6 +26,7 @@ namespace WpfApp1.ViewModel
         private SignInAccommodationViewModel _signInAccommodationViewModel;
         private ReservationOverviewViewModel _reservationOverviewViewModel;
         private RenovationOverviewViewModel _renovationOverviewViewModel;
+        private ForumOverviewViewModel _forumOverviewViewModel;
         private INotificationAccommodationReleaseService _notificationService;
 
         private string _haveNotification;
@@ -115,6 +116,7 @@ namespace WpfApp1.ViewModel
             _ownerProfileViewModel = new OwnerProfileViewModel(owner);
             _signInAccommodationViewModel = new SignInAccommodationViewModel(owner);
             CurrentViewModel = new OwnerProfileViewModel(owner);
+            _forumOverviewViewModel = new ForumOverviewViewModel(owner);
             _renovationOverviewViewModel = new(owner);
             _reservationService = InjectorService.CreateInstance<IReservationService>();
             _notificationService = InjectorService.CreateInstance<INotificationAccommodationReleaseService>();
@@ -161,7 +163,7 @@ namespace WpfApp1.ViewModel
                 return false;
             }
 
-            return index >= 0 && index <= 3;
+            return index >= 0 && index <= 4;
         }
 
         public void Execute_LogoutCommand()
@@ -188,6 +190,9 @@ namespace WpfApp1.ViewModel
                     break;
                 case 3:
                     CurrentViewModel = _renovationOverviewViewModel;
+                    break;
+                case 4:
+                    CurrentViewModel = _forumOverviewViewModel;
                     break;
             }
         }
