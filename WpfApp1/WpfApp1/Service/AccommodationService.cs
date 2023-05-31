@@ -10,6 +10,8 @@ using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
 using WpfApp1.Repository;
 using WpfApp1.DTO;
+using System.Windows.Media.Animation;
+using WpfApp1.Views;
 
 namespace WpfApp1.Service
 {
@@ -202,6 +204,27 @@ namespace WpfApp1.Service
                 t.Renovations = tmp == 0 ? 0 : tmp;
             }
             return accommodationStatisticDTOs;
+        }
+        public List<Accommodation> GetFreeAccommodations(DateTime start, DateTime end, int guestNumber, int duration)
+        {
+            var reservationService = InjectorService.CreateInstance<IReservationService>();
+            var renovationService = InjectorService.CreateInstance<IRenovationService>();
+            List<Accommodation> accommodations= new List<Accommodation>();
+            List<Accommodation> suitableAccommodations = GetAll().FindAll(a => a.MaxGuests >= guestNumber);
+            foreach (Accommodation a in suitableAccommodations)
+            {
+                for (var i = start.Date; i <= end.Date.AddDays(-duration); i = i.AddDays(1))
+                {
+                    if (reservationService.IsDateFree(a.Id,start) && reservationService.IsDateFree(a.Id,start.AddDays(duration)) && renovationService.IsDateFree(start,a.Id) && renovationService.IsDateFree(start.AddDays(duration),a.Id))
+                    {
+                        accommodations.Add(a);
+                        break;
+                    }
+                }
+            }
+
+            return accommodations;
+
         }
 
     }

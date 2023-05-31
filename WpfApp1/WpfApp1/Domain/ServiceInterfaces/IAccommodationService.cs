@@ -22,5 +22,9 @@ namespace WpfApp1.Domain.ServiceInterfaces
 
         public List<AccommodationStatisticDTO> StatisticByMonthForAccommodation(int idAccommodation, int year);
 
+<<<<<<< HEAD
+=======
+        public List<Accommodation> GetFreeAccommodations(DateTime start, DateTime end, int guestNumber, int duration);
+>>>>>>> 187ff68068f3803077348a120cd7b12e8afc46d9
     }
 }
