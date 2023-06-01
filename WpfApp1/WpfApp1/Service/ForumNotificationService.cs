@@ -13,10 +13,32 @@ namespace WpfApp1.Service
     public class ForumNotificationService : IForumNotificationService
     {
         private readonly IForumNotificationRepository _notificationRepository;
+        private readonly IOwnerRepository _ownerRepository;
+        private readonly IForumRepository _forumRepository;
 
         public ForumNotificationService()
         {
             _notificationRepository = InjectorRepository.CreateInstance<IForumNotificationRepository>();
+            _ownerRepository = InjectorRepository.CreateInstance<IOwnerRepository>();
+            _forumRepository = InjectorRepository.CreateInstance<IForumRepository>();
+            BindForum();
+            BindOwner();
+        }
+
+        private void BindForum()
+        {
+            foreach (var item in _notificationRepository.GetAll())
+            {
+                item.Forum = _forumRepository.Get(item.Forum.Id);
+            }
+        }
+
+        private void BindOwner()
+        {
+            foreach (var item in _notificationRepository.GetAll())
+            {
+                item.Owner = _ownerRepository.Get(item.Owner.Id);
+            }
         }
 
         public List<ForumNotification> GetAll()
