@@ -303,7 +303,7 @@ namespace WpfApp1.ViewModel
                         SelectedVoucher = null;
                     }
                    
-                   if( _tourBookingService.WonVoucher(tourist.Id) != null)
+                   if( _tourBookingService.WonVoucher(tourist.Id, tourBooking.Id, SelectedTourEvent.StartTime) != null)
                     {
                          MessageBox.Show("You won a voucher");
                     }

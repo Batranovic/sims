@@ -25,6 +25,8 @@ namespace WpfApp1.Service
             _locationRepository = InjectorRepository.CreateInstance<ILocationRepository>();
         }
 
+
+
         public string GetDeniedRequestsCount(string SelectedYear)
         {
             IEnumerable<SimpleTourRequest> requests = _simpleTourRequestRepository.GetAll()
@@ -239,13 +241,22 @@ namespace WpfApp1.Service
             }
         }
 
+        public List<SimpleTourRequest> PartsOfComplexTourRequest(int userId)
+        {
+            List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
+
+            foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
+            {
+                if (request.Tourist.Id == userId && request.ComplexTourRequestId != -1)
+                {
+                    simple.Add(request);
+                }
+            }
+            return simple;
+        }
 
 
-
-
-
-
-
+    
         public List<SimpleTourRequest> GetAll()
         {
             return _simpleTourRequestRepository.GetAll();

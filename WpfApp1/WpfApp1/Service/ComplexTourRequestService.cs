@@ -16,11 +16,12 @@ namespace WpfApp1.Service
     class ComplexTourRequestService : IComplexTourRequestService
     {
         private readonly IComplexTourRequestRepository _complexTourRequestRepository;
+        private readonly ISimpleTourRequestRepository _simpleTourRequestRepository;
 
         public ComplexTourRequestService()
         {
             _complexTourRequestRepository = InjectorRepository.CreateInstance<IComplexTourRequestRepository>();
-
+            _simpleTourRequestRepository = InjectorRepository.CreateInstance<ISimpleTourRequestRepository> ();
         }
 
         public List<ComplexTourRequest> RequestsForTourist(int userId)
@@ -43,7 +44,44 @@ namespace WpfApp1.Service
             }
             return requests;
         }
-     
+
+
+        public List<SimpleTourRequest> PartsOfComplexTourRequest(int userId)
+        {
+            List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
+            var allRequests = _complexTourRequestRepository.GetAll();
+
+            for (int i = 0; i < allRequests.Count(); i++)
+            {
+                var request = allRequests.ElementAt(i);
+                if (request.Tourist.Id == userId)
+                {
+                    foreach (SimpleTourRequest simpleTourRequest in _simpleTourRequestRepository.GetAll())
+                    {
+                        if (simpleTourRequest.ComplexTourRequestId == request.Id)
+                        {
+                            simple.Add(simpleTourRequest);
+                            if (request.SimpleTourRequests.Count > 0 && (request.SimpleTourRequests[0].StartDate - DateTime.Today).TotalDays <= 2 && request.SimpleTourRequests[0].RequestStatus != RequestStatus.Accepted)
+                            {
+                                request.RequestStatus = RequestStatus.Denied;
+                                foreach (SimpleTourRequest innerSimpleTourRequest in request.SimpleTourRequests)
+                                {
+                                    if (innerSimpleTourRequest.ComplexTourRequestId == request.Id)
+                                    {
+                                        innerSimpleTourRequest.RequestStatus = RequestStatus.Denied;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return simple;
+        }
+
+
+
+
 
         public List<ComplexTourRequest> GetAllForUser(int userId)
         {

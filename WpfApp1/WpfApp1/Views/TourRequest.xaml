@@ -179,39 +179,50 @@
                                                 <ColumnDefinition Width="130"/>
                                             </Grid.ColumnDefinitions>
 
+                                                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="50" Width="30" Height="30" Margin="-118,0,0,0">
+                                                    <TextBlock Text="{Binding ComplexTourRequestId}" Grid.Row="0" FontSize="21" Margin="8,0,0,0">
+                                                        <TextBlock.Effect>
+                                                            <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.4" BlurRadius="4" />
+                                                        </TextBlock.Effect>
+                                                    </TextBlock>
+                                                    <Border.Effect>
+                                                        <DropShadowEffect ShadowDepth="7" Color="Black" Opacity="0.4" BlurRadius="4"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
 
-                                            <TextBlock Margin="11,0,12,0" FontSize="11"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >Language</TextBlock>
+                                                <TextBlock Margin="11,0,12,0" FontSize="11"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >Language</TextBlock>
                                             <TextBlock Margin="11,0,12,0" FontSize="11"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Center" >MaxGuests</TextBlock>
                                             <TextBlock Margin="11,0,12,0" FontSize="11"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center" >Date</TextBlock>
-                                            <TextBlock Grid.Row="0" Margin="11,0,12,0" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                <TextBlock.Text>
-                                                    <MultiBinding StringFormat="{}{0}, {1}">
-                                                        <Binding Path="Location.State" />
-                                                        <Binding Path="Location.City" />
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                            </TextBlock>
+                                                <TextBlock Grid.Row="0" Margin="11,0,12,0" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}       {0}, {1}">
+                                                            <Binding Path="Location.State" />
+                                                            <Binding Path="Location.City" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
 
-                                            <TextBlock Margin="11,0,12,0" Text="{Binding Languages}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="11,0,12,0" Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="11,0,12,0" Text="{Binding StartDate}" FontWeight="Bold" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="11,0,12,0" Text="{Binding Languages}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="11,0,12,0" Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="11,0,12,0" Text="{Binding StartDate}" FontWeight="Bold" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                                            <TextBlock Text="{Binding RequestStatus}" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding RequestStatus}" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                 <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding RequestStatus}" Value="Accepted">
-                                                                <Setter Property="Foreground" Value="LightSeaGreen" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding RequestStatus}" Value="Pending">
-                                                                <Setter Property="Foreground" Value="LightSkyBlue" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding RequestStatus}" Value="Denied">
-                                                                <Setter Property="Foreground" Value="Red" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding RequestStatus}" Value="Accepted">
+                                                                    <Setter Property="Foreground" Value="LightSeaGreen" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding RequestStatus}" Value="Pending">
+                                                                    <Setter Property="Foreground" Value="LightSkyBlue" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding RequestStatus}" Value="Denied">
+                                                                    <Setter Property="Foreground" Value="Red" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+
+                                                        </Style>
+                                                    </TextBlock.Style>
                                                     <TextBlock.Effect>
                                                         <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.4" BlurRadius="4" />
                                                     </TextBlock.Effect>

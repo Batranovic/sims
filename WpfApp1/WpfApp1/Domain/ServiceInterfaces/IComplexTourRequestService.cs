@@ -18,5 +18,6 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void Unsubscribe(IObserver observer);
         int NextId();
         List<ComplexTourRequest> RequestsForTourist(int userId);
+        List<SimpleTourRequest> PartsOfComplexTourRequest(int userId);
     }
 }

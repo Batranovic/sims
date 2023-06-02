@@ -130,7 +130,7 @@
                                                 <TextBlock.Effect>
                                                     <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.4" BlurRadius="4" />
                                                 </TextBlock.Effect>
-                                            </TextBlock>
+                                          </TextBlock>
 
                                             <TextBlock  FontSize="11"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
                                         <TextBlock TextWrapping="Wrap" Text="{Binding Tour.Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>

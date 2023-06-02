@@ -18,7 +18,8 @@ using WpfApp1.Service;
 using WpfApp1.Views;
 using WpfApp1.Domain.Models.Enums;
 using static System.Net.Mime.MediaTypeNames;
-
+using System.Diagnostics.Eventing.Reader;
+using System.Drawing;
 
 namespace WpfApp1.ViewModel
 {
@@ -27,9 +28,13 @@ namespace WpfApp1.ViewModel
         private readonly ILocationService _locationService;
         private readonly ISimpleTourRequestService _simpleTourRequestService;
         private readonly IComplexTourRequestService _complexTourRequestService;
+
+        public SimpleTourRequest SelectedTourRequest { get; set; }
         public ObservableCollection<string> States { get; set; }
 
         public ObservableCollection<string> Cities { get; set; }
+
+        public ObservableCollection<SimpleTourRequest> PartOfRequest { get; set; }
         public Action CloseAction { get; set; }
 
 
@@ -162,125 +167,103 @@ namespace WpfApp1.ViewModel
             _locationService = InjectorService.CreateInstance<ILocationService>();
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
+            PartOfRequest = new ObservableCollection<SimpleTourRequest>();
 
-           
             MaxGuests = "1";
             SelectedStartDate = DateTime.Today;
             SelectedEndDate = DateTime.Today;
+            ComplexTourRequestId = _complexTourRequestService.NextId();
 
             MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
-            RequestSimpleTourCommand = new RelayCommand(Execute_RequestSimpleTour, CanExecute_Command);
-            RequestComplexTourCommand = new RelayCommand(Execute_RequestComplexTour, CanExecute_Command);
+            RequestSimpleTourCommand = new RelayCommand(Execute_AddTour, CanExecute_Command);
+            RequestComplexTourCommand = new RelayCommand(Execute_Finish, CanExecute_Command);
             IncrementCommand = new RelayCommand(Execute_Increment, CanExecute_Command);
             DecrementCommand = new RelayCommand(Execute_Decrement, CanExecute_Command);
             RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
+            RemoveTourCommand = new RelayCommand(Execute_Remove,CanExecute_Command);
         }
 
 
+         private void Execute_Remove(object sender)
+        {
 
-        private void Execute_RequestSimpleTour(object sender)
+            if (SelectedTourRequest == null) return;
+            PartOfRequest.Remove(SelectedTourRequest);
+            _simpleTourRequestService.Delete(SelectedTourRequest);
+
+            SelectedTourRequest = null;
+        }
+
+        private void Execute_AddTour(object sender)
         {
             IsSubmitClicked = true;
             if (IsValid)
             {
-                MessageBox.Show("Please wait for guide's answer." + Environment.NewLine +
-                                "View status in REQUEST LIST" + Environment.NewLine +
-                                "\t   (CTRL + R)", "Request sent ");
+                int complexTourRequestId = -1;
                 int maxG = int.Parse(MaxGuests);
                 Tourist tourist = (Tourist)MainWindow.LogInUser;
                 Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate,tourist,RequestStatus.Pending, -1);
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, complexTourRequestId);
+                PartOfRequest.Add(simpleTour);
                 _simpleTourRequestService.Create(simpleTour);
-                SelectedCity = null;
-                SelectedState = null;
-                Description = "";
-                Language = "";
-                MaxGuests = "1";
-                SelectedStartDate = DateTime.Today;
-                SelectedEndDate = DateTime.Today;
 
                 IsSubmitClicked = false;
 
-            }
-            else
-            {
-                MessageBox.Show("Please fix the errors before submitting the request.", "Error");
-            }
+                complexTourRequestId = ComplexTourRequestId; // Reset complexTourRequestId
 
-           
+                if (PartOfRequest.Count > 1)
+                {
+                    // Update ComplexTourRequestId for previously added SimpleTourRequests
+                    foreach (SimpleTourRequest tour in PartOfRequest)
+                    {
+                        tour.ComplexTourRequestId = complexTourRequestId;
+                        _simpleTourRequestService.Update(tour);
+                    }
+                }
+            }
+          
         }
-        private List<SimpleTourRequest> simpleTourRequests = new List<SimpleTourRequest>();
 
-        private void Execute_RequestComplexTour(object sender)
+
+        private void Execute_Finish(object sender)
         {
             if (IsValid)
             {
                 MessageBoxResult result = MessageBox.Show(
-                    "   Want to add more than one tour to the list?\n\n" +
-                    "           Yes - \"MORE\"    No - \"SUBMIT\"",
-                    "Request sent",
+                    "   Are you finished?",
+                    "Request will be sent",
                     MessageBoxButton.YesNo);
-
-                if (result == MessageBoxResult.Yes)
+                if (result == MessageBoxResult.No)
                 {
-                    int maxG = int.Parse(MaxGuests);
+                    // Continue adding more tours
+                }
+                else if (result == MessageBoxResult.Yes)
+                {
                     Tourist tourist = (Tourist)MainWindow.LogInUser;
-                    Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
-                    ComplexTourRequestId = _complexTourRequestService.NextId();
-                    SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, ComplexTourRequestId);
-                    _simpleTourRequestService.Create(simpleTour);
-                    simpleTourRequests.Add(simpleTour);
 
-
-                    SelectedCity = null;
-                    SelectedState = null;
-                    Description = "";
-                    Language = "";
-                    MaxGuests = "0";
-                    SelectedStartDate = DateTime.Today;
-                    SelectedEndDate = DateTime.Today;
-                }
-                else if (result == MessageBoxResult.No)
-                {
-                    if (simpleTourRequests.Count > 0)
+                    if (PartOfRequest.Count > 1)
                     {
-                        Tourist tourist = (Tourist)MainWindow.LogInUser;
-                        int maxG = int.Parse(MaxGuests);
-                     
-                        Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
-                        ComplexTourRequestId = _complexTourRequestService.NextId();
-                        SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, ComplexTourRequestId);
-                        _simpleTourRequestService.Create(simpleTour);
-                        simpleTourRequests.Add(simpleTour);
+                        List<SimpleTourRequest> newSimpleTourRequest = new List<SimpleTourRequest>(PartOfRequest);
+                        ComplexTourRequest complexTour = new ComplexTourRequest(-1, tourist, RequestStatus.Pending, newSimpleTourRequest);
+                        _complexTourRequestService.Create(complexTour);
+                        IsSubmitClicked = false;
 
-                        SelectedCity = null;
-                        SelectedState = null;
-                        Description = "";
-                        Language = "";
+                        SelectedState = "";
+                        SelectedCity = "";
                         MaxGuests = "0";
-                        SelectedStartDate = DateTime.Today;
-                        SelectedEndDate = DateTime.Today;
+                        Language = "";
+                        Description = "";
+                        SelectedEndDate = DateTime.Now;
+                        SelectedStartDate = DateTime.Now;
+                        ComplexTourRequestId = _complexTourRequestService.NextId();
+                        PartOfRequest.Clear();
+                        
                     }
-
-
-                    Tourist t = (Tourist)MainWindow.LogInUser;
-                    ComplexTourRequest complexTour = new ComplexTourRequest(-1, t, RequestStatus.Pending, simpleTourRequests);
-
-
-                    _complexTourRequestService.Create(complexTour);
-
-                    simpleTourRequests.Clear();
-
-                    IsSubmitClicked = false;
                 }
-
             }
-            else
-            {
-                MessageBox.Show("Please fix the errors before submitting the request.", "Error");
-            }
+          
         }
 
 
@@ -349,6 +332,21 @@ namespace WpfApp1.ViewModel
                 if (value != requestListCommand)
                 {
                     requestListCommand = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+        private RelayCommand remove;
+        public RelayCommand RemoveTourCommand
+        {
+            get => remove;
+            set
+            {
+                if (value != remove)
+                {
+                    remove = value;
                     OnPropertyChanged();
                 }
             }

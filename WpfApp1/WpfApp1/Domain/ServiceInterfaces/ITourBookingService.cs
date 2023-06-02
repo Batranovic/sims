@@ -22,7 +22,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void GetExistingTourBooking(int tourEvent, int user, int numOfPeople);
 
         List<TourBooking> GetTourBookingsForTourist(int userId);
-        Voucher WonVoucher(int userId);
+        Voucher WonVoucher(int userId, int tourB, DateTime time);
 
 
     }

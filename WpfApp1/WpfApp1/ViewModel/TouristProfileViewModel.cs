@@ -186,7 +186,7 @@ namespace WpfApp1.ViewModel
             // Add the "Customer details" section
             Paragraph customerDetails = new Paragraph();
             customerDetails.Alignment = Element.ALIGN_RIGHT;
-            customerDetails.Add(new Chunk("Customer details:\n", boldFont));
+            customerDetails.Add(new Chunk("Tourist details:\n", boldFont));
 
             // Retrieve the tourist object
             Tourist tourist = _touristService.getName(MainWindow.LogInUser.Id);

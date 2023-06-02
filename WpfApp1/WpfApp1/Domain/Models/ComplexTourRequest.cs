@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using WpfApp1.Domain.Models.Enums;
-using WpfApp1.Views;
 
 namespace WpfApp1.Domain.Models
 {
@@ -17,7 +14,8 @@ namespace WpfApp1.Domain.Models
 
         public List<SimpleTourRequest> SimpleTourRequests { get; set; }
 
-        public ComplexTourRequest() { 
+        public ComplexTourRequest()
+        {
             SimpleTourRequests = new List<SimpleTourRequest>();
         }
 
@@ -32,55 +30,51 @@ namespace WpfApp1.Domain.Models
 
         public string[] ToCSV()
         {
-
+            StringBuilder requestList = new StringBuilder();
+            foreach (SimpleTourRequest tourRequest in SimpleTourRequests)
+            {
+                requestList.Append(tourRequest.Id.ToString());
+                requestList.Append("|");
+            }
+            if (requestList.Length > 0)
+            {
+                requestList.Remove(requestList.Length - 1, 1);
+            }
             string[] csvValues =
-         {
-                    Id.ToString(),
-                    Tourist.Id.ToString(),
-                    RequestStatus.ToString(),
-                    GetSimpleTourRequestIds(),
+            {
+                Id.ToString(),
+                Tourist.Id.ToString(),
+                RequestStatus.ToString(),
+                requestList.ToString(),
 
-                };
+            };
             return csvValues;
         }
+
+
+
+
         public void FromCSV(string[] values)
         {
-
             Id = int.Parse(values[0]);
             Tourist = new Tourist() { Id = Convert.ToInt32(values[1]) };
             RequestStatus = (RequestStatus)Enum.Parse(typeof(RequestStatus), values[2]);
-            SimpleTourRequests = GetSimpleTourRequestsFromIds(values[1]);
-        }
+            string[] tourRequestIds = values[3].Split("|");
+            SimpleTourRequests = new List<SimpleTourRequest>();
 
-        private string GetSimpleTourRequestIds()
-        {
-            List<string> ids = new List<string>();
-            foreach (var tourRequest in SimpleTourRequests)
+            foreach (string tourRequestId in tourRequestIds)
             {
-                ids.Add(tourRequest.Id.ToString());
+                int requestId = int.Parse(tourRequestId.Trim());
+                SimpleTourRequest tourRequest = new SimpleTourRequest { Id = requestId };
+                SimpleTourRequests.Add(tourRequest);
             }
-            return string.Join("|", ids);
+
+
         }
 
-        private List<SimpleTourRequest> GetSimpleTourRequestsFromIds(string ids)
-        {
-            List<SimpleTourRequest> tourRequests = new List<SimpleTourRequest>();
-            string[] idArray = ids.Split('|');
-            foreach (var id in idArray)
-            {
-                int tourRequestId = Convert.ToInt32(id);
-                foreach (SimpleTourRequest tourRequest in SimpleTourRequests)
-                {
-                    if (tourRequest.Id == tourRequestId)
-                    {
-                        tourRequests.Add(tourRequest);
-                        break;
-                    }
-                }
 
-            }
-            return tourRequests;
-        }
+
+
 
     }
 }

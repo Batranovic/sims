@@ -15,5 +15,6 @@ namespace WpfApp1.Domain.RepositoryInterfaces
         int NextId();
         SimpleTourRequest Delete(SimpleTourRequest entity);
         List<SimpleTourRequest> GetAll();
+        SimpleTourRequest Get(int id);
     }
 }

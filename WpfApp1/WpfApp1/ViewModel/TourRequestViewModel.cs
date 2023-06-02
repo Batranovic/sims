@@ -36,7 +36,7 @@ namespace WpfApp1.ViewModel
             _newTourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
 
             SimpleTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id));
-           // PartsOfComplexTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.PartsOfComplexTourRequests(MainWindow.LogInUser.Id));
+            PartsOfComplexTourRequests = new ObservableCollection<SimpleTourRequest>(_complexTourRequestService.PartsOfComplexTourRequest(MainWindow.LogInUser.Id));
             ComplexTourRequests = new ObservableCollection<ComplexTourRequest>(_complexTourRequestService.RequestsForTourist(MainWindow.LogInUser.Id));
             AcceptedRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.AcceptedRequestsForTourist(MainWindow.LogInUser.Id));
 
