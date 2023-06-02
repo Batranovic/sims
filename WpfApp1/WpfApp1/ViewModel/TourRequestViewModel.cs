@@ -20,10 +20,9 @@ namespace WpfApp1.ViewModel
 
         private readonly ISimpleTourRequestService _simpleTourRequestSrvice;
         private readonly IComplexTourRequestService _complexTourRequestService;
-
         private readonly IRequestNotifactionService _requestNotifactionSrvice;
 
-        private readonly INewTourNotificationService _newTourNotificationService;
+      
         public Action CloseAction { get; set; }
 
 
@@ -33,11 +32,11 @@ namespace WpfApp1.ViewModel
             _requestNotifactionSrvice = InjectorService.CreateInstance<IRequestNotifactionService>();
             _simpleTourRequestSrvice = InjectorService.CreateInstance<ISimpleTourRequestService>();
             _complexTourRequestService = InjectorService.CreateInstance<IComplexTourRequestService>();
-            _newTourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
+        
 
             SimpleTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id));
-            PartsOfComplexTourRequests = new ObservableCollection<SimpleTourRequest>(_complexTourRequestService.PartsOfComplexTourRequest(MainWindow.LogInUser.Id));
-            ComplexTourRequests = new ObservableCollection<ComplexTourRequest>(_complexTourRequestService.RequestsForTourist(MainWindow.LogInUser.Id));
+            PartsOfComplexTourRequests = new ObservableCollection<SimpleTourRequest>(_complexTourRequestService.DeniedSimpleTourRequests(MainWindow.LogInUser.Id));
+           // ComplexTourRequests = new ObservableCollection<ComplexTourRequest>(_complexTourRequestService.RequestsForTourist(MainWindow.LogInUser.Id));
             AcceptedRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.AcceptedRequestsForTourist(MainWindow.LogInUser.Id));
 
 

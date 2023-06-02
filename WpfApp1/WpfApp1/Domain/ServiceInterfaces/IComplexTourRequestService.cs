@@ -19,5 +19,6 @@ namespace WpfApp1.Domain.ServiceInterfaces
         int NextId();
         List<ComplexTourRequest> RequestsForTourist(int userId);
         List<SimpleTourRequest> PartsOfComplexTourRequest(int userId);
+        List<SimpleTourRequest> DeniedSimpleTourRequests(int userId);
     }
 }

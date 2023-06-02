@@ -1,7 +1,12 @@
 0,4,Paris,Francuska,Obilazak muzeja,engleski,6,6/6/2023 12:00:00 AM,6/9/2023 12:00:00 AM,1,Accepted,-1
 6,6,Lyon,Francuska,Putovanje,francuski,8,6/8/2023 12:00:00 AM,6/9/2023 12:00:00 AM,1,Pending,-1
 7,4,Paris,Francuska,Paris,srpski,5,6/2/2023 12:00:00 AM,6/5/2023 12:00:00 AM,1,Denied,-1
-8,8,Barselona,Spanije,Obilazak Barselone...,srpski,1,6/12/2023 12:00:00 AM,6/15/2023 12:00:00 AM,1,Pending,0
-9,7,Madrid,Spanije,Usputni obilzak Madrida,srpski,1,6/16/2023 12:00:00 AM,6/20/2023 12:00:00 AM,1,Pending,0
-10,10,Rim,Italija,Koloseum i Rimski Forum,italijanski,2,6/8/2023 12:00:00 AM,6/12/2023 12:00:00 AM,1,Pending,1
-11,13,Venecija,Italija,Santa Maria Della Salute,italijanski,2,6/13/2023 12:00:00 AM,6/16/2023 12:00:00 AM,1,Pending,1
+8,8,Barselona,Spanije,Obilazak Barselone...,srpski,1,6/12/2023 12:00:00 AM,6/15/2023 12:00:00 AM,1,Accepted,0
+9,7,Madrid,Spanije,Usputni obilzak Madrida,srpski,1,6/16/2023 12:00:00 AM,6/20/2023 12:00:00 AM,1,Accepted,0
+10,10,Rim,Italija,Koloseum i Rimski Forum,italijanski,2,6/3/2023 12:00:00 AM,6/12/2023 12:00:00 AM,1,Denied,1
+11,13,Venecija,Italija,Santa Maria Della Salute,italijanski,2,6/13/2023 12:00:00 AM,6/16/2023 12:00:00 AM,1,Denied,1
+12,5,Nica,Francuska,Provod u Nici,engleski,5,6/5/2023 12:00:00 AM,6/7/2023 12:00:00 AM,1,Pending,2
+13,8,Barselona,Spanije,Provod u Barseloni,engleski,5,6/8/2023 12:00:00 AM,6/10/2023 12:00:00 AM,1,Pending,2
+14,7,Madrid,Spanije,Provod u Madridu,engleski,5,6/11/2023 12:00:00 AM,6/13/2023 12:00:00 AM,1,Pending,2
+15,4,Paris,Francuska,Luvr,srpski,1,6/3/2023 12:00:00 AM,6/5/2023 12:00:00 AM,1,Denied,3
+16,5,Nica,Francuska,Nica,srpski,1,6/6/2023 12:00:00 AM,6/7/2023 12:00:00 AM,1,Denied,3

@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WpfApp.Observer;
-using WpfApp1.Domain.Models.Enums;
 using WpfApp1.Domain.Models;
+using WpfApp1.Domain.Models.Enums;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Repository;
-using System.Collections.ObjectModel;
 
 namespace WpfApp1.Service
 {
@@ -21,7 +17,7 @@ namespace WpfApp1.Service
         public ComplexTourRequestService()
         {
             _complexTourRequestRepository = InjectorRepository.CreateInstance<IComplexTourRequestRepository>();
-            _simpleTourRequestRepository = InjectorRepository.CreateInstance<ISimpleTourRequestRepository> ();
+            _simpleTourRequestRepository = InjectorRepository.CreateInstance<ISimpleTourRequestRepository>();
         }
 
         public List<ComplexTourRequest> RequestsForTourist(int userId)
@@ -50,6 +46,7 @@ namespace WpfApp1.Service
         {
             List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
             var allRequests = _complexTourRequestRepository.GetAll();
+            bool allAccepted = true;
 
             for (int i = 0; i < allRequests.Count(); i++)
             {
@@ -61,25 +58,62 @@ namespace WpfApp1.Service
                         if (simpleTourRequest.ComplexTourRequestId == request.Id)
                         {
                             simple.Add(simpleTourRequest);
-                            if (request.SimpleTourRequests.Count > 0 && (request.SimpleTourRequests[0].StartDate - DateTime.Today).TotalDays <= 2 && request.SimpleTourRequests[0].RequestStatus != RequestStatus.Accepted)
+
+                            if (simpleTourRequest.RequestStatus != RequestStatus.Accepted)
                             {
-                                request.RequestStatus = RequestStatus.Denied;
-                                foreach (SimpleTourRequest innerSimpleTourRequest in request.SimpleTourRequests)
-                                {
-                                    if (innerSimpleTourRequest.ComplexTourRequestId == request.Id)
-                                    {
-                                        innerSimpleTourRequest.RequestStatus = RequestStatus.Denied;
-                                    }
-                                }
+                                allAccepted = false;
                             }
                         }
                     }
+
+                    if (allAccepted)
+                    {
+                        request.RequestStatus = RequestStatus.Accepted;
+                        _complexTourRequestRepository.Update(request);
+                    }
                 }
             }
+
             return simple;
         }
 
 
+        public List<SimpleTourRequest> DeniedSimpleTourRequests(int userId)
+        {
+            var allSimpleTourRequests = PartsOfComplexTourRequest(userId); 
+            var allRequests = _complexTourRequestRepository.GetAll();
+        
+
+            for (int i = 0; i < allRequests.Count(); i++)
+            {
+                var request = allRequests.ElementAt(i);
+                if (request.Tourist.Id == userId)
+                {
+                    foreach (SimpleTourRequest simpleTourRequest in allSimpleTourRequests)
+                    { 
+
+                        if (request.RequestStatus != RequestStatus.Accepted && simpleTourRequest.StartDate.AddDays(-2) <= DateTime.Today && simpleTourRequest.ComplexTourRequestId == request.Id)
+                        {
+                            request.RequestStatus = RequestStatus.Denied;
+                            _complexTourRequestRepository.Update(request);
+                        }
+                    }
+
+                    foreach (SimpleTourRequest requests in allSimpleTourRequests)
+                    {
+                        if(request.RequestStatus == RequestStatus.Denied && requests.ComplexTourRequestId == request.Id)
+                        {
+                            requests.RequestStatus = RequestStatus.Denied;
+                            _simpleTourRequestRepository.Update(requests);
+
+                        }
+                     
+                    }
+
+                }
+            }
+            return allSimpleTourRequests;
+        }
 
 
 

@@ -31,7 +31,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void NewTourFromStatistics(Tour tour);
         void AddIfRequestWasNeverFullfilled(SimpleTourRequest requestForAdding, List<SimpleTourRequest> notFullfilledRequests);
 
-        List<SimpleTourRequest> PartsOfComplexTourRequest(int userId);
+      
 
 
     }

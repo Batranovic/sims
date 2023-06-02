@@ -189,7 +189,7 @@ namespace WpfApp1.Service
            
             foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
             {
-                if (request.Tourist.Id == userId && request.RequestStatus == RequestStatus.Accepted)
+                if (request.Tourist.Id == userId && request.RequestStatus == RequestStatus.Accepted && request.ComplexTourRequestId == -1)
                 {
                     simple.Add(request);
                 }
@@ -241,21 +241,7 @@ namespace WpfApp1.Service
             }
         }
 
-        public List<SimpleTourRequest> PartsOfComplexTourRequest(int userId)
-        {
-            List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
-
-            foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
-            {
-                if (request.Tourist.Id == userId && request.ComplexTourRequestId != -1)
-                {
-                    simple.Add(request);
-                }
-            }
-            return simple;
-        }
-
-
+      
     
         public List<SimpleTourRequest> GetAll()
         {
