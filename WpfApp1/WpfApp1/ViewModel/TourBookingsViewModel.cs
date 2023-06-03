@@ -278,44 +278,43 @@ namespace WpfApp1.ViewModel
 
         private void Execute_Reserve(object sender)
         {
-
+            IsSubmitClicked = true;
             CheckAvailability();
-
-            if (AvailableSpots >= NumberOfPeople && IsValid)
+            if (IsValid)
             {
-                TourBooking existingTourBooking = _tourBookingService.GetTourBookingForTourEventAndUser(SelectedTourEvent.Id, MainWindow.LogInUser.Id);
-                if (existingTourBooking != null)
+                if (AvailableSpots >= NumberOfPeople)
                 {
-                    MessageBox.Show("Already reserved this tour!");
-                }
-                else if(NumberOfPeople <= 0)
-                {
-                    MessageBox.Show("Choose how many people you want to reserve for!");
-                }
-                else
-                {   Tourist tourist = (Tourist)MainWindow.LogInUser;
-                    TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, tourist, SelectedVoucher);
-                    _tourBookingService.Create(tourBooking);
-                    AvailableSpots = SelectedTourEvent.Tour.MaxGuests - NumberOfPeople;
-                    if (SelectedVoucher != null)
+                    TourBooking existingTourBooking = _tourBookingService.GetTourBookingForTourEventAndUser(SelectedTourEvent.Id, MainWindow.LogInUser.Id);
+                    if (existingTourBooking != null)
                     {
-                        Vouchers.Remove(SelectedVoucher);
-                        SelectedVoucher = null;
+                        MessageBox.Show("Already reserved this tour!");
+                        IsSubmitClicked = false;
                     }
-                   
-                   if( _tourBookingService.WonVoucher(tourist.Id, tourBooking.Id, SelectedTourEvent.StartTime) != null)
-                    {
-                         MessageBox.Show("You won a voucher");
-                    }
-                    MessageBox.Show("          Successfully reserved! " + Environment.NewLine +
-                "    View tour in BOOKED TOURS!" + Environment.NewLine +
-                "    \t     (F7)", "Success ");
-                }
 
-            }
-            else
-            {
-                MessageBox.Show("Not enough available spots!");
+                    else
+                    {
+                        Tourist tourist = (Tourist)MainWindow.LogInUser;
+                        TourBooking tourBooking = new TourBooking(-1, NumberOfPeople, SelectedTourEvent, tourist, SelectedVoucher);
+                        _tourBookingService.Create(tourBooking);
+
+                        IsSubmitClicked = false;
+                        AvailableSpots = SelectedTourEvent.Tour.MaxGuests - NumberOfPeople;
+                        if (SelectedVoucher != null)
+                        {
+                            Vouchers.Remove(SelectedVoucher);
+                            SelectedVoucher = null;
+                        }
+
+                        if (_tourBookingService.WonVoucher(tourist.Id, tourBooking.Id, SelectedTourEvent.StartTime) != null)
+                        {
+                            MessageBox.Show("You won a voucher");
+                        }
+                        MessageBox.Show("          Successfully reserved! " + Environment.NewLine +
+                    "    View tour in BOOKED TOURS!" + Environment.NewLine +
+                    "    \t     (F7)", "Success ");
+                    }
+
+                }
             }
 
         }
@@ -323,11 +322,7 @@ namespace WpfApp1.ViewModel
 
         private void CheckAvailability()
         {
-            if (SelectedTourEvent == null)
-            {
-                MessageBox.Show("Please first select tour event!");
-                return;
-            }
+          
             int reservedSpots = _tourEventService.CheckAvailability(SelectedTourEvent);
             AvailableSpots = SelectedTourEvent.Tour.MaxGuests - reservedSpots;
 
@@ -354,19 +349,41 @@ namespace WpfApp1.ViewModel
         {
             get
             {
-                if (columnName == "NumberOfPeople")
 
+                if (IsSubmitClicked)
                 {
-                    if (NumberOfPeople < 0)
+
+                    if (columnName == "NumberOfPeople")
+
                     {
-                        return "positive number";
-                    }
-                    if(NumberOfPeople >= 60)
-                    {
-                        return "choose a smaller number";
+                        if (NumberOfPeople < 0)
+                        {
+                            return "positive number only";
+                        }
+                        if (NumberOfPeople >= 60)
+                        {
+                            return "choose a smaller number";
+                        }
                     }
                 }
                 return null;
+            }
+        }
+
+
+        private bool _isSubmitClicked = false;
+
+        public bool IsSubmitClicked
+        {
+            get { return _isSubmitClicked; }
+            set
+            {
+                if (_isSubmitClicked != value)
+                {
+                    _isSubmitClicked = value;
+                    OnPropertyChanged("IsSubmitClicked");
+                    OnPropertyChanged("NumberOfPeople");
+                }
             }
         }
         private readonly string[] _validatedProperties = { "NumberOfPeople" };

@@ -36,7 +36,6 @@ namespace WpfApp1.ViewModel
 
             SimpleTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id));
             PartsOfComplexTourRequests = new ObservableCollection<SimpleTourRequest>(_complexTourRequestService.DeniedSimpleTourRequests(MainWindow.LogInUser.Id));
-           // ComplexTourRequests = new ObservableCollection<ComplexTourRequest>(_complexTourRequestService.RequestsForTourist(MainWindow.LogInUser.Id));
             AcceptedRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.AcceptedRequestsForTourist(MainWindow.LogInUser.Id));
 
 
@@ -168,17 +167,15 @@ namespace WpfApp1.ViewModel
         }
         private void Execute_Refresh(object sender)
         {
-          
             AcceptedRequests.Clear();
             SimpleTourRequests.Clear();
-            // Update SimpleTourRequests collection with latest data
+
             var simpleRequests = _simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id);
             foreach (var request in simpleRequests)
             {
                 SimpleTourRequests.Add(request);
             }
 
-            // Update AcceptedRequests collection with latest data
             var acceptedRequests = _simpleTourRequestSrvice.AcceptedRequestsForTourist(MainWindow.LogInUser.Id);
             foreach (var request in acceptedRequests)
             {

@@ -158,12 +158,12 @@
                 </Grid>
             </DockPanel>
         </DockPanel>
-        <ListBox ItemsSource="{Binding PartOfRequest}" SelectedItem="{Binding SelectedTourRequest}" BorderThickness="1" BorderBrush="Black" Margin="441,149,93,122" Background="#f3dcc4">
+        <ListBox ItemsSource="{Binding PartOfRequest}" SelectedItem="{Binding SelectedTourRequest}" BorderThickness="1" BorderBrush="Black" Margin="441,149,81,122" Background="#f3dcc4">
 
             <ListBox.ItemTemplate >
 
                 <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="1" Margin="-5,-1,-9,-1" Height="200" Width="470">
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="-5,-1,-9,-1" Height="200" Width="465">
                         <DockPanel>
                             <Grid>
                                 <Grid.RowDefinitions>

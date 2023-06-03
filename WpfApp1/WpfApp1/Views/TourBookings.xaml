@@ -236,7 +236,7 @@
                     <TextBlock  Margin="40,135,175,128" Grid.Row="2" Text="Reserve for:"  FontWeight="Bold"/>
 
 
-                    <TextBox BorderBrush="Black" BorderThickness="1" Text="{Binding NumberOfPeople, UpdateSourceTrigger=PropertyChanged}"
+                    <TextBox BorderBrush="Black" BorderThickness="1" Text="{Binding NumberOfPeople, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                HorizontalAlignment="Left" Width="56" Height="25" Margin="188,0,0,0" VerticalAlignment="Center" Grid.Row="2"/>
 
                     <Button Command="{Binding ReserveCommand}" Background="#f9cb9e" Content="Reserve"  Height="36" Width="110" HorizontalAlignment="Left" Margin="98,190,0,0" Grid.Row="2" VerticalAlignment="Top" >

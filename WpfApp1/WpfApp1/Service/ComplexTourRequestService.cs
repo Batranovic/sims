@@ -55,7 +55,7 @@ namespace WpfApp1.Service
                 {
                     foreach (SimpleTourRequest simpleTourRequest in _simpleTourRequestRepository.GetAll())
                     {
-                        if (simpleTourRequest.ComplexTourRequestId == request.Id)
+                        if (simpleTourRequest.ComplexTourRequestId.Id == request.Id)
                         {
                             simple.Add(simpleTourRequest);
 
@@ -92,7 +92,7 @@ namespace WpfApp1.Service
                     foreach (SimpleTourRequest simpleTourRequest in allSimpleTourRequests)
                     { 
 
-                        if (request.RequestStatus != RequestStatus.Accepted && simpleTourRequest.StartDate.AddDays(-2) <= DateTime.Today && simpleTourRequest.ComplexTourRequestId == request.Id)
+                        if (request.RequestStatus != RequestStatus.Accepted && simpleTourRequest.StartDate.AddDays(-2) <= DateTime.Today && simpleTourRequest.ComplexTourRequestId.Id == request.Id)
                         {
                             request.RequestStatus = RequestStatus.Denied;
                             _complexTourRequestRepository.Update(request);
@@ -101,7 +101,7 @@ namespace WpfApp1.Service
 
                     foreach (SimpleTourRequest requests in allSimpleTourRequests)
                     {
-                        if(request.RequestStatus == RequestStatus.Denied && requests.ComplexTourRequestId == request.Id)
+                        if(request.RequestStatus == RequestStatus.Denied && requests.ComplexTourRequestId.Id == request.Id)
                         {
                             requests.RequestStatus = RequestStatus.Denied;
                             _simpleTourRequestRepository.Update(requests);

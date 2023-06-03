@@ -203,9 +203,10 @@ namespace WpfApp1.ViewModel
             {
                 int complexTourRequestId = -1;
                 int maxG = int.Parse(MaxGuests);
+                ComplexTourRequest complex = new ComplexTourRequest();
                 Tourist tourist = (Tourist)MainWindow.LogInUser;
                 Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, complexTourRequestId);
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, complex);
                 PartOfRequest.Add(simpleTour);
                 _simpleTourRequestService.Create(simpleTour);
 
@@ -218,7 +219,7 @@ namespace WpfApp1.ViewModel
                     // Update ComplexTourRequestId for previously added SimpleTourRequests
                     foreach (SimpleTourRequest tour in PartOfRequest)
                     {
-                        tour.ComplexTourRequestId = complexTourRequestId;
+                        tour.ComplexTourRequestId.Id = complexTourRequestId;
                         _simpleTourRequestService.Update(tour);
                     }
                 }
@@ -255,8 +256,8 @@ namespace WpfApp1.ViewModel
                         MaxGuests = "0";
                         Language = "";
                         Description = "";
+                        SelectedStartDate = SelectedEndDate;
                         SelectedEndDate = DateTime.Now;
-                        SelectedStartDate = DateTime.Now;
                         ComplexTourRequestId = _complexTourRequestService.NextId();
                         PartOfRequest.Clear();
                         
