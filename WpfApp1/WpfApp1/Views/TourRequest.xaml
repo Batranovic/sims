@@ -180,7 +180,7 @@
                                             </Grid.ColumnDefinitions>
 
                                                 <Border BorderBrush="Black" BorderThickness="1" CornerRadius="50" Width="30" Height="30" Margin="-118,0,0,0">
-                                                    <TextBlock Text="{Binding ComplexTourRequestId}" Grid.Row="0" FontSize="21" Margin="8,0,0,0">
+                                                    <TextBlock Text="{Binding ComplexTourRequestId.Id}" Grid.Row="0" FontSize="21" Margin="8,0,0,0">
                                                         <TextBlock.Effect>
                                                             <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.4" BlurRadius="4" />
                                                         </TextBlock.Effect>
@@ -206,7 +206,7 @@
                                                 <TextBlock Margin="11,0,12,0" Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="11,0,12,0" Text="{Binding StartDate}" FontWeight="Bold" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                                                <TextBlock Text="{Binding RequestStatus}" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding RequestStatus}"  Margin="-10,0,0,0" FontWeight="Bold"  Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                 <TextBlock.Style>
                                                         <Style TargetType="TextBlock">
                                                             <Style.Triggers>
@@ -240,7 +240,7 @@
                         <TextBlock></TextBlock>
                     </StackPanel>
                 </TabItem>
-                <TabItem Header="Created tours" Height="22" Margin="-2,0,-2,0" VerticalAlignment="Bottom">
+                <TabItem Header="Created simple tours" Height="22" Margin="-2,0,-2,0" VerticalAlignment="Bottom">
                     <TabItem.Background>
                         <SolidColorBrush Color="#f3dcc4"/>
                     </TabItem.Background>
@@ -285,7 +285,7 @@
                                                 <TextBlock Margin="11,0,12,0" Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="11,0,12,0" Text="{Binding StartDate}" FontWeight="Bold" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                                                <TextBlock Text="{Binding RequestStatus}" Margin="-8" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding RequestStatus}" Margin="-10,0,0,0" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                     <TextBlock.Style>
                                                         <Style TargetType="TextBlock">
                                                             <Style.Triggers>
@@ -326,6 +326,96 @@
                     </StackPanel>
 
                 </TabItem>
+                <TabItem Header="Created complex tours">
+                    <TabItem.Background>
+                        <SolidColorBrush Color="#f3dcc4"/>
+                    </TabItem.Background>
+                    <StackPanel>
+                        <ListBox ItemsSource="{Binding AcceptedComplexRequests}" Margin="20" Background="#f3dcc4" Height="380" Width="600">
+
+                            <ListBox.ItemTemplate >
+
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="1" Margin="-5,-1,-9,-1" Height="200" Width="576">
+                                        <DockPanel>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="50"/>
+                                                    <RowDefinition Height="30"/>
+                                                    <RowDefinition Height="30"/>
+                                                    <RowDefinition Height="30"/>
+                                                    <RowDefinition Height="30"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="170"/>
+                                                    <ColumnDefinition Width="170"/>
+                                                    <ColumnDefinition Width="150"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="50" Width="30" Height="30" Margin="-118,0,0,0">
+                                                    <TextBlock Text="{Binding ComplexTourRequestId.Id}" Grid.Row="0" FontSize="21" Margin="8,0,0,0">
+                                                        <TextBlock.Effect>
+                                                            <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.4" BlurRadius="4" />
+                                                        </TextBlock.Effect>
+                                                    </TextBlock>
+                                                    <Border.Effect>
+                                                        <DropShadowEffect ShadowDepth="7" Color="Black" Opacity="0.4" BlurRadius="4"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+
+                                                <TextBlock Margin="11,0,12,0" FontSize="11"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" >Language</TextBlock>
+                                                <TextBlock Margin="11,0,12,0" FontSize="11"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"  VerticalAlignment="Center" >MaxGuests</TextBlock>
+                                                <TextBlock Margin="11,0,12,0" FontSize="11"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center" >Date</TextBlock>
+                                                <TextBlock Grid.Row="0" Margin="11,0,12,0" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}       {0}, {1}">
+                                                            <Binding Path="Location.State" />
+                                                            <Binding Path="Location.City" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+
+                                                <TextBlock Margin="11,0,12,0" Text="{Binding Languages}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="11,0,12,0" Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="11,0,12,0" Text="{Binding StartDate}" FontWeight="Bold" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                                                <TextBlock Text="{Binding RequestStatus}" Margin="-10,0,0,0" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding RequestStatus}" Value="Accepted">
+                                                                    <Setter Property="Foreground" Value="LightSeaGreen" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding RequestStatus}" Value="Pending">
+                                                                    <Setter Property="Foreground" Value="LightSkyBlue" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding RequestStatus}" Value="Denied">
+                                                                    <Setter Property="Foreground" Value="Red" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                    <TextBlock.Effect>
+                                                        <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.4" BlurRadius="4" />
+                                                    </TextBlock.Effect>
+                                                </TextBlock>
+
+                                                <TextBlock Margin="11,0,12,0" FontSize="11"  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >Description</TextBlock>
+                                                <TextBlock Margin="11,0,12,0" TextWrapping="Wrap" Text="{Binding Description}" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                                            </Grid>
+                                        </DockPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <TextBlock></TextBlock>
+                    </StackPanel>
+                </TabItem>
+
+
             </TabControl>
         </DockPanel>
         <Button Content="Create new tour" Command="{Binding CreateNewTourCommand}" HorizontalAlignment="Center" Margin="0,614,0,0" VerticalAlignment="Top"/>

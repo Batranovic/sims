@@ -197,6 +197,21 @@ namespace WpfApp1.Service
             return simple;
         }
 
+        public List<SimpleTourRequest> AcceptedComplexRequestsForTourist(int userId)
+        {
+            List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
+
+            foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
+            {
+                if (request.Tourist.Id == userId && request.ComplexTourRequestId.RequestStatus == RequestStatus.Accepted)
+                {
+                    simple.Add(request);
+                }
+            }
+            return simple;
+        }
+
+
         public List<SimpleTourRequest> GetAllForUser(int userId)
         {
             return GetAll().Where(r => r.Tourist.Id == userId).ToList();

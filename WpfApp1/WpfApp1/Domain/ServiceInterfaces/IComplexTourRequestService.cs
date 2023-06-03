@@ -17,8 +17,8 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
         int NextId();
-        List<ComplexTourRequest> RequestsForTourist(int userId);
-        List<SimpleTourRequest> PartsOfComplexTourRequest(int userId);
-        List<SimpleTourRequest> DeniedSimpleTourRequests(int userId);
+        List<SimpleTourRequest> AcceptedComplexRequestsForTourist(int userId);
+        List<SimpleTourRequest> AcceptedPartsOfComplexTourRequest(int userId);
+        List<SimpleTourRequest> AllSComplexTourRequestsForTourist(int userId);
     }
 }

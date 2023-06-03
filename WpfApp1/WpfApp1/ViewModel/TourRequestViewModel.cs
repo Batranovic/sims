@@ -17,6 +17,7 @@ namespace WpfApp1.ViewModel
         public ObservableCollection<SimpleTourRequest> PartsOfComplexTourRequests { get; set; }
         public ObservableCollection<ComplexTourRequest> ComplexTourRequests { get; set; }
         public ObservableCollection<SimpleTourRequest> AcceptedRequests { get; set; }
+        public ObservableCollection<SimpleTourRequest> AcceptedComplexRequests { get; set; }
 
         private readonly ISimpleTourRequestService _simpleTourRequestSrvice;
         private readonly IComplexTourRequestService _complexTourRequestService;
@@ -35,8 +36,9 @@ namespace WpfApp1.ViewModel
         
 
             SimpleTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id));
-            PartsOfComplexTourRequests = new ObservableCollection<SimpleTourRequest>(_complexTourRequestService.DeniedSimpleTourRequests(MainWindow.LogInUser.Id));
+            PartsOfComplexTourRequests = new ObservableCollection<SimpleTourRequest>(_complexTourRequestService.AllSComplexTourRequestsForTourist(MainWindow.LogInUser.Id));
             AcceptedRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.AcceptedRequestsForTourist(MainWindow.LogInUser.Id));
+            AcceptedComplexRequests = new ObservableCollection<SimpleTourRequest>(_complexTourRequestService.AcceptedComplexRequestsForTourist(MainWindow.LogInUser.Id));
 
 
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);

@@ -19,6 +19,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         List<SimpleTourRequest> RequestsForTourist(int userId);
         List<string> GetAllYears();
         List<SimpleTourRequest> AcceptedRequestsForTourist(int userId);
+        List<SimpleTourRequest> AcceptedComplexRequestsForTourist(int userId);
         List<SimpleTourRequest> GetAllForUser(int userId);
 
         Dictionary<string, int> CountRequestsByLanguage(int userId);

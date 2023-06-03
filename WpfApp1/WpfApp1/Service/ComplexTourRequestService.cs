@@ -20,37 +20,54 @@ namespace WpfApp1.Service
             _simpleTourRequestRepository = InjectorRepository.CreateInstance<ISimpleTourRequestRepository>();
         }
 
-        public List<ComplexTourRequest> RequestsForTourist(int userId)
-        {
-            List<ComplexTourRequest> requests = new List<ComplexTourRequest>();
-            var allRequests = _complexTourRequestRepository.GetAll();
-
-            for (int i = 0; i < allRequests.Count(); i++)
-            {
-                var request = allRequests.ElementAt(i);
-                if (request.Tourist.Id == userId)
-                {
-                    if (request.SimpleTourRequests.Count > 0 && (request.SimpleTourRequests[0].StartDate - DateTime.Today).TotalDays <= 2 && request.RequestStatus != RequestStatus.Accepted)
-                    {
-                        request.RequestStatus = RequestStatus.Denied;
-                        _complexTourRequestRepository.Update(request);
-                    }
-                    requests.Add(request);
-                }
-            }
-            return requests;
-        }
-
-
-        public List<SimpleTourRequest> PartsOfComplexTourRequest(int userId)
+        public List<SimpleTourRequest> AcceptedComplexRequestsForTourist(int userId)
         {
             List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
             var allRequests = _complexTourRequestRepository.GetAll();
-            bool allAccepted = true;
 
             for (int i = 0; i < allRequests.Count(); i++)
             {
                 var request = allRequests.ElementAt(i);
+                bool allAccepted = true;
+
+                if (request.Tourist.Id == userId)
+                {
+                    foreach (SimpleTourRequest simpleTourRequest in _simpleTourRequestRepository.GetAll())
+                    {
+                        if (simpleTourRequest.ComplexTourRequestId.Id == request.Id)
+                        {
+                            if (simpleTourRequest.RequestStatus != RequestStatus.Accepted)
+                            {
+                                allAccepted = false;
+                                break;  // Exit the loop since at least one request is not accepted
+                            }
+                        }
+                    }
+
+                    if (allAccepted)
+                    {
+                        // Add all the SimpleTourRequest objects with the same ComplexTourRequest ID to the simple list
+                        var matchingSimpleTourRequests = _simpleTourRequestRepository.GetAll()
+                            .Where(s => s.ComplexTourRequestId.Id == request.Id && s.RequestStatus == RequestStatus.Accepted);
+                        simple.AddRange(matchingSimpleTourRequests);
+                    }
+                }
+            }
+
+            return simple;
+        }
+
+
+        public List<SimpleTourRequest> AcceptedPartsOfComplexTourRequest(int userId)
+        {
+            List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
+            var allRequests = _complexTourRequestRepository.GetAll();
+
+            for (int i = 0; i < allRequests.Count(); i++)
+            {
+                var request = allRequests.ElementAt(i);
+                bool allAccepted = true;  // Move the allAccepted variable inside the loop
+
                 if (request.Tourist.Id == userId)
                 {
                     foreach (SimpleTourRequest simpleTourRequest in _simpleTourRequestRepository.GetAll())
@@ -78,9 +95,10 @@ namespace WpfApp1.Service
         }
 
 
-        public List<SimpleTourRequest> DeniedSimpleTourRequests(int userId)
+
+        public List<SimpleTourRequest> AllSComplexTourRequestsForTourist(int userId)
         {
-            var allSimpleTourRequests = PartsOfComplexTourRequest(userId); 
+            var allSimpleTourRequests = AcceptedPartsOfComplexTourRequest(userId); 
             var allRequests = _complexTourRequestRepository.GetAll();
         
 
