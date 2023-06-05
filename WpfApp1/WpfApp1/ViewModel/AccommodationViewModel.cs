@@ -28,6 +28,7 @@ namespace WpfApp1.ViewModel
         private ViewModelBase _currentVM;
 
         public RelayCommand NavCommand { get; set; }
+        public RelayCommand PopUpCommand { get; set; }
         public RelayCommand ShowCommand { get; set; }
 
         public Guest LoggedGuest { get; set; }
