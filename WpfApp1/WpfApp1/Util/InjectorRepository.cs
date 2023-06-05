@@ -36,12 +36,10 @@ namespace WpfApp1.Service
             { typeof(IRequestNotifactionRepository), RequestNotificationRepository.GetInstance() },
             { typeof(INewTourNotificationRepository), NewTourNotificationRepository.GetInstance() },
             { typeof(INotificationAccommodationReleaseRepository), NotificationAccommodationReleaseRepository.GetInstance() },
-<<<<<<< HEAD
             { typeof(IComplexTourRequestRepository), ComplexTourRequestRepository.GetInstance() },
-            { typeof(IAcceptedRequestGuideRepositry), AcceptedRequestGuideRepository.GetInstance() }
-=======
+            { typeof(IAcceptedRequestGuideRepositry), AcceptedRequestGuideRepository.GetInstance() },
             { typeof(IForumNotificationRepository), ForumNotificationRepository.GetInstance() }
->>>>>>> a3908d2 (Made suggestion)
+
         };
         public static T CreateInstance<T>()
         {

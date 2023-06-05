@@ -36,12 +36,9 @@ namespace WpfApp1.Service
             { typeof(IRequestNotifactionService), new RequestNotificationService() },
             { typeof(INewTourNotificationService), new NewTourNotificationService() },
             { typeof(INotificationAccommodationReleaseService), new NotificationAccommodationReleaseService() },
-<<<<<<< HEAD
             { typeof(IComplexTourRequestService), new ComplexTourRequestService() },
-            { typeof(IAcceptedRequestService), new AcceptedRequestGuideService() }
-=======
+            { typeof(IAcceptedRequestService), new AcceptedRequestGuideService() },
             { typeof(IForumNotificationService), new ForumNotificationService() }
->>>>>>> a3908d2 (Made suggestion)
         };
         public static T CreateInstance<T>()
         {
