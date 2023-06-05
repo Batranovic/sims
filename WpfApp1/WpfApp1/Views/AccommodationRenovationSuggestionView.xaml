@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
+        xmlns:ns="clr-namespace:WpfApp1.Localization"
         mc:Ignorable="d"
         Title="AccommodationRenovationSuggestionView" Name="AccommodationRenovationSuggestionViewName" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0">
-            <TextBlock Text="Renovation Suggestions"
+            <Label Content="{ns:Loc Renovation Suggestion}"
                        FontSize="20"
                        FontStyle="Normal"
                        FontWeight="DemiBold"/>
@@ -22,28 +23,28 @@
                 <RowDefinition Height="200"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" FontSize="21" FontStyle="Italic" FontWeight="SemiBold">What should we change?</Label>
-            <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,80,0,0" FontStyle="Italic" FontSize="21" FontWeight="SemiBold">How urgent is this change?</Label>
+            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" FontSize="21" FontStyle="Italic" FontWeight="SemiBold" Content="{ns:Loc What should we change?}"></Label>
+            <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,80,0,0" FontStyle="Italic" FontSize="21" FontWeight="SemiBold" Content="{ns:Loc How urgent is this change?}"></Label>
             <TextBox Grid.Row="0" Grid.Column="1" Width="330" Height="130" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="-60,0,0,0" Text="{Binding Comment}"/>
             <Viewbox Height="29" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,170">
-                <RadioButton  FontSize="16" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[0]}" Command="{Binding SelectedOptionCommand}" CommandParameter="0">Level 1 - Not necessary</RadioButton>
+                <RadioButton  FontSize="16" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[0]}" Command="{Binding SelectedOptionCommand}" CommandParameter="0" Content="{ns:Loc Level 1 - Not necessary}"></RadioButton>
             </Viewbox>
             <Viewbox Height="29" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,100">
-                <RadioButton  FontSize="16" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[1]}" Command="{Binding SelectedOptionCommand}" CommandParameter="1">Level 2 - Minor changes</RadioButton>
+                <RadioButton  FontSize="16" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[1]}" Command="{Binding SelectedOptionCommand}" CommandParameter="1" Content="{ns:Loc Level 2 - Minor changes}"></RadioButton>
             </Viewbox>
             <Viewbox Height="29" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,25" >
-                <RadioButton FontSize="16" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[2]}" Command="{Binding SelectedOptionCommand}" CommandParameter="2">Level 3 - Bothersome things</RadioButton>
+                <RadioButton FontSize="16" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[2]}" Command="{Binding SelectedOptionCommand}" CommandParameter="2" Content="{ns:Loc Level 3 - Bothersome things}"></RadioButton>
             </Viewbox>
             <Viewbox Height="29" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,50,0,0" >
-                <RadioButton FontSize="16" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[3]}" Command="{Binding SelectedOptionCommand}" CommandParameter="3">Level 4 - Really necessary</RadioButton>
+                <RadioButton FontSize="16" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[3]}" Command="{Binding SelectedOptionCommand}" CommandParameter="3" Content="{ns:Loc Level 4 - Really necessary}"></RadioButton>
             </Viewbox>
             <Viewbox Height="29" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,120,0,0">
-                <RadioButton  FontSize="15" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[4]}" Command="{Binding SelectedOptionCommand}" CommandParameter="4" >Level 5 - Really bad condition</RadioButton>
+                <RadioButton  FontSize="15" FontWeight="Medium" GroupName="Renovation" IsChecked="{Binding Options[4]}" Command="{Binding SelectedOptionCommand}" CommandParameter="4" Content="{ns:Loc Level 5 - Really bad condition}"></RadioButton>
             </Viewbox>
         </Grid>
 
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,238,0" >
-            <Button Width="90" Height="30" Content="Confirm" Command="{Binding ConfirmCommand}"/>
+            <Button Width="90" Height="30" Content="{ns:Loc Confirm}" Command="{Binding ConfirmCommand}"/>
         </WrapPanel>
     </Grid>
 </Window>

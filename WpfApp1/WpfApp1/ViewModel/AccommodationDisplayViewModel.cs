@@ -50,6 +50,8 @@ namespace WpfApp1.ViewModel
 
         public RelayCommand RejectCommand { get; set; }
 
+        
+
 
         public AccommodationDisplayViewModel(User user)
         {
@@ -83,7 +85,7 @@ namespace WpfApp1.ViewModel
             SearchCommand = new RelayCommand(param => Execute_Search(), param => CanExecute());
             ReserveCommand = new RelayCommand(Execute_Reserve, param => CanExecute());
             ShowImageCommand = new RelayCommand(Execute_ShowImage, param => CanExecute());
-
+            
 
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetSortedListBySuperOwner());
 

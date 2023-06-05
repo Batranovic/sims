@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
@@ -16,7 +13,7 @@ using WpfApp1.Views;
 
 namespace WpfApp1.ViewModel
 {
-    public partial class ReservationViewModel : ViewModelBase
+    public class ReservationDisplayViewModel : ViewModelBase
     {
         private readonly IReservationService _reservationService;
         private readonly IReservationPostponementService _reservationPostponementService;
@@ -33,11 +30,11 @@ namespace WpfApp1.ViewModel
         public RelayCommand CancelReservationCommand { get; set; }
 
         public RelayCommand UpdateCommand { get; set; }
-        
+
         public RelayCommand RejectCommand { get; set; }
 
         public Guest LogInGuest { get; set; }
-        public ReservationViewModel(Guest guest)
+        public ReservationDisplayViewModel(Guest guest)
         {
             _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "ReservationViewName");
             _reservationService = InjectorService.CreateInstance<IReservationService>();
@@ -54,28 +51,22 @@ namespace WpfApp1.ViewModel
 
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void Execute_OwnerRating()    //ime
         {
-           
+
             AccommodationAndOwnerRating acoommodationAndOwnerRating = new AccommodationAndOwnerRating(SelectedReservation);
             acoommodationAndOwnerRating.Show();
         }
 
         private bool CanExecuteOwnerRating()
         {
-            return SelectedReservation!= null && SelectedReservation.GuestReservationStatus == Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Unrated;
+            return SelectedReservation != null && SelectedReservation.GuestReservationStatus == Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Unrated;
         }
 
 
         public void Execute_ReservationPostponement()
         {
-            
+
 
             ReservationPostponation reservationPostponation = new ReservationPostponation(SelectedReservation);
             reservationPostponation.Show();
@@ -93,7 +84,7 @@ namespace WpfApp1.ViewModel
 
         private bool CanExecuteCancelReservation()
         {
-            
+
             return SelectedReservation != null && !(SelectedReservation.StartDate < DateTime.Now.AddDays(-SelectedReservation.Accommodation.CancelDay) && SelectedReservation.EndDate <= DateTime.Now);
         }
 

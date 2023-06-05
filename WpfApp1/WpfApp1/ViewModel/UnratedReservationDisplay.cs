@@ -18,7 +18,20 @@ namespace WpfApp1.ViewModel
         private readonly IReservationService _reservationService;
         public ObservableCollection<Reservation> Reservations { get; set; }
 
-        public Reservation SelectedReservation { get; set; }
+        private Reservation _selectedReservation;
+        public Reservation SelectedReservation
+        {
+            get => _selectedReservation;
+            set
+            {
+                if(_selectedReservation!= value)
+                {
+                    _selectedReservation = value;
+                   // OnPropertyChanged(nameof(SelectedReservation));
+                    OwnerRatingCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
 
         private Window _window;
 
@@ -46,7 +59,8 @@ namespace WpfApp1.ViewModel
 
         private bool CanExecuteOwnerRating()
         {
-            return SelectedReservation != null && SelectedReservation.GuestReservationStatus == Domain.Domain.Models.Enums.AccommodationAndOwnerRatingStatus.Unrated;
+            //return true;
+            return SelectedReservation != null;
         }
     }
 }

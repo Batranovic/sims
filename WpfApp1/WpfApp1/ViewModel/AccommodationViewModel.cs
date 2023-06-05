@@ -22,10 +22,15 @@ namespace WpfApp1.ViewModel
     {
         private AccommodationDisplayViewModel _accommodationDisplayViewModel;
         private UnratedReservationDisplay _unratedReservationDisplay;
+        private OwnerReviewsDisplayViewModel _ownerReviewsDisplayViewModel;
+        private ReservationDisplayViewModel _reservationDisplayViewModel;
         private int _tabPosition;
         private ViewModelBase _currentVM;
 
         public RelayCommand NavCommand { get; set; }
+        public RelayCommand ShowCommand { get; set; }
+
+        public Guest LoggedGuest { get; set; }
 
         public ViewModelBase CurrentVM
         {
@@ -54,6 +59,40 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        private string _nameSurname;
+        public string NameSurname
+        {
+            get => _nameSurname;
+            set
+            {
+                _nameSurname = value;
+                OnPropertyChanged(nameof(NameSurname));
+            }
+        }
+
+        private bool _visibilityPopUp;
+        public bool VisibilityPopUp
+        {
+            get => _visibilityPopUp;
+            set
+            {
+                _visibilityPopUp = value;
+                OnPropertyChanged(nameof(VisibilityPopUp));
+            }
+        }
+
+        public ReservationDisplayViewModel ReservationDisplayViewModel
+        {
+            get => _reservationDisplayViewModel;
+            set
+            {
+                if(value != _reservationDisplayViewModel)
+                {
+                    _reservationDisplayViewModel = value;
+                    OnPropertyChanged(nameof(ReservationDisplayViewModel));
+                }
+            }
+        }
         public UnratedReservationDisplay UnratedReservationDisplay
         {
             get => _unratedReservationDisplay;
@@ -80,12 +119,34 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
+        public string UserType { get; set; }
+        public OwnerReviewsDisplayViewModel OwnerReviewsDisplayViewModel
+        {
+            get => _ownerReviewsDisplayViewModel;
+            set
+            {
+                if(value != _ownerReviewsDisplayViewModel)
+                {
+                    _ownerReviewsDisplayViewModel = value;
+                    OnPropertyChanged(nameof(OwnerReviewsDisplayViewModel));
+                }
+            }
+        }
 
         public AccommodationViewModel(User user)
         {
             AccommodationDisplayViewModel = new AccommodationDisplayViewModel(user);
             CurrentVM = _accommodationDisplayViewModel;
             UnratedReservationDisplay = new UnratedReservationDisplay((Guest)user);
+            OwnerReviewsDisplayViewModel = new OwnerReviewsDisplayViewModel((Guest)user);
+            ReservationDisplayViewModel = new ReservationDisplayViewModel((Guest)user);
+
+            ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
+
+            VisibilityPopUp = false;
+            LoggedGuest = (Guest)user;
+            UserType = LoggedGuest.Super ? "Super owner" : "Basic owner";
+
 
         }
 
@@ -101,19 +162,32 @@ namespace WpfApp1.ViewModel
             {
                 case 0:
                     CurrentVM = _accommodationDisplayViewModel;
+                    Execute_ShowCommand();
                     break;
                 case 1:
                     CurrentVM = _unratedReservationDisplay;
                     break;
                 case 2:
-                    CurrentVM = _unratedReservationDisplay;
+                    CurrentVM = _ownerReviewsDisplayViewModel;
                     break;
                 case 3:
-                    CurrentVM = _unratedReservationDisplay;
+                    CurrentVM = _reservationDisplayViewModel;
                     break;
             }
         }
 
+        public void Execute_ShowCommand()
+        {
+            NameSurname = LoggedGuest.Name + " " + LoggedGuest.Surname;
+            VisibilityPopUp = !VisibilityPopUp;
+        }
+
+        public bool CanExecute()
+        {
+            return true;
+        }
+
+       
     }
 }
 

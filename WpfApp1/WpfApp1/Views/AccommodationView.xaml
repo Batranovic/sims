@@ -3,8 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:vm="clr-namespace:WpfApp1.ViewModel"
         xmlns:v="clr-namespace:WpfApp1.Views"
+        xmlns:ns="clr-namespace:WpfApp1.Localization"
         xmlns:local="clr-namespace:WpfApp1.Views" d:DataContext="{d:DesignInstance Type=vm:AccommodationViewModel}"
         mc:Ignorable="d"
         Title="AccommodationView" Name="AccommodationViewName"  Height="768" Width="1024">
@@ -15,8 +17,25 @@
         <DataTemplate DataType="{x:Type vm:UnratedReservationDisplay}">
             <v:PastReservationsView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:OwnerReviewsDisplayViewModel}">
+            <v:OwnerReviewsDisplay/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ReservationDisplayViewModel}">
+            <v:ReservationDisplayView/>
+        </DataTemplate>
+
+        <Style x:Key="DarkThemeStyle" TargetType="Button">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style x:Key="LightThemeStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        
     </Window.Resources>
-    <Grid Background="Firebrick">
+    <Grid Background="#79CDA8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
@@ -32,39 +51,98 @@
                    Foreground="White"
                    FontSize="25"/>
         </WrapPanel>
-        <TabControl Grid.Row="1" Margin="0,0,-824,0" SelectedIndex="{Binding TabPosition}">
-            <TabItem Header="Overview" FontSize=" 12">
+        <TabControl Grid.Row="1" Grid.ColumnSpan="2"  Margin="0,0,0,0" SelectedIndex="{Binding TabPosition}">
+            <TabItem Header="{ns:Loc Overview}" FontSize=" 12">
                 <StackPanel>
                     <ContentControl Content="{Binding AccommodationDisplayViewModel}"/>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Leave a review" FontSize=" 12">
+            <TabItem Header="{ns:Loc Leave a review}" FontSize=" 12">
                 <StackPanel>
                     <ContentControl Content="{Binding UnratedReservationDisplay}"/>
                  </StackPanel>
             </TabItem>
-            <TabItem Header="Owner reviews" FontSize=" 12">
-                <!-- Content for Tab 3 -->
+            <TabItem Header="{ns:Loc Owner reviews}" FontSize=" 12">
+                <StackPanel>
+                    <ContentControl Content="{Binding OwnerReviewsDisplayViewModel}"/>
+                </StackPanel>
             </TabItem>
-            <TabItem Header="My reservations" FontSize=" 12">
-
+            <TabItem Header="{ns:Loc My reservations}" FontSize=" 12">
+                <StackPanel>
+                    <ContentControl Content="{Binding ReservationDisplayViewModel}" />
+                </StackPanel>
             </TabItem>
-            <TabItem Header="Forum" FontSize=" 12">
+            <TabItem Header="{ns:Loc Forum}" FontSize=" 12">
 
             </TabItem>
         </TabControl>
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <Button Width="50" Height="50" Margin="5"></Button>
-            <Button Width="80" Height="80" Background="Wheat" BorderThickness="0" Margin="10 10 10 10">
+            <Button Width="50" Height="50" Margin="5">
                 <Button.Resources>
                     <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="45"/>
+                        <Setter Property="CornerRadius" Value="10"/>
                     </Style>
                 </Button.Resources>
+            </Button>
+            <Button Width="50" Height="50" Margin="5">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Width="50" Height="50" Margin="5">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Width="80" Height="80" Background="Wheat" BorderThickness="0" Command="{Binding TabPosition}"  CommandParameter="0" Margin="10 10 10 10">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Ellipse Fill="{TemplateBinding Background}" />
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FFDDDDDD" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="White" />
+                    </Style>
+                </Button.Style>
                 <StackPanel>
                     <Image  Width="40" Height="40" Margin="5"/>
                 </StackPanel>
             </Button>
+
+            <Popup IsOpen="{Binding VisibilityPopUp}"
+                               Width="250" 
+                                Height="150" 
+                                Margin="0,100,10,0"
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right" 
+                                Panel.ZIndex="1000">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding ShowCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                    <Label Width="200" Height="40" FontSize="25" Content="{Binding NameSurname}"></Label>
+                    <Label Content="{Binding UserType}" FontSize="25" Width="200" Height="40"/>
+                </WrapPanel>
+            </Popup>
         </StackPanel>
     </Grid>
 </Window>

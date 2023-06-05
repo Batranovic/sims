@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
+        xmlns:ns="clr-namespace:WpfApp1.Localization"
         mc:Ignorable="d"
         Title="Creating Reservation" Name ="AddReservationName"  Height="480" Width="700">
     <Grid>
@@ -29,10 +30,10 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Height="30">Number of guests</Label>
-                <Label Grid.Row="1" Grid.Column="0" Height="30">Reservation days</Label>
-                <Label Grid.Row="2" Grid.Column="0" Height="30">Start date</Label>
-                <Label Grid.Row="3" Grid.Column="0" Height="30">End date</Label>
+                <Label Grid.Row="0" Grid.Column="0" Height="30" Content="{ns:Loc Number of guests}"></Label>
+                <Label Grid.Row="1" Grid.Column="0" Height="30" Content="{ns:Loc Reservation days}"></Label>
+                <Label Grid.Row="2" Grid.Column="0" Height="30" Content="{ns:Loc Start date}"></Label>
+                <Label Grid.Row="3" Grid.Column="0" Height="30" Content="{ns:Loc End date}"></Label>
 
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=GuestsNumber}"  Height="30"></TextBox>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=ReservationDays}"  Height="30"></TextBox>
@@ -42,9 +43,9 @@
 
             </Grid>
             <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="-40,0,0,0" >
-                <Button Content=" Find reservation " IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Command="{Binding ConfirmCommand}"
+                <Button Content="{ns:Loc Find reservation}" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Command="{Binding ConfirmCommand}"
               />
-                <Button Content="Cancel " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Command="{Binding CancelCommand}"
+                <Button Content="{ns:Loc Cancel}" IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5" Command="{Binding CancelCommand}"
                />
             </WrapPanel>
         </Grid>

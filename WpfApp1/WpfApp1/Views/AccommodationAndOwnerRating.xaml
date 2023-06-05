@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
+        xmlns:ns="clr-namespace:WpfApp1.Localization"
         mc:Ignorable="d"
         Title="AccommodationAndOwnerRating" Height="450" Width="800">
     <Window.Resources>
@@ -41,11 +42,11 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Height="30">Cleannes</Label>
-                <Label Grid.Row="1" Grid.Column="0" Height="30">Owner corectness</Label>
-                <Label Grid.Row="2" Grid.Column="0" Height="30">Timeliness</Label>
-                <Label Grid.Row="3" Grid.Column="0" Height="30">Image</Label>
-                <Label Grid.Row="4" Grid.Column="0" Height="30">Comment</Label>
+                <Label Content="{ns:Loc Cleannes}" Grid.Row="0" Grid.Column="0" Height="30"></Label>
+                <Label Content="{ns:Loc Owner corectness}" Grid.Row="1" Grid.Column="0" Height="30"></Label>
+                <Label Content="{ns:Loc Timeliness}" Grid.Row="2" Grid.Column="0" Height="30"></Label>
+                <Label Content="{ns:Loc Image}" Grid.Row="3" Grid.Column="0" Height="30"></Label>
+                <Label Content="{ns:Loc Comment}" Grid.Row="4" Grid.Column="0" Height="30"></Label>
 
                 <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=Grades}" SelectedItem="{Binding Path=SelectedCleanness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
                 <ComboBox  Grid.Row="1"  Grid.Column="1" ItemsSource="{Binding Path=Grades}" SelectedItem="{Binding Path=SelectedOwnerCorectness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
@@ -59,9 +60,9 @@
 
             </Grid>
             <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="-120,0,0,0" >
-                <Button Content=" Confirm " IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
+                <Button Content="{ns:Loc Confirm}" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
               Command="{Binding ConfirmCommand}" />
-                <Button Content="Cancel " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
+                <Button Content="{ns:Loc Cancel}" IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
                Command="{Binding CancelCommand}" />
             </WrapPanel>
         </Grid>

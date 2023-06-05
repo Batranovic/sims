@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="WpfApp1.Views.OwnerReviewsDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views"
+             xmlns:ns="clr-namespace:WpfApp1.Localization"
+             mc:Ignorable="d" 
+             d:DesignHeight="655" d:DesignWidth="1020"
+             Background="LightBlue">
+    <Grid>
+        <Grid Height="655" Margin="0 0 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Foreground="Black" FontSize="40" FontStyle="Italic" Content="{ns:Loc Check out reviews from owners}"></Label>
+        <ListView ItemsSource="{Binding Reviews}" Background="LightCyan" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="{ns:Loc Accommodation}" Width="133" DisplayMemberBinding="{Binding Reservation.Accommodation.Name}" />
+                    <GridViewColumn Header="{ns:Loc Owner name}" Width="130" DisplayMemberBinding="{Binding Reservation.Accommodation.Owner.Name}"/>
+                    <GridViewColumn Header="{ns:Loc Comment}" Width="140" DisplayMemberBinding="{Binding Comment}"/>
+                    <GridViewColumn Header="{ns:Loc Cleanness}" Width="120" DisplayMemberBinding="{Binding Cleanness}"/>
+                    <GridViewColumn Header="{ns:Loc Following Rules}" Width="120" DisplayMemberBinding="{Binding FollowingRules}"/>
+                    <GridViewColumn Header="{ns:Loc Timeliness}" Width="120" DisplayMemberBinding="{Binding Timeliness}"/>
+                    <GridViewColumn Header="{ns:Loc Noise}" Width="120" DisplayMemberBinding="{Binding Noise}"/>
+                    <GridViewColumn Header="{ns:Loc Damage}" Width="115" DisplayMemberBinding="{Binding Damage}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        </Grid>
+    </Grid>
+</UserControl>

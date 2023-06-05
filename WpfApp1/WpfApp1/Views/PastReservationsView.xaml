@@ -4,27 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1.Views"
+             xmlns:ns="clr-namespace:WpfApp1.Localization"
              mc:Ignorable="d" 
              d:DesignHeight="655" d:DesignWidth="1024"
              Background="Bisque">
     <Grid>
-        <DockPanel Height="560" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <ListView ItemsSource="{Binding Reservations}">
+        <Grid Height="620" Width="1024" Margin="0 0 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="460"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Foreground="Black" FontSize="40" FontStyle="Italic" Content="{ns:Loc Leave a review on your past reservations!}"></Label>
+            <ListView Grid.Row="1" ItemsSource="{Binding Reservations}" SelectedItem="{Binding SelectedReservation}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Accommodation.Name}" Width="195"></GridViewColumn>
-                        <GridViewColumn Header="State" DisplayMemberBinding="{Binding Accommodation.Location.State}" Width="185"></GridViewColumn>
-                        <GridViewColumn Header="City" DisplayMemberBinding="{Binding Accommodation.Location.City}" Width="185"></GridViewColumn>
-                        <GridViewColumn Header="Start date" DisplayMemberBinding="{Binding StartDate }" Width="260"></GridViewColumn>
-                        <GridViewColumn Header="End date" DisplayMemberBinding="{Binding EndDate }" Width="182"></GridViewColumn>
+                        <GridViewColumn Header="{ns:Loc Name}" DisplayMemberBinding="{Binding Accommodation.Name}" Width="195"></GridViewColumn>
+                        <GridViewColumn Header="{ns:Loc State}" DisplayMemberBinding="{Binding Accommodation.Location.State}" Width="185"></GridViewColumn>
+                        <GridViewColumn Header="{ns:Loc City}" DisplayMemberBinding="{Binding Accommodation.Location.City}" Width="185"></GridViewColumn>
+                        <GridViewColumn Header="{ns:Loc Start date}" DisplayMemberBinding="{Binding StartDate }" Width="240"></GridViewColumn>
+                        <GridViewColumn Header="{ns:Loc End date}" DisplayMemberBinding="{Binding EndDate }" Width="182"></GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
-        </DockPanel>
-        
-        <WrapPanel Grid.Row="0" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0"  >
-            <Button Content="Rate owner" Width="156" Height="65" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,1,14" Command="{Binding OwnerRatingCommand}"/>
+            <WrapPanel Grid.Row="2" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0">
+                <Button Content="{ns:Loc Rate owner}" Width="156" Height="45" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,1,0" Command="{Binding OwnerRatingCommand}"/>
         </WrapPanel>
+        </Grid>
 
     </Grid>
 </UserControl>
