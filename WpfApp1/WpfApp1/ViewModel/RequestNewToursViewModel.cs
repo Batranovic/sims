@@ -16,19 +16,25 @@ using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
 using WpfApp1.Views;
+using WpfApp1.Domain.Models.Enums;
 using static System.Net.Mime.MediaTypeNames;
-
+using System.Diagnostics.Eventing.Reader;
+using System.Drawing;
 
 namespace WpfApp1.ViewModel
 {
     public class RequestNewToursViewModel : ViewModelBase, IDataErrorInfo
     {
         private readonly ILocationService _locationService;
-
         private readonly ISimpleTourRequestService _simpleTourRequestService;
+        private readonly IComplexTourRequestService _complexTourRequestService;
+
+        public SimpleTourRequest SelectedTourRequest { get; set; }
         public ObservableCollection<string> States { get; set; }
 
         public ObservableCollection<string> Cities { get; set; }
+
+        public ObservableCollection<SimpleTourRequest> PartOfRequest { get; set; }
         public Action CloseAction { get; set; }
 
 
@@ -42,6 +48,20 @@ namespace WpfApp1.ViewModel
                 {
                     _language = value;
                     OnPropertyChanged("Language");
+                }
+            }
+        }
+
+        private int id;
+        public int ComplexTourRequestId
+        {
+            get => id;
+            set
+            {
+                if (value != id)
+                {
+                    id = value;
+                    OnPropertyChanged("ComplexTourRequestId");
                 }
             }
         }
@@ -61,7 +81,7 @@ namespace WpfApp1.ViewModel
 
         }
         private DateTime _selectedStartDate;
-        public DateTime StartDate
+        public DateTime SelectedStartDate
         {
             get => _selectedStartDate;
             set
@@ -69,14 +89,14 @@ namespace WpfApp1.ViewModel
                 if(value != _selectedStartDate)
                 {
                     _selectedStartDate = value;
-                    OnPropertyChanged("StartDate");
+                    OnPropertyChanged("SelectedStartDate");
                 }
                
             }
         }
 
         private DateTime _selectedEndDate;
-        public DateTime EndDate
+        public DateTime SelectedEndDate
         {
             get => _selectedEndDate;
             set
@@ -84,7 +104,7 @@ namespace WpfApp1.ViewModel
                 if (value != _selectedEndDate)
                 {
                     _selectedEndDate = value;
-                    OnPropertyChanged("EndDate");
+                    OnPropertyChanged("SelectedEndDate");
                 }
 
             }
@@ -143,54 +163,111 @@ namespace WpfApp1.ViewModel
         public RequestNewToursViewModel() {
 
             _simpleTourRequestService = InjectorService.CreateInstance<ISimpleTourRequestService>();
+            _complexTourRequestService = InjectorService.CreateInstance<IComplexTourRequestService>();
             _locationService = InjectorService.CreateInstance<ILocationService>();
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
+            PartOfRequest = new ObservableCollection<SimpleTourRequest>();
 
-           
-            MaxGuests = "";
-            StartDate = DateTime.Now;
-            EndDate = DateTime.Now;
+            MaxGuests = "1";
+            SelectedStartDate = DateTime.Today;
+            SelectedEndDate = DateTime.Today;
+            ComplexTourRequestId = _complexTourRequestService.NextId();
 
-            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
-            RequestSimpleTourCommand = new RelayCommand(Execute_RequestSimpleTour, CanExecute_Command);
-            RequestComplexTourCommand = new RelayCommand(Execute_RequestComplexTour, CanExecute_Command);
+            RequestSimpleTourCommand = new RelayCommand(Execute_AddTour, CanExecute_Command);
+            RequestComplexTourCommand = new RelayCommand(Execute_Finish, CanExecute_Command);
             IncrementCommand = new RelayCommand(Execute_Increment, CanExecute_Command);
             DecrementCommand = new RelayCommand(Execute_Decrement, CanExecute_Command);
             RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
+            RemoveTourCommand = new RelayCommand(Execute_Remove,CanExecute_Command);
         }
 
 
+         private void Execute_Remove(object sender)
+        {
 
-        private void Execute_RequestSimpleTour(object sender)
+            if (SelectedTourRequest == null) return;
+            PartOfRequest.Remove(SelectedTourRequest);
+            _simpleTourRequestService.Delete(SelectedTourRequest);
+
+            SelectedTourRequest = null;
+        }
+
+        private void Execute_AddTour(object sender)
+        {
+            IsSubmitClicked = true;
+            if (IsValid)
+            {
+                int complexTourRequestId = -1;
+                int maxG = int.Parse(MaxGuests);
+                ComplexTourRequest complex = new ComplexTourRequest();
+                Tourist tourist = (Tourist)MainWindow.LogInUser;
+                Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
+                AcceptedRequestGuide acceptedRequest= new AcceptedRequestGuide(-1, null, null);
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, complex, acceptedRequest);
+                PartOfRequest.Add(simpleTour);
+                _simpleTourRequestService.Create(simpleTour);
+
+                IsSubmitClicked = false;
+
+                complexTourRequestId = ComplexTourRequestId; // Reset complexTourRequestId
+
+                if (PartOfRequest.Count > 1)
+                {
+                    // Update ComplexTourRequestId for previously added SimpleTourRequests
+                    foreach (SimpleTourRequest tour in PartOfRequest)
+                    {
+                        tour.ComplexTourRequestId.Id = complexTourRequestId;
+                        _simpleTourRequestService.Update(tour);
+                    }
+                }
+            }
+          
+        }
+
+
+        private void Execute_Finish(object sender)
         {
             if (IsValid)
             {
-                MessageBox.Show("Please wait for guide's answer." + Environment.NewLine +
-                                "View status in REQUEST LIST" + Environment.NewLine +
-                                "\t   (CTRL + R)", "Request sent ");
-                int maxG = int.Parse(MaxGuests);
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, SelectedState, SelectedCity, Description, Language, maxG, StartDate, EndDate, MainWindow.LogInUser);
-                _simpleTourRequestService.Create(simpleTour);
-                SelectedCity = null;
-                SelectedState = null;
-                Description = "";
-                Language = "";
-                MaxGuests = "";
-                StartDate = DateTime.Today; 
-                EndDate = DateTime.Today;
-                
+                MessageBoxResult result = MessageBox.Show(
+                    "   Are you finished?",
+                    "Request will be sent",
+                    MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.No)
+                {
+                    // Continue adding more tours
+                }
+                else if (result == MessageBoxResult.Yes)
+                {
+                    Tourist tourist = (Tourist)MainWindow.LogInUser;
 
-            }
-            else
-            {
-                MessageBox.Show("Please fix the errors before submitting the request.", "Error");
-            }
+                    if (PartOfRequest.Count > 1)
+                    {
+                        List<SimpleTourRequest> newSimpleTourRequest = new List<SimpleTourRequest>(PartOfRequest);
+                        ComplexTourRequest complexTour = new ComplexTourRequest(-1, tourist, RequestStatus.Pending, newSimpleTourRequest);
+                        _complexTourRequestService.Create(complexTour);
+                        IsSubmitClicked = false;
 
-           
+                        SelectedState = "";
+                        SelectedCity = "";
+                        MaxGuests = "0";
+                        Language = "";
+                        Description = "";
+                        SelectedStartDate = SelectedEndDate;
+                        SelectedEndDate = DateTime.Now;
+                        ComplexTourRequestId = _complexTourRequestService.NextId();
+                        PartOfRequest.Clear();
+                        
+                    }
+                }
+            }
+          
         }
+
 
 
         private void Execute_RequestList(object sender)
@@ -201,37 +278,12 @@ namespace WpfApp1.ViewModel
 
 
         }
-        private void Execute_RequestComplexTour(object sender)
+      
+        private void Execute_MyProfile(object sender)
         {
-            if (IsValid)
-            {
-                MessageBoxResult result = MessageBox.Show(
-                    "   Want to add more than one tour to the list?\n\n" +
-                    "           Yes - \"MORE\"    No - \"SUBMIT\"",
-                    "Request sent",
-                    MessageBoxButton.YesNo);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                   
-                }
-                else if (result == MessageBoxResult.No)
-                {
-                   
-                    // Handle "No" button clicked
-                }
-            } else
-            {
-                MessageBox.Show("Please fix the errors before submitting the request.", "Error");
-            }
-        }
-
-        private void Execute_LogOut(object sender)
-        {
-            MessageBox.Show("You are logging out!");
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            CloseAction();
+           TouristProfile profile = new TouristProfile();   
+           profile.Show();
+           CloseAction();
 
         }
 
@@ -287,6 +339,21 @@ namespace WpfApp1.ViewModel
             }
         }
 
+
+        private RelayCommand remove;
+        public RelayCommand RemoveTourCommand
+        {
+            get => remove;
+            set
+            {
+                if (value != remove)
+                {
+                    remove = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private RelayCommand incrementCommand;
         public RelayCommand IncrementCommand
         {
@@ -316,15 +383,15 @@ namespace WpfApp1.ViewModel
         }
 
 
-        private RelayCommand logOutCommand;
-        public RelayCommand LogOutCommand
+        private RelayCommand myProfileCommand;
+        public RelayCommand MyProfileCommand
         {
-            get => logOutCommand;
+            get => myProfileCommand;
             set
             {
-                if (value != logOutCommand)
+                if (value != myProfileCommand)
                 {
-                    logOutCommand = value;
+                    myProfileCommand = value;
                     OnPropertyChanged();
                 }
             }
@@ -390,104 +457,116 @@ namespace WpfApp1.ViewModel
         {
             get
             {
-                if (columnName == "SelectedState")
+                if (IsSubmitClicked)
                 {
-                    if (string.IsNullOrEmpty(SelectedState))
+                    if (columnName == "SelectedState")
                     {
-                        return "choose a state";
-                    }
-                }
-
-                if (columnName == "SelectedCity")
-                {
-                    if (SelectedCity == null)
-                    {
-                        return "choose a location";
-
-                    }
-                }
-                if (columnName == "MaxGuests")
-                {
-                    if (string.IsNullOrEmpty(MaxGuests) || MaxGuests=="0")
-                    {
-                        return "choose number of people";
-                    }
-                    else if (!Regex.IsMatch(MaxGuests, "^[0-9]+$"))
-                    {
-                        if (MaxGuests.StartsWith("-"))
+                        if (string.IsNullOrEmpty(SelectedState))
                         {
-                            return "please enter only positive numbers";
-                        }
-                        else
-                        {
-                            return "please enter only numbers";
+                            return "Please choose a state.";
                         }
                     }
+
+                    if (columnName == "SelectedCity")
+                    {
+                        if (string.IsNullOrEmpty(SelectedCity))
+                        {
+                            return "Please choose a location.";
+                        }
+                    }
+
+                    if (columnName == "MaxGuests")
+                    {
+                        if (string.IsNullOrEmpty(MaxGuests) || MaxGuests == "0")
+                        {
+                            return "Please choose the number of people.";
+                        }
+                        else if (!int.TryParse(MaxGuests, out int maxGuests) || maxGuests <= 0)
+                        {
+                            return "Please enter a positive integer.";
+                        }
+                    }
+
+                    if (columnName == "Language")
+                    {
+                        if (string.IsNullOrEmpty(Language))
+                        {
+                            return "Please enter a language.";
+                        }
+                        else if (!Regex.IsMatch(Language.TrimEnd(), "^[a-zA-Z]+(\\s)*$"))
+                        {
+                            return "Language must contain only letters.";
+                        }
+                    }
+
+                    if (columnName == "Description")
+                    {
+                        if (string.IsNullOrEmpty(Description))
+                        {
+                            return "Please write a description.";
+                        }
+                    }
+
+                    if (columnName == "SelectedStartDate")
+                    {
+                        if (SelectedStartDate <= DateTime.Today)
+                        {
+                            return "Please select a future date.";
+                        }
+                        else if (SelectedStartDate > DateTime.Today.AddYears(5))
+                        {
+                            return "Please select a date within the next 5 years.";
+                        }
+                    }
+
+                    if (columnName == "SelectedEndDate")
+                    {
+                        if (SelectedEndDate <= SelectedStartDate)
+                        {
+                            return "Please select a future date.";
+                        }
+                        else if (SelectedEndDate > SelectedStartDate.AddDays(15))
+                        {
+                            return "Please select an end date within 15 days from the start date.";
+                        }
+                    }
                 }
-
-                if(columnName == "Language")
-                {
-                    if (string.IsNullOrEmpty(Language))
-                    {
-                        return "enter a language.";
-                    }
-                    else if (!Regex.IsMatch(Language.TrimEnd(), "^[a-zA-Z]+(\\s)*$"))
-                    {
-                        return "must contain only letters.";
-                    }
-
-                }
-
-                if (columnName == "Description")
-                {
-                    if (string.IsNullOrEmpty(Description))
-                    {
-                        return "write a description";
-                    }
-                }
-
-                if(columnName == "StartDate")
-                { 
-                    
-                    if (StartDate < DateTime.Today)
-                    {
-                        return "Please select a future date.";
-                    }
-                     else if (StartDate > DateTime.Today.AddYears(5))
-                    {
-                         return "Please select a date within the next 5 years.";
-                     }
-                }
-
-                if (columnName == "EndDate")
-                {
-
-                    if (EndDate < StartDate)
-                    {
-                        return "Please select a future date.";
-                    }
-                    else if (EndDate > StartDate.AddDays(15))
-                    {
-                        return "Add up to 15 days to start date";
-                    }
-
-                }
-
 
                 return null;
-
-
-
             }
-
         }
 
-        private readonly string[] _validatedProperties = { "SelectedState", "SelectedCity", "MaxGuests", "Language", "Description", "StartDate", "EndDate" };
+
+        private bool _isSubmitClicked = false;
+
+        public bool IsSubmitClicked
+        {
+            get { return _isSubmitClicked; }
+            set
+            {
+                if (_isSubmitClicked != value)
+                {
+                    _isSubmitClicked = value;
+                    OnPropertyChanged("IsSubmitClicked");
+                    OnPropertyChanged("SelectedState");
+                    OnPropertyChanged("SelectedCity");
+                    OnPropertyChanged("MaxGuests");
+                    OnPropertyChanged("Language");
+                    OnPropertyChanged("Description");
+                    OnPropertyChanged("SelectedStartDate");
+                    OnPropertyChanged("SelectedEndDate");
+                }
+            }
+        }
+
+
+        private readonly string[] _validatedProperties = { "SelectedState", "SelectedCity", "MaxGuests", "Language", "Description", "SelectedStartDate", "SelectedEndDate" };
 
         public bool IsValid
         {
             get
             {
+                
                 foreach (var property in _validatedProperties)
                 {
                     if (this[property] != null)

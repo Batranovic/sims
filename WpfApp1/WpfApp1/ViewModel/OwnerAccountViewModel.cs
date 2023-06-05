@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
-using System.Xml.Linq;
-using WpfApp.Observer;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
-using WpfApp1.Views;
 
 namespace WpfApp1.ViewModel
 {
@@ -25,7 +14,20 @@ namespace WpfApp1.ViewModel
         private OwnerProfileViewModel _ownerProfileViewModel;
         private SignInAccommodationViewModel _signInAccommodationViewModel;
         private ReservationOverviewViewModel _reservationOverviewViewModel;
+        private ForumOverviewViewModel _forumViewModel;
         private RenovationOverviewViewModel _renovationOverviewViewModel;
+        private INotificationAccommodationReleaseService _notificationService;
+
+        private string _haveNotification;
+        public string HaveNotification
+        {
+            get => _haveNotification;
+            set
+            {
+                _haveNotification = value;
+                OnPropertyChanged(nameof(HaveNotification));
+            }
+        }
 
         private Window _window;
         //    private AccommodationRenovationViewModel _accommodationRenovationViewModel;
@@ -53,11 +55,11 @@ namespace WpfApp1.ViewModel
             }
         }
         public RelayCommand WizardCommand { get; set; }
-      
+
         private bool _visibilityPopUp;
         public bool VisibilityPopUp
         {
-            get => _visibilityPopUp;    
+            get => _visibilityPopUp;
             set
             {
                 _visibilityPopUp = value;
@@ -78,13 +80,25 @@ namespace WpfApp1.ViewModel
                 }
             }
         }
+        private bool _visibilityNotification;
 
-       
+        public bool VisibilityNotification
+        {
+            get => _visibilityNotification;
+            set
+            {
+                _visibilityNotification = value;
+                OnPropertyChanged(nameof(VisibilityNotification));
+            }
+        }
+
 
         public RelayCommand NavCommand { get; set; }
         public RelayCommand ShowCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
-
+        public RelayCommand NotificationCommand { get; set; }
+        public RelayCommand DeleteNotificationCommand { get; set; }
+        public RelayCommand DeleteAllNotificationCommand { get; set; }
         public OwnerAccountViewModel(Owner owner)
         {
             _reservationOverviewViewModel = new ReservationOverviewViewModel(owner);
@@ -92,38 +106,39 @@ namespace WpfApp1.ViewModel
             _signInAccommodationViewModel = new SignInAccommodationViewModel(owner);
             CurrentViewModel = new OwnerProfileViewModel(owner);
             _renovationOverviewViewModel = new(owner);
+            _forumViewModel = new(owner);
             _reservationService = InjectorService.CreateInstance<IReservationService>();
+            _notificationService = InjectorService.CreateInstance<INotificationAccommodationReleaseService>();
 
             Init(owner);
             IntiCommand();
         }
 
-        private void FindNotification()
-        {
-            int numberNotification = _reservationService.GetUnratedById(LoggedOwner.Id).Count;
-            if (numberNotification == 0)
-            {
-              //  btnRatingGuest.IsEnabled = false;
-                return;
-            }
-            string result = "Oslobodilo Vam se " + numberNotification.ToString() + " apartaman, ocenite goste";
-            MessageBox.Show(result, "Obavestenje");
-          //  btnRatingGuest.IsEnabled = true;
-        }
         private void IntiCommand()
         {
-            NavCommand = new RelayCommand(Execute_NavCommand, CanExecute_NavCommand);
+            NavCommand = new(Execute_NavCommand, CanExecute_NavCommand);
             ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
-            WizardCommand = new(param => Execute_WizardCommand(), param  => CanExecute());
+            WizardCommand = new(param => Execute_WizardCommand(), param => CanExecute());
             LogoutCommand = new(param => Execute_LogoutCommand(), param => CanExecute());
+            NotificationCommand = new(param => Execute_NotificationCommand(), param => CanExecute());
+            DeleteNotificationCommand = new(param => Execute_DeleteNotificationCommand(), param => CanExecute_DeleteNotificationCommand());
+            DeleteAllNotificationCommand = new(param => Execute_DeleteAllNotificationCommand(), param => CanExecute());
         }
         private void Init(Owner owner)
         {
-            _window = _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
+            _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
+            HaveNotification = owner.Notifications.Count == 0 ? "White" : "Green";
             VisibilityWizard = false;
             VisibilityPopUp = false;
+            VisibilityNotification = false;
             LoggedOwner = owner;
             UserType = LoggedOwner.Super ? "Super owner" : "Basic owner";
+        }
+
+
+        private void Execute_NotificationCommand()
+        {
+            VisibilityNotification = !VisibilityNotification;
         }
 
         public void Execute_WizardCommand()
@@ -137,7 +152,7 @@ namespace WpfApp1.ViewModel
                 return false;
             }
 
-            return index >= 0 && index <= 3;
+            return index >= 0 && index <= 4;
         }
 
         public void Execute_LogoutCommand()
@@ -165,6 +180,9 @@ namespace WpfApp1.ViewModel
                 case 3:
                     CurrentViewModel = _renovationOverviewViewModel;
                     break;
+                case 4:
+                    CurrentViewModel = _forumViewModel;
+                    break;
             }
         }
 
@@ -178,7 +196,46 @@ namespace WpfApp1.ViewModel
         {
             return true;
         }
+        private NotificationBase _SelectedNotificationBase;
+        public NotificationBase SelectedNotificationBase
+        {
+            get { return _SelectedNotificationBase; }
+            set
+            {
+                _SelectedNotificationBase = value;
+                OnPropertyChanged(nameof(SelectedNotificationBase));
+                DeleteNotificationCommand.RaiseCanExecuteChanged();
+            }
+        }
+        private bool CanExecute_DeleteNotificationCommand()
+        {
+            return SelectedNotificationBase != null;
+        }
 
-      
+        private void Execute_DeleteNotificationCommand()
+        {
+            SelectedNotificationBase.IsDelivered = true;
+            _notificationService.Update((NotificationAccommodationRelease)SelectedNotificationBase);
+            LoggedOwner.Notifications.Clear();
+            foreach (NotificationAccommodationRelease n in _notificationService.GetForOwner(LoggedOwner.Id))
+            {
+                LoggedOwner.Notifications.Add(n);
+            }
+            OnPropertyChanged(nameof(LoggedOwner.Notifications));
+            HaveNotification = LoggedOwner.Notifications.Count == 0 ? "White" : "Green";
+
+        }
+
+        private void Execute_DeleteAllNotificationCommand()
+        {
+            foreach (var n in LoggedOwner.Notifications)
+            {
+                n.IsDelivered = true;
+                _notificationService.Update((NotificationAccommodationRelease)n);
+            }
+            LoggedOwner.Notifications.Clear();
+            HaveNotification = "White";
+        }
+
     }
 }

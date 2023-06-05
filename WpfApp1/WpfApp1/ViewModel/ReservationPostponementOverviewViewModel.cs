@@ -96,7 +96,7 @@ namespace WpfApp1.ViewModel
         }
         private void Execute_Notification()
         {
-            bool freeDate = _reservationService.IsDateFree(SelectedPostponements.Reservation.IdAccommodation, SelectedPostponements.EndDate) && _reservationService.IsDateFree(SelectedPostponements.Reservation.IdAccommodation, SelectedPostponements.StartDate);
+            bool freeDate = _reservationService.IsDateFree(SelectedPostponements.Reservation.Accommodation.Id, SelectedPostponements.EndDate) && _reservationService.IsDateFree(SelectedPostponements.Reservation.Accommodation.Id, SelectedPostponements.StartDate);
             if (freeDate)
             {
                 MessageBox.Show("Date is free", "Notification");

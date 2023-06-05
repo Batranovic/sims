@@ -11,7 +11,6 @@ namespace WpfApp1.Domain.Models
     public class Renovation : WpfApp1.Serializer.ISerializable
     {
         public int Id { get; set; }
-        public int IdAccommodation { get; set; }
         public Accommodation Accommodation { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -22,11 +21,12 @@ namespace WpfApp1.Domain.Models
         public Renovation()
         {
             IsCanceled = false;
+            Description = "";
+            Accommodation = new();
         }
 
-        public Renovation(int idAccommodation, Accommodation accommodation, DateTime startDate, DateTime endDate, string description)
+        public Renovation(Accommodation accommodation, DateTime startDate, DateTime endDate, string description)
         {
-            IdAccommodation = idAccommodation;
             Accommodation = accommodation;
             StartDate = startDate;
             EndDate = endDate;
@@ -37,7 +37,7 @@ namespace WpfApp1.Domain.Models
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            IdAccommodation = Convert.ToInt32(values[1]);
+            Accommodation.Id = Convert.ToInt32(values[1]);
             StartDate = DateHelper.StringToDate(values[2]);
             EndDate = DateHelper.StringToDate(values[3]);
             Description = values[4];
@@ -49,7 +49,7 @@ namespace WpfApp1.Domain.Models
             string[] values =
             {
                 Id.ToString(),
-                IdAccommodation.ToString(),
+                Accommodation.Id.ToString(),
                 DateHelper.DateToString(StartDate),
                 DateHelper.DateToString(EndDate),
                 Description,

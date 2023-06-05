@@ -7,20 +7,23 @@ using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace WpfApp1.ViewModel
 {
     public class TourRequestViewModel : ViewModelBase
     {
         public ObservableCollection<SimpleTourRequest> SimpleTourRequests { get; set; }
-
+        public ObservableCollection<SimpleTourRequest> PartsOfComplexTourRequests { get; set; }
+        public ObservableCollection<ComplexTourRequest> ComplexTourRequests { get; set; }
         public ObservableCollection<SimpleTourRequest> AcceptedRequests { get; set; }
+        public ObservableCollection<SimpleTourRequest> AcceptedComplexRequests { get; set; }
 
         private readonly ISimpleTourRequestService _simpleTourRequestSrvice;
-
+        private readonly IComplexTourRequestService _complexTourRequestService;
         private readonly IRequestNotifactionService _requestNotifactionSrvice;
 
-        private readonly INewTourNotificationService newTourNotificationService;
+      
         public Action CloseAction { get; set; }
 
 
@@ -29,22 +32,24 @@ namespace WpfApp1.ViewModel
         {
             _requestNotifactionSrvice = InjectorService.CreateInstance<IRequestNotifactionService>();
             _simpleTourRequestSrvice = InjectorService.CreateInstance<ISimpleTourRequestService>();
-            newTourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
+            _complexTourRequestService = InjectorService.CreateInstance<IComplexTourRequestService>();
+        
 
             SimpleTourRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id));
-
+            PartsOfComplexTourRequests = new ObservableCollection<SimpleTourRequest>(_complexTourRequestService.AllSComplexTourRequestsForTourist(MainWindow.LogInUser.Id));
             AcceptedRequests = new ObservableCollection<SimpleTourRequest>(_simpleTourRequestSrvice.AcceptedRequestsForTourist(MainWindow.LogInUser.Id));
+            AcceptedComplexRequests = new ObservableCollection<SimpleTourRequest>(_complexTourRequestService.AcceptedComplexRequestsForTourist(MainWindow.LogInUser.Id));
+
 
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
-            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
             StatisticsCommand = new RelayCommand(Execute_Statistics, CanExecute_Command);
             RefreshToursCommand = new RelayCommand(Execute_Refresh, CanExecute_Command);
             CreateNewTourCommand = new RelayCommand(Execute_CreateNewTour, CanExecute_Command);
 
             ShowNotifications();
-            //ShowNewTourNotifications();
         }
 
         public void ShowNotifications()
@@ -53,7 +58,7 @@ namespace WpfApp1.ViewModel
             foreach (RequestNotification notification in notifications)
             {
                 string status = notification.RequestStatus.ToString();
-                string city = notification.SimpleTourRequest.City;
+                string city = notification.SimpleTourRequest.Location.City;
                 MessageBoxResult result = MessageBox.Show("Your request for " + city + "has been " + status);
             }
         }
@@ -134,15 +139,15 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private RelayCommand logOutCommand;
-        public RelayCommand LogOutCommand
+        private RelayCommand myProfileCommand;
+        public RelayCommand MyProfileCommand
         {
-            get => logOutCommand;
+            get => myProfileCommand;
             set
             {
-                if (value != logOutCommand)
+                if (value != myProfileCommand)
                 {
-                    logOutCommand = value;
+                    myProfileCommand = value;
                     OnPropertyChanged();
                 }
             }
@@ -164,17 +169,15 @@ namespace WpfApp1.ViewModel
         }
         private void Execute_Refresh(object sender)
         {
-          
             AcceptedRequests.Clear();
             SimpleTourRequests.Clear();
-            // Update SimpleTourRequests collection with latest data
+
             var simpleRequests = _simpleTourRequestSrvice.RequestsForTourist(MainWindow.LogInUser.Id);
             foreach (var request in simpleRequests)
             {
                 SimpleTourRequests.Add(request);
             }
 
-            // Update AcceptedRequests collection with latest data
             var acceptedRequests = _simpleTourRequestSrvice.AcceptedRequestsForTourist(MainWindow.LogInUser.Id);
             foreach (var request in acceptedRequests)
             {
@@ -210,11 +213,10 @@ namespace WpfApp1.ViewModel
 
         }
 
-        private void Execute_LogOut(object sender)
+        private void Execute_MyProfile(object sender)
         {
-            MessageBox.Show("You are logging out!");
-            MainWindow mw = new MainWindow();
-            mw.Show();
+            TouristProfile profile = new TouristProfile();
+            profile.Show();
             CloseAction();
 
         }

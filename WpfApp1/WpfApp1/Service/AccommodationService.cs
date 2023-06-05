@@ -37,14 +37,14 @@ namespace WpfApp1.Service
         {
             foreach (Accommodation a in GetAll())
             {
-                a.Location = _locationRepository.Get(a.IdLocation);
+                a.Location = _locationRepository.Get(a.Location.Id);
             }
         }
         private void BindOwner()
         {
             foreach (Accommodation a in GetAll())
             {
-                a.Owner = _ownerRepository.Get(a.OwnerId);
+                a.Owner = _ownerRepository.Get(a.Owner.Id);
                 a.Owner.Accommodations.Add(a);
             }
         }
@@ -102,11 +102,11 @@ namespace WpfApp1.Service
             return GetAll().OrderByDescending(a => a.Owner.AverageRating).ToList();
         }
 
-       
+        
         private void StatisticFromReservation(List<AccommodationStatisticDTO> accommodationStatisticDTOs, int idAccommodation)
         {
             _reservationService = InjectorService.CreateInstance<IReservationService>();
-            foreach (Reservation r in _reservationService.GetAllWithDeleted().FindAll(r => r.IdAccommodation == idAccommodation))
+            foreach (Reservation r in _reservationService.GetAllWithDeleted().FindAll(r => r.Accommodation.Id == idAccommodation))
             {
                 AccommodationStatisticDTO accommodationStatisticDTO = accommodationStatisticDTOs.Find(a => a.Year == r.StartDate.Year);
 
@@ -146,12 +146,17 @@ namespace WpfApp1.Service
             List<AccommodationStatisticDTO> accommodationStatisticDTOs = new();
             StatisticFromReservation(accommodationStatisticDTOs, idAccommodation);
             StatisticFromPostoponement(accommodationStatisticDTOs, idAccommodation);
+            foreach(var t in accommodationStatisticDTOs)
+            {
+                int tmp = InjectorService.CreateInstance<IAccommodationRenovationSuggestionService>().GetAll().FindAll(a => t.Year == a.Reservation.StartDate.Year && a.Reservation.Accommodation.Id == idAccommodation).Count;
+                t.Renovations = tmp == 0 ? 0 : tmp;
+            }
             return accommodationStatisticDTOs;
         }
 
         private void StatisticFromReservationMonthly(List<AccommodationStatisticDTO> accommodationStatisticDTOs, int idAccommodation, int year)
         {
-            foreach (Reservation r in _reservationService.GetAllWithDeleted().FindAll(r => r.IdAccommodation == idAccommodation && r.StartDate.Year == year))
+            foreach (Reservation r in _reservationService.GetAllWithDeleted().FindAll(r => r.Accommodation.Id == idAccommodation && r.StartDate.Year == year))
             {
                 AccommodationStatisticDTO accommodationStatisticDTO = accommodationStatisticDTOs.Find(a => a.IntMonth == r.StartDate.Month);
 
@@ -193,6 +198,11 @@ namespace WpfApp1.Service
             List<AccommodationStatisticDTO> accommodationStatisticDTOs = new();
             StatisticFromReservationMonthly(accommodationStatisticDTOs,  idAccommodation,  year);
             StatisticFromPostoponementMonthly(accommodationStatisticDTOs, idAccommodation, year);
+            foreach (var t in accommodationStatisticDTOs)
+            {
+                int tmp = InjectorService.CreateInstance<IAccommodationRenovationSuggestionService>().GetAll().FindAll(a => t.IntMonth == a.Reservation.StartDate.Month && year == a.Reservation.StartDate.Year && a.Reservation.Accommodation.Id == idAccommodation).Count;
+                t.Renovations = tmp == 0 ? 0 : tmp;
+            }
             return accommodationStatisticDTOs;
         }
         public List<Accommodation> GetFreeAccommodations(DateTime start, DateTime end, int guestNumber, int duration)

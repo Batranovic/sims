@@ -1,15 +1,19 @@
-1,1,22-Jun-23 22:00:00,Active
-2,17,23-Jun-23 10:00:00,Inactive
-3,18,24-Aug-23 11:00:00,Inactive
+1,1,21-Jun-23 22:00:00,Finished
+2,17,22-Jun-23 10:00:00,Inactive
+3,18,23-Aug-23 11:00:00,Inactive
 5,5,12-Jun-23 17:00:00,Active
 6,6,20-Jun-23 20:00:00,Inactive
-7,2,20-Jun-23 17:00:00,Inactive
-8,4,20-Jun-23 17:00:00,Inactive
-9,3,20-Jun-23 17:00:00,Inactive
-10,10,12-Jun-23 11:00:00,Active
-11,11,10-Jun-23 12:00:00,Finished
-12, 11,15-Apr-23 13:00:00,Finished
-13, 9, 13-Apr-23 11:00:00,Inactive
-14, 8, 18-Jun-23 12:00:00,Inactive
-15, 12, 19-Apr-23 15:00:00,Inactive
-16, 13, 20-Apr-23 16:00:00,Inactive
+7,2,21-Aug-23 17:00:00,Inactive
+8,4,21-Sep-23 17:00:00,Inactive
+9,3,25-Jun-23 17:00:00,Inactive
+10,10,13-Jun-23 11:00:00,Active
+11,11,14-Jun-23 12:00:00,Finished
+12,11,15-Apr-24 13:00:00,Finished
+13,9,16-Apr-24 11:00:00,Inactive
+14,8,18-Jun-23 12:00:00,Inactive
+15,12,19-Apr-24 15:00:00,Inactive
+16,13,20-Apr-24 16:00:00,Inactive
+17,14,30-Sep-23 12:00:00,Inactive
+18,7,20-Oct-23 13:00:00,Inactive
+19,15,11-Jun-24 12:00:00,Inactive
+20,12,22-Aug-23 11:00:00,Inactive

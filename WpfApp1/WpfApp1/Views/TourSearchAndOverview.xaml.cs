@@ -17,15 +17,12 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for TourView.xaml
     /// </summary>
-    public partial class TourSearchAndOverview : Window, INotifyPropertyChanged
+    public partial class TourSearchAndOverview : Window
     {
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public TourSearchAndOverview()
         {
             InitializeComponent();
-            // this.DataContext = this;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             TourSearchAndOverviewViewModel tourSearch = new TourSearchAndOverviewViewModel();
@@ -39,9 +36,6 @@ namespace WpfApp1.Views
 
         }
 
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+    
     }
 }

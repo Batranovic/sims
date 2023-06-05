@@ -10,7 +10,6 @@ namespace WpfApp1.Domain.Models
     public class GuestRating : ISerializable
     {
         private int _id;
-        private int _idReservation;
         private Reservation _reservation;
         private string _comment;
         private int _cleanness;
@@ -21,7 +20,7 @@ namespace WpfApp1.Domain.Models
 
         public GuestRating(Reservation reservation, string comment, int cleanness, int followingRules, int noise, int damage, int timeliness)
         {
-            IdReservation = reservation.Id;
+            Reservation.Id = reservation.Id;
             Reservation = reservation;
             Comment = comment;
             Cleanness = cleanness;
@@ -29,6 +28,11 @@ namespace WpfApp1.Domain.Models
             _noise = noise;
             _damage = damage;
             _timeliness = timeliness;
+        }
+
+        public GuestRating()
+        {
+            Reservation = new();
         }
 
         public int Id
@@ -42,19 +46,7 @@ namespace WpfApp1.Domain.Models
                 }
             }
         }
-
-        public int IdReservation
-        {
-            get => _idReservation;
-            set
-            {
-                if(value != null)
-                {
-                    _idReservation = value;
-                }
-            }
-        }
-
+   
         public Reservation Reservation
         {
             get => _reservation;    
@@ -137,17 +129,14 @@ namespace WpfApp1.Domain.Models
             }
         }
 
-        public GuestRating()
-        {
-
-        }
+        
 
         public string[] ToCSV()
         {
             string[] result =
             {
                 Id.ToString(),
-                IdReservation.ToString(),
+                Reservation.Id.ToString(),
                 Comment,
                 Cleanness.ToString(),
                 FollowingRules.ToString(),
@@ -161,7 +150,7 @@ namespace WpfApp1.Domain.Models
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            IdReservation = Convert.ToInt32(values[1]);
+            Reservation.Id = Convert.ToInt32(values[1]);
             Comment = values[2];
             Cleanness = Convert.ToInt32(values[3]);
             FollowingRules = Convert.ToInt32(values[4]);

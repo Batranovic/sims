@@ -124,17 +124,17 @@ namespace WpfApp1.ViewModel
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
 
-           // SelectedState = null;
-            //SelectedCity = null;
+            SelectedState = "";
+            SelectedCity = "";
 
             Languages = "";
             Duration = "";
-            MaxGuests = "";
+            MaxGuests = "1";
 
             SearchCommand = new RelayCommand(Execute_Search, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
             BookedToursCommand = new RelayCommand(Execute_BookedTours, CanExecute_Command);
-            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+            MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             IncrementCommand = new RelayCommand(Execute_Increment, CanExecute_Command);
             DecrementCommand = new RelayCommand(Execute_Decrement, CanExecute_Command);
             ViewMoreCommand = new RelayCommand(Execute_ViewMore, CanExecute_Command);
@@ -206,15 +206,15 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private RelayCommand logOutCommand;
-        public RelayCommand LogOutCommand
+        private RelayCommand myProfileCommand;
+        public RelayCommand MyProfileCommand
         {
-            get => logOutCommand;
+            get => myProfileCommand;
             set
             {
-                if (value != logOutCommand)
+                if (value != myProfileCommand)
                 {
-                    logOutCommand = value;
+                    myProfileCommand = value;
                     OnPropertyChanged();
                 }
             }
@@ -332,11 +332,22 @@ namespace WpfApp1.ViewModel
 
         private void Execute_Search(object sender)
         {
-            if (IsValid)
-            {
+            IsSubmitClicked = true;
+            if (IsValid){
+                if(SelectedCity == null)
+                {
+                    SelectedCity = "";
+                }
                 List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
                 RefreshTours(searchedTours);
+                if(searchedTours.Count == 0)
+                {
+                    MessageBox.Show("Currently we don't have that kind of tour.");
+                }
+                IsSubmitClicked = false;
             }
+           
+            
 
         }
         private void Execute_AllTours(object sender)
@@ -353,13 +364,31 @@ namespace WpfApp1.ViewModel
             
         }
 
-        private void Execute_LogOut(object sender)
-        {
-            MessageBox.Show("You are logging out!");
-            MainWindow mw = new MainWindow();
-            mw.Show();
+        private void Execute_MyProfile(object sender)
+        {  
+            TouristProfile profile = new TouristProfile();
+            profile.Show();
             CloseAction();
 
+        }
+        
+        private bool _isSubmitClicked = false;
+
+        public bool IsSubmitClicked
+        {
+            get { return _isSubmitClicked; }
+            set
+            {
+                if (_isSubmitClicked != value)
+                {
+                    _isSubmitClicked = value;
+                    OnPropertyChanged("IsSubmitClicked");
+                    OnPropertyChanged("Duration");
+                    OnPropertyChanged("MaxGuests");
+                    OnPropertyChanged("MaxGuests");
+                    OnPropertyChanged("Languages");
+                }
+            }
         }
 
         public string Error => null;
@@ -368,63 +397,48 @@ namespace WpfApp1.ViewModel
             get
             {
 
-                if (columnName == "SelectedCity")
+                if (IsSubmitClicked)
                 {
-                    if (SelectedCity == null || SelectedCity=="City")
-                    {
-                        return "choose a city";
 
-                    }
-                }
-
-
-                if (columnName == "SelectedState")
-                {
-                    if (SelectedState == null || SelectedState == "State")
-                    {
-                        return "choose a state";
-
-                    }
-                }
-
-                if (columnName == "Duration")
-                {
                     if (columnName == "Duration")
                     {
-                        if (!string.IsNullOrEmpty(Duration) && !Regex.IsMatch(Duration, @"^\d+(\.\d+)?$") || Duration=="0")
+                        if (columnName == "Duration")
                         {
-                            return "only valid positive number.";
+                            if (!string.IsNullOrEmpty(Duration) && !Regex.IsMatch(Duration, @"^\d+(\.\d+)?$") || Duration == "0")
+                            {
+                                return "only valid positive number.";
+                            }
+                            // Do something with the valid input
                         }
-                        // Do something with the valid input
+
+
+                    }
+
+                    if (columnName == "MaxGuests")
+                    {
+                        if (!string.IsNullOrEmpty(MaxGuests) && !Regex.IsMatch(MaxGuests, "^[1-9][0-9]*$"))
+                        {
+                            if (MaxGuests.StartsWith("-"))
+                            {
+                                return "please enter only positive numbers";
+                            }
+                            else
+                            {
+                                return "please enter only numbers";
+                            }
+                        }
                     }
 
 
-                }
-
-                if (columnName == "MaxGuests")
-                {
-                    if (!string.IsNullOrEmpty(MaxGuests) && !Regex.IsMatch(MaxGuests, "^[1-9][0-9]*$"))
+                    if (columnName == "Languages")
                     {
-                        if (MaxGuests.StartsWith("-"))
+                        if (!string.IsNullOrEmpty(Languages))
                         {
-                            return "please enter only positive numbers";
-                        }
-                        else
-                        {
-                            return "please enter only numbers";
-                        }
-                    }
-                }
 
-
-                if (columnName == "Languages")
-                {
-                    if (!string.IsNullOrEmpty(Languages))
-                    {
-
-                        if (!Regex.IsMatch(Languages.TrimEnd(), "^[a-zA-Z]+(\\s)*$"))
-                        {
-                            return "enter only letters";
+                            if (!Regex.IsMatch(Languages.TrimEnd(), "^[a-zA-Z]+(\\s)*$"))
+                            {
+                                return "enter only letters";
+                            }
                         }
                     }
                 }

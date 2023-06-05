@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         xmlns:val="clr-namespace:WpfApp1.Validation"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         Title="TourAdvisor" Height="660" Width="1024">
     <Window.InputBindings>
         <KeyBinding Command="{Binding BookedToursCommand}" Key="B" Modifiers="Ctrl"></KeyBinding>
         <KeyBinding Command="{Binding RequestTourCommand}" Key="R" Modifiers="Ctrl"></KeyBinding>
-        <KeyBinding Command="{Binding LogOutCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
+        <KeyBinding Command="{Binding MyProfileCommand}" Key="P" Modifiers="Ctrl"></KeyBinding>
         <KeyBinding Command="{Binding RequestListCommand}" Key="L" Modifiers="Ctrl"></KeyBinding>
     </Window.InputBindings>
     <Window.Icon>
@@ -44,27 +45,27 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding BookedToursCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="182,8,0,0">
+                <Button Command="{Binding BookedToursCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Margin="169,8,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/book.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Booked tours"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="327,8,0,0" Grid.ColumnSpan="2">
+                <Button Command="{Binding RequestTourCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147" Margin="321,8,0,0" Grid.ColumnSpan="2">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/service.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request new tours"/>
                     </StackPanel>
                 </Button>
-                <Button Command="{Binding RequestListCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="157,6,0,0">
+                <Button Command="{Binding RequestListCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="1" Margin="174,8,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/checklist.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="Request list"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding LogOutCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
+                <Button Command="{Binding MyProfileCommand}" Background="#f9cb9e" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="110" Grid.Column="2" Margin="204,8,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/profile.png" Width="20" Height="20" Margin="0,0,5,0"/>
                         <TextBlock Text="My profile"/>
@@ -104,12 +105,13 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Height="30" Margin="0,35,0,15" Grid.ColumnSpan="2">Location</TextBlock>
+                            <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Height="30" Margin="0,28,0,29" Grid.ColumnSpan="2" Text="State"/>
+                            <TextBlock   FontSize="13" FontWeight="Bold" Grid.Row="1" Margin="0,17,0,44">City</TextBlock>
                             <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="3" Grid.Column="0" Height="30" Margin="0,25,0,26" Grid.ColumnSpan="2">Language</TextBlock>
                             <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Height="30" Margin="0,35,0,16" Grid.ColumnSpan="2">MaxGuests</TextBlock>
-                            <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Height="30" Margin="0,10,0,40" Grid.ColumnSpan="2" >Duration</TextBlock>
+                            <TextBlock  FontSize="13" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Height="30" Margin="0,22,0,35" Grid.ColumnSpan="2" >Duration</TextBlock>
                             <ComboBox Grid.Row="0" Height="30" ItemsSource="{Binding States}" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-          Grid.ColumnSpan="2" Margin="0,70,0,61" Grid.RowSpan="2" Width="NaN">
+          Grid.ColumnSpan="2" Margin="0,58,0,86" Grid.RowSpan="2" Width="NaN">
                                 <ComboBox.Style>
                                     <Style TargetType="ComboBox">
                                         <Setter Property="Foreground" Value="Black"/>
@@ -123,7 +125,7 @@
                                                 <Setter Property="FontStyle" Value="Italic"/>
                                                 <Setter Property="IsEditable" Value="True"/>
                                                 <Setter Property="IsReadOnly" Value="True"/>
-                                                <Setter Property="Text" Value="State"/>
+                                                <Setter Property="Text" Value=""/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -131,7 +133,7 @@
                             </ComboBox>
 
 
-                            <ComboBox Grid.Row="1" ItemsSource="{Binding Cities}"  SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="0,41,0,10" Grid.ColumnSpan="2" Width="NaN">
+                            <ComboBox Grid.Row="1" ItemsSource="{Binding Cities}"  SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="0,55,0,4" Grid.ColumnSpan="2" Width="NaN">
                                 <ComboBox.Style>
                                     <Style TargetType="ComboBox">
                                         <Setter Property="Foreground" Value="Black"/>
@@ -145,19 +147,23 @@
                                                 <Setter Property="FontStyle" Value="Italic"/>
                                                 <Setter Property="IsEditable" Value="True"/>
                                                 <Setter Property="IsReadOnly" Value="True"/>
-                                                <Setter Property="Text" Value="City"/>
+                                                <Setter Property="Text" Value=""/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </ComboBox.Style>
                             </ComboBox>
-                            <TextBox BorderBrush="Black" BorderThickness="0.5" Background="#dedbd9" Grid.Row="3" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,60,0,71" Grid.RowSpan="2" />
-                            <TextBox BorderBrush="Black" BorderThickness="0.5" Background="#dedbd9" Grid.Row="4" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,-20" HorizontalAlignment="Left" Width="116" />
-                            <TextBox BorderBrush="Black" BorderThickness="0.5" Background="#dedbd9" Grid.Row="2" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30" Grid.ColumnSpan="2" Margin="0,45,0,5"/>
+                            <TextBox BorderBrush="Black" BorderThickness="0.5" Background="White" Grid.Row="3" Text="{Binding Path=Languages, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,60,0,71" Grid.RowSpan="2" />
+                            <TextBox BorderBrush="Black" BorderThickness="0.5" Background="White" Grid.Row="4" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30" Grid.ColumnSpan="2" Margin="0,70,0,-20" HorizontalAlignment="Left" Width="116" />
+                            <TextBox BorderBrush="Black" BorderThickness="0.5" Background="White" Grid.Row="2" Text="{Binding Path=Duration, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30" Grid.ColumnSpan="2" Margin="0,57,0,0"/>
                         </Grid>
                         <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" />
-                        <Button Background="#f9cb9e" Content="Search" IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding SearchCommand}"
-              Margin="33,133,0,0" Grid.Row="1" Height="36" Width="110" Grid.ColumnSpan="2"/>
+                        <Button Background="#f9cb9e" Content="Search"  IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding SearchCommand}"
+              Margin="33,133,0,0" Grid.Row="1" Height="36" Width="110" Grid.ColumnSpan="2">
+                            <Button.Effect>
+                                <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                            </Button.Effect>
+                        </Button>
                     </Grid>
                     <Button Background="LightGray" Content="^" IsCancel="True"
                       Command="{Binding IncrementCommand}"  Margin="130,130,27,151" Grid.Row="1"/>
@@ -172,8 +178,19 @@
             <DockPanel DockPanel.Dock="Right" Width="862" >
                 <Grid>
                     <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Width="700" Height="500" Background="#f3dcc4">
-                        <ItemsControl ItemsSource="{Binding Path=Tours}">
-                            <ItemsControl.ItemTemplate>
+                        <ListBox ItemsSource="{Binding Path=Tours}" Background="#f3dcc4">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="0" Height="240">
                                         <DockPanel>
@@ -229,8 +246,12 @@
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="50"/>
                                                         </Grid.RowDefinitions>
-                                                        <Button Content="  View More  " Background="WhiteSmoke" Command="{Binding DataContext.ViewMoreCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
-                        CommandParameter="{Binding}" Margin="0,-5,0,25" Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Center" Grid.ColumnSpan="2" />
+                                                        <Button Content="  View More  "  Background="WhiteSmoke" Command="{Binding DataContext.ViewMoreCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                        CommandParameter="{Binding}" Margin="0,-5,0,25" Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Center" Grid.ColumnSpan="2" >
+                                                            <Button.Effect>
+                                                                <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                                                            </Button.Effect>
+                                                        </Button>
 
                                                     </Grid>
                                                 </DockPanel>
@@ -239,10 +260,9 @@
                                         </DockPanel>
                                     </Border>
                                 </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </ScrollViewer>
-                    <Image Margin="682,387,0,26" Width="180" Source="/Images/ruta.png" Stretch="Fill" Height="180"/>
 
 
 

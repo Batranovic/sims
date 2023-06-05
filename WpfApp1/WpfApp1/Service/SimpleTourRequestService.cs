@@ -16,22 +16,37 @@ namespace WpfApp1.Service
     {
         private readonly INewTourNotificationRepository _notificationRepository;
         private readonly ISimpleTourRequestRepository _simpleTourRequestRepository;
+        private readonly IAcceptedRequestGuideRepositry _acceptedRequestRepository;
         public ILocationRepository _locationRepository { get; set; }
 
         public SimpleTourRequestService()
         {
+              _acceptedRequestRepository = InjectorRepository.CreateInstance<IAcceptedRequestGuideRepositry>();
             _simpleTourRequestRepository = InjectorRepository.CreateInstance<ISimpleTourRequestRepository>();
             _notificationRepository = InjectorRepository.CreateInstance<INewTourNotificationRepository>();
             _locationRepository = InjectorRepository.CreateInstance<ILocationRepository>();
-            BindLocation();
+            BindAccepted();
         }
-        private void BindLocation()
+
+
+        private void BindAccepted()
         {
-            foreach (SimpleTourRequest tour in _simpleTourRequestRepository.GetAll())
+            foreach (SimpleTourRequest simpleTourRequest in _simpleTourRequestRepository.GetAll())
             {
-                tour.Location = _locationRepository.Get(tour.IdLocation);
+                int acceptedId = simpleTourRequest.AcceptedRequestGuide.Id;
+                AcceptedRequestGuide acceptedRequest = AcceptedRequestGuideRepository.GetInstance().Get(acceptedId);
+                if (acceptedRequest != null)
+                {
+                    simpleTourRequest.AcceptedRequestGuide = acceptedRequest;
+                }
+                else
+                {
+                    Console.WriteLine("Error in binding tour and tourEvent");
+                }
             }
         }
+
+
 
         public string GetDeniedRequestsCount(string SelectedYear)
         {
@@ -111,7 +126,7 @@ namespace WpfApp1.Service
             var requests = _simpleTourRequestRepository.GetAll().Where(r => r.Tourist.Id == userId);
             foreach (var request in requests)
             {
-                var location = request.City;
+                var location = request.Location.City;
                 if (locationsCount.ContainsKey(location))
                 {
                     locationsCount[location]++;
@@ -175,7 +190,7 @@ namespace WpfApp1.Service
             for (int i=0; i< allRequests.Count();i++)
             {
                 var request = allRequests.ElementAt(i);
-                if (request.Tourist.Id == userId && (request.RequestStatus == RequestStatus.Pending || request.RequestStatus == RequestStatus.Denied))
+                if (request.Tourist.Id == userId && request.ComplexTourRequestId.Id == 0 && (request.RequestStatus == RequestStatus.Pending || request.RequestStatus == RequestStatus.Denied))
                 {
                     if ((request.StartDate - DateTime.Today).TotalDays <= 2 && request.RequestStatus != RequestStatus.Accepted)
                     {
@@ -195,13 +210,14 @@ namespace WpfApp1.Service
            
             foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
             {
-                if (request.Tourist.Id == userId && request.RequestStatus == RequestStatus.Accepted)
+                if (request.Tourist.Id == userId && request.RequestStatus == RequestStatus.Accepted && request.ComplexTourRequestId.Id == 0)
                 {
                     simple.Add(request);
                 }
             }
             return simple;
         }
+
 
         public List<SimpleTourRequest> GetAllForUser(int userId)
         {
@@ -220,7 +236,7 @@ namespace WpfApp1.Service
 
             foreach (SimpleTourRequest request in GetAllForUser(requestForAdding.Tourist.Id))
             {
-                if(request.RequestStatus == RequestStatus.Accepted && request.Languages == requestForAdding.Languages && request.City == requestForAdding.City)
+                if(request.RequestStatus == RequestStatus.Accepted && request.Languages == requestForAdding.Languages && request.Location.City == requestForAdding.Location.City)
                 {
                     return;
                 }
@@ -233,7 +249,7 @@ namespace WpfApp1.Service
             List<SimpleTourRequest> notFullfilledRequests = new List<SimpleTourRequest>();
             foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
             {
-                if (request.RequestStatus != RequestStatus.Accepted && (request.City == tour.Location.City || request.Languages == tour.Languages))
+                if (request.RequestStatus != RequestStatus.Accepted && (request.Location.City == tour.Location.City || request.Languages == tour.Languages))
                 {
                     AddIfRequestWasNeverFullfilled(request, notFullfilledRequests);
                 }
@@ -247,8 +263,8 @@ namespace WpfApp1.Service
             }
         }
 
-
-
+      
+    
         public List<SimpleTourRequest> GetAll()
         {
             return _simpleTourRequestRepository.GetAll();

@@ -15,11 +15,14 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
 
-        public List<TourEvent> TouristTourEvents(int userId);
+        List<TourEvent> TouristTourEvents(int userId);
 
-        public TourBooking GetTourBookingForTourEventAndUser(int tourEventId, int userId);
+        TourBooking GetTourBookingForTourEventAndUser(int tourEventId, int userId);
 
-        public void GetExistingTourBooking(int tourEvent, int user, int numOfPeople);
+        void GetExistingTourBooking(int tourEvent, int user, int numOfPeople);
+
+        List<TourBooking> GetTourBookingsForTourist(int userId);
+        Voucher WonVoucher(int userId, int tourB, DateTime time);
 
 
     }

@@ -9,7 +9,7 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
         Title="OwnerAccount" Height="650" Width="967" ResizeMode="NoResize"
-        Name="OwnerStart">
+        Name="OwnerStart" >
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:OwnerProfileViewModel}">
@@ -24,21 +24,24 @@
         <DataTemplate DataType="{x:Type viewModel:RenovationOverviewViewModel}">
             <view:RenovationOverview/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ForumOverviewViewModel}">
+            <view:ForumOverview/>
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
-        <DockPanel  Width="950">
+        <DockPanel  Width="950" >
             <DockPanel DockPanel.Dock="Top" Background="blue" Height="80" >
                 <WrapPanel Background="white">
                     <WrapPanel Width="100" Height="80">
 
                     </WrapPanel>
 
-                    <WrapPanel  Height="80" Width="600">
+                    <WrapPanel  Height="80" Width="600" >
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="1" >Acommodations</Button>
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="2">Reservations</Button>
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="3">Renovations</Button>
-                        <Button  Height="50" Width="95" Margin="14">Forum</Button>
+                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="4">Forum</Button>
 
                     </WrapPanel>
 
@@ -51,6 +54,7 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Grid>
+                                                    
                                                     <Ellipse Fill="{TemplateBinding Background}" />
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Grid>
@@ -92,10 +96,15 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        
 
-                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10">
-                            <Image Source="../Views/Image/Owner/notification.webp" Width="40" Height="40" />
+
+                        <Button x:Name="btnNotification" Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NotificationCommand}">
+                            <Border BorderBrush="{Binding HaveNotification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="2" CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
+                                <Grid>
+                                    <Ellipse Fill="White" />
+                                    <Image Source="../Views/Image/Owner/notification1.png" Width="40" Height="40" />
+                                </Grid>
+                            </Border>
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
@@ -119,8 +128,9 @@
                         </Button>
 
                         <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0">
-                                <Image Source="../Views/Image/Owner/profile.png" Width="40" Height="40" />
-                                <Button.Style>
+                            <Image Source="../Views/Image/Owner/profile.png" Width="40" Height="40" />
+
+                            <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
                                         <Setter.Value>
@@ -162,7 +172,35 @@
                                 <Button Margin="20" Height="30" Width="70" Content="Log out" Command="{Binding LogoutCommand}"/>
                             </WrapPanel>
                         </Popup>
+                        
+                        <Popup IsOpen="{Binding VisibilityNotification}"
+                                Width="250" 
+                                Height="200" 
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right" 
+                                Panel.ZIndex="1000">
 
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding NotificationCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                            <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                                <ListView Height="135" ItemsSource="{Binding LoggedOwner.Notifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedNotificationBase}" >
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Message" Width="225" DisplayMemberBinding="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                <WrapPanel Orientation="Horizontal">
+                                    <Button Margin="32, 20, 0, 0" Height="30" Width="70" Content="Delete" Command="{Binding DeleteNotificationCommand}"/>
+                                    <Button Margin="35, 20, 0, 0" Height="30" Width="70" Content="Delete all" Command="{Binding DeleteAllNotificationCommand}"/>
+                                </WrapPanel>
+                            </WrapPanel>
+                        </Popup>
+                        
                         <Popup IsOpen="{Binding VisibilityWizard}"
                                Width="270" 
                                 Height="170" 
@@ -185,7 +223,7 @@
                                 <Label Width="250" Height="30">have a  vertical tabs with more features.</Label>
                             </WrapPanel>
                         </Popup>
-                        
+
                     </WrapPanel>
                 </WrapPanel>
             </DockPanel>

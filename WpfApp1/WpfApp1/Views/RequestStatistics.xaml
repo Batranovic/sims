@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         xmlns:syncfusion="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         Title="RequestStatistics" Height="370" Width="600">
     <TabControl Background="#f3dcc4" BorderBrush="Black" BorderThickness="1.5">
         <TabItem Header="Statistics">

@@ -25,7 +25,7 @@ namespace WpfApp1.Service
         {
             foreach(AccommodationRenovationSuggestion a in _accommodationRenovationSuggestionRepository.GetAll())
             {
-                a.Reservation = _reservationRepository.Get(a.IdReservation);
+                a.Reservation = _reservationRepository.Get(a.Reservation.Id);
             }
         }
 

@@ -107,7 +107,7 @@ namespace WpfApp1.Repository
         {
             try
             { 
-                return GetAll().FindAll(r => r.IdReservation == idReservation);
+                return GetAll().FindAll(r => r.Reservation.Id == idReservation);
             }
             catch(Exception ex)
             {

@@ -13,13 +13,11 @@ namespace WpfApp1.Domain.Models
     {
         private int _id;
         private string _name;
-        private int _idLocation;
         private Location _location;
         private AccommodationKind _accommodationKind;
         private int _maxGuests;
         private int _minResevation;
         private int _cancelDay = 1;
-        private int _ownerId;
         private Owner _owner;
         
         public Image MainImage { get; set; }
@@ -49,17 +47,6 @@ namespace WpfApp1.Domain.Models
             }
         }
 
-        public int IdLocation
-        {
-            get => _idLocation;
-            set
-            {
-                if(value != null)
-                {
-                    _idLocation = value;
-                }
-            }
-        }
 
         public Location Location
         {
@@ -121,18 +108,6 @@ namespace WpfApp1.Domain.Models
             }
         }
 
-        public int OwnerId
-        {
-            get => _ownerId;
-            set
-            {
-                if(value != _ownerId)
-                {
-                    _ownerId = value;
-                }
-            }
-        }
-
         public Owner Owner
         {
             get => _owner;
@@ -148,20 +123,22 @@ namespace WpfApp1.Domain.Models
         public Accommodation(string name, Location location, AccommodationKind apartmentKind, int maxGuests, int minResevation, int cancelDay,  Owner owner)
         {
             Name = name;
-            IdLocation = location.Id;
+            Location.Id = location.Id;
             Location = location;
             AccommodationKind = apartmentKind;
             MaxGuests = maxGuests;
             MinResevation = minResevation;
             CancelDay = cancelDay;
             Images = new List<Image>();
-            OwnerId = owner.Id;
+            Owner.Id = owner.Id;
             Owner = owner;
         }
 
         public Accommodation()
         {
             Images = new List<Image>();
+            Location = new();
+            Owner = new();
         }
 
         public string ToString()
@@ -175,12 +152,12 @@ namespace WpfApp1.Domain.Models
             {
                 Id.ToString(),
                 Name,
-                IdLocation.ToString(),
+                Location.Id.ToString(),
                 AccommodationKind.ToString(),
                 MaxGuests.ToString(),
                 MinResevation.ToString(),
                 CancelDay.ToString(),
-                OwnerId.ToString(),
+                Owner.Id.ToString(),
             };
             return csvValues;
         }
@@ -189,12 +166,12 @@ namespace WpfApp1.Domain.Models
         {
             Id = Convert.ToInt32(values[0]);
             Name = values[1];
-            IdLocation = Convert.ToInt32(values[2]);
+            Location.Id = Convert.ToInt32(values[2]);
             AccommodationKind = Enum.Parse<AccommodationKind>(values[3]);
             MaxGuests = Convert.ToInt32(values[4]);
             MinResevation = Convert.ToInt32(values[5]);
             CancelDay = Convert.ToInt32(values[6]);
-            OwnerId = Convert.ToInt32(values[7]);
+            Owner.Id = Convert.ToInt32(values[7]);
         }
     }
 }

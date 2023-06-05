@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows;
-using WpfApp1.Domain.Domain.Models.Enums;
-using WpfApp1.Domain.Models.Enums;
-using WpfApp1.Domain.Models;
-using WpfApp1.Domain.ServiceInterfaces;
-using WpfApp1.Service;
-using WpfApp1.Commands;
 using WpfApp.Observer;
+using WpfApp1.Commands;
+using WpfApp1.Domain.Domain.Models.Enums;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.Models.Enums;
+using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.DTO;
-using System.Windows.Data;
+using WpfApp1.Service;
 
 namespace WpfApp1.ViewModel
 {
@@ -26,6 +21,21 @@ namespace WpfApp1.ViewModel
         private readonly IReservationService _reservationService;
         private readonly IImageService _imageService;
 
+        public ObservableCollection<Location> PopularLocations { get; set; }
+
+        private Location _selectedLocation;
+        public Location SelectedLocation
+        {
+            get => _selectedLocation;
+            set
+            {
+                _selectedLocation = value;
+                OnPropertyChanged(nameof(SelectedLocation));
+                CreateSugestionLocationCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public ObservableCollection<Location> UnpopularLocations { get; set; }
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
         public ObservableCollection<string> States { get; set; }
         public ObservableCollection<string> Cities { get; set; }
@@ -35,15 +45,25 @@ namespace WpfApp1.ViewModel
 
         public static Accommodation SelectedAccommodation { get; set; }
 
-        public string SelectedCity { get; set; }
+        private string _selectedCity;
+        public string SelectedCity 
+        {
+            get => _selectedCity;
+            set
+            {
+                _selectedCity = value;
+                OnPropertyChanged(nameof(SelectedCity));
+            }
+        }
         public Owner LoggedOwner { get; set; }
 
         public RelayCommand ConfrimCommand { get; set; }
-        public RelayCommand RejectCommand { get; set; } 
+        public RelayCommand RejectCommand { get; set; }
         public RelayCommand AddUrlCommand { get; set; }
         public RelayCommand ShowStatisticCommand { get; set; }
-
         public RelayCommand ShowMonthStatistics { get; set; }
+        public RelayCommand CreateSugestionLocationCommand { get; set; }
+
 
         private int _tabPositon;
         public int TabPosition
@@ -90,18 +110,21 @@ namespace WpfApp1.ViewModel
             AddUrlCommand = new RelayCommand(param => Execute_AddURL(), param => CanExecute());
             ShowStatisticCommand = new(param => Execute_ShowStatisticCommand(), param => CanExecute_ShowStatisticCommand());
             ShowMonthStatistics = new(param => Execute_ShowMonthStatistics(), param => CanExecute_ShowMonthStatistics());
+            CreateSugestionLocationCommand = new(param => Execute_CreateSugestionLocationCommand(), param => CanExecute_CreateSugestionLocationCommand());
         }
 
         public void Init(Owner owner)
         {
             AccommodationStatisticMonthDTOs = new();
-            AccommodationStatisticDTOs = new ();
+            AccommodationStatisticDTOs = new();
             TabPosition = 0;
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetAll());
             LoggedOwner = (Owner)owner;
             AccommodationKind = new ObservableCollection<AccommodationKind>(Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>());
+            PopularLocations = new(_locationService.GetPopularLocations());
+            UnpopularLocations = new(_locationService.GetUnpopularLocation());
         }
 
         private bool CanExecute_ShowMonthStatistics()
@@ -138,7 +161,7 @@ namespace WpfApp1.ViewModel
                 {
                     _state = value;
                     ChosenState();
-                    OnPropertyChanged(_state);
+                    OnPropertyChanged(nameof(SelectedState));
                     ConfrimCommand.RaiseCanExecuteChanged();
                 }
             }
@@ -251,7 +274,7 @@ namespace WpfApp1.ViewModel
             get => _bestYear;
             set
             {
-                _bestYear = value; 
+                _bestYear = value;
                 OnPropertyChanged(nameof(BestYear));
             }
         }
@@ -259,7 +282,7 @@ namespace WpfApp1.ViewModel
         {
             TabPosition = 1;
             AccommodationStatisticDTOs.Clear();
-            foreach(AccommodationStatisticDTO a in _accommodationService.StatisticByYearForAccommodation(SelectedAccommodation.Id))
+            foreach (AccommodationStatisticDTO a in _accommodationService.StatisticByYearForAccommodation(SelectedAccommodation.Id))
             {
                 AccommodationStatisticDTOs.Add(a);
             }
@@ -274,10 +297,10 @@ namespace WpfApp1.ViewModel
         {
         }
 
-       private bool CanExecute()
-       {
+        private bool CanExecute()
+        {
             return true;
-       }
+        }
 
         private void ChosenState()
         {
@@ -299,7 +322,7 @@ namespace WpfApp1.ViewModel
         public void Update()
         {
             Accommodations.Clear();
-            foreach(var a in _accommodationService.GetAll())
+            foreach (var a in _accommodationService.GetAll())
             {
                 Accommodations.Add(a);
             }
@@ -387,5 +410,20 @@ namespace WpfApp1.ViewModel
                 return true;
             }
         }
+
+        private bool CanExecute_CreateSugestionLocationCommand()
+        {
+            return SelectedLocation != null; 
+        }
+
+        private void Execute_CreateSugestionLocationCommand()
+        {
+            TabPosition = 2;
+            SelectedCity = SelectedLocation.City;
+            SelectedState = SelectedLocation.State;
+            OnPropertyChanged(nameof(SelectedCity));
+            OnPropertyChanged(nameof(SelectedState));
+        }
+
     }
 }

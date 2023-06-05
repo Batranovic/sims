@@ -35,6 +35,7 @@ namespace WpfApp1
         public string Password { get; set; }
 
         private readonly INotificationService _notificationService;
+        private readonly INotificationAccommodationReleaseService _notificationAccommodation;
 
         public MainWindow()
         {
@@ -47,7 +48,7 @@ namespace WpfApp1
             _touristService = InjectorService.CreateInstance<ITouristService>();
             _notificationService = InjectorService.CreateInstance<INotificationService>();
             _tourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
-
+            _notificationAccommodation = InjectorService.CreateInstance<INotificationAccommodationReleaseService>();
 
 
         }
@@ -72,6 +73,12 @@ namespace WpfApp1
             {
                 OwnerAccount ownerAccount = new OwnerAccount();
                 ownerAccount.Show();
+                _ownerService.SetKind((Owner)LogInUser);
+                _notificationAccommodation.FindNotification(LogInUser.Id);
+                foreach(var n in _notificationAccommodation.GetForOwner(LogInUser.Id))
+                { 
+                    ((Owner)LogInUser).Notifications.Add(n);
+                }
                 Close();
                 return;
             }
@@ -108,5 +115,6 @@ namespace WpfApp1
             }
         }
 
+     
     }
 }
