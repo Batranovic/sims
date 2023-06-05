@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Domain.Models;
 using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Repository;
 
@@ -38,7 +39,9 @@ namespace WpfApp1.Service
             { typeof(IForumRepository), ForumRepository.GetInstance() },
             { typeof(IForumNotificationRepository), ForumNotificationRepository.GetInstance() },
             { typeof(IForumCommentsRepository), ForumCommentsRepository.GetInstance() }
-        };
+            { typeof(IComplexTourRequestRepository), ComplexTourRequestRepository.GetInstance() },
+            { typeof(IAcceptedRequestGuideRepositry), AcceptedRequestGuideRepository.GetInstance() }
+         };
         public static T CreateInstance<T>()
         {
             Type type = typeof(T);

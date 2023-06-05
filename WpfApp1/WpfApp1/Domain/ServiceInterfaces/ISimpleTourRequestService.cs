@@ -14,6 +14,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void Delete(SimpleTourRequest entity);
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
+        int NextId();
 
         List<SimpleTourRequest> RequestsForTourist(int userId);
         List<string> GetAllYears();
@@ -29,6 +30,8 @@ namespace WpfApp1.Domain.ServiceInterfaces
 
         void NewTourFromStatistics(Tour tour);
         void AddIfRequestWasNeverFullfilled(SimpleTourRequest requestForAdding, List<SimpleTourRequest> notFullfilledRequests);
+
+      
 
 
     }

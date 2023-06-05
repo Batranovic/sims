@@ -26,7 +26,7 @@ namespace WpfApp1.Service
         {
             foreach (RatingTourAndGuide r in _ratingTourAndGuideRepository.GetAll())
             {
-                r.TourBooking = _tourBookingRepository.Get(r.IdTourBooking);
+                r.TourBooking = _tourBookingRepository.Get(r.TourBooking.Id);
             }
         }
         public RatingTourAndGuide Get(int id)

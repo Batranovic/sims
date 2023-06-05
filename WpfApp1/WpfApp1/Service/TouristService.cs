@@ -48,6 +48,18 @@ namespace WpfApp1.Service
             _touristRepository.Unsubscribe(observer);
         }
 
+
+        public Tourist getName(int userId)
+        {
+            foreach(Tourist t in _touristRepository.GetAll())
+            {
+                if(t.Id == userId)
+                {
+                    return t;
+                }
+            }
+            return null;
+        }
         public Tourist GetByUsernameAndPassword(string username, string password)
         {
             return GetAll().Find(o => o.Username.Equals(username) && o.Password.Equals(password));

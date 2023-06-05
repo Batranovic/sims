@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\chat %281%29.png" />
+    <None Remove="Images\file.png" />
     <None Remove="Views\Image\Owner\notification.webp" />
     <None Remove="Views\Image\Owner\notification1.png" />
     <None Remove="Views\Image\Owner\pdf.png" />
@@ -26,10 +28,15 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
+    <PackageReference Include="PDFsharp" Version="1.50.5147" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\chat (1).png" />
+    <Resource Include="Images\file.png" />
     <Resource Include="Views\Image\Owner\notification.webp" />
     <Resource Include="Views\Image\Owner\notification1.png" />
     <Resource Include="Views\Image\Owner\pdf.png" />
@@ -44,7 +51,9 @@
     <None Remove="Images\close.png" />
     <None Remove="Images\destination.png" />
     <None Remove="Images\dot.png" />
+    <None Remove="Images\location-pin.png" />
     <None Remove="Images\map.png" />
+    <None Remove="Images\out.png" />
     <None Remove="Images\point.png" />
     <None Remove="Images\profile.png" />
     <None Remove="Images\rating.png" />
@@ -79,7 +88,9 @@
     <Resource Include="Images\close.png" />
     <Resource Include="Images\destination.png" />
     <Resource Include="Images\dot.png" />
+    <Resource Include="Images\location-pin.png" />
     <Resource Include="Images\map.png" />
+    <Resource Include="Images\out.png" />
     <Resource Include="Images\point.png" />
     <Resource Include="Images\profile.png" />
     <Resource Include="Images\rating.png" />

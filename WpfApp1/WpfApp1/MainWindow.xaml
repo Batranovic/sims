@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="450" Background="WhiteSmoke">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -14,28 +14,32 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="370"></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Grid.Column="0" Margin="30,2,30,3" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Height="30">Username</Label>
-                <Label Grid.Row="1" Grid.Column="0" Height="30">Password</Label>
+                <Label Grid.Row="0" Grid.Column="0" Height="30" Margin="56,73,40,80" FontWeight="DemiBold" Grid.RowSpan="2">Username</Label>
+                <Label Grid.Row="1" Grid.Column="0" Height="30" Margin="56,91,40,62" FontWeight="DemiBold" Grid.RowSpan="2">Password</Label>
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Username}"  Height="30"></TextBox>
-                <PasswordBox Grid.Row="1" Grid.Column="1" x:Name="passwordBox" Height="30"></PasswordBox>
+                <TextBox Grid.Row="1" Text="{Binding Path=Username}"  Height="30" Margin="56,0,58,27"/>
+                <PasswordBox Grid.Row="2" x:Name="passwordBox" Height="30" Margin="56,34,58,27"/>
             </Grid>
-            <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
-                <Button Content=" Confirm " IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Click="LogIn" Height="41" Width="161" />
-            </WrapPanel>
+            <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" />
+            <Button Content=" Confirm " IsCancel="True" HorizontalAlignment="Left" VerticalAlignment="Top" Click="LogIn" Height="41" Width="162" Grid.Column="1" Margin="137,299,0,0" >
+                <Button.Effect>
+                    <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                </Button.Effect>
+            </Button>
         </Grid>
     </Grid>
 </Window>

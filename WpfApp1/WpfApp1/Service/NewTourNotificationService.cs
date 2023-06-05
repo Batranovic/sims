@@ -15,15 +15,11 @@ namespace WpfApp1.Service
     internal class NewTourNotificationService : INewTourNotificationService
     {
         private readonly INewTourNotificationRepository _notificationRepository;
-        private readonly ISimpleTourRequestRepository _simpleTourRequestRepository;
-        private readonly ITourRepository _tourRepository;
-        private readonly ITouristRepository _touristRepository;
+
         public NewTourNotificationService()
         {
             _notificationRepository = InjectorRepository.CreateInstance<INewTourNotificationRepository>();
-            _simpleTourRequestRepository = InjectorRepository.CreateInstance<ISimpleTourRequestRepository>();
-            _tourRepository = InjectorRepository.CreateInstance<ITourRepository>();
-            _touristRepository = InjectorRepository.CreateInstance<ITouristRepository>();
+          
             BindTour();
         }
         private void BindTour()

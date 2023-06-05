@@ -48,8 +48,6 @@ namespace WpfApp1.ViewModel
         }
 
 
-
-
         public BookedToursViewModel() 
         {
             _tourBookingService = InjectorService.CreateInstance<ITourBookingService>();
@@ -57,11 +55,13 @@ namespace WpfApp1.ViewModel
             _tourPointService = InjectorService.CreateInstance<ITourPointService>();
 
             TourEvents = new ObservableCollection<TourEvent>(_tourBookingService.TouristTourEvents(MainWindow.LogInUser.Id));
+
+            SelectedTourEvent = TourEvents[0];
            
             LeaveReviewCommand = new RelayCommand(Execute_LeaveReview, CanExecute_Command);
             AllToursCommand = new RelayCommand(Execute_AllTours, CanExecute_Command);
-            ShowPopUpCommand = new RelayCommand(Execute_ShowPopUp, CanExecute_Command);
-            LogOutCommand = new RelayCommand(Execute_LogOut, CanExecute_Command);
+        
+            MyProfileCommand = new RelayCommand(Execute_MyProfile, CanExecute_Command);
             RequestTourCommand = new RelayCommand(Execute_RequestTour, CanExecute_Command);
             RequestListCommand = new RelayCommand(Execute_RequestList, CanExecute_Command);
 
@@ -89,22 +89,15 @@ namespace WpfApp1.ViewModel
 
         }
 
-        private bool _isPopupOpen;
-        public bool IsPopupOpen
-        {
-            get { return _isPopupOpen; }
-            set { _isPopupOpen = value; OnPropertyChanged(nameof(IsPopupOpen)); }
-        }
+     
 
-        private void Execute_LogOut(object sender)
+        private void Execute_MyProfile(object sender)
         {
-            MessageBox.Show("You are logging out!");
-            MainWindow mw = new MainWindow();
-            mw.Show();
+            TouristProfile profile = new TouristProfile();
+            profile.Show();
             CloseAction();
 
         }
-
         private void Execute_RequestTour(object sender)
         {
             RequestNewTours requestNewTour = new RequestNewTours();
@@ -112,10 +105,7 @@ namespace WpfApp1.ViewModel
             CloseAction();
         }
 
-        private void Execute_ShowPopUp(object sender)
-        {
-            IsPopupOpen = true;
-        }
+    
         private void Execute_LeaveReview(object sender)
         {
             if (_selectedTourEvent.Status == Domain.Models.Enums.TourEventStatus.Finished)
@@ -189,19 +179,7 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private RelayCommand showPopUpCommand;
-        public RelayCommand ShowPopUpCommand
-        {
-            get => showPopUpCommand;
-            set
-            {
-                if (value != showPopUpCommand)
-                {
-                    showPopUpCommand = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+     
 
         private RelayCommand requestTourCommand;
         public RelayCommand RequestTourCommand
@@ -217,15 +195,15 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private RelayCommand logOutCommand;
-        public RelayCommand LogOutCommand
+        private RelayCommand myProfileCommand;
+        public RelayCommand MyProfileCommand
         {
-            get => logOutCommand;
+            get => myProfileCommand;
             set
             {
-                if (value != logOutCommand)
+                if (value != myProfileCommand)
                 {
-                    logOutCommand = value;
+                    myProfileCommand = value;
                     OnPropertyChanged();
                 }
             }

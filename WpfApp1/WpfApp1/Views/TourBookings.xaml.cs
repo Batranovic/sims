@@ -26,9 +26,9 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for TourBookingWindow.xaml
     /// </summary>
-    public partial class TourBookings : Window, INotifyPropertyChanged
+    public partial class TourBookings : Window
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+ 
 
         public TourBookings(Tour tour)
         {
@@ -44,11 +44,6 @@ namespace WpfApp1.Views
 
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         

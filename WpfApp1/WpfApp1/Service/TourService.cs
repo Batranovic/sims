@@ -24,7 +24,7 @@ namespace WpfApp1.Service
         {
             foreach (Tour tour in _tourRepository.GetAll())
             {
-                tour.Location = _locationRepository.Get(tour.IdLocation);
+                tour.Location = _locationRepository.Get(tour.Location.Id);
             }
         }
         public List<Tour> GetAll()

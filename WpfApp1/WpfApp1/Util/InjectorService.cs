@@ -38,7 +38,8 @@ namespace WpfApp1.Service
             { typeof(IForumService), new ForumService() },
             { typeof(INotificationAccommodationReleaseService), new NotificationAccommodationReleaseService() },
             { typeof(IForumCommentsService), new ForumCommentsService() },
-            { typeof(IForumNotificationService), new ForumNotificationService() }
+            { typeof(IComplexTourRequestService), new ComplexTourRequestService() },
+            { typeof(IAcceptedRequestService), new AcceptedRequestGuideService() }
         };
         public static T CreateInstance<T>()
         {
