@@ -21,13 +21,14 @@ namespace WpfApp1.Domain.Models
     
         public RequestStatus RequestStatus { get; set; }
         public ComplexTourRequest ComplexTourRequestId { get; set; }    
+        public AcceptedRequestGuide AcceptedRequestGuide { get; set; }
 
         public SimpleTourRequest()
         {
           
         }
 
-        public SimpleTourRequest(int id, Location location, string description, string language, int maxGuests, DateTime start, DateTime end, Tourist tourist, RequestStatus r, ComplexTourRequest complexTourRequestId)
+        public SimpleTourRequest(int id, Location location, string description, string language, int maxGuests, DateTime start, DateTime end, Tourist tourist, RequestStatus r, ComplexTourRequest complexTourRequestId, AcceptedRequestGuide acceptedRequestGuide)
         {
             Id = id;
             Location = location;
@@ -39,6 +40,7 @@ namespace WpfApp1.Domain.Models
             Tourist = tourist;
             RequestStatus = r;
             ComplexTourRequestId = complexTourRequestId;
+            AcceptedRequestGuide = acceptedRequestGuide;
         }
 
         public string[] ToCSV()
@@ -57,6 +59,7 @@ namespace WpfApp1.Domain.Models
                     Tourist.Id.ToString(),
                     RequestStatus.ToString(),
                     ComplexTourRequestId.Id.ToString(),
+                    AcceptedRequestGuide.Id.ToString(),
 
                 };
             return csvValues;
@@ -76,6 +79,7 @@ namespace WpfApp1.Domain.Models
             Tourist = new Tourist() { Id = Convert.ToInt32(values[9]) };
             RequestStatus = (RequestStatus)Enum.Parse(typeof(RequestStatus), values[10]);
             ComplexTourRequestId = new ComplexTourRequest() { Id = Convert.ToInt32(values[11]) };
+            AcceptedRequestGuide = new AcceptedRequestGuide() { Id = Convert.ToInt32(values[12]) };
         }
     }
 }

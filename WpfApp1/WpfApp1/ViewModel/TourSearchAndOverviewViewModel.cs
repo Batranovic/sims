@@ -334,6 +334,10 @@ namespace WpfApp1.ViewModel
         {
             IsSubmitClicked = true;
             if (IsValid){
+                if(SelectedCity == null)
+                {
+                    SelectedCity = "";
+                }
                 List<Tour> searchedTours = _tourService.TourSearch(SelectedState, SelectedCity, Languages, MaxGuests, Duration);
                 RefreshTours(searchedTours);
                 if(searchedTours.Count == 0)

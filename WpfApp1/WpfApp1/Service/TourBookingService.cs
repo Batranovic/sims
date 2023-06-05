@@ -164,26 +164,35 @@ namespace WpfApp1.Service
 
         public Voucher WonVoucher(int userId, int tourB, DateTime time)
         {
-           int currentYear = DateTime.Now.Year;
-            foreach (TourBooking tourBooking in _tourBookingRepository.GetAll())
+            int currentYear = DateTime.Now.Year;
+            List<TourBooking> tourBookings = _tourBookingRepository.GetAll();
+            List<TourBooking> currentYearTours = new List<TourBooking>();
+
+            foreach (TourBooking tourBooking in tourBookings)
             {
-                if(tourBooking.Tourist.Id == userId && tourB % 5 == 0 && time.Year == currentYear)
+                if (tourBooking.Tourist.Id == userId && tourBooking.TourEvent.StartTime.Year == currentYear)
                 {
-
-                    DateTime sixMonthsLater = DateTime.Now.AddMonths(6);
-
-                    Voucher newVoucher = new Voucher
-                    {
-                        Tourist = new Tourist { Id = userId },
-                        ExpirationDate = sixMonthsLater,
-                        Name = "voucher"
-                    };
-
-                    _voucherRepository.Create(newVoucher);
-                    _voucherRepository.Update(newVoucher);
-
-                    return newVoucher;
+                    currentYearTours.Add(tourBooking);
                 }
+            }
+
+            int currentYearTourCount = currentYearTours.Count;
+
+            if (currentYearTourCount > 0 && currentYearTourCount % 5 == 0)
+            {
+                DateTime sixMonthsLater = DateTime.Now.AddMonths(6);
+
+                Voucher newVoucher = new Voucher
+                {
+                    Tourist = new Tourist { Id = userId },
+                    ExpirationDate = sixMonthsLater,
+                    Name = "voucher"
+                };
+
+                _voucherRepository.Create(newVoucher);
+                _voucherRepository.Update(newVoucher);
+
+                return newVoucher;
             }
 
             return null;

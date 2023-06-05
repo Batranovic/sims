@@ -144,7 +144,7 @@ namespace WpfApp1.ViewModel
             if (ratedTourBookings.Count > 0)
             {
                 MessageBox.Show("You have already rated this tour booking");
-                return;
+                this.CloseAction();
             }
 
             if (!IsValid )
@@ -155,7 +155,7 @@ namespace WpfApp1.ViewModel
             RatingTourAndGuide ratingTourAndGuide = new RatingTourAndGuide(-1, SelectedKnowledge, SelectedLanguage, SelectedInterest, Comment, SelectedTourBooking, images);
             _ratingTourAndGuideService.Create(ratingTourAndGuide);
             MessageBox.Show("Your review has been sent!");
-           // this.Close();
+            this.CloseAction();
         }
 
         private void Execute_Reject(object sender)

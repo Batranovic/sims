@@ -16,13 +16,34 @@ namespace WpfApp1.Service
     {
         private readonly INewTourNotificationRepository _notificationRepository;
         private readonly ISimpleTourRequestRepository _simpleTourRequestRepository;
+        private readonly IAcceptedRequestGuideRepositry _acceptedRequestRepository;
         public ILocationRepository _locationRepository { get; set; }
 
         public SimpleTourRequestService()
         {
+              _acceptedRequestRepository = InjectorRepository.CreateInstance<IAcceptedRequestGuideRepositry>();
             _simpleTourRequestRepository = InjectorRepository.CreateInstance<ISimpleTourRequestRepository>();
             _notificationRepository = InjectorRepository.CreateInstance<INewTourNotificationRepository>();
             _locationRepository = InjectorRepository.CreateInstance<ILocationRepository>();
+            BindAccepted();
+        }
+
+
+        private void BindAccepted()
+        {
+            foreach (SimpleTourRequest simpleTourRequest in _simpleTourRequestRepository.GetAll())
+            {
+                int acceptedId = simpleTourRequest.AcceptedRequestGuide.Id;
+                AcceptedRequestGuide acceptedRequest = AcceptedRequestGuideRepository.GetInstance().Get(acceptedId);
+                if (acceptedRequest != null)
+                {
+                    simpleTourRequest.AcceptedRequestGuide = acceptedRequest;
+                }
+                else
+                {
+                    Console.WriteLine("Error in binding tour and tourEvent");
+                }
+            }
         }
 
 
@@ -190,20 +211,6 @@ namespace WpfApp1.Service
             foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
             {
                 if (request.Tourist.Id == userId && request.RequestStatus == RequestStatus.Accepted && request.ComplexTourRequestId.Id == 0)
-                {
-                    simple.Add(request);
-                }
-            }
-            return simple;
-        }
-
-        public List<SimpleTourRequest> AcceptedComplexRequestsForTourist(int userId)
-        {
-            List<SimpleTourRequest> simple = new List<SimpleTourRequest>();
-
-            foreach (SimpleTourRequest request in _simpleTourRequestRepository.GetAll())
-            {
-                if (request.Tourist.Id == userId && request.ComplexTourRequestId.RequestStatus == RequestStatus.Accepted)
                 {
                     simple.Add(request);
                 }

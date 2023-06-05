@@ -206,7 +206,8 @@ namespace WpfApp1.ViewModel
                 ComplexTourRequest complex = new ComplexTourRequest();
                 Tourist tourist = (Tourist)MainWindow.LogInUser;
                 Location location = _locationService.GetByCityAndState(SelectedCity, SelectedState);
-                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, complex);
+                AcceptedRequestGuide acceptedRequest= new AcceptedRequestGuide(-1, null, null);
+                SimpleTourRequest simpleTour = new SimpleTourRequest(-1, location, Description, Language, maxG, SelectedStartDate, SelectedEndDate, tourist, RequestStatus.Pending, complex, acceptedRequest);
                 PartOfRequest.Add(simpleTour);
                 _simpleTourRequestService.Create(simpleTour);
 

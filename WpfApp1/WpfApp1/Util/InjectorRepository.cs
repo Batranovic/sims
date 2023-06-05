@@ -36,7 +36,8 @@ namespace WpfApp1.Service
             { typeof(IRequestNotifactionRepository), RequestNotificationRepository.GetInstance() },
             { typeof(INewTourNotificationRepository), NewTourNotificationRepository.GetInstance() },
             { typeof(INotificationAccommodationReleaseRepository), NotificationAccommodationReleaseRepository.GetInstance() },
-            { typeof(IComplexTourRequestRepository), ComplexTourRequestRepository.GetInstance() }
+            { typeof(IComplexTourRequestRepository), ComplexTourRequestRepository.GetInstance() },
+            { typeof(IAcceptedRequestGuideRepositry), AcceptedRequestGuideRepository.GetInstance() }
         };
         public static T CreateInstance<T>()
         {

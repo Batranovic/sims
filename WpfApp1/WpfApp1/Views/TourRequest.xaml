@@ -283,7 +283,7 @@
 
                                                 <TextBlock Margin="11,0,12,0" Text="{Binding Languages}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="11,0,12,0" Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="11,0,12,0" Text="{Binding StartDate}" FontWeight="Bold" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="11,0,12,0" Text="{Binding AcceptedRequestGuide.Appointment}" FontWeight="Bold" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                                                 <TextBlock Text="{Binding RequestStatus}" Margin="-10,0,0,0" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                     <TextBlock.Style>
@@ -332,9 +332,7 @@
                     </TabItem.Background>
                     <StackPanel>
                         <ListBox ItemsSource="{Binding AcceptedComplexRequests}" Margin="20" Background="#f3dcc4" Height="380" Width="600">
-
                             <ListBox.ItemTemplate >
-
                                 <DataTemplate>
                                     <Border BorderBrush="Black" BorderThickness="1" Margin="-5,-1,-9,-1" Height="200" Width="576">
                                         <DockPanel>
@@ -378,7 +376,7 @@
 
                                                 <TextBlock Margin="11,0,12,0" Text="{Binding Languages}" FontWeight="Bold" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="11,0,12,0" Text="{Binding MaxGuests}" FontWeight="Bold" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="11,0,12,0" Text="{Binding StartDate}" FontWeight="Bold" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="11,0,12,0" Text="{Binding AcceptedRequestGuide.Appointment}" FontWeight="Bold" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                                                 <TextBlock Text="{Binding RequestStatus}" Margin="-10,0,0,0" FontWeight="Bold" Grid.Row="0" Grid.Column="3" FontSize="20"  HorizontalAlignment="Left" VerticalAlignment="Center">
                                                     <TextBlock.Style>
