@@ -36,8 +36,8 @@
                 <Button Content="Search" Width="106" Height="28" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" Command="{Binding SearchCommand}" />
             </WrapPanel>
             <WrapPanel Grid.Row="1" Grid.ColumnSpan="2">
-                <DatePicker Height="22" SelectedDate="{Binding StartedDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="320,0,0,0"></DatePicker>
-                <DatePicker Height="22" SelectedDate="{Binding EndedDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="150,0,0,0"></DatePicker>
+                <DatePicker Height="22" SelectedDate="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="320,0,0,0"></DatePicker>
+                <DatePicker Height="22" SelectedDate="{Binding End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="150,0,0,0"></DatePicker>
             </WrapPanel>
             <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Width="984" Height="495" Grid.ColumnSpan="2" Margin="17,28,17,28" >
                 <ItemsControl ItemsSource="{Binding Path=Accommodations}">

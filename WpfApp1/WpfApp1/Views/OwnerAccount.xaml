@@ -24,6 +24,9 @@
         <DataTemplate DataType="{x:Type viewModel:RenovationOverviewViewModel}">
             <view:RenovationOverview/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ForumOverviewViewModel}">
+            <view:ForumOverview/>
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -38,7 +41,7 @@
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="1" >Acommodations</Button>
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="2">Reservations</Button>
                         <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="3">Renovations</Button>
-                        <Button  Height="50" Width="95" Margin="14">Forum</Button>
+                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="4">Forum</Button>
 
                     </WrapPanel>
 

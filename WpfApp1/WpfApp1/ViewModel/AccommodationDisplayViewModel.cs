@@ -23,6 +23,8 @@ namespace WpfApp1.ViewModel
 
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
 
+        public ObservableCollection<Accommodation> SuitableAccommodations { get; set; }
+
         public AccommodationKind? SelectedAccommodationKind { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
@@ -32,6 +34,9 @@ namespace WpfApp1.ViewModel
         public ObservableCollection<string> Cities { get; set; }
 
         public string SelectedCity { get; set; }
+
+        private DateTime _start;
+        private DateTime _end;
 
         public Guest LogInGuest { get; set; }
 
@@ -55,6 +60,7 @@ namespace WpfApp1.ViewModel
 
             var kind = Enum.GetValues(typeof(AccommodationKind)).Cast<AccommodationKind>();
             AccommodationKind = new ObservableCollection<AccommodationKind>(kind);
+            SuitableAccommodations = new ObservableCollection<Accommodation>();
 
             LogInGuest = (Guest)user;
 
@@ -80,6 +86,9 @@ namespace WpfApp1.ViewModel
 
 
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetSortedListBySuperOwner());
+
+            Start = DateTime.Now;
+            End = DateTime.Now;
 
         }
 
@@ -147,11 +156,46 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        public DateTime Start
+        {
+            get => _start;
+            set
+            {
+                if(_start != value)
+                {
+                    _start = value;
+                    OnPropertyChanged(nameof(Start));
+                }
+            }
+        }
+
+        public DateTime End
+        {
+            get => _end;
+            set
+            {
+                if(_end != value)
+                {
+                    _end = value;
+                    OnPropertyChanged(nameof(End));
+                }   
+            }
+        }
+
 
 
 
         private void Execute_Search()
         {
+            if(NameE == "" && SelectedCity == "" && SelectedState == "" && SelectedAccommodationKind.ToString() == "")
+            {
+                Accommodations.Clear();
+                foreach (Accommodation a in _accommodationService.GetFreeAccommodations(Start, End,MaxGuests,ReservationDays))
+                {
+                    Accommodations.Add(a);
+                }
+                return;
+            }
             Accommodations.Clear();
             foreach (Accommodation a in _accommodationService.SearchAccommodation(NameE, SelectedCity, SelectedState, SelectedAccommodationKind.ToString(), MaxGuests, ReservationDays))
             {
