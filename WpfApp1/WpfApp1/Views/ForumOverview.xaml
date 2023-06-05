@@ -3,13 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:WpfApp1.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="950">
     <Grid>
-        <TabControl TabStripPlacement="Left" >
-            <TabItem Header="Reviews" Width="90" Height="25">
+        <TabControl TabStripPlacement="Left" SelectedIndex="{Binding TabPosition}">
+            <TabItem Header="Reviews" Width="90" Height="25" >
                 <ListView ItemsSource="{Binding Forums}" SelectedItem="{Binding SelectedForum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding ShowCommentCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="State" Width="170" DisplayMemberBinding="{Binding Location.State}" />
@@ -28,11 +34,12 @@
                     <Label Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Center" FontSize="40">State</Label>
 
 
-                    <ListView Grid.Row="1"
-                     x:Name="Lista"
-                     Margin="0,15,0,0"
-                     ItemsSource="{Binding SelectedForum.Comments}">
+                    <ListView Grid.Row="1" SelectedItem="{Binding  SelectedComment}"
+                         x:Name="Lista"
+                         Margin="10,15,-10,0"
+                         ItemsSource="{Binding ForumComments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
+                        
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Background" Value="Transparent" />
@@ -44,7 +51,7 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListViewItem}">
                                             <Grid Background="{TemplateBinding Background}">
-                                                <Border BorderBrush="LightGray" BorderThickness="0"/>  
+                                                <Border BorderBrush="LightGray" BorderThickness="0"/>
                                                 <GridViewRowPresenter/>
                                             </Grid>
                                         </ControlTemplate>
@@ -71,33 +78,34 @@
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="40"/>
                                                         <RowDefinition/>
-                                                        <RowDefinition Height="22"/>
+                                                        <RowDefinition Height="32"/>
                                                     </Grid.RowDefinitions>
-                                                   
-                                            
+
+
                                                     <WrapPanel Grid.Row="0"  Margin="20, 0, 0, 0">
                                                         <WrapPanel Orientation="Vertical">
                                                             <TextBlock FontSize="15" Text="{Binding Author.Username}" ></TextBlock>
-                                                            <TextBlock FontSize="15" Text="{Binding Date, StringFormat='{}{0:yyyy-MM-dd}'}" ></TextBlock>    
+                                                            <TextBlock FontSize="15" Text="{Binding Date, StringFormat='{}{0:yyyy-MM-dd}'}" ></TextBlock>
                                                         </WrapPanel>
                                                         <Separator Width="240" Visibility="Hidden"/>
-                                                        <WrapPanel Orientation="Vertical">
-                                                            <Label FontSize="15" Content="Number of report:"/>
+                                                        <WrapPanel Orientation="Vertical" Margin="-10, 0, 0, 0">
+                                                            <Label FontSize="15" Content="Number of reports:"/>
                                                             <Label FontSize="15" Content="{Binding Report}"/>
                                                         </WrapPanel>
                                                     </WrapPanel>
-                                                    
-                                                        
+
+
 
                                                     <Border Grid.Row="1"  Width="500" HorizontalAlignment="Center" CornerRadius="10" BorderThickness="1" Background="LightBlue">
                                                         <TextBlock Padding="40,20,0,0" Text="{Binding Comment}"/>
                                                     </Border>
 
-                                                    <WrapPanel Grid.Row="2" Orientation="Horizontal">
-                                                        <Button Width="70" Height="22" Margin="210, 0, 0, 0" >Report</Button>
-                                                        
+                                                    <WrapPanel Grid.Row="2" Orientation="Horizontal"> 
+                                                        <Button Width="70" Height="32" Margin="210, 0, 0, 0"  Command="{Binding RelativeSource={
+                                                                                        RelativeSource Mode=FindAncestor,
+                                                                                        AncestorType={x:Type UserControl}},
+                                                                                        Path= DataContext.ReportCommand}" CommandParameter="{Binding}" >Report</Button>
                                                     </WrapPanel>
-                                                    
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>
@@ -107,7 +115,36 @@
                         </ListView.View>
                     </ListView>
 
+                    <Button Grid.Row="3" Command="{Binding NewCommentCommand}"  Content="New comment" Width="80" Height="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Panel.ZIndex="999">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Ellipse Fill="LightBlue" />
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
+                        <Popup IsOpen="{Binding VisibilityCreateComment}"
+                                       Width="300" 
+                                        Height="270" 
+                                        PlacementTarget="{Binding ElementName=OwnerStart}"
+                                        Placement="Center"
+                                        Margin="0,70,10,0"
+                                        Panel.ZIndex="1000">
+                            <Border BorderBrush="Black" BorderThickness="2" >
+                                <WrapPanel  Width="370" Height="300" Orientation="Vertical" Background="AliceBlue">
+                                    <Label Margin="10, 0, 0, 0" Content="Comment" FontSize="30"></Label>
+                                    <TextBox Margin="10, 0, 0, 0" Height="130" Width="280" TextWrapping="Wrap"  Text="{Binding NewComment, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                                    <WrapPanel Margin="60, 30, 0, 0" Orientation="Horizontal">
+                                        <Button Height="30" Width="60" Command="{Binding ConfirmNewCommentCommand}">Confirm</Button>
+                                        <Separator Width="40" Visibility="Hidden"></Separator>
+                                        <Button Height="30" Width="60" Command="{Binding CancelNewCommentCommand}">Cancel</Button>
+                                    </WrapPanel>
+                                </WrapPanel>
+                            </Border>
+                    </Popup>
                 </Grid>
             </TabItem>
         </TabControl>

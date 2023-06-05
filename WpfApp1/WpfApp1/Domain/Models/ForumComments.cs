@@ -55,7 +55,7 @@ namespace WpfApp1.Domain.Models
         public ForumComments()
         {
             Forum = new();
-            Author = new User();
+            Author = new();
         }
 
         public string[] ToCSV()

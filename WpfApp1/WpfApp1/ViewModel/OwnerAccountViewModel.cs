@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
-using System.Xml.Linq;
-using WpfApp.Observer;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
-using WpfApp1.Views;
 
 namespace WpfApp1.ViewModel
 {
@@ -66,11 +55,11 @@ namespace WpfApp1.ViewModel
             }
         }
         public RelayCommand WizardCommand { get; set; }
-      
+
         private bool _visibilityPopUp;
         public bool VisibilityPopUp
         {
-            get => _visibilityPopUp;    
+            get => _visibilityPopUp;
             set
             {
                 _visibilityPopUp = value;
@@ -129,24 +118,24 @@ namespace WpfApp1.ViewModel
         {
             NavCommand = new(Execute_NavCommand, CanExecute_NavCommand);
             ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
-            WizardCommand = new(param => Execute_WizardCommand(), param  => CanExecute());
+            WizardCommand = new(param => Execute_WizardCommand(), param => CanExecute());
             LogoutCommand = new(param => Execute_LogoutCommand(), param => CanExecute());
             NotificationCommand = new(param => Execute_NotificationCommand(), param => CanExecute());
             DeleteNotificationCommand = new(param => Execute_DeleteNotificationCommand(), param => CanExecute_DeleteNotificationCommand());
-            DeleteAllNotificationCommand = new(param => Execute_DeleteAllNotificationCommand() , param => CanExecute());
+            DeleteAllNotificationCommand = new(param => Execute_DeleteAllNotificationCommand(), param => CanExecute());
         }
         private void Init(Owner owner)
         {
-            _window  = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
-            HaveNotification = owner.Notifications.Count == 0 ? "White" :  "Green";
+            _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
+            HaveNotification = owner.Notifications.Count == 0 ? "White" : "Green";
             VisibilityWizard = false;
             VisibilityPopUp = false;
-            VisibilityNotification = false; 
+            VisibilityNotification = false;
             LoggedOwner = owner;
             UserType = LoggedOwner.Super ? "Super owner" : "Basic owner";
         }
 
-       
+
         private void Execute_NotificationCommand()
         {
             VisibilityNotification = !VisibilityNotification;
@@ -228,18 +217,18 @@ namespace WpfApp1.ViewModel
             SelectedNotificationBase.IsDelivered = true;
             _notificationService.Update((NotificationAccommodationRelease)SelectedNotificationBase);
             LoggedOwner.Notifications.Clear();
-            foreach(NotificationAccommodationRelease n in _notificationService.GetForOwner(LoggedOwner.Id))
+            foreach (NotificationAccommodationRelease n in _notificationService.GetForOwner(LoggedOwner.Id))
             {
                 LoggedOwner.Notifications.Add(n);
             }
             OnPropertyChanged(nameof(LoggedOwner.Notifications));
-            HaveNotification = LoggedOwner.Notifications.Count == 0 ? "White" : "Green"; 
-           
+            HaveNotification = LoggedOwner.Notifications.Count == 0 ? "White" : "Green";
+
         }
 
         private void Execute_DeleteAllNotificationCommand()
         {
-            foreach(var n in LoggedOwner.Notifications)
+            foreach (var n in LoggedOwner.Notifications)
             {
                 n.IsDelivered = true;
                 _notificationService.Update((NotificationAccommodationRelease)n);
