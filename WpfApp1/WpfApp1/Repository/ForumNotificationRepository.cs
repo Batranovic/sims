@@ -10,37 +10,33 @@ using WpfApp1.Serializer;
 
 namespace WpfApp1.Repository
 {
-    public class NotificationAccommodationReleaseRepository : INotificationAccommodationReleaseRepository
+    public class ForumNotificationRepository : IForumNotificationRepository
     {
-        private const string _filePath = "../../../Resources/Data/notificationAccommodationRelease.csv";
+        private const string _filePath = "../../../Resources/Data/forumNotification.csv";
         private readonly List<IObserver> _observers;
-        private readonly Serializer<NotificationAccommodationRelease> _serializer;
-        private static INotificationAccommodationReleaseRepository _instance = null;
-        private List<NotificationAccommodationRelease> _notifications;
+        private readonly Serializer<ForumNotification> _serializer;
+        private static IForumNotificationRepository _instance = null;
+        private List<ForumNotification> _notifications;
 
-        public static INotificationAccommodationReleaseRepository GetInstance()
+        public static IForumNotificationRepository GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new NotificationAccommodationReleaseRepository();
+                _instance = new ForumNotificationRepository();
             }
             return _instance;
         }
 
-        private NotificationAccommodationReleaseRepository()
+        private ForumNotificationRepository()
         {
-            _serializer = new Serializer<NotificationAccommodationRelease>();
-            _notifications = new List<NotificationAccommodationRelease>();
+            _serializer = new Serializer<ForumNotification>();
+            _notifications = new List<ForumNotification>();
             _notifications = _serializer.FromCSV(_filePath);
             _observers = new List<IObserver>();
         }
 
-        public NotificationAccommodationRelease Create(NotificationAccommodationRelease entity)
+        public ForumNotification Create(ForumNotification entity)
         {
-            if (_notifications.Find(n => n.Accommodation.Id == entity.Accommodation.Id && n.IsDelivered) == null)
-            {
-                return null;
-            }
             entity.Id = NextId();
             _notifications.Add(entity);
             Save();
@@ -48,29 +44,29 @@ namespace WpfApp1.Repository
             return entity;
         }
 
-        public NotificationAccommodationRelease Delete(NotificationAccommodationRelease entity)
+        public ForumNotification Delete(ForumNotification entity)
         {
             _notifications.Remove(entity);
             Save();
             NotifyObservers();
             return entity;
         }
-        
-        public NotificationAccommodationRelease Get(int id)
+
+        public ForumNotification Get(int id)
         {
             return _notifications.Find(a => a.Id == id);
         }
-        
-        public List<NotificationAccommodationRelease> GetAll()
+
+        public List<ForumNotification> GetAll()
         {
             return _notifications;
         }
-        
+
         public int NextId()
         {
             if (_notifications.Count == 0) return 0;
             int newId = _notifications[_notifications.Count() - 1].Id + 1;
-            foreach (NotificationAccommodationRelease a in _notifications)
+            foreach (ForumNotification a in _notifications)
             {
                 if (newId == a.Id)
                 {
@@ -79,13 +75,13 @@ namespace WpfApp1.Repository
             }
             return newId;
         }
-        
+
         public void Save()
         {
             _serializer.ToCSV(_filePath, _notifications);
         }
-        
-        public NotificationAccommodationRelease Update(NotificationAccommodationRelease entity)
+
+        public ForumNotification Update(ForumNotification entity)
         {
             var oldEntity = Get(entity.Id);
             if (oldEntity == null)
@@ -97,17 +93,17 @@ namespace WpfApp1.Repository
             NotifyObservers();
             return oldEntity;
         }
-        
+
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);
         }
-        
+
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
         }
-        
+
         public void NotifyObservers()
         {
             foreach (var observer in _observers)

@@ -11,7 +11,6 @@ namespace WpfApp1.Domain.Models
     public class Renovation : WpfApp1.Serializer.ISerializable
     {
         public int Id { get; set; }
-        public int IdAccommodation { get; set; }
         public Accommodation Accommodation { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -22,6 +21,7 @@ namespace WpfApp1.Domain.Models
         public Renovation()
         {
             IsCanceled = false;
+            Description = "";
             Accommodation = new();
         }
 

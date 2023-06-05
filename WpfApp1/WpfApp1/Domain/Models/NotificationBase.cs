@@ -10,6 +10,7 @@ namespace WpfApp1.Domain.Models
     public class NotificationBase : ISerializable
     {
         public int Id { get; set; }
+     
         public bool IsDelivered { get; set; }
 
         public NotificationBase()
@@ -36,7 +37,7 @@ namespace WpfApp1.Domain.Models
         public virtual void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            IsDelivered = Boolean.Parse(values[2]);
+            IsDelivered = Boolean.Parse(values[1]);
         }
 
     }

@@ -20,6 +20,7 @@ namespace WpfApp1.Service
             _notificationRepository = InjectorRepository.CreateInstance<INotificationAccommodationReleaseRepository>();
             _accommodationRepository = InjectorRepository.CreateInstance<IAccommodationRepository>();
             BindAccommodation();
+    
         }
 
         private void BindAccommodation()
@@ -27,6 +28,7 @@ namespace WpfApp1.Service
             foreach (var n in _notificationRepository.GetAll())
             {
                 n.Accommodation = _accommodationRepository.Get(n.Accommodation.Id);
+           //     n.Accommodation.Owner.Notifications.Add(n);
             }
         }
 
@@ -57,7 +59,19 @@ namespace WpfApp1.Service
 
         public List<NotificationAccommodationRelease> GetForOwner(int ownerId)
         {
-            return GetAll().FindAll(n => n.Accommodation.Owner.Id == ownerId);
+            return GetAll().FindAll(n => n.Accommodation.Owner.Id == ownerId && !n.IsDelivered);
         }
+
+        public void FindNotification(int ownerId)
+        {
+            foreach(Reservation r in InjectorService.CreateInstance<IReservationService>().GetUnratedById(ownerId))
+            {
+                if(GetAll().Find(n => n.Accommodation.Id == r.Accommodation.Id && !n.IsDelivered) == null)
+                {
+                    Create(new(r.Accommodation));
+                }
+            }
+        }
+
     }
 }

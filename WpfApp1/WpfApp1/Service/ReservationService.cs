@@ -35,16 +35,16 @@ namespace WpfApp1.Service
         }
         private void BindAccommodation()
         {
-            foreach (Reservation r in GetAllWithDeleted())
+            foreach (Reservation r in GetAll())
             {
                 r.Accommodation = _accommodationRepository.Get(r.Accommodation.Id);
             }
         }
         private void BindGuest()
         {
-            foreach (Reservation r in GetAllWithDeleted())
+            foreach (Reservation r in GetAll())
             {
-                r.Guest = _guestRepository.Get(r.IdGuest);
+                r.Guest = _guestRepository.Get(r.Guest.Id);
                 r.Guest.Reservations.Add(r);
             }
         }
@@ -138,16 +138,13 @@ namespace WpfApp1.Service
             {
                 return new List<Reservation>();
             }
-            //foreach(reservation r in list) 
-            //{
-            //    injectorservice.createinstance<inotificationaccommodationreleaseservice>().create(new(r.accommodation));   
-            //}
+            
             return list;
         }
 
         public List<Reservation> GetGuestReservations(int id)
         {
-            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.IdGuest == id).ToList();
+            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.Guest.Id == id).ToList();
             if (list == null)
             {
                 return new List<Reservation>();

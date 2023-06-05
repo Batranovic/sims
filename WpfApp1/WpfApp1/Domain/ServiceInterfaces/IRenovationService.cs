@@ -18,6 +18,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
 
         List<Renovation> GetAllForAccommodation(int idAccommodation);
 
+
         bool IsDateFree(DateTime date, int idAccommodation);
         List<AvailableDate> GetAvailableDate(DateTime start, DateTime end, int duration, int idAccommodation);
     }

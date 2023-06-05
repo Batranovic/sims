@@ -22,5 +22,10 @@ namespace WpfApp1.Domain.ServiceInterfaces
         List<string> GetCitiesFromStates(string state);
 
         Location GetByCityAndState(string city, string state);
+
+        List<Location> GetPopularLocations();
+
+        List<Location> GetUnpopularLocation();
+
     }
 }

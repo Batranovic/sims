@@ -86,7 +86,7 @@ namespace WpfApp1.Service
 
         public List<ReservationPostponement> GetAllByGuestId(int idGuest)
         {
-            return GetAll().FindAll(r => r.Reservation.IdGuest == idGuest);
+            return GetAll().FindAll(r => r.Reservation.Guest.Id == idGuest); 
         }
 
 
