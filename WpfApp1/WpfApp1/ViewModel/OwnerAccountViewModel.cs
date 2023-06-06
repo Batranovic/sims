@@ -1,9 +1,22 @@
-﻿using System.Linq;
+﻿using iTextSharp.text.pdf.draw;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
+using WpfApp1.Views;
+using PdfSharp.Drawing;
+using System;
+using iTextSharp.text.pdf.qrcode;
+using System.Windows.Controls;
+using System.Windows.Media.Media3D;
+using System.Runtime.CompilerServices;
 
 namespace WpfApp1.ViewModel
 {
@@ -16,7 +29,9 @@ namespace WpfApp1.ViewModel
         private ReservationOverviewViewModel _reservationOverviewViewModel;
         private ForumOverviewViewModel _forumViewModel;
         private RenovationOverviewViewModel _renovationOverviewViewModel;
+        private readonly IOwnerService _ownerService;
         private INotificationAccommodationReleaseService _notificationService;
+        
 
         private string _haveNotification;
         public string HaveNotification
@@ -28,6 +43,23 @@ namespace WpfApp1.ViewModel
                 OnPropertyChanged(nameof(HaveNotification));
             }
         }
+
+        public string OwnerAccountWizard = "Dear user,\n\n" +
+        " You have a big section(buttons on top of window), when you select one section then " +
+            "new window open up. In new window you have a vertical tabs with more features. " +
+            "PDF icon is for creating PDF report, bell icon is for display notification " +
+            "and profile icon is for displaying information of user, have a log out which bring back to log in page. " +
+            "You have section for displaying  all reviews.";
+        public string AccommodationWizard = "Overview section is used for displaying all accommodations.\n" +
+            "Statistics section is used for displaying statistic of accommodation,\n" +
+            " you can double tap on accommodation then open statistic for that accommdoation.\n" +
+            "Create section is used for creat new accommodation.\n" +
+            "Suggestion section is used displaying popular and unpopular location.";
+        public string ReservationWizzard = "Overview section is used for display all reservations.\n" +
+            "Request section is used for displaying all postponed request reservation,\n" +
+            " double click used pop up new window with message showing is date free.";
+        public string RenovationWizzard = "Overview section is used for displaying all future renovations. Schedulling section is used for chooseing accommdation and scheduling  renovation.";
+        public string ForumWizzard = "Reviews section is used  for displaying all forums. With double click on one forum from all forums opens  all comments on that forum."; 
 
         private Window _window;
         //    private AccommodationRenovationViewModel _accommodationRenovationViewModel;
@@ -43,6 +75,19 @@ namespace WpfApp1.ViewModel
                 OnPropertyChanged(nameof(NameSurname));
             }
         }
+
+        private string _wizardMessage;
+
+        public string WizardMessage
+        {
+            get => _wizardMessage;
+            set
+            {
+                _wizardMessage = value;
+                OnPropertyChanged(nameof(WizardMessage));
+            }
+        }
+
 
         private bool _visibilityWizard;
         public bool VisibilityWizard
@@ -92,6 +137,64 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        private bool _visibilityPDF;
+        public bool VisibilityPDF
+        {
+            get => _visibilityPDF;
+            set
+            {
+                _visibilityPDF = value;
+                OnPropertyChanged(nameof(VisibilityPDF));
+            }
+        }
+
+        private DateTime _startDate;
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set
+            {
+                _startDate = value;
+                OnPropertyChanged(nameof(StartDate));
+            }
+        }
+
+        private DateTime _endDate;
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set
+            {
+                _endDate = value;
+                OnPropertyChanged(nameof(EndDate));
+            }
+        }
+
+        
+
+        private bool _toolTipEnable;
+        public  bool ToolTipEnable
+        {
+            get => _toolTipEnable;
+            set
+            {
+                _toolTipEnable = value;
+                OnPropertyChanged(nameof(ToolTipEnable));
+            }
+        }
+
+       
+
+        private string _toolTipStatus;
+        public  string ToolTipStatus
+        {
+            get => _toolTipStatus;
+            set
+            {
+                _toolTipStatus = value;
+                OnPropertyChanged(nameof(ToolTipStatus));
+            }
+        }
 
         public RelayCommand NavCommand { get; set; }
         public RelayCommand ShowCommand { get; set; }
@@ -99,8 +202,18 @@ namespace WpfApp1.ViewModel
         public RelayCommand NotificationCommand { get; set; }
         public RelayCommand DeleteNotificationCommand { get; set; }
         public RelayCommand DeleteAllNotificationCommand { get; set; }
+        public RelayCommand CreatePdfCommand { get; set; }
+        public RelayCommand VisibilityPDFCommand { get; set; }
+        public RelayCommand TogleCommand { get; set;  }
+
+        private void ChangedToolTip()
+        {
+            OnPropertyChanged(nameof(ToolTipEnable));
+        }
+
         public OwnerAccountViewModel(Owner owner)
         {
+            _ownerService = InjectorService.CreateInstance<IOwnerService>();
             _reservationOverviewViewModel = new ReservationOverviewViewModel(owner);
             _ownerProfileViewModel = new OwnerProfileViewModel(owner);
             _signInAccommodationViewModel = new SignInAccommodationViewModel(owner);
@@ -116,6 +229,7 @@ namespace WpfApp1.ViewModel
 
         private void IntiCommand()
         {
+            TogleCommand = new(param => Execute_TogleCommand(), param => CanExecute());
             NavCommand = new(Execute_NavCommand, CanExecute_NavCommand);
             ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
             WizardCommand = new(param => Execute_WizardCommand(), param => CanExecute());
@@ -123,9 +237,16 @@ namespace WpfApp1.ViewModel
             NotificationCommand = new(param => Execute_NotificationCommand(), param => CanExecute());
             DeleteNotificationCommand = new(param => Execute_DeleteNotificationCommand(), param => CanExecute_DeleteNotificationCommand());
             DeleteAllNotificationCommand = new(param => Execute_DeleteAllNotificationCommand(), param => CanExecute());
+            CreatePdfCommand = new(Execute_PDF, param => CanExecute());
+            VisibilityPDFCommand = new(param => Execute_VisibilityPDFCommand(), param => CanExecute());
         }
         private void Init(Owner owner)
         {
+            ToolTipStatus = "Enable";
+            ToolTipEnable = true;
+            WizardMessage = OwnerAccountWizard;
+            StartDate = DateTime.Now;
+            EndDate = DateTime.Now;
             _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
             HaveNotification = owner.Notifications.Count == 0 ? "White" : "Green";
             VisibilityWizard = false;
@@ -133,18 +254,25 @@ namespace WpfApp1.ViewModel
             VisibilityNotification = false;
             LoggedOwner = owner;
             UserType = LoggedOwner.Super ? "Super owner" : "Basic owner";
+            VisibilityPDF = false;
         }
 
+        private void Execute_TogleCommand()
+        {
+            ToolTipEnable = !ToolTipEnable;
+            ToolTipStatus = ToolTipEnable ? "Enabled" : "Disabled";
+        }
 
         private void Execute_NotificationCommand()
         {
             VisibilityNotification = !VisibilityNotification;
         }
 
-        public void Execute_WizardCommand()
+        private void Execute_VisibilityPDFCommand()
         {
-            VisibilityWizard = !VisibilityWizard;
+            VisibilityPDF = !VisibilityPDF;
         }
+
         public bool CanExecute_NavCommand(object parameter)
         {
             if (parameter == null || !int.TryParse(parameter.ToString(), out int index))
@@ -161,6 +289,30 @@ namespace WpfApp1.ViewModel
             mw.Show();
             MainWindow.LogInUser = null;
             _window.Close();
+        }
+        public void Execute_WizardCommand()
+        {
+            if(CurrentViewModel.GetType() == _ownerProfileViewModel.GetType())
+            {
+                WizardMessage = OwnerAccountWizard;
+            }
+            else  if(CurrentViewModel.GetType() == _signInAccommodationViewModel.GetType())
+            {
+                WizardMessage = AccommodationWizard;
+            }
+            else if(CurrentViewModel.GetType() == _reservationOverviewViewModel.GetType())
+            {
+                WizardMessage = ReservationWizzard;
+            }
+            else if(CurrentViewModel.GetType() == _renovationOverviewViewModel.GetType())
+            {
+                WizardMessage = RenovationWizzard;
+            }
+            else
+            {
+                WizardMessage = ForumWizzard;
+            }
+            VisibilityWizard = !VisibilityWizard;
         }
         public void Execute_NavCommand(object parameter)
         {
@@ -236,6 +388,139 @@ namespace WpfApp1.ViewModel
             LoggedOwner.Notifications.Clear();
             HaveNotification = "White";
         }
+
+        private void Execute_PDF(object sender)
+        {
+            Document document = new Document();
+
+            // Set up the output stream
+            string filePath = "accommodation.pdf";
+            FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            PdfWriter writer = PdfWriter.GetInstance(document, fileStream);
+
+            // Open the document
+            document.Open();
+
+            // Add the title and subtitle
+            Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24);
+            Paragraph title = new Paragraph("Accommodation Report", titleFont);
+            title.Alignment = Element.ALIGN_CENTER;
+            document.Add(title);
+
+            Font subtitleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16);
+            Paragraph subtitle = new Paragraph("Your tour bookings", subtitleFont);
+            subtitle.Alignment = Element.ALIGN_CENTER;
+            document.Add(subtitle);
+
+            // Add a separator
+            LineSeparator separator = new LineSeparator();
+            document.Add(new Chunk(separator));
+
+            Font infoFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+            Font boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+            Paragraph organizedBy = new Paragraph();
+            organizedBy.Alignment = Element.ALIGN_LEFT;
+            organizedBy.Add(new Chunk("Organized by:\n", boldFont));
+            organizedBy.Add(new Chunk("Booking\n", infoFont));
+            organizedBy.Add(new Chunk("Novi Sad, Serbia, 21000\n", infoFont));
+            organizedBy.Add(new Chunk("booking@gmail.com", infoFont));
+            document.Add(organizedBy);
+            // Add spacing after the "Organized by" section
+            document.Add(new Paragraph("\n"));
+
+            // Add the "Customer details" section
+            Paragraph customerDetails = new Paragraph();
+            customerDetails.Alignment = Element.ALIGN_RIGHT;
+            customerDetails.Add(new Chunk("Customer details:\n", boldFont));
+
+            // Retrieve the tourist object
+            Owner owner = _ownerService.Get(MainWindow.LogInUser.Id);
+            if (owner != null)
+            {
+                // Access the name and email properties of the tourist
+                string ownerName = owner.Name + " " + owner.Surname;
+                string ownerEmail = owner.Email;
+
+                // Add the tourist name and email to the "Customer details" section
+                customerDetails.Add(new Chunk(ownerName + "\n", infoFont));
+                customerDetails.Add(new Chunk(ownerEmail + "\n", infoFont));
+            }
+            // Add the "Customer details" section above the "From: Start Date" section
+            document.Add(customerDetails);
+
+            // Add spacing before the "From: Start Date" section
+            document.Add(new Paragraph("\n"));
+
+            // Add the date range information
+            Paragraph dateRange = new Paragraph();
+            dateRange.Add(new Chunk("From: ", boldFont));
+            dateRange.Add(new Chunk(StartDate.ToString("dd-MM-yyyy"), infoFont));
+            dateRange.Add(new Chunk("\nTo: ", boldFont));
+            dateRange.Add(new Chunk(EndDate.ToString("dd-MM-yyyy"), infoFont));
+            document.Add(dateRange);
+
+            // Add spacing after the date range
+            document.Add(new Paragraph("\n"));
+
+            // Add a new paragraph of text
+            Paragraph paragraph = new Paragraph("Your reservation report for the selected date range:", infoFont);
+            document.Add(paragraph);
+
+            // Add two rows of space
+            document.Add(new Paragraph("\n\n"));
+
+            // Create the table
+            PdfPTable table = new PdfPTable(4);
+            table.WidthPercentage = 100;
+
+            // Set the column widths
+            float[] columnWidths = { 2f, 2f, 2f, 2f };
+            table.SetWidths(columnWidths);
+
+            // Add table headers
+            PdfPCell headerCell = new PdfPCell();
+            headerCell.BackgroundColor = BaseColor.LIGHT_GRAY;
+            headerCell.Padding = 5;
+            headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+            headerCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+
+            headerCell.Phrase = new Phrase("Location", infoFont);
+            table.AddCell(headerCell);
+
+            headerCell.Phrase = new Phrase("Accommodation name", infoFont);
+            table.AddCell(headerCell);
+
+            headerCell.Phrase = new Phrase("Start Date", infoFont);
+            table.AddCell(headerCell);
+
+            headerCell.Phrase = new Phrase("Duration", infoFont);
+            table.AddCell(headerCell);
+
+
+
+            // Get the tour booking data for the selected date range
+            List<Reservation> resevations = _reservationService.GetAll().FindAll(r => r.StartDate >=  StartDate && r.EndDate <= EndDate);
+
+            // Add tour booking data to the table
+            foreach (Reservation r in resevations)
+            {
+                table.AddCell(new PdfPCell(new Phrase(r.Accommodation.Location.State + " - " + r.Accommodation.Location.City, infoFont)));
+                table.AddCell(new PdfPCell(new Phrase(r.Accommodation.Name, infoFont)));
+                table.AddCell(new PdfPCell(new Phrase(r.StartDate.ToString("dd-MM-yyyy"), infoFont)));
+                table.AddCell(new PdfPCell(new Phrase(((r.EndDate-r.StartDate).Days).ToString(), infoFont)));
+            }
+
+            // Add the table to the document
+            document.Add(table);
+
+            // Close the document
+            document.Close();
+
+            // Open the PDF document with the default application
+            Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+            Execute_VisibilityPDFCommand();
+        }
+
 
     }
 }

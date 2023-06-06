@@ -9,7 +9,7 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
         Title="OwnerAccount" Height="650" Width="967" ResizeMode="NoResize"
-        Name="OwnerStart" >
+        Name="OwnerStart" Background="#B8E1CF" >
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:OwnerProfileViewModel}">
@@ -32,22 +32,41 @@
     <Grid>
         <DockPanel  Width="950" >
             <DockPanel DockPanel.Dock="Top" Background="blue" Height="80" >
-                <WrapPanel Background="white">
+                <WrapPanel Background="#B8E1CF">
                     <WrapPanel Width="100" Height="80">
 
                     </WrapPanel>
 
                     <WrapPanel  Height="80" Width="600" >
-                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="1" >Acommodations</Button>
-                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="2">Reservations</Button>
-                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="3">Renovations</Button>
-                        <Button  Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="4">Forum</Button>
+                        <Button Background="#79CDA8" Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="1" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}" Content="Acommodations">
+                            <Button.ToolTip>
+                                <ToolTip Content="Press for accommodation section" />
+                            </Button.ToolTip>
+                        </Button>
+                        <Button Background="#79CDA8" Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="2" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}" Content="Reservations">
+                            <Button.ToolTip>
+                                <ToolTip Content="Press for reservation section" />
+                            </Button.ToolTip>
+                        </Button>
+                        <Button Background="#79CDA8" Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="3" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}" Content="Renovations">
+                            <Button.ToolTip>
+                                <ToolTip Content="Press for renovation section" />
+                            </Button.ToolTip>
+                        </Button>
+                        <Button Background="#79CDA8" Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="4" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}" Content="Forum">
+                            <Button.ToolTip>
+                                <ToolTip Content="Forum button" />
+                            </Button.ToolTip>
+                        </Button>
 
                     </WrapPanel>
 
                     <WrapPanel  Height="80" Width="250" >
-                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10">
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding VisibilityPDFCommand}" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}">
                             <Image Source="../Views/Image/Owner/pdf.png" Width="40" Height="40" />
+                            <Button.ToolTip>
+                                <ToolTip Content="PDF button" />
+                            </Button.ToolTip>
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
@@ -60,21 +79,24 @@
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                        <Setter Property="Background" Value="#79CDA8 " />
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
-                                    <Setter Property="Background" Value="White" />
+                                    <Setter Property="Background" Value="#B8E1CF" />
                                 </Style>
                             </Button.Style>
                         </Button>
 
 
 
-                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding WizardCommand}">
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding WizardCommand}" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}">
                             <Image Source="../Views/Image/Owner/wizard1.png" Width="40" Height="40" />
+                            <Button.ToolTip>
+                                <ToolTip Content="Wizzard button" />
+                            </Button.ToolTip>
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
@@ -86,25 +108,24 @@
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                        <Setter Property="Background" Value="#79CDA8 " />
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
-                                    <Setter Property="Background" Value="White" />
+                                    <Setter Property="Background" Value="#B8E1CF" />
                                 </Style>
                             </Button.Style>
                         </Button>
 
 
-                        <Button x:Name="btnNotification" Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NotificationCommand}">
-                            <Border BorderBrush="{Binding HaveNotification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="2" CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
-                                <Grid>
-                                    <Ellipse Fill="White" />
-                                    <Image Source="../Views/Image/Owner/notification1.png" Width="40" Height="40" />
-                                </Grid>
-                            </Border>
+
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}">
+                            <Image Source="../Views/Image/Owner/notification1.png" Width="40" Height="40" />
+                            <Button.ToolTip>
+                                <ToolTip Content="Notification button" />
+                            </Button.ToolTip>
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
@@ -116,20 +137,27 @@
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                        <Setter Property="Background" Value="#79CDA8 " />
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
-                                    <Setter Property="Background" Value="White" />
+                                    <Setter Property="Background" Value="#B8E1CF" />
                                 </Style>
                             </Button.Style>
                         </Button>
 
-                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0">
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <Image Source="../Views/Image/Owner/profile.png" Width="40" Height="40" />
-
+                            <Button.ToolTip>
+                                <ToolTip Content="Account button" />
+                            </Button.ToolTip>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseEnter">
+                                    <i:InvokeCommandAction Command="{Binding ShowCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
@@ -141,20 +169,20 @@
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#FFDDDDDD" />
+                                                        <Setter Property="Background" Value="#79CDA8 " />
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
-                                    <Setter Property="Background" Value="White" />
+                                    <Setter Property="Background" Value="#B8E1CF" />
                                 </Style>
                             </Button.Style>
                         </Button>
 
                         <Popup IsOpen="{Binding VisibilityPopUp}"
                                Width="250" 
-                                Height="150" 
+                                Height="200" 
                                 Margin="0,100,10,0"
                                 VerticalAlignment="Top" 
                                 HorizontalAlignment="Right" 
@@ -165,14 +193,48 @@
                                     <i:InvokeCommandAction Command="{Binding ShowCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                                    <Label Width="200" Height="40" FontSize="25" Content="{Binding NameSurname}"></Label>
+                                    <Label Content="{Binding UserType}" FontSize="25" Width="200" Height="40"/>
+                                    <WrapPanel Orientation="Horizontal" Margin="0, 10, 0, 0" >
+                                        <Label Content="Tool tip"  FontSize="20"/>
+                                        <Button Content="{Binding ToolTipStatus}" Width="60" Margin="10, 0, 0, 0" Command="{Binding TogleCommand}" ></Button>
+                                    </WrapPanel>
 
-                            <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
-                                <Label Width="200" Height="40" FontSize="25" Content="{Binding NameSurname}"></Label>
-                                <Label Content="{Binding UserType}" FontSize="25" Width="200" Height="40"/>
-                                <Button Margin="20" Height="30" Width="70" Content="Log out" Command="{Binding LogoutCommand}"/>
-                            </WrapPanel>
+                                    <Button Margin="25, 24, 0, 0" Height="30" Width="70" Content="Log out" Command="{Binding LogoutCommand}"/>
+                                </WrapPanel>
+                            </Border>
                         </Popup>
-                        
+
+                        <Popup IsOpen="{Binding VisibilityPDF}"
+                               Width="350" 
+                                Height="320" 
+                                Margin="0,100,10,0"
+                                PlacementTarget="{Binding ElementName=OwnerStart}"
+                                Placement="Center"
+                                Panel.ZIndex="1000">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding ShowCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <WrapPanel Width="350" Height="320" Orientation="Vertical" Background="AliceBlue">
+                                    <Label  FontSize="30">Create pdf</Label>
+                                    <Label Margin="85,0, 0, 0" Content="Start date" FontSize="30" />
+                                    <DatePicker Margin="85,0, 0, 0" FontSize="23" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
+                                    <Label Margin="85,0, 0, 0" Content="End date" FontSize="30" />
+                                    <DatePicker Margin="85,0, 0, 0" FontSize="23" SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
+                                    <WrapPanel Orientation="Horizontal" Margin="0, 20, 0, 0">
+                                        <Button Margin="85, 20, 0, 0" FontSize="20" Command="{Binding CreatePdfCommand}" >Confirm</Button>
+                                        <Button Margin="50, 20, 0, 0" FontSize="20" Width="78" Command="{Binding VisibilityPDFCommand}" >Cancel</Button>
+                                    </WrapPanel>
+                                </WrapPanel>
+                            </Border>
+                        </Popup>
+
                         <Popup IsOpen="{Binding VisibilityNotification}"
                                 Width="250" 
                                 Height="200" 
@@ -185,25 +247,26 @@
                                     <i:InvokeCommandAction Command="{Binding NotificationCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-
-                            <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
-                                <ListView Height="135" ItemsSource="{Binding LoggedOwner.Notifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedNotificationBase}" >
-                                    <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn Header="Message" Width="225" DisplayMemberBinding="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                                <WrapPanel Orientation="Horizontal">
-                                    <Button Margin="32, 20, 0, 0" Height="30" Width="70" Content="Delete" Command="{Binding DeleteNotificationCommand}"/>
-                                    <Button Margin="35, 20, 0, 0" Height="30" Width="70" Content="Delete all" Command="{Binding DeleteAllNotificationCommand}"/>
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                                    <ListView Height="135" ItemsSource="{Binding LoggedOwner.Notifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedNotificationBase}" >
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Message" Width="225" DisplayMemberBinding="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <WrapPanel Orientation="Horizontal">
+                                        <Button Margin="32, 20, 0, 0" Height="30" Width="70" Content="Delete" Command="{Binding DeleteNotificationCommand}"/>
+                                        <Button Margin="35, 20, 0, 0" Height="30" Width="70" Content="Delete all" Command="{Binding DeleteAllNotificationCommand}"/>
+                                    </WrapPanel>
                                 </WrapPanel>
-                            </WrapPanel>
+                            </Border>
                         </Popup>
                         
                         <Popup IsOpen="{Binding VisibilityWizard}"
-                               Width="270" 
-                                Height="170" 
+                               Width="350" 
+                                Height="270" 
                                 PlacementTarget="{Binding ElementName=OwnerStart}"
                                 Placement="Center"
                                 Margin="0,70,10,0"
@@ -214,14 +277,11 @@
                                     <i:InvokeCommandAction Command="{Binding WizardCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-
-                            <WrapPanel Width="270" Height="170" Orientation="Vertical" Background="AliceBlue">
-                                <Label Width="250" Height="30">Hello dear user,</Label>
-                                <Label Width="250" Height="30">You have a big section(buttons on top of</Label>
-                                <Label Width="250" Height="30">window), when you select one section then</Label>
-                                <Label Width="250" Height="30">new window open up. In new window you</Label>
-                                <Label Width="250" Height="30">have a  vertical tabs with more features.</Label>
-                            </WrapPanel>
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <WrapPanel Width="350" Height="270" Orientation="Vertical" Background="AliceBlue">
+                                    <TextBlock FontSize="15" TextWrapping="Wrap" Text="{Binding WizardMessage}" ></TextBlock>
+                                </WrapPanel>
+                            </Border>
                         </Popup>
 
                     </WrapPanel>

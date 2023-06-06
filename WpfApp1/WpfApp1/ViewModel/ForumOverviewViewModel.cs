@@ -26,6 +26,16 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        private string _selectedState;
+        public string SelectedState
+        {
+            get => _selectedState;
+            set
+            {
+                _selectedState = value;
+                OnPropertyChanged(nameof(SelectedState));
+            }
+        }
         public ObservableCollection<ForumComments> ForumComments { get; set; }
 
         private int _tabPosition;
@@ -89,7 +99,6 @@ namespace WpfApp1.ViewModel
 
         private void Init(Owner owner)
         {
-            SelectedComment = new();
             TabPosition = 0;
             LoggedOwner = owner;
             Forums = new(_forumService.GetAll());
@@ -103,12 +112,14 @@ namespace WpfApp1.ViewModel
             NewCommentCommand = new(param => Execute_NewCommentCommand(), param => CanExecute());
             ConfirmNewCommentCommand = new(param => Execute_ConfirmNewCommentCommand(), param => CanExecute_ConfirmNewCommentCommand());
             CancelNewCommentCommand = new(param => Execute_CancelNewCommentCommand(), param => CanExecute());
-            ReportCommand = new(param => Execute_ReportCommand(), param => CanExecute());
+            ReportCommand = new(Execute_ReportCommand, param => CanExecute());
         }
 
         private void Execute_ShowCommentCommand()
         {
             TabPosition = 1;
+            SelectedState = SelectedForum.Location.City;
+            OnPropertyChanged(nameof(SelectedState));
             OnPropertyChanged(nameof(SelectedForum));
         }
 
@@ -123,10 +134,21 @@ namespace WpfApp1.ViewModel
             OnPropertyChanged(nameof(ForumComments));
         }
 
-        private void Execute_ReportCommand()
+        private void Execute_ReportCommand(object sender)
         {
-            SelectedComment.Report++;
-            _forumCommentService.Update(SelectedComment);
+            if (sender != null  && sender is ForumComments forumComments)
+            {
+                SelectedComment = forumComments;
+                SelectedComment.Report++;
+                _forumCommentService.Update(SelectedComment);
+                ForumComments.Clear();
+                foreach (var item in _forumCommentService.GetAll().FindAll(f => f.Forum.Id == SelectedForum.Id))
+                {
+                    ForumComments.Add(item);
+                }
+                OnPropertyChanged(nameof(ForumComments));
+
+            }
         }
 
         private void Execute_CancelNewCommentCommand()
