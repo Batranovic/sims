@@ -17,6 +17,9 @@ using iTextSharp.text.pdf.qrcode;
 using System.Windows.Controls;
 using System.Windows.Media.Media3D;
 using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
+using PdfSharp.Pdf.IO;
+using WpfApp1.DTO;
 
 namespace WpfApp1.ViewModel
 {
@@ -31,6 +34,8 @@ namespace WpfApp1.ViewModel
         private RenovationOverviewViewModel _renovationOverviewViewModel;
         private readonly IOwnerService _ownerService;
         private INotificationAccommodationReleaseService _notificationService;
+        private readonly IForumNotificationService _forumNotificationService;
+        private readonly IAccommodationService _accommodationService;
         
 
         private string _haveNotification;
@@ -206,10 +211,6 @@ namespace WpfApp1.ViewModel
         public RelayCommand VisibilityPDFCommand { get; set; }
         public RelayCommand TogleCommand { get; set;  }
 
-        private void ChangedToolTip()
-        {
-            OnPropertyChanged(nameof(ToolTipEnable));
-        }
 
         public OwnerAccountViewModel(Owner owner)
         {
@@ -222,6 +223,8 @@ namespace WpfApp1.ViewModel
             _forumViewModel = new(owner);
             _reservationService = InjectorService.CreateInstance<IReservationService>();
             _notificationService = InjectorService.CreateInstance<INotificationAccommodationReleaseService>();
+            _forumNotificationService = InjectorService.CreateInstance<IForumNotificationService>();
+            _accommodationService = InjectorService.CreateInstance<IAccommodationService>();
 
             Init(owner);
             IntiCommand();
@@ -240,8 +243,66 @@ namespace WpfApp1.ViewModel
             CreatePdfCommand = new(Execute_PDF, param => CanExecute());
             VisibilityPDFCommand = new(param => Execute_VisibilityPDFCommand(), param => CanExecute());
         }
+        public ObservableCollection<Accommodation> Accommodations { get; set; }
+        private Accommodation _selectedAccommodation;
+        public Accommodation SelectedAccommodation
+        {
+            get => _selectedAccommodation;
+            set
+            {
+                _selectedAccommodation = value;
+                OnPropertyChanged(nameof(SelectedAccommodation));
+                SetYear();
+            }
+        }
+
+        private void SetYear()
+        {
+            List<int> years = new();
+            foreach(var r in InjectorService.CreateInstance<IReservationService>().GetAll().FindAll(re => re.Accommodation.Id == SelectedAccommodation.Id))
+            {
+                years.Add(r.StartDate.Year);
+            }
+            years = years.Distinct().ToList();
+            Years.Clear();
+            foreach(int i in years)
+            {
+                Years.Add(i);
+            }
+            if(years.Count == 0) {
+                MessageBox.Show("Accommodation doesnt have reservation.", "Warning");
+            }
+        }
+
+        private ObservableCollection<int> _years;
+        public ObservableCollection<int> Years
+        {
+            get => _years;
+            set
+            {
+                _years = value;
+                OnPropertyChanged(nameof(Years));
+            }
+        }
+
+        private int _selectedYear;
+        public int SelectedYear
+        {
+            get => _selectedYear;
+            set
+            {
+                _selectedYear = value;
+                OnPropertyChanged(nameof(SelectedAccommodation));
+            }
+        }
+
+        public ObservableCollection<AccommodationStatisticDTO> AccommodationStatisticMonthDTOs { get; set; }
+
         private void Init(Owner owner)
         {
+            AccommodationStatisticMonthDTOs = new();
+            Years = new();
+            Accommodations = new(_accommodationService.GetAll());
             ToolTipStatus = "Enable";
             ToolTipEnable = true;
             WizardMessage = OwnerAccountWizard;
@@ -383,7 +444,14 @@ namespace WpfApp1.ViewModel
             foreach (var n in LoggedOwner.Notifications)
             {
                 n.IsDelivered = true;
-                _notificationService.Update((NotificationAccommodationRelease)n);
+                if(n.GetType().Equals(typeof(NotificationAccommodationRelease)))
+                {
+                    _notificationService.Update((NotificationAccommodationRelease)n);
+                }
+                else
+                {
+                    _forumNotificationService.Update((ForumNotification)n);
+                }
             }
             LoggedOwner.Notifications.Clear();
             HaveNotification = "White";
@@ -463,18 +531,19 @@ namespace WpfApp1.ViewModel
             document.Add(new Paragraph("\n"));
 
             // Add a new paragraph of text
-            Paragraph paragraph = new Paragraph("Your reservation report for the selected date range:", infoFont);
+            string s = "Your reservation report for the selected accommodation " + SelectedAccommodation.Name + " in year " + SelectedYear.ToString() + ".";
+            Paragraph paragraph = new Paragraph(s);
             document.Add(paragraph);
 
             // Add two rows of space
             document.Add(new Paragraph("\n\n"));
 
             // Create the table
-            PdfPTable table = new PdfPTable(4);
+            PdfPTable table = new PdfPTable(5);
             table.WidthPercentage = 100;
 
             // Set the column widths
-            float[] columnWidths = { 2f, 2f, 2f, 2f };
+            float[] columnWidths = { 1.5f, 1.5f, 1.5f, 1.5f, 1.5f };
             table.SetWidths(columnWidths);
 
             // Add table headers
@@ -484,32 +553,38 @@ namespace WpfApp1.ViewModel
             headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
             headerCell.VerticalAlignment = Element.ALIGN_MIDDLE;
 
-            headerCell.Phrase = new Phrase("Location", infoFont);
+
+            headerCell.Phrase = new Phrase("Month", infoFont);
             table.AddCell(headerCell);
 
-            headerCell.Phrase = new Phrase("Accommodation name", infoFont);
+            headerCell.Phrase = new Phrase("Reservation", infoFont);
             table.AddCell(headerCell);
 
-            headerCell.Phrase = new Phrase("Start Date", infoFont);
+            headerCell.Phrase = new Phrase("Cancelation", infoFont);
             table.AddCell(headerCell);
 
-            headerCell.Phrase = new Phrase("Duration", infoFont);
+            headerCell.Phrase = new Phrase("Rescheduling", infoFont);
+            table.AddCell(headerCell);
+
+            headerCell.Phrase = new Phrase("Renovation advice", infoFont);
             table.AddCell(headerCell);
 
 
-
+         
             // Get the tour booking data for the selected date range
             List<Reservation> resevations = _reservationService.GetAll().FindAll(r => r.StartDate >=  StartDate && r.EndDate <= EndDate);
 
             // Add tour booking data to the table
-            foreach (Reservation r in resevations)
+            AccommodationStatisticMonthDTOs.Clear();
+            foreach (AccommodationStatisticDTO a in _accommodationService.StatisticByMonthForAccommodation(SelectedAccommodation.Id,SelectedYear))
             {
-                table.AddCell(new PdfPCell(new Phrase(r.Accommodation.Location.State + " - " + r.Accommodation.Location.City, infoFont)));
-                table.AddCell(new PdfPCell(new Phrase(r.Accommodation.Name, infoFont)));
-                table.AddCell(new PdfPCell(new Phrase(r.StartDate.ToString("dd-MM-yyyy"), infoFont)));
-                table.AddCell(new PdfPCell(new Phrase(((r.EndDate-r.StartDate).Days).ToString(), infoFont)));
+                table.AddCell(new PdfPCell(new Phrase(a.Month, infoFont)));
+                table.AddCell(new PdfPCell(new Phrase(a.Renovations.ToString(), infoFont)));
+                table.AddCell(new PdfPCell(new Phrase(a.Cancelations.ToString(), infoFont)));
+                table.AddCell(new PdfPCell(new Phrase(a.Rescheduling.ToString(), infoFont)));
+                table.AddCell(new PdfPCell(new Phrase(a.Renovations.ToString(), infoFont)));
             }
-
+           
             // Add the table to the document
             document.Add(table);
 

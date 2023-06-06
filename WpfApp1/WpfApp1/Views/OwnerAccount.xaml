@@ -121,7 +121,7 @@
 
 
 
-                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}">
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NotificationCommand}"  CommandParameter="0" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}">
                             <Image Source="../Views/Image/Owner/notification1.png" Width="40" Height="40" />
                             <Button.ToolTip>
                                 <ToolTip Content="Notification button" />
@@ -207,33 +207,46 @@
                             </Border>
                         </Popup>
 
+
                         <Popup IsOpen="{Binding VisibilityPDF}"
-                               Width="350" 
-                                Height="320" 
-                                Margin="0,100,10,0"
+                                Width="470" 
+                                Height="550" 
                                 PlacementTarget="{Binding ElementName=OwnerStart}"
                                 Placement="Center"
+                                Margin="0,70,10,0"
                                 Panel.ZIndex="1000">
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseLeave">
-                                    <i:InvokeCommandAction Command="{Binding ShowCommand}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
                             <Border BorderBrush="Black" BorderThickness="2">
-                                <WrapPanel Width="350" Height="320" Orientation="Vertical" Background="AliceBlue">
-                                    <Label  FontSize="30">Create pdf</Label>
-                                    <Label Margin="85,0, 0, 0" Content="Start date" FontSize="30" />
-                                    <DatePicker Margin="85,0, 0, 0" FontSize="23" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
-                                    <Label Margin="85,0, 0, 0" Content="End date" FontSize="30" />
-                                    <DatePicker Margin="85,0, 0, 0" FontSize="23" SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
-                                    <WrapPanel Orientation="Horizontal" Margin="0, 20, 0, 0">
-                                        <Button Margin="85, 20, 0, 0" FontSize="20" Command="{Binding CreatePdfCommand}" >Confirm</Button>
-                                        <Button Margin="50, 20, 0, 0" FontSize="20" Width="78" Command="{Binding VisibilityPDFCommand}" >Cancel</Button>
+                                <WrapPanel Width="470" Height="550" Orientation="Vertical" Background="AliceBlue">
+                                    <WrapPanel Orientation="Vertical">
+                                        <Label FontSize="20">Choose accommodation</Label>
+                                        <ListView Height="350" Width="470" ItemsSource="{Binding Accommodations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Photo" Width="250">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Image Margin="32, 0, 0, 0" Height="100" Width="150" Source="{Binding MainImage.Path}"></Image>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Name" Width="192" DisplayMemberBinding="{Binding Name}" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <WrapPanel>
+                                            <Label Content="Year: " FontSize="20"></Label>
+                                            <ComboBox  Width="200" ItemsSource="{Binding Years, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedYear}"></ComboBox>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <Button Command="{Binding CreatePdfCommand}" FontSize="20" Margin="140, 20, 0, 0">Confirm</Button>
+                                            <Button Command="{Binding VisibilityPDFCommand}" FontSize="20" Margin="25, 20, 0, 0">Cancel</Button>
+                                        </WrapPanel>
                                     </WrapPanel>
                                 </WrapPanel>
                             </Border>
                         </Popup>
+
 
                         <Popup IsOpen="{Binding VisibilityNotification}"
                                 Width="250" 

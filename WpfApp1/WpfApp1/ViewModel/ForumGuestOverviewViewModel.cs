@@ -17,6 +17,8 @@ namespace WpfApp1.ViewModel
         private IForumService _forumService;
         private IForumCommentsService _forumCommentService;
         private readonly ILocationService _locationService;
+        private readonly IOwnerService _ownerService;
+        private readonly IForumNotificationService _forumNotificationService;
 
         public ObservableCollection<Forum> Forums { get; set; }
 
@@ -106,6 +108,8 @@ namespace WpfApp1.ViewModel
             _forumService = InjectorService.CreateInstance<IForumService>();
             _forumCommentService = InjectorService.CreateInstance<IForumCommentsService>();
             _locationService = InjectorService.CreateInstance<ILocationService>();
+            _ownerService = InjectorService.CreateInstance<IOwnerService>();
+            _forumNotificationService = InjectorService.CreateInstance<IForumNotificationService>();
             LoggedGuest = guest;
 
             ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
@@ -163,6 +167,13 @@ namespace WpfApp1.ViewModel
                 Forums.Add(f);
             }
             VisibilityPopUp = false;
+            foreach(Owner o in _ownerService.GetAll())
+            {
+                if(o.Accommodations.Find(a => a.Location.Id == forum.Location.Id) != null)
+                {
+                    _forumNotificationService.Create(new("Forum about " + forum.Location.City + " has been opened", DateTime.Now, forum, o));
+                }
+            }
         }
 
         private bool CanExecute_CreateForum()
