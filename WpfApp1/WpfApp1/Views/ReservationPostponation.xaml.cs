@@ -28,6 +28,7 @@ namespace WpfApp1.Views
 
         public ReservationPostponation(Reservation reservation)
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
             this.DataContext = new ReservationPostponationViewModel(reservation);
         }

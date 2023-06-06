@@ -1,0 +1,173 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using WpfApp1.Commands;
+using WpfApp1.Domain.Models;
+using WpfApp1.Domain.ServiceInterfaces;
+using WpfApp1.Service;
+
+namespace WpfApp1.ViewModel
+{
+    public class ForumGuestOverviewViewModel : ViewModelBase
+    {
+        private IForumService _forumService;
+        private IForumCommentsService _forumCommentService;
+        private readonly ILocationService _locationService;
+
+        public ObservableCollection<Forum> Forums { get; set; }
+
+        private Guest LoggedGuest { get; set; }
+        
+        private Forum _selectedForum;
+        public RelayCommand CreateForumCommand { get; set; }
+        public RelayCommand ShowCommand { get; set; }
+
+        public RelayCommand CreateCommand { get; set; }
+
+        public ObservableCollection<string> States { get; set; }
+
+        public ObservableCollection<string> Cities { get; set; }
+
+        private string _state;
+        private string _city;
+
+        private string _text;
+
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                _text = value;
+                OnPropertyChanged(nameof(Text));
+            }
+        }
+
+        public string State
+        {
+            get => _state;
+            set
+            {
+                _state = value;
+                OnPropertyChanged(nameof(State));
+                ChosenState();
+            }
+        }
+
+        public string City
+        {
+            get => _city;
+            set
+            {
+                _city = value;
+                OnPropertyChanged(nameof(City));
+            }
+        }
+        public Forum SelectedForum
+        {
+            get => _selectedForum;
+            set
+            {
+                _selectedForum = value;
+                OnPropertyChanged(nameof(SelectedForum));
+            }
+        }
+
+        private bool _visibilityPopUp;
+        public bool VisibilityPopUp
+        {
+            get => _visibilityPopUp;
+            set
+            {
+                _visibilityPopUp = value;
+                OnPropertyChanged(nameof(VisibilityPopUp));
+            }
+        }
+
+        public ObservableCollection<ForumComments> ForumComments { get; set; }
+
+        private int _tabPosition;
+        public int TabPosition
+        {
+            get => _tabPosition;
+            set
+            {
+                _tabPosition = value;
+                OnPropertyChanged(nameof(TabPosition));
+            }
+        }
+
+        public ForumGuestOverviewViewModel(Guest guest)
+        {
+            _forumService = InjectorService.CreateInstance<IForumService>();
+            _forumCommentService = InjectorService.CreateInstance<IForumCommentsService>();
+            _locationService = InjectorService.CreateInstance<ILocationService>();
+            LoggedGuest = guest;
+
+            ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
+
+            States = new ObservableCollection<string>(_locationService.GetStates());
+            Cities = new ObservableCollection<string>();
+            Forums = new ObservableCollection<Forum>(_forumService.GetAll());
+
+
+            VisibilityPopUp = false;
+
+             CreateForumCommand = new RelayCommand(param => Execute_CreateForumCommand(), param => CanExecute_CreateForum());
+        }
+
+        public void Execute_ShowCommand()
+        {
+            VisibilityPopUp = !VisibilityPopUp;
+        }
+
+        public bool CanExecute()
+        {
+            return true;
+        }
+
+        private void ChosenState()
+        {
+            Cities.Clear();
+            foreach (string city in _locationService.GetCitiesFromStates(State))
+            {
+                Cities.Add(city);
+            }
+        }
+
+        private void Execute_CreateForumCommand()
+        {
+            Forum forum = new Forum();
+            ForumComments fc = new ForumComments();
+            fc.Comment = Text;
+            fc.Date = DateTime.Now;
+            fc.Author = LoggedGuest;
+            fc.Report = 0;
+            fc.Forum = forum;
+            _forumCommentService.Create(fc);
+            forum.FirstComment = fc;
+            forum.Comments.Add(fc);
+            forum.Location = _locationService.GetByCityAndState(City, State);
+            forum.IsOpen = true;
+            forum.Guest = LoggedGuest;
+            _forumService.Create(forum);
+            fc.Forum = forum;
+            _forumCommentService.Update(fc);
+            Forums.Clear();
+            foreach(var f in _forumService.GetAll())
+            {
+                Forums.Add(f);
+            }
+            VisibilityPopUp = false;
+        }
+
+        private bool CanExecute_CreateForum()
+        {
+            return !(State == "" || City == "" || Text == "");
+        }
+    }
+}

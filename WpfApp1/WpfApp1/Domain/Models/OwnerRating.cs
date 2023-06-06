@@ -22,7 +22,7 @@ namespace WpfApp1.Domain.Models
 
         public OwnerRating(Reservation reservation, string comment, int cleanliness, int ownerCorrectness, int timeliness)
         {
-            Reservation.Id = reservation.Id;
+            
             Reservation = reservation;
             Comment = comment;
             Cleanliness = cleanliness;

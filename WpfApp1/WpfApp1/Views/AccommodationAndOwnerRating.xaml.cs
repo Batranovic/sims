@@ -33,6 +33,7 @@ namespace WpfApp1.Views
 
         public AccommodationAndOwnerRating(Reservation reservation)
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
             this.DataContext = new AccommodationAndOwnerRatingViewModel(reservation);
 

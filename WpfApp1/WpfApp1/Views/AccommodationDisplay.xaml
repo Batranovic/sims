@@ -4,42 +4,44 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1.Views"
+             xmlns:ns="clr-namespace:WpfApp1.Localization"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="655" d:DesignWidth="1024"
-             Background="AliceBlue">
+             d:DesignHeight="655" d:DesignWidth="1004"
+             Background="{Binding DataContext.Color3, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
     <Grid>
-        <Grid Height="625" Margin="0,0,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="31*"/>
-                <ColumnDefinition Width="987*"/>
-            </Grid.ColumnDefinitions>
+        <Grid Height="625" Width="1004" Margin="0,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="550">
+                <RowDefinition Height="525">
                 </RowDefinition>
             </Grid.RowDefinitions>
             <WrapPanel Grid.Row="0" Grid.ColumnSpan="2">
-                <Separator Width="17" Visibility="Hidden" ></Separator>
-                <TextBox Text="{Binding Path=NameE, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="130"></TextBox>
-                <Separator Width="17" Visibility="Hidden" ></Separator>
-                <ComboBox Height="30" ItemsSource="{Binding States}" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}" Width="130"></ComboBox>
-                <Separator Width="15" Visibility="Hidden" ></Separator>
-                <ComboBox Height="30" ItemsSource="{Binding Cities}" SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" Width="130"></ComboBox>
-                <Separator Width="15" Visibility="Hidden" ></Separator>
-                <ComboBox Height="30" ItemsSource="{Binding AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}" Width="130"></ComboBox>
-                <Separator Width="15" Visibility="Hidden" ></Separator>
-                <TextBox Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" Height="30" Width="130"></TextBox>
-                <Separator Width="15" Visibility="Hidden" ></Separator>
-                <TextBox Text="{Binding Path=ReservationDays,UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" Height="30" Width="130"></TextBox>
-                <Separator Width="15" Visibility="Hidden" ></Separator>
-                <Button Content="Search" Width="106" Height="28" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" Command="{Binding SearchCommand}" />
+                <Separator Width="14" Visibility="Hidden" ></Separator>
+                <xctk:WatermarkTextBox Watermark="{ns:Loc Accommodation name}" Text="{Binding Path=NameE, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="130"></xctk:WatermarkTextBox>
+                <Separator Width="14" Visibility="Hidden" ></Separator>
+                <xctk:WatermarkComboBox WatermarkBackground="#EEEEEE" Watermark="{ns:Loc Select state}" Height="30" ItemsSource="{Binding States}" SelectedItem="{Binding Path=SelectedState, UpdateSourceTrigger=PropertyChanged}" Width="130"></xctk:WatermarkComboBox>
+                <Separator Width="14" Visibility="Hidden" ></Separator>
+                <xctk:WatermarkComboBox WatermarkBackground="#EEEEEE" Watermark="{ns:Loc Select city}" Height="30" ItemsSource="{Binding Cities}" SelectedItem="{Binding Path=SelectedCity, UpdateSourceTrigger=PropertyChanged}" Width="130"></xctk:WatermarkComboBox>
+                <Separator Width="14" Visibility="Hidden" ></Separator>
+                <xctk:WatermarkComboBox WatermarkBackground="#EEEEEE" Watermark="{ns:Loc Select type}" Height="30" ItemsSource="{Binding AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}" Width="130"></xctk:WatermarkComboBox>
+                <Separator Width="14" Visibility="Hidden" ></Separator>
+                <xctk:WatermarkTextBox Watermark="{ns:Loc Number of guests}" Text="{Binding Path=MaxGuests, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" Height="30" Width="130"></xctk:WatermarkTextBox>
+                <Separator Width="14" Visibility="Hidden" ></Separator>
+                <xctk:WatermarkTextBox Watermark="{ns:Loc Reservation days}" Text="{Binding Path=ReservationDays,UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" Height="30" Width="130"></xctk:WatermarkTextBox>
+                <Separator Width="5" Visibility="Hidden" ></Separator>
+                <Button Content="{ns:Loc Search}" Width="106" Height="28" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" Command="{Binding SearchCommand}" Background="#85A392">
+                    <Button.Effect>
+                        <DropShadowEffect Color="#85A392" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                    </Button.Effect>
+                </Button>
             </WrapPanel>
             <WrapPanel Grid.Row="1" Grid.ColumnSpan="2">
                 <DatePicker Height="22" SelectedDate="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="320,0,0,0"></DatePicker>
                 <DatePicker Height="22" SelectedDate="{Binding End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="150,0,0,0"></DatePicker>
             </WrapPanel>
-            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Width="984" Height="495" Grid.ColumnSpan="2" Margin="17,28,17,28" >
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Width="964" Height="495" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="17,28,17,28" Background="{Binding DataContext.Color2, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" >
                 <ItemsControl ItemsSource="{Binding Path=Accommodations}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -66,34 +68,42 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Name}" FontSize="25" FontWeight="SemiBold"/>
                                                 <WrapPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                    <Label FontSize="18" FontWeight="Regular" >State:</Label>
+                                                    <Label FontSize="18" FontWeight="Regular" Content="{ns:Loc State:}" ></Label>
                                                     <TextBlock Text="{Binding Location.State}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium"></TextBlock>
                                                 </WrapPanel>
                                                 <WrapPanel Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                    <Label FontSize="18" FontWeight="Regular">City:</Label>
+                                                    <Label FontSize="18" FontWeight="Regular" Content="{ns:Loc City:}"></Label>
                                                     <TextBlock Text="{Binding Location.City}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium"/>
                                                 </WrapPanel>
                                                 <WrapPanel Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                    <Label FontSize="18" FontWeight="Regular">Type:</Label>
+                                                    <Label FontSize="18" FontWeight="Regular" Content="{ns:Loc Type:}"></Label>
                                                     <TextBlock Text="{Binding AccommodationKind}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium" ></TextBlock>
                                                 </WrapPanel>
                                                 <WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                    <Label FontSize="18" FontWeight="Regular">Max Guests:</Label>
+                                                    <Label FontSize="18" FontWeight="Regular" Content="{ns:Loc Max guests:}"></Label>
                                                     <TextBlock Text="{Binding MaxGuests}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium" ></TextBlock>
                                                 </WrapPanel>
                                                 <WrapPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                    <Label FontSize="18" FontWeight="Regular">Min days of reservation:</Label>
+                                                    <Label FontSize="18" FontWeight="Regular" Content="{ns:Loc Min days of reservation:}"></Label>
                                                     <TextBlock Text="{Binding MinResevation}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium" ></TextBlock>
                                                 </WrapPanel>
                                                 <WrapPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                    <Label FontSize="18" FontWeight="Regular">Cancel in advance:</Label>
+                                                    <Label FontSize="18" FontWeight="Regular" Content="{ns:Loc Cancel in advance:}"></Label>
                                                     <TextBlock Text="{Binding CancelDay}" FontSize="18" Margin="0,5,0,0" FontWeight="Medium" ></TextBlock>
                                                 </WrapPanel>
                                                 <WrapPanel Grid.Row="3" Grid.Column="4" Margin="280,0,0,0">
-                                                    <Button Content="Reserve" Background="DarkGoldenrod" Command="{Binding DataContext.CurrentVM.ReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"></Button>
+                                                    <Button Content="{ns:Loc Reserve}" Background="#85A392" Opacity="1"  Command="{Binding DataContext.CurrentVM.ReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}">
+                                                        <Button.Effect>
+                                                            <DropShadowEffect Color="#85A392" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                                                        </Button.Effect>
+                                                    </Button>
                                                 </WrapPanel>
                                                 <WrapPanel Grid.Row="2" Grid.Column="4" Margin="280,0,0,0">
-                                                    <Button Content="Images" Background="DarkSalmon" Command="{Binding DataContext.CurrentVM.ShowImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"></Button>
+                                                    <Button Content="{ns:Loc Images}" Background="#85A392" Command="{Binding DataContext.CurrentVM.ShowImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}">
+                                                        <Button.Effect>
+                                                            <DropShadowEffect Color="#85A392" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                                                        </Button.Effect>
+                                                    </Button>
                                                 </WrapPanel>
                                             </Grid>
                                         </DockPanel>

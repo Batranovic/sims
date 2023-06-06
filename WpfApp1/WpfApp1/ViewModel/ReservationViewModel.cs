@@ -55,7 +55,7 @@ namespace WpfApp1.ViewModel
             //_reservationService.Subscribe(this);
 
             LogInGuest = guest;
-            Reservations = new ObservableCollection<Reservation>(_reservationService.GetGuestReservations(LogInGuest.Id));
+            Reservations = new ObservableCollection<Reservation>(_reservationService.GetFutureReseravtions(LogInGuest.Id));
 
             OwnerRatingCommand = new RelayCommand(param => Execute_OwnerRating(), param => CanExecuteOwnerRating());
             ReservationPostponementCommand = new RelayCommand(param => Execute_ReservationPostponement(), param => CanExecuteReservationPostponement());

@@ -16,13 +16,12 @@ using System.Windows.Shapes;
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for PastReservationsView.xaml
+    /// Interaction logic for OwnerReviewsDisplay.xaml
     /// </summary>
-    public partial class PastReservationsView : UserControl
+    public partial class OwnerReviewsDisplay : UserControl
     {
-        public PastReservationsView()
+        public OwnerReviewsDisplay()
         {
-            
             InitializeComponent();
         }
     }

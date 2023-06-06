@@ -18,6 +18,8 @@
   <ItemGroup>
     <None Remove="Images\chat %281%29.png" />
     <None Remove="Images\file.png" />
+    <None Remove="Views\Image\Guest\tema.png" />
+    <None Remove="Views\Image\Guest\Translate.png" />
     <None Remove="Views\Image\Owner\notification.webp" />
     <None Remove="Views\Image\Owner\notification1.png" />
     <None Remove="Views\Image\Owner\pdf.png" />
@@ -37,6 +39,8 @@
   <ItemGroup>
     <Resource Include="Images\chat (1).png" />
     <Resource Include="Images\file.png" />
+    <Resource Include="Views\Image\Guest\tema.png" />
+    <Resource Include="Views\Image\Guest\Translate.png" />
     <Resource Include="Views\Image\Owner\notification.webp" />
     <Resource Include="Views\Image\Owner\notification1.png" />
     <Resource Include="Views\Image\Owner\pdf.png" />
@@ -101,6 +105,21 @@
     <Resource Include="Images\travel-guide.png" />
     <Resource Include="Images\travelling.png" />
     <Resource Include="Images\vacation.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

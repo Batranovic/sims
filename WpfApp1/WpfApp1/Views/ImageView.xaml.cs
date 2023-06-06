@@ -28,6 +28,7 @@ namespace WpfApp1.Views
     {
         public ImageView(Accommodation accommodation)
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
             this.DataContext = new ImageViewModel(accommodation);
         }
