@@ -18,10 +18,9 @@ namespace WpfApp1
     /// </summary>
     public partial class App : System.Windows.Application
     {
-  
         public App()
         {
-           
+        
         }
 
         public void ChangeLanguage(string currLang)

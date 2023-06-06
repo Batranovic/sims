@@ -35,6 +35,7 @@ namespace WpfApp1.ViewModel
             }
         }
 
+
         public ObservableCollection<Location> UnpopularLocations { get; set; }
         public ObservableCollection<AccommodationKind> AccommodationKind { get; set; }
         public ObservableCollection<string> States { get; set; }

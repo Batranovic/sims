@@ -30,6 +30,7 @@ namespace WpfApp1
         private readonly IGuestService _guestService;
         private readonly ITouristService _touristService;
         private readonly INewTourNotificationService  _tourNotificationService;
+        private readonly IForumNotificationService _forumNotificationService;
         public static User LogInUser { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -49,6 +50,7 @@ namespace WpfApp1
             _notificationService = InjectorService.CreateInstance<INotificationService>();
             _tourNotificationService = InjectorService.CreateInstance<INewTourNotificationService>();
             _notificationAccommodation = InjectorService.CreateInstance<INotificationAccommodationReleaseService>();
+            _forumNotificationService = InjectorService.CreateInstance<IForumNotificationService>();
 
 
         }
@@ -79,6 +81,11 @@ namespace WpfApp1
                 { 
                     ((Owner)LogInUser).Notifications.Add(n);
                 }
+                foreach(var n in _forumNotificationService.GetAll().FindAll(f => f.Owner.Id == LogInUser.Id && f.IsDelivered == false))
+                {
+                    ((Owner)LogInUser).Notifications.Add(n);
+                }
+
                 Close();
                 return;
             }

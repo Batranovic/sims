@@ -40,7 +40,8 @@ namespace WpfApp1.Service
             { typeof(IForumNotificationRepository), ForumNotificationRepository.GetInstance() },
             { typeof(IForumCommentsRepository), ForumCommentsRepository.GetInstance() },
             { typeof(IComplexTourRequestRepository), ComplexTourRequestRepository.GetInstance() },
-            { typeof(IAcceptedRequestGuideRepositry), AcceptedRequestGuideRepository.GetInstance() }
+            { typeof(IAcceptedRequestGuideRepositry), AcceptedRequestGuideRepository.GetInstance() },
+            { typeof(IReportForumRepository), ReportForumRepository.GetInstance() }
          };
         public static T CreateInstance<T>()
         {
