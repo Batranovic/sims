@@ -58,7 +58,7 @@
                 </Popup>
                 <Label Foreground="Black" FontSize="40" FontStyle="Italic"  Margin="0 0 0 -5"></Label>
             </WrapPanel>
-            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Width="964" Height="495" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="17,28,17,28" Background="{Binding DataContext.Color2, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Width="964" Height="495" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="17,28,17,28" Background="{Binding DataContext.Color3, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                 <ItemsControl ItemsSource="{Binding Path=Forums}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -69,16 +69,55 @@
                                         <Border BorderBrush="Black" BorderThickness="1" CornerRadius="0" Margin="10" Height="120">
                                             <TextBlock Text="{Binding FirstComment.Comment}" Margin="10"/>
                                         </Border>
-                                        <Button Content="{ns:Loc Read more}" Width="100" Height="30" HorizontalAlignment="Center" Margin="10"/>
+                                        <Button Content="{ns:Loc Read more}" Width="100" Height="30" HorizontalAlignment="Center" Margin="10" Command="{Binding DataContext.CurrentVM.ShowCommand1, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"/>
                                     </StackPanel>
                                 </Border>
                             </Grid>
-
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                
             </ScrollViewer>
         </Grid>
+        <Popup IsOpen="{Binding DataContext.CurrentVM.VisibilityPopUp1, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                               Width="1004" 
+                                                Height="568" 
+                                                Margin="20"
+                                                PlacementTarget="{Binding ElementName=AccommodationViewName}"
+                                                Placement="Center"
+                                                Panel.ZIndex="1000">
+            <Grid Height="568" Width="1004" Margin="0 0 0 0" Background="#C4DFAA">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="450"/>
+                    <RowDefinition Height="58"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Foreground="red" FontSize="40" FontStyle="Italic" Margin="10 0 0 0">Petrovaradin</Label>
+                <WrapPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Content="{ns:Loc Close forum}" Margin="0 0 40 0" Height="30" Width="80">
+                        <Button.Effect>
+                            <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                        </Button.Effect>
+                    </Button>
+                    <Label Foreground="Yellow" FontSize="40" FontStyle="Italic"  Margin="0 0 0 -5"></Label>
+                </WrapPanel>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Width="964" Height="455" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="17,28,17,28" Background="#FFECC7" >
+                    <Grid>
+                        <Border BorderBrush="Black" BorderThickness="2" Margin="10" Height="240">
+                            <StackPanel>
+                                <Label Content="Title" HorizontalAlignment="Left" Margin="10" />
+                                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="0" Margin="10" Height="120">
+                                    <TextBlock Text="Content Text" Margin="10"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
+                <Button Grid.Row="2" Content="{ns:Loc Leave a comment}" Width="120" Height="30" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 20">
+                    <Button.Effect>
+                        <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                    </Button.Effect>
+                </Button>
+            </Grid>
+        </Popup>
     </Grid>
 </UserControl>

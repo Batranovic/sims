@@ -27,7 +27,7 @@
 3,13/05/2023,22/05/2023,0,0,Expired,Expired,False
 4,31/05/2023,05/06/2023,0,0,Unrated,Unrated,False
 5,06/06/2023,10/06/2023,0,0,Inprogres,Disabled,True
-6,30/05/2023,03/06/2023,1,0,Unrated,Unrated,False
+6,30/05/2023,03/06/2023,1,0,Unrated,Rated,False
 7,30/05/2023,05/06/2023,2,0,Unrated,Rated,False
 8,15/06/2023,19/06/2023,5,0,Reserved,Disabled,False
 0,11/04/2023,14/04/2023,0,0,Expired,Expired,False
@@ -46,3 +46,4 @@
 13,02/06/2023,06/06/2023,0,0,Unrated,Unrated,False
 14,08/06/2023,14/06/2023,2,0,Unrated,Unrated,False
 15,14/06/2023,18/06/2023,0,0,Reserved,Disabled,True
+16,14/06/2023,18/06/2023,0,0,Reserved,Disabled,False

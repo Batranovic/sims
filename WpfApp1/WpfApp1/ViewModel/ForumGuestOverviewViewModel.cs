@@ -25,6 +25,8 @@ namespace WpfApp1.ViewModel
         private Forum _selectedForum;
         public RelayCommand CreateForumCommand { get; set; }
         public RelayCommand ShowCommand { get; set; }
+        public RelayCommand ShowCommand1 { get; set; }
+        public RelayCommand ShowCommand2 { get; set; }
 
         public RelayCommand CreateCommand { get; set; }
 
@@ -87,6 +89,27 @@ namespace WpfApp1.ViewModel
                 OnPropertyChanged(nameof(VisibilityPopUp));
             }
         }
+        private bool _visibilityPopUp1;
+        public bool VisibilityPopUp1
+        {
+            get => _visibilityPopUp1;
+            set
+            {
+                _visibilityPopUp1 = value;
+                OnPropertyChanged(nameof(VisibilityPopUp1));
+            }
+        }
+
+        private bool _visibilityPopUp2;
+        public bool VisibilityPopUp2
+        {
+            get => _visibilityPopUp2;
+            set
+            {
+                _visibilityPopUp2 = value;
+                OnPropertyChanged(nameof(VisibilityPopUp2));
+            }
+        }
 
         public ObservableCollection<ForumComments> ForumComments { get; set; }
 
@@ -109,6 +132,8 @@ namespace WpfApp1.ViewModel
             LoggedGuest = guest;
 
             ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
+            ShowCommand1 = new(param => Execute_ShowCommand1(), param => CanExecute());
+            ShowCommand2 = new(param => Execute_ShowCommand2(), param => CanExecute());
 
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
@@ -116,6 +141,8 @@ namespace WpfApp1.ViewModel
 
 
             VisibilityPopUp = false;
+            VisibilityPopUp1 = false;
+            VisibilityPopUp2 = false;
 
              CreateForumCommand = new RelayCommand(param => Execute_CreateForumCommand(), param => CanExecute_CreateForum());
         }
@@ -123,6 +150,14 @@ namespace WpfApp1.ViewModel
         public void Execute_ShowCommand()
         {
             VisibilityPopUp = !VisibilityPopUp;
+        }
+        public void Execute_ShowCommand1()
+        {
+            VisibilityPopUp1 = !VisibilityPopUp1;
+        }
+        public void Execute_ShowCommand2()
+        {
+            VisibilityPopUp2 = !VisibilityPopUp2;
         }
 
         public bool CanExecute()

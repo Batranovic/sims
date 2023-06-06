@@ -25,6 +25,7 @@ namespace WpfApp1.ViewModel
 
         public ObservableCollection<Accommodation> SuitableAccommodations { get; set; }
 
+        private bool _visibilityPopUp1;
         public AccommodationKind? SelectedAccommodationKind { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
@@ -32,6 +33,16 @@ namespace WpfApp1.ViewModel
         public ObservableCollection<string> States { get; set; }
 
         public ObservableCollection<string> Cities { get; set; }
+
+        public bool VisibilityPopUp1
+        {
+            get => _visibilityPopUp1;
+            set
+            {
+                _visibilityPopUp1 = value;
+                OnPropertyChanged(nameof(VisibilityPopUp1));
+            }
+        }
 
         public string SelectedCity { get; set; }
 
@@ -42,6 +53,7 @@ namespace WpfApp1.ViewModel
 
         private Window _window;
 
+        public RelayCommand ShowCommand1 { get; set; }
         public RelayCommand SearchCommand { get; set; }
 
         public RelayCommand ReserveCommand { get; set; }
@@ -81,11 +93,13 @@ namespace WpfApp1.ViewModel
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
 
+            VisibilityPopUp1 = false;
+
 
             SearchCommand = new RelayCommand(param => Execute_Search(), param => CanExecute());
             ReserveCommand = new RelayCommand(Execute_Reserve, param => CanExecute());
             ShowImageCommand = new RelayCommand(Execute_ShowImage, param => CanExecute());
-            
+            ShowCommand1 = new(param => Execute_ShowCommand1(), param => CanExecute());
 
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetSortedListBySuperOwner());
 
@@ -184,6 +198,10 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        public void Execute_ShowCommand1()
+        {
+            VisibilityPopUp1 = !VisibilityPopUp1;
+        }
 
 
 
