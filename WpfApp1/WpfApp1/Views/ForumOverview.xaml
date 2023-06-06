@@ -25,6 +25,7 @@
                         <GridView>
                             <GridViewColumn Header="State" Width="170" DisplayMemberBinding="{Binding Location.State}" />
                             <GridViewColumn Header="City" Width="170" DisplayMemberBinding="{Binding Location.City}" />
+                            <GridViewColumn Header="Usefull" Width="170" DisplayMemberBinding="{Binding IsUsefull}" />
                         </GridView>
                     </ListView.View>
                 </ListView>

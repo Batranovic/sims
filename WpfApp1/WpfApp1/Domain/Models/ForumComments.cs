@@ -18,6 +18,8 @@ namespace WpfApp1.Domain.Models
         public User Author { get; set; }
         public int Report { get; set; }
         public DateTime Date { get; set; }
+     
+        public List<ReportForum> ForumReports { get; set; }
 
         public int Id
         {
@@ -50,12 +52,16 @@ namespace WpfApp1.Domain.Models
             Forum = forum;
             Author = author;
             Report = report;
+            ForumReports = new();
+
         }
 
         public ForumComments()
         {
             Forum = new();
             Author = new();
+            ForumReports = new();
+
         }
 
         public string[] ToCSV()
