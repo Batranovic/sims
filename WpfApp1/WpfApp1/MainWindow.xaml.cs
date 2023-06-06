@@ -108,8 +108,8 @@ namespace WpfApp1
             LogInUser = _guestService.GetByUsernameAndPassword(Username, Password);
             if(LogInUser != null)
             {
-                GuestAccount guestAccount = new GuestAccount(LogInUser);
-                guestAccount.Show();
+                AccommodationView accommodationView = new AccommodationView(LogInUser);
+                accommodationView.Show();
                 _guestService.ResetBonusPoints((Guest)LogInUser);
                 Close();
             }

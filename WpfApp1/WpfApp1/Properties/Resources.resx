@@ -120,20 +120,44 @@
   <data name="Accommodation" xml:space="preserve">
     <value>Accommodation</value>
   </data>
+  <data name="Accommodation name" xml:space="preserve">
+    <value>Accommodation name</value>
+  </data>
+  <data name="Accommodation view" xml:space="preserve">
+    <value>Accommodation view</value>
+  </data>
+  <data name="Acommodation and owner rating" xml:space="preserve">
+    <value>Acommodation and owner rating</value>
+  </data>
+  <data name="Acommodation renovation suggestion" xml:space="preserve">
+    <value>Acommodation renovation suggestion</value>
+  </data>
+  <data name="Available days" xml:space="preserve">
+    <value>Available days</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="Cancel in advance" xml:space="preserve">
-    <value>Cancel in advance</value>
+  <data name="Cancel in advance:" xml:space="preserve">
+    <value>Cancel in advance:</value>
   </data>
   <data name="Cancel reservation" xml:space="preserve">
     <value>Cancel reservation</value>
+  </data>
+  <data name="Canceled" xml:space="preserve">
+    <value>Canceled</value>
+  </data>
+  <data name="Cant find what you are looking for? Create forum" xml:space="preserve">
+    <value>Cant find what you are looking for? Create forum</value>
   </data>
   <data name="Check out reviews from owners" xml:space="preserve">
     <value>Check out reviews from owners</value>
   </data>
   <data name="City" xml:space="preserve">
     <value>City</value>
+  </data>
+  <data name="City:" xml:space="preserve">
+    <value>City:</value>
   </data>
   <data name="Cleannes" xml:space="preserve">
     <value>Cleannes</value>
@@ -147,11 +171,32 @@
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>
+  <data name="Create forum" xml:space="preserve">
+    <value>Create forum</value>
+  </data>
+  <data name="Creating reservation" xml:space="preserve">
+    <value>Creating reservation</value>
+  </data>
   <data name="Damage" xml:space="preserve">
     <value>Damage</value>
   </data>
   <data name="End date" xml:space="preserve">
     <value>End date</value>
+  </data>
+  <data name="Enter image url" xml:space="preserve">
+    <value>Enter image url</value>
+  </data>
+  <data name="Enter number of guests" xml:space="preserve">
+    <value>Enter number of guests</value>
+  </data>
+  <data name="Enter reservation days" xml:space="preserve">
+    <value>Enter reservation days</value>
+  </data>
+  <data name="Enter your comment" xml:space="preserve">
+    <value>Enter your comment</value>
+  </data>
+  <data name="Find reservation" xml:space="preserve">
+    <value>Find reservation</value>
   </data>
   <data name="Following Rules" xml:space="preserve">
     <value>Following Rules</value>
@@ -167,6 +212,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>Image</value>
+  </data>
+  <data name="Image view" xml:space="preserve">
+    <value>Image view</value>
   </data>
   <data name="Images" xml:space="preserve">
     <value>Images</value>
@@ -195,8 +243,14 @@
   <data name="Max guests" xml:space="preserve">
     <value>Max guests</value>
   </data>
+  <data name="Max guests:" xml:space="preserve">
+    <value>Max guests:</value>
+  </data>
   <data name="Min days of reservation" xml:space="preserve">
     <value>Min days of reservation</value>
+  </data>
+  <data name="Min days of reservation:" xml:space="preserve">
+    <value>Min days of reservation:</value>
   </data>
   <data name="My reservations" xml:space="preserve">
     <value>My reservations</value>
@@ -228,17 +282,47 @@
   <data name="Rate owner" xml:space="preserve">
     <value>Rate owner</value>
   </data>
+  <data name="Read more" xml:space="preserve">
+    <value>Read more</value>
+  </data>
+  <data name="Renovation Suggestion" xml:space="preserve">
+    <value>Renovation Suggestion</value>
+  </data>
   <data name="Renovation Suggestions" xml:space="preserve">
     <value>RenovationSuggestions</value>
   </data>
   <data name="Reservation days" xml:space="preserve">
     <value>Reservation days</value>
   </data>
+  <data name="Reservation postponation" xml:space="preserve">
+    <value>Reservation postponation</value>
+  </data>
   <data name="Reserve" xml:space="preserve">
     <value>Reserve</value>
   </data>
+  <data name="Reserved" xml:space="preserve">
+    <value>Reserved</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="Select city" xml:space="preserve">
+    <value>Select city</value>
+  </data>
+  <data name="Select number" xml:space="preserve">
+    <value>Select number</value>
+  </data>
+  <data name="Select owner corectness" xml:space="preserve">
+    <value>Select owner corectness</value>
+  </data>
+  <data name="Select state" xml:space="preserve">
+    <value>Select state</value>
+  </data>
+  <data name="Select timeliness" xml:space="preserve">
+    <value>Select timeliness</value>
+  </data>
+  <data name="Select type" xml:space="preserve">
+    <value>Select type</value>
   </data>
   <data name="Start date" xml:space="preserve">
     <value>Start date</value>
@@ -246,11 +330,17 @@
   <data name="State" xml:space="preserve">
     <value>State</value>
   </data>
+  <data name="State:" xml:space="preserve">
+    <value>State:</value>
+  </data>
   <data name="Timeliness" xml:space="preserve">
     <value>Timeliness</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="Type:" xml:space="preserve">
+    <value>Type:</value>
   </data>
   <data name="What should we change?" xml:space="preserve">
     <value>What should we change?</value>

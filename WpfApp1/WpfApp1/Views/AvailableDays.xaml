@@ -6,13 +6,15 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         xmlns:ns="clr-namespace:WpfApp1.Localization"
         mc:Ignorable="d"
-        Title="AvailableDays" Name="AvailableDaysName" Height="450" Width="800">
+        Title="{ns:Loc Available days}" Name="AvailableDaysName" Height="450" Width="800"
+        Background="#F5F0BB">
     <Grid>
         <DataGrid
             AutoGenerateColumns="False"
             ItemsSource="{Binding Range}"
             x:Name="DataGrid"
             SelectedItem="{Binding SelectedRange}"
+            Background="#F5F0BB"
             >
 
             <DataGrid.Columns>
@@ -22,8 +24,16 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Content="{ns:Loc Reserve}" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 5, 150, 5" Command="{Binding ConfirmCommand}"/>
-        <Button Content="{ns:Loc Cancel}" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="150, 5, 20, 5" Command="{Binding CancelCommand}"/> 
+        <Button Content="{ns:Loc Reserve}" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 5, 150, 5" Command="{Binding ConfirmCommand}">
+            <Button.Effect>
+                <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+            </Button.Effect>
+        </Button>
+        <Button Content="{ns:Loc Cancel}" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="150, 5, 20, 5" Command="{Binding CancelCommand}">
+            <Button.Effect>
+                <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+            </Button.Effect>
+        </Button>
 
     </Grid>
 </Window>

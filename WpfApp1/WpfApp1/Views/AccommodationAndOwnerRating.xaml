@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         xmlns:ns="clr-namespace:WpfApp1.Localization"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="AccommodationAndOwnerRating" Height="450" Width="800">
+        Title="{ns:Loc Acommodation and owner rating}" Height="450" Width="800"
+        Background="#F5F0BB">
     <Window.Resources>
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
@@ -48,14 +50,14 @@
                 <Label Content="{ns:Loc Image}" Grid.Row="3" Grid.Column="0" Height="30"></Label>
                 <Label Content="{ns:Loc Comment}" Grid.Row="4" Grid.Column="0" Height="30"></Label>
 
-                <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=Grades}" SelectedItem="{Binding Path=SelectedCleanness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
-                <ComboBox  Grid.Row="1"  Grid.Column="1" ItemsSource="{Binding Path=Grades}" SelectedItem="{Binding Path=SelectedOwnerCorectness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
-                <ComboBox  Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Grades}" SelectedItem="{Binding Path=SelectedTimeliness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></ComboBox>
+                <xctk:WatermarkComboBox WatermarkBackground="#EEEEEE" Watermark="{ns:Loc Select number}"  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=Grades}" SelectedItem="{Binding Path=SelectedCleanness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></xctk:WatermarkComboBox>
+                <xctk:WatermarkComboBox WatermarkBackground="#EEEEEE" Watermark="{ns:Loc Select owner corectness}"  Grid.Row="1"  Grid.Column="1" ItemsSource="{Binding Path=Grades}" SelectedItem="{Binding Path=SelectedOwnerCorectness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></xctk:WatermarkComboBox>
+                <xctk:WatermarkComboBox WatermarkBackground="#EEEEEE" Watermark="{ns:Loc Select timeliness}"  Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Grades}" SelectedItem="{Binding Path=SelectedTimeliness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Height="30"></xctk:WatermarkComboBox>
                 <WrapPanel Grid.Row="3"  FlowDirection="LeftToRight" HorizontalAlignment="Left"  Grid.Column="1"  Width="370">
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  HorizontalAlignment="Center" VerticalAlignment="Center" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30" Margin="25, 30, 10,10" Width="300"></TextBox>
+                    <xctk:WatermarkTextBox Watermark="{ns:Loc Enter image url}" Grid.Row="2" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  HorizontalAlignment="Center" VerticalAlignment="Center" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30" Margin="25, 30, 10,10" Width="300"></xctk:WatermarkTextBox>
                     <Button Content="+ " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4,0,0,-15"   Command="{Binding AddUrlCommand}" />
                 </WrapPanel>
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30"></TextBox>
+                <xctk:WatermarkTextBox Watermark="{ns:Loc Enter your comment}" Grid.Row="4" Grid.Column="1" Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  Height="30"></xctk:WatermarkTextBox>
 
 
             </Grid>

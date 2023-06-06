@@ -70,6 +70,51 @@ namespace WpfApp1.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accommodation name.
+        /// </summary>
+        internal static string Accommodation_name {
+            get {
+                return ResourceManager.GetString("Accommodation name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accommodation view.
+        /// </summary>
+        internal static string Accommodation_view {
+            get {
+                return ResourceManager.GetString("Accommodation view", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Acommodation and owner rating.
+        /// </summary>
+        internal static string Acommodation_and_owner_rating {
+            get {
+                return ResourceManager.GetString("Acommodation and owner rating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Acommodation renovation suggestion.
+        /// </summary>
+        internal static string Acommodation_renovation_suggestion {
+            get {
+                return ResourceManager.GetString("Acommodation renovation suggestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available days.
+        /// </summary>
+        internal static string Available_days {
+            get {
+                return ResourceManager.GetString("Available days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {
@@ -79,11 +124,11 @@ namespace WpfApp1.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel in advance.
+        ///   Looks up a localized string similar to Cancel in advance:.
         /// </summary>
-        internal static string Cancel_in_advance {
+        internal static string Cancel_in_advance_ {
             get {
-                return ResourceManager.GetString("Cancel in advance", resourceCulture);
+                return ResourceManager.GetString("Cancel in advance:", resourceCulture);
             }
         }
         
@@ -93,6 +138,24 @@ namespace WpfApp1.Properties {
         internal static string Cancel_reservation {
             get {
                 return ResourceManager.GetString("Cancel reservation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canceled.
+        /// </summary>
+        internal static string Canceled {
+            get {
+                return ResourceManager.GetString("Canceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cant find what you are looking for? Create forum.
+        /// </summary>
+        internal static string Cant_find_what_you_are_looking_for__Create_forum {
+            get {
+                return ResourceManager.GetString("Cant find what you are looking for? Create forum", resourceCulture);
             }
         }
         
@@ -111,6 +174,15 @@ namespace WpfApp1.Properties {
         internal static string City {
             get {
                 return ResourceManager.GetString("City", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to City:.
+        /// </summary>
+        internal static string City_ {
+            get {
+                return ResourceManager.GetString("City:", resourceCulture);
             }
         }
         
@@ -151,6 +223,24 @@ namespace WpfApp1.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create forum.
+        /// </summary>
+        internal static string Create_forum {
+            get {
+                return ResourceManager.GetString("Create forum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating reservation.
+        /// </summary>
+        internal static string Creating_reservation {
+            get {
+                return ResourceManager.GetString("Creating reservation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Damage.
         /// </summary>
         internal static string Damage {
@@ -165,6 +255,51 @@ namespace WpfApp1.Properties {
         internal static string End_date {
             get {
                 return ResourceManager.GetString("End date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter image url.
+        /// </summary>
+        internal static string Enter_image_url {
+            get {
+                return ResourceManager.GetString("Enter image url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter number of guests.
+        /// </summary>
+        internal static string Enter_number_of_guests {
+            get {
+                return ResourceManager.GetString("Enter number of guests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter reservation days.
+        /// </summary>
+        internal static string Enter_reservation_days {
+            get {
+                return ResourceManager.GetString("Enter reservation days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your comment.
+        /// </summary>
+        internal static string Enter_your_comment {
+            get {
+                return ResourceManager.GetString("Enter your comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find reservation.
+        /// </summary>
+        internal static string Find_reservation {
+            get {
+                return ResourceManager.GetString("Find reservation", resourceCulture);
             }
         }
         
@@ -210,6 +345,15 @@ namespace WpfApp1.Properties {
         internal static string Image {
             get {
                 return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image view.
+        /// </summary>
+        internal static string Image_view {
+            get {
+                return ResourceManager.GetString("Image view", resourceCulture);
             }
         }
         
@@ -295,11 +439,29 @@ namespace WpfApp1.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max guests:.
+        /// </summary>
+        internal static string Max_guests_ {
+            get {
+                return ResourceManager.GetString("Max guests:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Min days of reservation.
         /// </summary>
         internal static string Min_days_of_reservation {
             get {
                 return ResourceManager.GetString("Min days of reservation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min days of reservation:.
+        /// </summary>
+        internal static string Min_days_of_reservation_ {
+            get {
+                return ResourceManager.GetString("Min days of reservation:", resourceCulture);
             }
         }
         
@@ -394,6 +556,24 @@ namespace WpfApp1.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read more.
+        /// </summary>
+        internal static string Read_more {
+            get {
+                return ResourceManager.GetString("Read more", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renovation Suggestion.
+        /// </summary>
+        internal static string Renovation_Suggestion {
+            get {
+                return ResourceManager.GetString("Renovation Suggestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RenovationSuggestions.
         /// </summary>
         internal static string Renovation_Suggestions {
@@ -412,6 +592,15 @@ namespace WpfApp1.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reservation postponation.
+        /// </summary>
+        internal static string Reservation_postponation {
+            get {
+                return ResourceManager.GetString("Reservation postponation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reserve.
         /// </summary>
         internal static string Reserve {
@@ -421,11 +610,74 @@ namespace WpfApp1.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reserved.
+        /// </summary>
+        internal static string Reserved {
+            get {
+                return ResourceManager.GetString("Reserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         internal static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select city.
+        /// </summary>
+        internal static string Select_city {
+            get {
+                return ResourceManager.GetString("Select city", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select number.
+        /// </summary>
+        internal static string Select_number {
+            get {
+                return ResourceManager.GetString("Select number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select owner corectness.
+        /// </summary>
+        internal static string Select_owner_corectness {
+            get {
+                return ResourceManager.GetString("Select owner corectness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select state.
+        /// </summary>
+        internal static string Select_state {
+            get {
+                return ResourceManager.GetString("Select state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select timeliness.
+        /// </summary>
+        internal static string Select_timeliness {
+            get {
+                return ResourceManager.GetString("Select timeliness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select type.
+        /// </summary>
+        internal static string Select_type {
+            get {
+                return ResourceManager.GetString("Select type", resourceCulture);
             }
         }
         
@@ -448,6 +700,15 @@ namespace WpfApp1.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to State:.
+        /// </summary>
+        internal static string State_ {
+            get {
+                return ResourceManager.GetString("State:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Timeliness.
         /// </summary>
         internal static string Timeliness {
@@ -462,6 +723,15 @@ namespace WpfApp1.Properties {
         internal static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type:.
+        /// </summary>
+        internal static string Type_ {
+            get {
+                return ResourceManager.GetString("Type:", resourceCulture);
             }
         }
         

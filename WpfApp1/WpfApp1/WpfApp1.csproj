@@ -18,6 +18,8 @@
   <ItemGroup>
     <None Remove="Images\chat %281%29.png" />
     <None Remove="Images\file.png" />
+    <None Remove="Views\Image\Guest\tema.png" />
+    <None Remove="Views\Image\Guest\Translate.png" />
     <None Remove="Views\Image\Owner\notification.webp" />
     <None Remove="Views\Image\Owner\notification1.png" />
     <None Remove="Views\Image\Owner\pdf.png" />
@@ -37,6 +39,8 @@
   <ItemGroup>
     <Resource Include="Images\chat (1).png" />
     <Resource Include="Images\file.png" />
+    <Resource Include="Views\Image\Guest\tema.png" />
+    <Resource Include="Views\Image\Guest\Translate.png" />
     <Resource Include="Views\Image\Owner\notification.webp" />
     <Resource Include="Views\Image\Owner\notification1.png" />
     <Resource Include="Views\Image\Owner\pdf.png" />

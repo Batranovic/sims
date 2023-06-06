@@ -29,6 +29,7 @@ namespace WpfApp1.Views
     {
         public AccommodationView(User user)
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
             this.DataContext = new AccommodationViewModel(user);
         }

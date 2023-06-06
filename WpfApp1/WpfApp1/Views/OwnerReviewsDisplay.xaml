@@ -7,16 +7,16 @@
              xmlns:ns="clr-namespace:WpfApp1.Localization"
              mc:Ignorable="d" 
              d:DesignHeight="655" d:DesignWidth="1020"
-             Background="LightBlue">
+             Background="{Binding DataContext.Color5, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
     <Grid>
         <Grid Height="655" Margin="0 0 0 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Foreground="Black" FontSize="40" FontStyle="Italic" Content="{ns:Loc Check out reviews from owners}"></Label>
-        <ListView ItemsSource="{Binding Reviews}" Background="LightCyan" Grid.Row="1">
-            <ListView.View>
+            <Label Grid.Row="0" Foreground="Black" FontSize="40" FontStyle="Italic" Content="{ns:Loc Check out reviews from owners}" Margin="0 0 0 -5"></Label>
+            <ListView ItemsSource="{Binding Reviews}" Background="{Binding DataContext.Color6, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Grid.Row="1">
+                <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{ns:Loc Accommodation}" Width="133" DisplayMemberBinding="{Binding Reservation.Accommodation.Name}" />
                     <GridViewColumn Header="{ns:Loc Owner name}" Width="130" DisplayMemberBinding="{Binding Reservation.Accommodation.Owner.Name}"/>

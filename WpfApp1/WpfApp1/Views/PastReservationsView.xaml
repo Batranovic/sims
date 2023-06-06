@@ -7,7 +7,7 @@
              xmlns:ns="clr-namespace:WpfApp1.Localization"
              mc:Ignorable="d" 
              d:DesignHeight="655" d:DesignWidth="1024"
-             Background="Bisque">
+             Background="{Binding DataContext.Color1, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
     <Grid>
         <Grid Height="620" Width="1024" Margin="0 0 0 0">
             <Grid.RowDefinitions>
@@ -15,8 +15,8 @@
                 <RowDefinition Height="460"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Foreground="Black" FontSize="40" FontStyle="Italic" Content="{ns:Loc Leave a review on your past reservations!}"></Label>
-            <ListView Grid.Row="1" ItemsSource="{Binding Reservations}" SelectedItem="{Binding SelectedReservation}">
+            <Label Grid.Row="0" Foreground="Black" FontSize="40" FontStyle="Italic" Content="{ns:Loc Leave a review on your past reservations!}" Margin="0 0 0 -3"></Label>
+            <ListView Grid.Row="1" ItemsSource="{Binding Reservations}" SelectedItem="{Binding SelectedReservation}" Background="#E9EDC9">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="{ns:Loc Name}" DisplayMemberBinding="{Binding Accommodation.Name}" Width="195"></GridViewColumn>
@@ -28,7 +28,11 @@
                 </ListView.View>
             </ListView>
             <WrapPanel Grid.Row="2" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0">
-                <Button Content="{ns:Loc Rate owner}" Width="156" Height="45" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,1,0" Command="{Binding OwnerRatingCommand}"/>
+                <Button Content="{ns:Loc Rate owner}" Width="156" Height="45" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,1,0" Command="{Binding OwnerRatingCommand}">
+                    <Button.Effect>
+                        <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                    </Button.Effect>
+                </Button>
         </WrapPanel>
         </Grid>
 

@@ -10,25 +10,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.Models;
-using WpfApp1.Repository;
-using WpfApp1.Service;
 using WpfApp1.ViewModel;
 
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for AvailableDays.xaml
+    /// Interaction logic for ForumDisplayView.xaml
     /// </summary>
-    public partial class AvailableDays : Window
+    public partial class ForumDisplayView : UserControl
     {
-        public AvailableDays(Dictionary<DateTime, DateTime> range, Accommodation accommodation, Guest guest)
+        public ForumDisplayView()
         {
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
-            this.DataContext = new AvailableDaysViewModel(range, accommodation, guest); 
+            this.DataContext = new ForumGuestOverviewViewModel((Guest)MainWindow.LogInUser);
         }
     }
 }

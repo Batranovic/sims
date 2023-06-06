@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
+using WpfApp1.Views;
 
 namespace WpfApp1.ViewModel
 {
@@ -22,5 +24,6 @@ namespace WpfApp1.ViewModel
 
             Reviews = new(_guestRatingService.GetAllGuestReviews(guest.Id));
         }
+
     }
 }

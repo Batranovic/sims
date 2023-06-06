@@ -9,7 +9,7 @@
         xmlns:ns="clr-namespace:WpfApp1.Localization"
         xmlns:local="clr-namespace:WpfApp1.Views" d:DataContext="{d:DesignInstance Type=vm:AccommodationViewModel}"
         mc:Ignorable="d"
-        Title="AccommodationView" Name="AccommodationViewName"  Height="768" Width="1024">
+        Title="{ns:Loc Accommodation view}" Name="AccommodationViewName"  Height="768" Width="1024">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:AccommodationDisplayViewModel}">
             <v:AccommodationDisplay/>
@@ -23,19 +23,11 @@
         <DataTemplate DataType="{x:Type vm:ReservationDisplayViewModel}">
             <v:ReservationDisplayView/>
         </DataTemplate>
-
-        <Style x:Key="DarkThemeStyle" TargetType="Button">
-            <Setter Property="Background" Value="Black"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style x:Key="LightThemeStyle" TargetType="Button">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Foreground" Value="Black"/>
-        </Style>
-        
+        <DataTemplate DataType="{x:Type vm:ForumGuestOverviewViewModel}">
+            <v:ForumDisplayView/>
+        </DataTemplate>
     </Window.Resources>
-    <Grid Background="#79CDA8">
+    <Grid Background="{Binding Color1}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
@@ -48,57 +40,62 @@
             <TextBlock Text="Booking"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   Foreground="White"
+                   Foreground="{Binding Color2}"
                    FontSize="25"/>
         </WrapPanel>
         <TabControl Grid.Row="1" Grid.ColumnSpan="2"  Margin="0,0,0,0" SelectedIndex="{Binding TabPosition}">
-            <TabItem Header="{ns:Loc Overview}" FontSize=" 12">
+            <TabItem Header="{ns:Loc Overview}" FontSize=" 12" Background="{Binding Color2}" >
                 <StackPanel>
                     <ContentControl Content="{Binding AccommodationDisplayViewModel}"/>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{ns:Loc Leave a review}" FontSize=" 12">
+            <TabItem Header="{ns:Loc Leave a review}" FontSize=" 12" Background="{Binding Color2}">
                 <StackPanel>
                     <ContentControl Content="{Binding UnratedReservationDisplay}"/>
                  </StackPanel>
             </TabItem>
-            <TabItem Header="{ns:Loc Owner reviews}" FontSize=" 12">
+            <TabItem Header="{ns:Loc Owner reviews}" FontSize=" 12" Background="{Binding Color2}">
                 <StackPanel>
                     <ContentControl Content="{Binding OwnerReviewsDisplayViewModel}"/>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{ns:Loc My reservations}" FontSize=" 12">
+            <TabItem Header="{ns:Loc My reservations}" FontSize="12" Background="{Binding Color2}">
                 <StackPanel>
                     <ContentControl Content="{Binding ReservationDisplayViewModel}" />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{ns:Loc Forum}" FontSize=" 12">
-
+            <TabItem Header="{ns:Loc Forum}" FontSize=" 12" Background="{Binding Color2}">
+                <StackPanel>
+                    <ContentControl Content="{Binding ForumGuestOverviewViewModel}"/>
+                </StackPanel>
             </TabItem>
         </TabControl>
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <Button Width="50" Height="50" Margin="5">
+            <Button Width="50" Height="50" Margin="5" Background="{Binding Color2}" Opacity="1" Command="{Binding ChangeLanguageCommand}">
+            <Image Source="../Views/Image/Guest/Translate.png"/>
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button Width="50" Height="50" Margin="5">
+            <Button Width="50" Height="50" Margin="5" Background="{Binding Color2}" Command="{Binding ColorCommand}">
+                <Image Source="../Views/Image/Guest/tema.png"/>
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button Width="50" Height="50" Margin="5">
+            <Button Width="50" Height="50" Margin="5" Background="{Binding Color2}">
+                <Image Source="../Views/Image/Owner/notification1.png"/>
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button Width="80" Height="80" Background="Wheat" BorderThickness="0" Command="{Binding TabPosition}"  CommandParameter="0" Margin="10 10 10 10">
+            <Button Width="80" Height="80" Background="{Binding Color2}" BorderThickness="0" Command="{Binding PopUpCommand}"  CommandParameter="0" Margin="10 10 10 10">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template">
@@ -110,7 +107,7 @@
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#FFDDDDDD" />
+                                            <Setter Property="Background" Value="#EFEAD8" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -120,7 +117,7 @@
                     </Style>
                 </Button.Style>
                 <StackPanel>
-                    <Image  Width="40" Height="40" Margin="5"/>
+                    <Image Source="../Views/Image/Owner/profile.png" Width="60" Height="60" Margin="5"/>
                 </StackPanel>
             </Button>
 
@@ -141,8 +138,10 @@
                 <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
                     <Label Width="200" Height="40" FontSize="25" Content="{Binding NameSurname}"></Label>
                     <Label Content="{Binding UserType}" FontSize="25" Width="200" Height="40"/>
+                    <Button Margin="20" Height="30" Width="70" Content="Log out" Command="{Binding LogoutCommand}"/>
                 </WrapPanel>
             </Popup>
         </StackPanel>
+        <Canvas x:Name="TransitionContainer" />
     </Grid>
 </Window>

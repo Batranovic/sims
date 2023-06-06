@@ -16,13 +16,12 @@ using System.Windows.Shapes;
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for ReservationDisplayView.xaml
+    /// Interaction logic for ForumCommentsView.xaml
     /// </summary>
-    public partial class ReservationDisplayView : UserControl
+    public partial class ForumCommentsView : UserControl
     {
-        public ReservationDisplayView()
+        public ForumCommentsView()
         {
-            
             InitializeComponent();
         }
     }

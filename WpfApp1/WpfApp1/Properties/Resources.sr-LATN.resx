@@ -120,20 +120,47 @@
   <data name="Accommodation" xml:space="preserve">
     <value>Smestaj</value>
   </data>
+  <data name="Accommodation name" xml:space="preserve">
+    <value>Ime smestaja</value>
+  </data>
+  <data name="Accommodation view" xml:space="preserve">
+    <value>Pregled smestaja</value>
+  </data>
+  <data name="Acommodation and owner rating" xml:space="preserve">
+    <value>Ocenjivanje smestaja i vlasnika</value>
+  </data>
+  <data name="Acommodation renovation suggestion" xml:space="preserve">
+    <value>Preporuka za renoviranje smestaja</value>
+  </data>
+  <data name="Available days" xml:space="preserve">
+    <value>Slobodni dani</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Otkazi</value>
   </data>
   <data name="Cancel in advance" xml:space="preserve">
     <value>Otkazivanje unapred</value>
   </data>
+  <data name="Cancel in advance:" xml:space="preserve">
+    <value>Otkazivanje unapred:</value>
+  </data>
   <data name="Cancel reservation" xml:space="preserve">
     <value>Otkazi rezervaciju</value>
+  </data>
+  <data name="Canceled" xml:space="preserve">
+    <value>Otkazani</value>
+  </data>
+  <data name="Cant find what you are looking for? Create forum" xml:space="preserve">
+    <value>Ne mozes da nadjes forum? Kreiraj svoj forum </value>
   </data>
   <data name="Check out reviews from owners" xml:space="preserve">
     <value>Pogledajte ocene od vlasnika</value>
   </data>
   <data name="City" xml:space="preserve">
     <value>Grad</value>
+  </data>
+  <data name="City:" xml:space="preserve">
+    <value>Grad:</value>
   </data>
   <data name="Clannes" xml:space="preserve">
     <value>Cistoca</value>
@@ -147,11 +174,32 @@
   <data name="Confirm" xml:space="preserve">
     <value>Prihvati</value>
   </data>
+  <data name="Create forum" xml:space="preserve">
+    <value>Napravi forum</value>
+  </data>
+  <data name="Creating reservation" xml:space="preserve">
+    <value>Kreiranje rezervacije</value>
+  </data>
   <data name="Damage" xml:space="preserve">
     <value>Steta</value>
   </data>
   <data name="End date" xml:space="preserve">
     <value>Krajnji datum</value>
+  </data>
+  <data name="Enter image url" xml:space="preserve">
+    <value>Unesite url slike</value>
+  </data>
+  <data name="Enter number of guests" xml:space="preserve">
+    <value>Unesite broj gostiju</value>
+  </data>
+  <data name="Enter reservation days" xml:space="preserve">
+    <value>Unesite broj dana za rezervaciju</value>
+  </data>
+  <data name="Enter your comment" xml:space="preserve">
+    <value>Unesite Vas komentar</value>
+  </data>
+  <data name="Find reservation" xml:space="preserve">
+    <value>Pronadji rezervaciju</value>
   </data>
   <data name="Following Rules" xml:space="preserve">
     <value>Postovanje pravila</value>
@@ -167,6 +215,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>Slika</value>
+  </data>
+  <data name="Image view" xml:space="preserve">
+    <value>Pregled slika</value>
   </data>
   <data name="Images" xml:space="preserve">
     <value>Slike</value>
@@ -195,8 +246,14 @@
   <data name="Max guests" xml:space="preserve">
     <value>Max gostiju</value>
   </data>
+  <data name="Max guests:" xml:space="preserve">
+    <value>Maksimalan broj grostiju:</value>
+  </data>
   <data name="Min days of reservation" xml:space="preserve">
     <value>Min broj dana za rezervaciju</value>
+  </data>
+  <data name="Min days of reservation:" xml:space="preserve">
+    <value>Min broj dana za rezervaciju:</value>
   </data>
   <data name="My reservations" xml:space="preserve">
     <value>Moje rezervacije</value>
@@ -228,17 +285,47 @@
   <data name="Rate owner" xml:space="preserve">
     <value>Oceni vlasnika</value>
   </data>
+  <data name="Read more" xml:space="preserve">
+    <value>Ostali komentari</value>
+  </data>
+  <data name="Renovation Suggestion" xml:space="preserve">
+    <value>Preporuka za renoviranje</value>
+  </data>
   <data name="Renovation Suggestions" xml:space="preserve">
     <value>Predlog za renoviranje</value>
   </data>
   <data name="Reservation days" xml:space="preserve">
     <value>Broj dana </value>
   </data>
+  <data name="Reservation postponation" xml:space="preserve">
+    <value>Pomeranje rezervacije</value>
+  </data>
   <data name="Reserve" xml:space="preserve">
     <value>Rezervisi</value>
   </data>
+  <data name="Reserved" xml:space="preserve">
+    <value>Rezervisani</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Pretraga</value>
+  </data>
+  <data name="Select city" xml:space="preserve">
+    <value>Izaberite grad</value>
+  </data>
+  <data name="Select number" xml:space="preserve">
+    <value>Izaberite broj</value>
+  </data>
+  <data name="Select owner corectness" xml:space="preserve">
+    <value>Korektnost vlasnika</value>
+  </data>
+  <data name="Select state" xml:space="preserve">
+    <value>Izaberite drzavu</value>
+  </data>
+  <data name="Select timeliness" xml:space="preserve">
+    <value>Postovanje roka</value>
+  </data>
+  <data name="Select type" xml:space="preserve">
+    <value>Izaberite tip</value>
   </data>
   <data name="Start date" xml:space="preserve">
     <value>Pocetni datum</value>
@@ -246,11 +333,17 @@
   <data name="State" xml:space="preserve">
     <value>Drzava</value>
   </data>
+  <data name="State:" xml:space="preserve">
+    <value>Drzava:</value>
+  </data>
   <data name="Timeliness" xml:space="preserve">
     <value>Vremenski rok</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tip</value>
+  </data>
+  <data name="Type:" xml:space="preserve">
+    <value>Tip:</value>
   </data>
   <data name="What should we change?" xml:space="preserve">
     <value>Sta treba da izmenimo?</value>

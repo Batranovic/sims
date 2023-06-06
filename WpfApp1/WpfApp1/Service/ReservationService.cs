@@ -154,7 +154,7 @@ namespace WpfApp1.Service
 
         public List<Reservation> GetFutureReseravtions(int id)
         {
-            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.IdGuest == id && r.Status == GuestRatingStatus.Reserved).ToList();
+            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.Guest.Id == id && r.Status == GuestRatingStatus.Reserved).ToList();
             if (list == null)
             {
                 return new List<Reservation>();

@@ -22,6 +22,7 @@ namespace WpfApp1.Views
     {
         public PastReservationsView()
         {
+            
             InitializeComponent();
         }
     }
