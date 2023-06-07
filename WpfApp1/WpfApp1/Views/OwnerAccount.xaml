@@ -214,7 +214,7 @@
                                 PlacementTarget="{Binding ElementName=OwnerStart}"
                                 Placement="Center"
                                 Margin="0,70,10,0"
-                                Panel.ZIndex="1000">
+                                Panel.ZIndex="1">
 
                             <Border BorderBrush="Black" BorderThickness="2">
                                 <WrapPanel Width="470" Height="550" Orientation="Vertical" Background="AliceBlue">
@@ -234,11 +234,12 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                        <WrapPanel>
-                                            <Label Content="Year: " FontSize="20"></Label>
-                                            <ComboBox  Width="200" ItemsSource="{Binding Years, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedYear}"></ComboBox>
+                                        <WrapPanel Margin="0, 30, 0, 0">
+                                            <Label Content="Year: " FontSize="18"></Label>
+                                            <ComboBox  Width="150" Margin="0, 0, 20, 0"  ItemsSource="{Binding Years, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedYear}"></ComboBox>
+                                            <Label Content="Accommodation doesnt have reservation." Visibility="{Binding LabelVisibility}" FontWeight="Bold" Foreground="red"></Label>
                                         </WrapPanel>
-                                        <WrapPanel>
+                                        <WrapPanel  Margin="0, 20, 0, 0">
                                             <Button Command="{Binding CreatePdfCommand}" FontSize="20" Margin="140, 20, 0, 0">Confirm</Button>
                                             <Button Command="{Binding VisibilityPDFCommand}" FontSize="20" Margin="25, 20, 0, 0">Cancel</Button>
                                         </WrapPanel>

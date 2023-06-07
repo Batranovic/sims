@@ -269,8 +269,13 @@ namespace WpfApp1.ViewModel
             {
                 Years.Add(i);
             }
-            if(years.Count == 0) {
-                MessageBox.Show("Accommodation doesnt have reservation.", "Warning");
+            if (years.Count == 0)
+            {
+                LabelVisibility = "Visible"; 
+            }
+            else
+            {
+                LabelVisibility = "Hidden";
             }
         }
 
@@ -298,8 +303,19 @@ namespace WpfApp1.ViewModel
 
         public ObservableCollection<AccommodationStatisticDTO> AccommodationStatisticMonthDTOs { get; set; }
 
+        private string _labelVisibility;
+        public string  LabelVisibility
+        {
+            get => _labelVisibility;
+            set
+            {
+                _labelVisibility = value;
+                OnPropertyChanged(nameof(LabelVisibility));
+            }
+        }
         private void Init(Owner owner)
         {
+            LabelVisibility = "Hidden";
             AccommodationStatisticMonthDTOs = new();
             Years = new();
             Accommodations = new(_accommodationService.GetAll());
@@ -331,6 +347,7 @@ namespace WpfApp1.ViewModel
 
         private void Execute_VisibilityPDFCommand()
         {
+            LabelVisibility = "Hidden";
             VisibilityPDF = !VisibilityPDF;
         }
 
@@ -594,6 +611,7 @@ namespace WpfApp1.ViewModel
             // Open the PDF document with the default application
             Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
             Execute_VisibilityPDFCommand();
+            LabelVisibility = "Hidden";
         }
 
 
