@@ -165,6 +165,9 @@
   <data name="Cleanness" xml:space="preserve">
     <value>Cleanness</value>
   </data>
+  <data name="Close forum" xml:space="preserve">
+    <value>Close forum</value>
+  </data>
   <data name="Comment" xml:space="preserve">
     <value>Comment</value>
   </data>
@@ -218,6 +221,9 @@
   </data>
   <data name="Images" xml:space="preserve">
     <value>Images</value>
+  </data>
+  <data name="Leave a comment" xml:space="preserve">
+    <value>Leave a comment</value>
   </data>
   <data name="Leave a review" xml:space="preserve">
     <value>Leave a review</value>
