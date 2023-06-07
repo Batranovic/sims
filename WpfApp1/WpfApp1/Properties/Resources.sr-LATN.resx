@@ -168,6 +168,9 @@
   <data name="Cleanness" xml:space="preserve">
     <value>Cistoca</value>
   </data>
+  <data name="Close forum" xml:space="preserve">
+    <value>Zatvori forum</value>
+  </data>
   <data name="Comment" xml:space="preserve">
     <value>Komentar</value>
   </data>
@@ -221,6 +224,9 @@
   </data>
   <data name="Images" xml:space="preserve">
     <value>Slike</value>
+  </data>
+  <data name="Leave a comment" xml:space="preserve">
+    <value>Ostavi komentar</value>
   </data>
   <data name="Leave a review" xml:space="preserve">
     <value>Ostavi recenziju</value>

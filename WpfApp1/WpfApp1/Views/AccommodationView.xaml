@@ -26,6 +26,9 @@
         <DataTemplate DataType="{x:Type vm:ForumGuestOverviewViewModel}">
             <v:ForumDisplayView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ForumCommentsViewModel}">
+            <v:ForumCommentsView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid Background="{Binding Color1}">
         <Grid.ColumnDefinitions>

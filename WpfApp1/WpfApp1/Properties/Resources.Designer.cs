@@ -205,6 +205,15 @@ namespace WpfApp1.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close forum.
+        /// </summary>
+        internal static string Close_forum {
+            get {
+                return ResourceManager.GetString("Close forum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comment.
         /// </summary>
         internal static string Comment {
@@ -363,6 +372,15 @@ namespace WpfApp1.Properties {
         internal static string Images {
             get {
                 return ResourceManager.GetString("Images", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leave a comment.
+        /// </summary>
+        internal static string Leave_a_comment {
+            get {
+                return ResourceManager.GetString("Leave a comment", resourceCulture);
             }
         }
         
