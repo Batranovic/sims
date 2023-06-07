@@ -200,7 +200,7 @@ namespace WpfApp1.ViewModel
 
         private bool CanExecute_ConfirmNewCommentCommand()
         {
-            return !String.IsNullOrEmpty(NewComment);
+            return !String.IsNullOrEmpty(NewComment) && SelectedForum.IsOpen;
         }
 
         private bool CanExecute()

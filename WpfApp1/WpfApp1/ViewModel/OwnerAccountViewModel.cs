@@ -36,7 +36,7 @@ namespace WpfApp1.ViewModel
         private INotificationAccommodationReleaseService _notificationService;
         private readonly IForumNotificationService _forumNotificationService;
         private readonly IAccommodationService _accommodationService;
-        
+
 
         private string _haveNotification;
         public string HaveNotification
@@ -46,6 +46,7 @@ namespace WpfApp1.ViewModel
             {
                 _haveNotification = value;
                 OnPropertyChanged(nameof(HaveNotification));
+                
             }
         }
 
@@ -64,7 +65,7 @@ namespace WpfApp1.ViewModel
             "Request section is used for displaying all postponed request reservation,\n" +
             " double click used pop up new window with message showing is date free.";
         public string RenovationWizzard = "Overview section is used for displaying all future renovations. Schedulling section is used for chooseing accommdation and scheduling  renovation.";
-        public string ForumWizzard = "Reviews section is used  for displaying all forums. With double click on one forum from all forums opens  all comments on that forum."; 
+        public string ForumWizzard = "Reviews section is used  for displaying all forums. With double click on one forum from all forums opens  all comments on that forum.";
 
         private Window _window;
         //    private AccommodationRenovationViewModel _accommodationRenovationViewModel;
@@ -175,10 +176,10 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        
+
 
         private bool _toolTipEnable;
-        public  bool ToolTipEnable
+        public bool ToolTipEnable
         {
             get => _toolTipEnable;
             set
@@ -188,10 +189,10 @@ namespace WpfApp1.ViewModel
             }
         }
 
-       
+
 
         private string _toolTipStatus;
-        public  string ToolTipStatus
+        public string ToolTipStatus
         {
             get => _toolTipStatus;
             set
@@ -209,7 +210,7 @@ namespace WpfApp1.ViewModel
         public RelayCommand DeleteAllNotificationCommand { get; set; }
         public RelayCommand CreatePdfCommand { get; set; }
         public RelayCommand VisibilityPDFCommand { get; set; }
-        public RelayCommand TogleCommand { get; set;  }
+        public RelayCommand TogleCommand { get; set; }
 
 
         public OwnerAccountViewModel(Owner owner)
@@ -229,6 +230,7 @@ namespace WpfApp1.ViewModel
             Init(owner);
             IntiCommand();
         }
+        
 
         private void IntiCommand()
         {
@@ -325,11 +327,20 @@ namespace WpfApp1.ViewModel
             StartDate = DateTime.Now;
             EndDate = DateTime.Now;
             _window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.Name == "OwnerStart");
-            HaveNotification = owner.Notifications.Count == 0 ? "White" : "Green";
             VisibilityWizard = false;
             VisibilityPopUp = false;
             VisibilityNotification = false;
             LoggedOwner = owner;
+            InjectorService.CreateInstance<INotificationAccommodationReleaseService>().FindNotification(owner.Id);
+            foreach (var n in InjectorService.CreateInstance<INotificationAccommodationReleaseService>().GetForOwner(owner.Id))
+            {
+                owner.Notifications.Add(n);
+            }
+            foreach (var n in _forumNotificationService.GetAll().FindAll(f => f.Owner.Id == owner.Id && f.IsDelivered == false))
+            {
+                owner.Notifications.Add(n);
+            }
+            HaveNotification = LoggedOwner.Notifications.Count == 0 ? "Hidden" : "Visible";
             UserType = LoggedOwner.Super ? "Super owner" : "Basic owner";
             VisibilityPDF = false;
         }
@@ -452,7 +463,7 @@ namespace WpfApp1.ViewModel
                 LoggedOwner.Notifications.Add(n);
             }
             OnPropertyChanged(nameof(LoggedOwner.Notifications));
-            HaveNotification = LoggedOwner.Notifications.Count == 0 ? "White" : "Green";
+            HaveNotification = LoggedOwner.Notifications.Count == 0 ? "Hidden" : "Visible";
 
         }
 
@@ -471,7 +482,7 @@ namespace WpfApp1.ViewModel
                 }
             }
             LoggedOwner.Notifications.Clear();
-            HaveNotification = "White";
+            HaveNotification = "Hidden";
         }
 
         private void Execute_PDF(object sender)
@@ -596,7 +607,7 @@ namespace WpfApp1.ViewModel
             foreach (AccommodationStatisticDTO a in _accommodationService.StatisticByMonthForAccommodation(SelectedAccommodation.Id,SelectedYear))
             {
                 table.AddCell(new PdfPCell(new Phrase(a.Month, infoFont)));
-                table.AddCell(new PdfPCell(new Phrase(a.Renovations.ToString(), infoFont)));
+                table.AddCell(new PdfPCell(new Phrase(a.Reservations.ToString(), infoFont)));
                 table.AddCell(new PdfPCell(new Phrase(a.Cancelations.ToString(), infoFont)));
                 table.AddCell(new PdfPCell(new Phrase(a.Rescheduling.ToString(), infoFont)));
                 table.AddCell(new PdfPCell(new Phrase(a.Renovations.ToString(), infoFont)));

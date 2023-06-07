@@ -120,7 +120,7 @@
                         </Button>
 
 
-
+                        
                         <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NotificationCommand}"  CommandParameter="0" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}">
                             <Image Source="../Views/Image/Owner/notification1.png" Width="40" Height="40" />
                             <Button.ToolTip>
@@ -133,6 +133,11 @@
                                             <ControlTemplate TargetType="Button">
                                                 <Grid>
                                                     <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <Canvas Height="10" Width="10"   Margin="18, 0,0, 24" Visibility="{Binding HaveNotification}" Panel.ZIndex="10000">
+                                                        <Ellipse  Height="10" Width="10" Fill="Red">
+                                                              
+                                                        </Ellipse>
+                                                    </Canvas>
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
@@ -147,6 +152,7 @@
                                 </Style>
                             </Button.Style>
                         </Button>
+                        
 
                         <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <Image Source="../Views/Image/Owner/profile.png" Width="40" Height="40" />
