@@ -5,12 +5,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1.Views"
-             xmlns:val="clr-namespace:WpfApp1.Validation"
+             xmlns:val="clr-namespace:WpfApp1.Validation" xmlns:viewmodel="clr-namespace:WpfApp1.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:SignInAccommodationViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="950">
 
     <TabControl TabStripPlacement="Left" SelectedIndex="{Binding TabPosition}">
-        <TabItem Header="Overview" Width="90" Height="25">
+        <TabItem Header="Overview" Width="90" Height="35" Background="#79CDA8" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+            <ToolTipService.ToolTip>
+                <ToolTip>
+                    <TextBlock>Display all accommodations</TextBlock>
+                </ToolTip>
+            </ToolTipService.ToolTip>
             <ListView ItemsSource="{Binding Accommodations}" SelectedItem="{Binding SelectedAccommodation}" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
@@ -36,7 +41,12 @@
                 </ListView.View>
             </ListView>
         </TabItem>
-        <TabItem Header="Statistics" Width="90" Height="25" Margin="-1,0,1,0" VerticalAlignment="Bottom">
+        <TabItem Header="Statistics" Width="90" Height="35"  Background="#79CDA8" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Margin="-1,0,1,0" VerticalAlignment="Top">
+            <ToolTipService.ToolTip>
+                <ToolTip>
+                    <TextBlock>Display statistics for choosen accommodation</TextBlock>
+                </ToolTip>
+            </ToolTipService.ToolTip>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
@@ -61,7 +71,13 @@
                     <WrapPanel Orientation="Vertical" >
                         <Label FontSize="22">Best year</Label>
                         <Label FontSize="22" Content="{Binding BestYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
-                        <Button Width="80" Height="30" Command="{Binding ShowMonthStatistics}">Detail</Button>
+                        <Button Content="Detail" Width="80" Height="30" Command="{Binding ShowMonthStatistics}" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                            <Button.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Display statistics by months</TextBlock>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
                         <Separator Height ="10" Visibility="Hidden"></Separator>
                     </WrapPanel>
 
@@ -96,7 +112,12 @@
 
             </Grid>
         </TabItem>
-        <TabItem Header="Create" Width="90" Height="25" Margin="-1,0,1,0" VerticalAlignment="Bottom">
+        <TabItem Header="Create" Width="90" Height="35"  Background="#79CDA8" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+            <ToolTipService.ToolTip>
+                <ToolTip IsEnabled="{Binding ToolTipEnable}">
+                    <TextBlock>Create new accommodation</TextBlock>
+                </ToolTip>
+            </ToolTipService.ToolTip>
             <Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -133,7 +154,12 @@
                         <Label Grid.Row="6" Grid.Column="0" Height="30">Cancel day</Label>
                         <Label Grid.Row="7" Grid.Column="0" Height="30">Link of images</Label>
 
-                        <TextBox  Grid.Column="1" Height="30" >
+                        <TextBox  Grid.Column="1" Height="30" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                            <TextBox.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Accommodation name</TextBlock>
+                                </ToolTip>
+                            </TextBox.ToolTip>
                             <TextBox.Text>
                                 <Binding Path="NameA" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
@@ -161,10 +187,33 @@
                             </Validation.ErrorTemplate>
                         </TextBox>
 
-                        <ComboBox x:Name="SelectState"  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=States, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  SelectedItem="{Binding Path=SelectedState,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Height="30"></ComboBox>
-                        <ComboBox x:Name="SelectCity" Grid.Row="2"  Grid.Column="1" ItemsSource="{Binding Path=Cities}" SelectedItem="{Binding Path=SelectedCity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30"></ComboBox>
-                        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"  Height="30"></ComboBox>
+                        <ComboBox x:Name="SelectState" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=States, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  SelectedItem="{Binding Path=SelectedState,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Height="30">
+                            <ComboBox.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Choose state</TextBlock>
+                                </ToolTip>
+                            </ComboBox.ToolTip>
+                        </ComboBox>
+                        <ComboBox x:Name="SelectCity" Grid.Row="2" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Grid.Column="1" ItemsSource="{Binding Path=Cities}" SelectedItem="{Binding Path=SelectedCity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30">
+                            <ComboBox.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Choose city</TextBlock>
+                                </ToolTip>
+                            </ComboBox.ToolTip>
+                        </ComboBox>
+                        <ComboBox Grid.Row="3" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Grid.Column="1" ItemsSource="{Binding Path=AccommodationKind}" SelectedItem="{Binding Path=SelectedAccommodationKind, UpdateSourceTrigger=PropertyChanged}"  Height="30">
+                            <ComboBox.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Choose kind of accommodation</TextBlock>
+                                </ToolTip>
+                            </ComboBox.ToolTip>
+                        </ComboBox>
                         <TextBox Grid.Row="4" Grid.Column="1" Height="30" >
+                            <TextBox.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Number of max guests</TextBlock>
+                                </ToolTip>
+                            </TextBox.ToolTip>
                             <TextBox.Text>
                                 <Binding Path="MaxGuests" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
@@ -191,7 +240,12 @@
                                 </ControlTemplate>
                             </Validation.ErrorTemplate>
                         </TextBox>
-                        <TextBox Grid.Row="5" Grid.Column="1" Height="30" >
+                        <TextBox Grid.Row="5" Grid.Column="1" Height="30" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                            <TextBox.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Number of max guests</TextBlock>
+                                </ToolTip>
+                            </TextBox.ToolTip>
                             <TextBox.Text>
                                 <Binding Path="MinResevation" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
@@ -218,7 +272,12 @@
                                 </ControlTemplate>
                             </Validation.ErrorTemplate>
                         </TextBox>
-                        <TextBox Grid.Row="6" Grid.Column="1" Height="30" >
+                        <TextBox Grid.Row="6" Grid.Column="1" Height="30" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                            <TextBox.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Cancel day</TextBlock>
+                                </ToolTip>
+                            </TextBox.ToolTip>
                             <TextBox.Text>
                                 <Binding Path="CancelDay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
                                     <Binding.ValidationRules>
@@ -246,21 +305,38 @@
                             </Validation.ErrorTemplate>
                         </TextBox>
                         <WrapPanel Grid.Row="6"  FlowDirection="LeftToRight" HorizontalAlignment="Center"  Grid.Column="1"  Width="396" Margin="0,45,0,0" Grid.RowSpan="2">
-                            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Center" VerticalAlignment="Center"   Height="25" Width="363"/>
-                            <Button Content="+" IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"   Command="{Binding AddUrlCommand}" />
+                            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Center" VerticalAlignment="Center"   Height="25" Width="363" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                                <TextBox.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock>Added url of image</TextBlock>
+                                    </ToolTip>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                            <Button Content="+" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"   Command="{Binding AddUrlCommand}" >
+                                <Button.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock>Added url of image</TextBlock>
+                                    </ToolTip>
+                                </Button.ToolTip>
+                            </Button>
                         </WrapPanel>
 
                     </Grid>
-                    <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,0,0,0" >
-                        <Button Content="Confirm" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
+                    <WrapPanel Grid.Row="1"  FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="90,40,0,0" >
+                        <Button FontSize="20" Height="35" Width="100" Content="Confirm" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="80, 5, 20, 5"
               Command="{Binding ConfrimCommand}"/>
-                        <Button Content="Odustani " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
+                        <Button FontSize="20" Height="35" Width="100" Content="Cancel " IsDefault="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20, 5, 20, 5"
                 Command="{Binding RejectCommand}"/>
                     </WrapPanel>
                 </Grid>
             </Grid>
         </TabItem>
-        <TabItem Header="Suggestions" Width="90" Height="25">
+        <TabItem Header="Suggestions" Width="90" Height="35" Background="#79CDA8" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+            <ToolTipService.ToolTip>
+                <ToolTip>
+                    <TextBlock>Displaying popular and unpopular location</TextBlock>
+                </ToolTip>
+            </ToolTipService.ToolTip>
             <WrapPanel>
                 <WrapPanel Orientation="Vertical">
                     <ListView ItemsSource="{Binding PopularLocations}"  SelectedItem="{Binding SelectedLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="300">
@@ -271,7 +347,13 @@
                         </ListView.View>
                     </ListView>
 
-                    <Button Width="90" Height="30" Margin="0, 20, 0, 0" Command="{Binding CreateSugestionLocationCommand}">Create</Button>
+                    <Button Width="90" Height="30" Margin="0, 20, 0, 0" Command="{Binding CreateSugestionLocationCommand}" Content="Create" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>Added new accommodation</TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
                 </WrapPanel>
                 <Separator Visibility="Hidden" Width="132" ></Separator>
 
@@ -284,7 +366,6 @@
                         </ListView.View>
                     </ListView>
 
-                    <Button Width="90" Height="30" Margin="0, 20, 0, 0">Delete</Button>
                 </WrapPanel>
             </WrapPanel>
         </TabItem>

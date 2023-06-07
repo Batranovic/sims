@@ -65,6 +65,7 @@ namespace WpfApp1.ViewModel
 
             SelectedOptionCommand = new RelayCommand(Execute_SelectedOption, CanSelectedOptionCommandExecute);
             ConfirmCommand = new RelayCommand(param => Execute_Confirm(), param => CanExecute());
+            CancelCommand = new RelayCommand(param => Execute_Cancel(), param => CanExecute());
         }
 
         private string _comment;

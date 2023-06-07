@@ -156,7 +156,8 @@ namespace WpfApp1.Service
 
         private void StatisticFromReservationMonthly(List<AccommodationStatisticDTO> accommodationStatisticDTOs, int idAccommodation, int year)
         {
-            foreach (Reservation r in _reservationService.GetAllWithDeleted().FindAll(r => r.Accommodation.Id == idAccommodation && r.StartDate.Year == year))
+            var reservationService = InjectorService.CreateInstance<IReservationService>();
+            foreach (Reservation r in reservationService.GetAllWithDeleted().FindAll(r => r.Accommodation.Id == idAccommodation && r.StartDate.Year == year))
             {
                 AccommodationStatisticDTO accommodationStatisticDTO = accommodationStatisticDTOs.Find(a => a.IntMonth == r.StartDate.Month);
 

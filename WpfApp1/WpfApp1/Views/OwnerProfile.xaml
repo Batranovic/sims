@@ -8,8 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="950">
     <Grid>
         <TabControl TabStripPlacement="Left" >
-            <TabItem Header="Reviews" Width="90" Height="25">
-                <ListView ItemsSource="{Binding OwnerRatings}">
+            <TabItem Header="Reviews" Width="90" Height="35" Background="#79CDA8" >
+                <ListView ItemsSource="{Binding OwnerRatings}"  >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="First name" Width="170" DisplayMemberBinding="{Binding Reservation.Guest.Name}" />
@@ -20,7 +20,7 @@
                     </ListView.View>
                 </ListView>
             </TabItem>
-            <TabItem Header="Rating" Width="90" Height="25" Margin="-1,2,1,-2">
+            <TabItem Header="Rating" Width="90" Height="35"  Background="#79CDA8">
                 <DockPanel>
                     <ListView DockPanel.Dock="Top" Height="250" SelectionMode="Single" SelectedItem="{Binding SelectedReservation}" ItemsSource="{Binding ExpiredReservations,UpdateSourceTrigger=PropertyChanged}" >
                         <ListView.View>
@@ -32,7 +32,7 @@
                         </ListView.View>
                     </ListView>
 
-                    <DockPanel DockPanel.Dock="Bottom">
+                    <DockPanel DockPanel.Dock="Bottom" Background="#B8E1CF">
                         <WrapPanel DockPanel.Dock="Top" Height="100">
                             <StackPanel Margin="20" Width="150">
                                 <Label  FontSize="15">
@@ -58,9 +58,10 @@
                                 <ComboBox ItemsSource="{Binding Grades}" SelectedItem="{Binding Timeliness}"></ComboBox>
                             </StackPanel>
 
+                           
                         </WrapPanel>
 
-                        <WrapPanel DockPanel.Dock="Bottom" >
+                        <WrapPanel DockPanel.Dock="Bottom">
                             <StackPanel Margin="20" Width="150">
                                 <Label  FontSize="15">
                                     Following rules
@@ -82,14 +83,17 @@
                                     Comment
                                 </Label>
 
-                                <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Height="20" Width="200"  TextWrapping="Wrap" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
+
+
 
                             <Separator  Width="280" Visibility="Hidden"></Separator>
                             <Separator  Width="300" Visibility="Hidden"></Separator>
-                            <Button Command="{Binding ConfirmCommand}" Margin="0, 30" Content="Confirm" Height="30" Width="80"/>
+                            <Button Background="#79CDA8" Command="{Binding ConfirmCommand}" Margin="0, 30" Content="Confirm" FontSize="20"  Height="40" Width="80"/>
 
                         </WrapPanel>
+
                     </DockPanel>
                 </DockPanel>
             </TabItem>

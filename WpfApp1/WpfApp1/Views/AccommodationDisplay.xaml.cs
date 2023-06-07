@@ -24,6 +24,7 @@ namespace WpfApp1.Views
     {
         public AccommodationDisplay()
         {
+            
             InitializeComponent();
         }
     }

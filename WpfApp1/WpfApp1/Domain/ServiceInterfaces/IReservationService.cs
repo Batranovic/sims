@@ -25,5 +25,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         Dictionary<DateTime, DateTime> GetAvailableDates(int idAccommodation, DateTime endDate, int duration);
         List<Reservation> GetGuestReservations(int id);
 
+        List<Reservation> GetFutureReseravtions(int id);
+
     }
 }

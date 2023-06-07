@@ -9,7 +9,12 @@
              d:DesignHeight="570" d:DesignWidth="950">
     <Grid>
         <TabControl TabStripPlacement="Left" SelectedIndex="{Binding TabPosition}">
-            <TabItem Header="Overview" Width="90" Height="25">
+            <TabItem Header="Overview" Width="90" Height="35" Background="#79CDA8" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                <ToolTipService.ToolTip>
+                    <ToolTip>
+                        <TextBlock>Display all renovations</TextBlock>
+                    </ToolTip>
+                </ToolTipService.ToolTip>
                 <ListView ItemsSource="{Binding Renovations, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedRenovation}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
@@ -19,15 +24,19 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Accommodation" Width="170" DisplayMemberBinding="{Binding Accommodation.Name}" />
-                            <GridViewColumn Header="Start date" Width="170" DisplayMemberBinding="{Binding StartDate}" />
-                            <GridViewColumn Header="End date" Width="170" DisplayMemberBinding="{Binding EndDate}" />
+                            <GridViewColumn Header="Start date" Width="170" DisplayMemberBinding="{Binding StartDate, StringFormat={}{0:MM/dd/yyyy}}" />
+                            <GridViewColumn Header="End date" Width="170" DisplayMemberBinding="{Binding EndDate, StringFormat={}{0:MM/dd/yyyy}}" />
                             <GridViewColumn Header="Description" Width="330" DisplayMemberBinding="{Binding Description}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
-            <TabItem Header="Schudeling" Width="90" Height="25" Margin="-1,2,1,0" VerticalAlignment="Top" >
-
+            <TabItem Header="Schudeling" Width="90" Height="35" Background="#79CDA8" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                <ToolTipService.ToolTip>
+                    <ToolTip>
+                        <TextBlock>Schudeling renovation for accommodation</TextBlock>
+                    </ToolTip>
+                </ToolTipService.ToolTip>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60"></RowDefinition>
@@ -44,21 +53,45 @@
                     <WrapPanel Grid.Row="1">
                         <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
                             <Label Content="Start date" FontSize="30" />
-                            <DatePicker FontSize="23" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
+                            <DatePicker ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" FontSize="23" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short">
+                                <DatePicker.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock>Choose start date</TextBlock>
+                                    </ToolTip>
+                                </DatePicker.ToolTip>
+                            </DatePicker>
                         </WrapPanel>
 
                         <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
                             <Label Content="End date" FontSize="30" />
-                            <DatePicker FontSize="23" SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short"></DatePicker>
+                            <DatePicker ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" FontSize="23" SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short">
+                                <DatePicker.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock>Choose end date</TextBlock>
+                                    </ToolTip>
+                                </DatePicker.ToolTip>
+                            </DatePicker>
                         </WrapPanel>
 
                         <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
                             <Label Content="Duration:" FontSize="30" />
-                            <TextBox FontSize="23" Height="38" Text="{Binding Duration}"></TextBox>
+                            <TextBox ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" FontSize="23" Height="38" Text="{Binding Duration}">
+                                <TextBox.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock>Duration renovation</TextBlock>
+                                    </ToolTip>
+                                </TextBox.ToolTip>
+                            </TextBox>
                         </WrapPanel>
 
                         <WrapPanel Orientation="Vertical" Margin="22, 0, 0, 0">
-                            <Button Margin="0, 30, 0, 0" FontSize="30" Width="120" Height="55" Content="Search" Command="{Binding SearchCommand}"/>
+                            <Button Margin="0, 30, 0, 0" FontSize="30" Width="120" Height="55" Content="Search" Command="{Binding SearchCommand}">
+                                <Button.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock>Search avaible date</TextBlock>
+                                    </ToolTip>
+                                </Button.ToolTip>
+                            </Button>
                         </WrapPanel>
 
                     </WrapPanel>
@@ -83,7 +116,13 @@
                     </WrapPanel>
 
                     <WrapPanel Grid.Row="3">
-                        <Button FontSize="30" Margin="360, 25, 0, 0" Width="120" Command="{Binding ConfirmCommand}">Confirm</Button>
+                        <Button ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" FontSize="30" Margin="360, 25, 0, 0" Width="120" Command="{Binding ConfirmCommand}" Content="Confirm">
+                            <Button.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Confrim choosen date</TextBlock>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
                     </WrapPanel>
                 </Grid>
             </TabItem>
@@ -111,29 +150,31 @@
                                 Margin="0,70,10,0"
                                 Panel.ZIndex="1000">
 
-            <WrapPanel Width="470" Height="450" Orientation="Vertical" Background="AliceBlue">
-                <WrapPanel Orientation="Vertical">
-                    <Label FontSize="20">Choose accommodation</Label>
-                    <ListView Height="350" Width="470" ItemsSource="{Binding Accommodations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Photo" Width="250">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Margin="32, 0, 0, 0" Height="100" Width="150" Source="{Binding MainImage.Path}"></Image>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Name" Width="192" DisplayMemberBinding="{Binding Name}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <WrapPanel>
-                        <Button Command="{Binding ChosenAccommodationCommand}" FontSize="20" Margin="140, 20, 0, 0">Confirm</Button>
-                        <Button Command="{Binding CloseChooseAccommodationCommand}" FontSize="20" Margin="25, 20, 0, 0">Cancel</Button>
+            <Border BorderBrush="Black" BorderThickness="2">
+                <WrapPanel Width="470" Height="450" Orientation="Vertical" Background="AliceBlue">
+                    <WrapPanel Orientation="Vertical">
+                        <Label FontSize="20">Choose accommodation</Label>
+                        <ListView Height="350" Width="470" ItemsSource="{Binding Accommodations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Photo" Width="250">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Margin="32, 0, 0, 0" Height="100" Width="150" Source="{Binding MainImage.Path}"></Image>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Name" Width="192" DisplayMemberBinding="{Binding Name}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <WrapPanel>
+                            <Button Command="{Binding ChosenAccommodationCommand}" FontSize="20" Margin="140, 20, 0, 0">Confirm</Button>
+                            <Button Command="{Binding CloseChooseAccommodationCommand}" FontSize="20" Margin="25, 20, 0, 0">Cancel</Button>
+                        </WrapPanel>
                     </WrapPanel>
                 </WrapPanel>
-            </WrapPanel>
+            </Border>
         </Popup>
 
     </Grid>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
+using WpfApp1.Domain.RepositoryInterfaces;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
 
@@ -26,6 +28,16 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        private string _selectedState;
+        public string SelectedState
+        {
+            get => _selectedState;
+            set
+            {
+                _selectedState = value;
+                OnPropertyChanged(nameof(SelectedState));
+            }
+        }
         public ObservableCollection<ForumComments> ForumComments { get; set; }
 
         private int _tabPosition;
@@ -89,10 +101,15 @@ namespace WpfApp1.ViewModel
 
         private void Init(Owner owner)
         {
-            SelectedComment = new();
             TabPosition = 0;
             LoggedOwner = owner;
             Forums = new(_forumService.GetAll());
+            foreach(var f in  Forums)
+            {
+                bool tmp1 = f.Comments.FindAll(fc => fc.Author.UserKind == Domain.Models.Enums.UserKind.Guest).Count >= 20;
+                bool tmp2 = f.Comments.FindAll(fc => fc.Author.UserKind == Domain.Models.Enums.UserKind.Owner).Count >= 20;
+                f.IsUsefull = tmp1 && tmp2 ? true : false;
+            }
             SelectedForum = Forums[0];
             ForumComments = new(SelectedForum.Comments);
         }
@@ -103,12 +120,19 @@ namespace WpfApp1.ViewModel
             NewCommentCommand = new(param => Execute_NewCommentCommand(), param => CanExecute());
             ConfirmNewCommentCommand = new(param => Execute_ConfirmNewCommentCommand(), param => CanExecute_ConfirmNewCommentCommand());
             CancelNewCommentCommand = new(param => Execute_CancelNewCommentCommand(), param => CanExecute());
-            ReportCommand = new(param => Execute_ReportCommand(), param => CanExecute());
+            ReportCommand = new(Execute_ReportCommand, param => CanExecute());
         }
 
         private void Execute_ShowCommentCommand()
         {
             TabPosition = 1;
+            ForumComments.Clear();
+            SelectedState = SelectedForum.Location.City;
+            foreach(var fc in SelectedForum.Comments)
+            {
+                ForumComments.Add(fc);
+            }
+            OnPropertyChanged(nameof(SelectedState));
             OnPropertyChanged(nameof(SelectedForum));
         }
 
@@ -122,11 +146,34 @@ namespace WpfApp1.ViewModel
             }
             OnPropertyChanged(nameof(ForumComments));
         }
-
-        private void Execute_ReportCommand()
+        
+        private void Execute_ReportCommand(object sender)
         {
-            SelectedComment.Report++;
-            _forumCommentService.Update(SelectedComment);
+            if (sender != null  && sender is ForumComments forumComments)
+            {
+                if (forumComments.ForumReports.Find(fc => fc.Author.Equals(LoggedOwner)) != null)
+                {
+                    MessageBox.Show("You have been reported comment", "Warning");
+                    return;
+                }
+                SelectedComment = forumComments;
+                
+                ReportForum rf = new();
+                rf.ForumComment = SelectedComment;
+                rf.Author = LoggedOwner;
+                InjectorService.CreateInstance<IReportForumService>().Create(rf);
+
+                SelectedComment.ForumReports.Add(rf);
+                SelectedComment.Report= SelectedComment.ForumReports.Count;
+                _forumCommentService.Update(SelectedComment);
+                ForumComments.Clear();
+                foreach (var item in _forumCommentService.GetAll().FindAll(f => f.Forum.Id == SelectedForum.Id))
+                {
+                    ForumComments.Add(item);
+                }
+                OnPropertyChanged(nameof(ForumComments));
+
+            }
         }
 
         private void Execute_CancelNewCommentCommand()

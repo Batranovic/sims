@@ -9,7 +9,12 @@
              d:DesignHeight="450" d:DesignWidth="950">
     <Grid>
         <TabControl TabStripPlacement="Left" SelectedIndex="{Binding TabPosition}">
-            <TabItem Header="Reviews" Width="90" Height="25" >
+            <TabItem Header="Overview" Width="90" Height="35"  Background="#79CDA8" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                <ToolTipService.ToolTip>
+                    <ToolTip>
+                        <TextBlock>Display all forum</TextBlock>
+                    </ToolTip>
+                </ToolTipService.ToolTip>
                 <ListView ItemsSource="{Binding Forums}" SelectedItem="{Binding SelectedForum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
@@ -20,18 +25,24 @@
                         <GridView>
                             <GridViewColumn Header="State" Width="170" DisplayMemberBinding="{Binding Location.State}" />
                             <GridViewColumn Header="City" Width="170" DisplayMemberBinding="{Binding Location.City}" />
+                            <GridViewColumn Header="Usefull" Width="170" DisplayMemberBinding="{Binding IsUsefull}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
-            <TabItem Header="Rating" Width="90" Height="25" Margin="-1,2,1,-2">
+            <TabItem Header="Feed" Width="90" Height="35"  Background="#79CDA8" ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                <ToolTipService.ToolTip>
+                    <ToolTip>
+                        <TextBlock>Display all comments for one forum</TextBlock>
+                    </ToolTip>
+                </ToolTipService.ToolTip>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Center" FontSize="40">State</Label>
+                    <Label Content="{Binding SelectedState}" Grid.Row="0" HorizontalAlignment="Center"   VerticalAlignment="Center" FontSize="40"></Label>
 
 
                     <ListView Grid.Row="1" SelectedItem="{Binding  SelectedComment}"
@@ -70,10 +81,10 @@
                                     </Style>
                                 </GridView.ColumnHeaderContainerStyle>
 
-                                <GridViewColumn Width="846" Header="Feed">
+                                <GridViewColumn Width="846" Header="Feed"  >
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border CornerRadius="15" Margin="54, 0, 0, 0" BorderThickness="3" Width="500" Height="190" Background="LightGray" >
+                                            <Border  CornerRadius="15" Margin="54, 0, 0, 0" BorderThickness="3" Width="500" Height="190" Background="#D6CDA4" >
                                                 <Grid>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="40"/>
@@ -88,7 +99,7 @@
                                                             <TextBlock FontSize="15" Text="{Binding Date, StringFormat='{}{0:yyyy-MM-dd}'}" ></TextBlock>
                                                         </WrapPanel>
                                                         <Separator Width="240" Visibility="Hidden"/>
-                                                        <WrapPanel Orientation="Vertical" Margin="-10, 0, 0, 0">
+                                                        <WrapPanel Orientation="Vertical" Margin="-10, 0, 0, 0"  >
                                                             <Label FontSize="15" Content="Number of reports:"/>
                                                             <Label FontSize="15" Content="{Binding Report}"/>
                                                         </WrapPanel>
@@ -96,15 +107,19 @@
 
 
 
-                                                    <Border Grid.Row="1"  Width="500" HorizontalAlignment="Center" CornerRadius="10" BorderThickness="1" Background="LightBlue">
+                                                    <Border Grid.Row="1"  Width="500" HorizontalAlignment="Center" CornerRadius="10" BorderThickness="1" Background="#EEF2E6">
                                                         <TextBlock Padding="40,20,0,0" Text="{Binding Comment}"/>
                                                     </Border>
 
-                                                    <WrapPanel Grid.Row="2" Orientation="Horizontal"> 
-                                                        <Button Width="70" Height="32" Margin="210, 0, 0, 0"  Command="{Binding RelativeSource={
+                                                    <WrapPanel Grid.Row="2" Orientation="Horizontal">
+                                                        <Button Background="#D4C395" Width="70" Height="32" Margin="210, 0, 0, 0"  Command="{Binding RelativeSource={
                                                                                         RelativeSource Mode=FindAncestor,
                                                                                         AncestorType={x:Type UserControl}},
-                                                                                        Path= DataContext.ReportCommand}" CommandParameter="{Binding}" >Report</Button>
+                                                                                        Path= DataContext.ReportCommand}" CommandParameter="{Binding}" Content="Report" >
+                                                            <Button.Effect>
+                                                                <DropShadowEffect Color="Black" Direction="250" ShadowDepth="1" Opacity="0.5"/>
+                                                            </Button.Effect>
+                                                        </Button>
                                                     </WrapPanel>
                                                 </Grid>
                                             </Border>
@@ -115,11 +130,19 @@
                         </ListView.View>
                     </ListView>
 
-                    <Button Grid.Row="3" Command="{Binding NewCommentCommand}"  Content="New comment" Width="80" Height="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Panel.ZIndex="999">
+                    <Button ToolTipService.IsEnabled="{Binding DataContext.ToolTipEnable, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Grid.Row="3" Command="{Binding NewCommentCommand}"  Content="New comment" Width="80" Height="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Panel.ZIndex="999">
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>Add new comment for forum</TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
+                        <Button.Effect>
+                            <DropShadowEffect Color="Black" Direction="300" ShadowDepth="6" Opacity="0.6"/>
+                        </Button.Effect>
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Grid>
-                                    <Ellipse Fill="LightBlue" />
+                                    <Ellipse Fill="#D6CDA4" />
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Grid>
                             </ControlTemplate>

@@ -26,6 +26,7 @@ namespace WpfApp1.Views
     {
         public AvailableDays(Dictionary<DateTime, DateTime> range, Accommodation accommodation, Guest guest)
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
             this.DataContext = new AvailableDaysViewModel(range, accommodation, guest); 
         }

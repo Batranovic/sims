@@ -14,7 +14,8 @@ namespace WpfApp1.Domain.Models
         private List<ForumComments> _comments;
         private bool _isOpen;
         private Guest _guest;
-
+        public bool IsUsefull { get; set; }
+      
         public int Id
         {
             get => _id;
@@ -95,6 +96,7 @@ namespace WpfApp1.Domain.Models
             Comments = comments;
             IsOpen = isOpen;
             Guest = guest;
+            IsUsefull = false;
         }
 
         public Forum()
@@ -102,6 +104,7 @@ namespace WpfApp1.Domain.Models
             Comments = new();
             Location = new();
             Guest = new();
+            IsUsefull = false;
         }
 
         public string[] ToCSV()

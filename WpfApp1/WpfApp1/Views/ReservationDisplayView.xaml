@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="WpfApp1.Views.ReservationDisplayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views"
+             xmlns:ns="clr-namespace:WpfApp1.Localization"
+             mc:Ignorable="d" 
+             d:DesignHeight="655" d:DesignWidth="1004"
+             Background="{Binding DataContext.Color6, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+    <Grid>
+        <Grid Height="620" Width="1024" Margin="0 0 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="460"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <DatePicker Height="26" SelectedDate="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="0,0,0,0"></DatePicker>
+                <Separator Width="90" Visibility="Hidden"></Separator>
+                <DatePicker Height="26" SelectedDate="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:dd/MM/yyyy}'}" RenderTransformOrigin="0.493,4.276" SelectedDateFormat="Short" Margin="0,0,0,0"></DatePicker>
+                <Separator Width="170" Visibility="Hidden"></Separator>
+                <Viewbox Height="26" Grid.Row="0" Margin="0 0 0 0">
+                    <RadioButton  FontSize="11" FontWeight="Medium" GroupName="Reservation" IsChecked="{Binding Options[0]}" Command="{Binding SelectedOptionCommand}" CommandParameter="0" Content="{ns:Loc Reserved}"></RadioButton>
+                </Viewbox>
+                <Separator Width="170" Visibility="Hidden"></Separator>
+                <Viewbox Height="26" Grid.Row="0" Margin="0 0 0 0">
+                    <RadioButton  FontSize="11" FontWeight="Medium" GroupName="Reservation" IsChecked="{Binding Options[1]}" Command="{Binding SelectedOptionCommand}" CommandParameter="0" Content="{ns:Loc Canceled}"></RadioButton>
+                </Viewbox>
+                
+            </WrapPanel>
+            <ListView ItemsSource="{Binding Reservations}" Background="{Binding DataContext.Color7, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Grid.Row="1" SelectedItem="{Binding SelectedReservation}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="{ns:Loc Accommodation}" Width="200" DisplayMemberBinding="{Binding Accommodation.Name}"/>
+                        <GridViewColumn Header="{ns:Loc State}" Width="199" DisplayMemberBinding="{Binding Accommodation.Location.State}"/>
+                        <GridViewColumn Header="{ns:Loc City}" Width="197" DisplayMemberBinding="{Binding Accommodation.Location.City}"/>
+                        <GridViewColumn Header="{ns:Loc Start date}" Width="199" DisplayMemberBinding="{Binding StartDate}"/>
+                        <GridViewColumn Header="{ns:Loc End date}" Width="199" DisplayMemberBinding="{Binding EndDate}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <WrapPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <Button Content="{ns:Loc Postpone resevation}" Width="156" Height="45" IsCancel="True" Margin="0,1,1,0" Command="{Binding ReservationPostponementCommand}">
+                    <Button.Effect>
+                        <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                    </Button.Effect>
+                </Button>
+                <Separator Width="170" Visibility="Hidden"></Separator>
+                <Button Content="{ns:Loc Generate report}" Width="156" Height="45" IsCancel="True" Margin="0,1,1,0" Command="{Binding }">
+                    <Button.Effect>
+                        <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                    </Button.Effect>
+                </Button>
+                <Separator Width="170" Visibility="Hidden"></Separator>
+                <Button Content="{ns:Loc Cancel reservation}" Width="156" Height="45" IsCancel="True" Margin="0,1,1,0" Command="{Binding CancelReservationCommand}">
+                    <Button.Effect>
+                        <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                    </Button.Effect>
+                </Button>
+            </WrapPanel>
+        </Grid>
+
+    </Grid>
+</UserControl>

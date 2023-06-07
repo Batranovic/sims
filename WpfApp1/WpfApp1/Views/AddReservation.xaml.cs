@@ -31,6 +31,7 @@ namespace WpfApp1.Views
 
         public AddReservation(Accommodation accommodation, Guest guest)
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
             this.DataContext = new AddReservationViewModel(accommodation, guest);
         }
