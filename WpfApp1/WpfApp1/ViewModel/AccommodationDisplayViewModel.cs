@@ -26,6 +26,7 @@ namespace WpfApp1.ViewModel
         public ObservableCollection<Accommodation> SuitableAccommodations { get; set; }
 
         private bool _visibilityPopUp1;
+        private bool _visibilityPopUp2;
         public AccommodationKind? SelectedAccommodationKind { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
@@ -44,6 +45,16 @@ namespace WpfApp1.ViewModel
             }
         }
 
+        public bool VisibilityPopUp2
+        {
+            get => _visibilityPopUp2;
+            set
+            {
+                _visibilityPopUp2 = value;
+                OnPropertyChanged(nameof(VisibilityPopUp2));
+            }
+        }
+
         public string SelectedCity { get; set; }
 
         private DateTime _start;
@@ -54,6 +65,7 @@ namespace WpfApp1.ViewModel
         private Window _window;
 
         public RelayCommand ShowCommand1 { get; set; }
+        public RelayCommand ShowCommand2 { get; set; }
         public RelayCommand SearchCommand { get; set; }
 
         public RelayCommand ReserveCommand { get; set; }
@@ -94,12 +106,14 @@ namespace WpfApp1.ViewModel
             Cities = new ObservableCollection<string>();
 
             VisibilityPopUp1 = false;
+            VisibilityPopUp2 = false;
 
 
             SearchCommand = new RelayCommand(param => Execute_Search(), param => CanExecute());
             ReserveCommand = new RelayCommand(Execute_Reserve, param => CanExecute());
             ShowImageCommand = new RelayCommand(Execute_ShowImage, param => CanExecute());
             ShowCommand1 = new(param => Execute_ShowCommand1(), param => CanExecute());
+            ShowCommand2 = new(param => Execute_ShowCommand2(), param => CanExecute());
 
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetSortedListBySuperOwner());
 
@@ -201,6 +215,11 @@ namespace WpfApp1.ViewModel
         public void Execute_ShowCommand1()
         {
             VisibilityPopUp1 = !VisibilityPopUp1;
+        }
+
+        public void Execute_ShowCommand2()
+        {
+            VisibilityPopUp2 = !VisibilityPopUp2;
         }
 
 

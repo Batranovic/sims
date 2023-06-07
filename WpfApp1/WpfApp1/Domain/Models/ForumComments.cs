@@ -18,6 +18,8 @@ namespace WpfApp1.Domain.Models
         public User Author { get; set; }
         public int Report { get; set; }
         public DateTime Date { get; set; }
+
+        public bool HasBeen { get; set; }
      
         public List<ReportForum> ForumReports { get; set; }
 
@@ -45,7 +47,7 @@ namespace WpfApp1.Domain.Models
             }
         }
 
-        public ForumComments(int id, string comment, Forum forum, User author, int report)
+        public ForumComments(int id, string comment, Forum forum, User author, int report, bool hasBeen)
         {
             Id = id;
             Comment = comment;
@@ -53,6 +55,7 @@ namespace WpfApp1.Domain.Models
             Author = author;
             Report = report;
             ForumReports = new();
+            HasBeen = hasBeen;
 
         }
 
@@ -61,7 +64,8 @@ namespace WpfApp1.Domain.Models
             Forum = new();
             Author = new();
             ForumReports = new();
-
+            HasBeen = false;
+            Comment = "";
         }
 
         public string[] ToCSV()
@@ -74,7 +78,8 @@ namespace WpfApp1.Domain.Models
                 Author.Id.ToString(),
                 Author.UserKind.ToString(),
                 Report.ToString(),
-                DateHelper.DateToString(Date)
+                DateHelper.DateToString(Date),
+                HasBeen.ToString()
             };
             return csvValues;
         }
@@ -88,6 +93,7 @@ namespace WpfApp1.Domain.Models
             Author.UserKind = Enum.Parse<UserKind>(values[4]);
             Report = Convert.ToInt32(values[5]);
             Date = DateHelper.StringToDate(values[6]);
+            HasBeen = Convert.ToBoolean(values[7]);
         }
 
     }

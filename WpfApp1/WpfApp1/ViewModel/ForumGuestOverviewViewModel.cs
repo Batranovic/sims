@@ -9,6 +9,7 @@ using WpfApp1.Commands;
 using WpfApp1.Domain.Models;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Service;
+using WpfApp1.Views;
 
 namespace WpfApp1.ViewModel
 {
@@ -22,6 +23,8 @@ namespace WpfApp1.ViewModel
 
         public ObservableCollection<Forum> Forums { get; set; }
 
+        //public ObservableCollection<ForumComments> ForumComments { get; set; }
+
         private Guest LoggedGuest { get; set; }
         
         private Forum _selectedForum;
@@ -29,6 +32,10 @@ namespace WpfApp1.ViewModel
         public RelayCommand ShowCommand { get; set; }
         public RelayCommand ShowCommand1 { get; set; }
         public RelayCommand ShowCommand2 { get; set; }
+
+        public RelayCommand LeaveCommentCommand { get; set; }
+
+        public RelayCommand CloseForumCommand { get; set; }
 
         public RelayCommand CreateCommand { get; set; }
 
@@ -40,6 +47,17 @@ namespace WpfApp1.ViewModel
         private string _city;
 
         private string _text;
+        private string _commentText;
+
+        public string CommentText
+        {
+            get => _commentText;
+            set
+            {
+                _commentText = value;
+                OnPropertyChanged(nameof(CommentText));
+            }
+        }
 
         public string Text
         {
@@ -136,12 +154,15 @@ namespace WpfApp1.ViewModel
             LoggedGuest = guest;
 
             ShowCommand = new(param => Execute_ShowCommand(), param => CanExecute());
-            ShowCommand1 = new(param => Execute_ShowCommand1(), param => CanExecute());
+            ShowCommand1 = new(Execute_ShowCommand1, param => CanExecute());
             ShowCommand2 = new(param => Execute_ShowCommand2(), param => CanExecute());
+            LeaveCommentCommand = new(param => Execute_LeaveCommentCommand(), param => CanExecute());
+            CloseForumCommand = new(param => Execute_CloseForumCommand(), param => CanExecute());
 
             States = new ObservableCollection<string>(_locationService.GetStates());
             Cities = new ObservableCollection<string>();
             Forums = new ObservableCollection<Forum>(_forumService.GetAll());
+            ForumComments = new ObservableCollection<ForumComments>();
 
 
             VisibilityPopUp = false;
@@ -155,8 +176,17 @@ namespace WpfApp1.ViewModel
         {
             VisibilityPopUp = !VisibilityPopUp;
         }
-        public void Execute_ShowCommand1()
+        public void Execute_ShowCommand1(object sender)
         {
+            if (sender != null && sender is Forum forum)
+            {
+                SelectedForum = forum;
+                ForumComments.Clear();
+                foreach (ForumComments fc in SelectedForum.Comments)
+                {
+                    ForumComments.Add(fc);
+                }
+            }
             VisibilityPopUp1 = !VisibilityPopUp1;
         }
         public void Execute_ShowCommand2()
@@ -169,12 +199,40 @@ namespace WpfApp1.ViewModel
             return true;
         }
 
+        public void Execute_CloseForumCommand()
+        {
+            SelectedForum.IsOpen = false;
+            _forumService.Update(SelectedForum);
+        }
         private void ChosenState()
         {
             Cities.Clear();
             foreach (string city in _locationService.GetCitiesFromStates(State))
             {
                 Cities.Add(city);
+            }
+        }
+
+        private void Execute_LeaveCommentCommand()
+        {
+            if(SelectedForum.IsOpen == false)
+            {
+                return;
+            }
+            ForumComments fc = new ForumComments();
+            fc.Comment = CommentText;
+            fc.Report = 0;
+            fc.Author = LoggedGuest;
+            fc.Forum = SelectedForum;
+            fc.Date = DateTime.Now;
+            fc.HasBeen = LoggedGuest.Reservations.Find(r => r.Accommodation.Location.Id == SelectedForum.Location.Id) == null ? false:true;
+            _forumCommentService.Create(fc);
+            SelectedForum.Comments.Add(fc);
+            VisibilityPopUp2 = !VisibilityPopUp2;
+            ForumComments.Clear();
+            foreach (ForumComments fcs in SelectedForum.Comments)
+            {
+                ForumComments.Add(fcs);
             }
         }
 

@@ -58,7 +58,7 @@
                 </Popup>
                 <Label Foreground="Black" FontSize="40" FontStyle="Italic"  Margin="0 0 0 -5"></Label>
             </WrapPanel>
-            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Width="964" Height="495" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="17,28,17,28" Background="{Binding DataContext.Color3, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+            <ScrollViewer Grid.Row="2" Width="964" Height="495" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="17,28,17,28" Background="{Binding DataContext.Color3, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                 <ItemsControl ItemsSource="{Binding Path=Forums}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -69,7 +69,7 @@
                                         <Border BorderBrush="Black" BorderThickness="1" CornerRadius="0" Margin="10" Height="120">
                                             <TextBlock Text="{Binding FirstComment.Comment}" Margin="10"/>
                                         </Border>
-                                        <Button Content="{ns:Loc Read more}" Width="100" Height="30" HorizontalAlignment="Center" Margin="10" Command="{Binding DataContext.CurrentVM.ShowCommand1, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"/>
+                                        <Button Content="{ns:Loc Read more}" Width="100" Height="30" HorizontalAlignment="Center" Margin="10"  Command="{Binding DataContext.ShowCommand1, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" ></Button>
                                     </StackPanel>
                                 </Border>
                             </Grid>
@@ -77,47 +77,73 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
+
+            <Popup IsOpen="{Binding VisibilityPopUp1}"
+                               Width="1000" 
+                                Height="590" 
+                                Margin="0,0,0,0"
+                                PlacementTarget="{Binding ElementName=AccommodationViewName}"
+                                Placement="Center"
+                                Panel.ZIndex="1000">
+                <Grid Background="#E9EDC9">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="470"/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
+                    <WrapPanel Grid.Row="0" FlowDirection="RightToLeft" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="0">
+                        <Button Content="Close forum" Width="100" Height="30" HorizontalAlignment="Center" Margin="10" Command="{Binding DataContext.CloseForumCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"></Button>
+                    </WrapPanel>
+                    <ScrollViewer Grid.Row="1" Width="964" Height="470" HorizontalAlignment="Center" Margin="17,28,17,28" Background="Beige">
+                        <ItemsControl ItemsSource="{Binding Path=ForumComments}">
+                            <ItemsControl.ItemTemplate> 
+                                <DataTemplate>
+                                    <Grid>
+                                        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="0" Margin="10" Height="210">
+                                            <StackPanel>
+                                                <Label Content="{Binding Author.Username}" HorizontalAlignment="Left" Margin="10" />
+                                                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="0" Margin="10" Height="110">
+                                                    <TextBlock Text="{Binding Comment}" Margin="10"/>
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <WrapPanel Grid.Row="2" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0">
+                        <Button Content="Komentar" Width="100" Height="30" HorizontalAlignment="Center" Margin="10"  Command="{Binding DataContext.ShowCommand2, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"></Button>
+                        <Separator Width="200" Visibility="Hidden"></Separator>
+                        <Button Content="Cancel" Width="100" Height="30" HorizontalAlignment="Center" Margin="10" Command="{Binding DataContext.ShowCommand1, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"></Button>
+                    </WrapPanel>
+                </Grid>
+            </Popup>
+
+            <Popup IsOpen="{Binding VisibilityPopUp2}"
+                               Width="450" 
+                                Height="350" 
+                                Margin="0,0,0,0"
+                                PlacementTarget="{Binding ElementName=AccommodationViewName}"
+                                Placement="Center"
+                                Panel.ZIndex="1000">
+                <Grid Background="#E9EDC9">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="240"/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Enter comment" Grid.Row="0" HorizontalAlignment="Center"></Label>
+                    <TextBox Grid.Row="1" Text="{Binding CommentText}"></TextBox>
+                    <WrapPanel Grid.Row="2" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                        <Button Content="Leave comment" Width="100" Height="30" HorizontalAlignment="Center" Margin="10" Command="{Binding DataContext.LeaveCommentCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"></Button>
+                        <Separator Width="130" Visibility="Hidden"></Separator>
+                        <Button Content="Cancel" Width="80" Height="30" HorizontalAlignment="Center" Margin="10" Command="{Binding DataContext.ShowCommand2, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"></Button>
+                    </WrapPanel>
+                </Grid>
+                
+            </Popup>
         </Grid>
-        <Popup IsOpen="{Binding DataContext.CurrentVM.VisibilityPopUp1, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                               Width="1004" 
-                                                Height="568" 
-                                                Margin="20"
-                                                PlacementTarget="{Binding ElementName=AccommodationViewName}"
-                                                Placement="Center"
-                                                Panel.ZIndex="1000">
-            <Grid Height="568" Width="1004" Margin="0 0 0 0" Background="#C4DFAA">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="450"/>
-                    <RowDefinition Height="58"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Foreground="red" FontSize="40" FontStyle="Italic" Margin="10 0 0 0">Petrovaradin</Label>
-                <WrapPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button Content="{ns:Loc Close forum}" Margin="0 0 40 0" Height="30" Width="80">
-                        <Button.Effect>
-                            <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
-                        </Button.Effect>
-                    </Button>
-                    <Label Foreground="Yellow" FontSize="40" FontStyle="Italic"  Margin="0 0 0 -5"></Label>
-                </WrapPanel>
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Width="964" Height="455" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="17,28,17,28" Background="#FFECC7" >
-                    <Grid>
-                        <Border BorderBrush="Black" BorderThickness="2" Margin="10" Height="240">
-                            <StackPanel>
-                                <Label Content="Title" HorizontalAlignment="Left" Margin="10" />
-                                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="0" Margin="10" Height="120">
-                                    <TextBlock Text="Content Text" Margin="10"/>
-                                </Border>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </ScrollViewer>
-                <Button Grid.Row="2" Content="{ns:Loc Leave a comment}" Width="120" Height="30" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 20">
-                    <Button.Effect>
-                        <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
-                    </Button.Effect>
-                </Button>
-            </Grid>
-        </Popup>
+
     </Grid>
 </UserControl>
