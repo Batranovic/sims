@@ -15,5 +15,7 @@ namespace WpfApp1.Domain.ServiceInterfaces
         void Delete(GuestRating entity);
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
+
+        List<GuestRating> GetAllGuestReviews(int idGuest);
     }
 }

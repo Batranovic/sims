@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accommodation" xml:space="preserve">
+    <value>Smestaj</value>
+  </data>
+  <data name="Accommodation name" xml:space="preserve">
+    <value>Ime smestaja</value>
+  </data>
+  <data name="Accommodation view" xml:space="preserve">
+    <value>Pregled smestaja</value>
+  </data>
+  <data name="Acommodation and owner rating" xml:space="preserve">
+    <value>Ocenjivanje smestaja i vlasnika</value>
+  </data>
+  <data name="Acommodation renovation suggestion" xml:space="preserve">
+    <value>Preporuka za renoviranje smestaja</value>
+  </data>
+  <data name="Available days" xml:space="preserve">
+    <value>Slobodni dani</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Otkazi</value>
+  </data>
+  <data name="Cancel in advance" xml:space="preserve">
+    <value>Otkazivanje unapred</value>
+  </data>
+  <data name="Cancel in advance:" xml:space="preserve">
+    <value>Otkazivanje unapred:</value>
+  </data>
+  <data name="Cancel reservation" xml:space="preserve">
+    <value>Otkazi rezervaciju</value>
+  </data>
+  <data name="Canceled" xml:space="preserve">
+    <value>Otkazani</value>
+  </data>
+  <data name="Cant find what you are looking for? Create forum" xml:space="preserve">
+    <value>Ne mozes da nadjes forum? Kreiraj svoj forum </value>
+  </data>
+  <data name="Check out reviews from owners" xml:space="preserve">
+    <value>Pogledajte ocene od vlasnika</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Grad</value>
+  </data>
+  <data name="City:" xml:space="preserve">
+    <value>Grad:</value>
+  </data>
+  <data name="Clannes" xml:space="preserve">
+    <value>Cistoca</value>
+  </data>
+  <data name="Cleanness" xml:space="preserve">
+    <value>Cistoca</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Komentar</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Prihvati</value>
+  </data>
+  <data name="Create forum" xml:space="preserve">
+    <value>Napravi forum</value>
+  </data>
+  <data name="Creating reservation" xml:space="preserve">
+    <value>Kreiranje rezervacije</value>
+  </data>
+  <data name="Damage" xml:space="preserve">
+    <value>Steta</value>
+  </data>
+  <data name="End date" xml:space="preserve">
+    <value>Krajnji datum</value>
+  </data>
+  <data name="Enter image url" xml:space="preserve">
+    <value>Unesite url slike</value>
+  </data>
+  <data name="Enter number of guests" xml:space="preserve">
+    <value>Unesite broj gostiju</value>
+  </data>
+  <data name="Enter reservation days" xml:space="preserve">
+    <value>Unesite broj dana za rezervaciju</value>
+  </data>
+  <data name="Enter your comment" xml:space="preserve">
+    <value>Unesite Vas komentar</value>
+  </data>
+  <data name="Find reservation" xml:space="preserve">
+    <value>Pronadji rezervaciju</value>
+  </data>
+  <data name="Following Rules" xml:space="preserve">
+    <value>Postovanje pravila</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Forum</value>
+  </data>
+  <data name="Generate report" xml:space="preserve">
+    <value>Napravi izvestaj</value>
+  </data>
+  <data name="How urgent is this change?" xml:space="preserve">
+    <value>Koliko je hitna izmena?</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Slika</value>
+  </data>
+  <data name="Image view" xml:space="preserve">
+    <value>Pregled slika</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Slike</value>
+  </data>
+  <data name="Leave a review" xml:space="preserve">
+    <value>Ostavi recenziju</value>
+  </data>
+  <data name="Leave a review on your past reservations!" xml:space="preserve">
+    <value>Ostavite recenziju na vase prethodne rezervacije!</value>
+  </data>
+  <data name="Level 1 - Not necessary" xml:space="preserve">
+    <value>Level 1 - Nije neophodno</value>
+  </data>
+  <data name="Level 2 - Minor changes" xml:space="preserve">
+    <value>Level 2 - Male izmene</value>
+  </data>
+  <data name="Level 3 - Bothersome things" xml:space="preserve">
+    <value>Level 3 - Stvare koje su smetale</value>
+  </data>
+  <data name="Level 4 - Really necessary" xml:space="preserve">
+    <value>Level 4 - Neophodne izmene</value>
+  </data>
+  <data name="Level 5 - Really bad condition" xml:space="preserve">
+    <value>Level 5 - Jako lose stanje</value>
+  </data>
+  <data name="Max guests" xml:space="preserve">
+    <value>Max gostiju</value>
+  </data>
+  <data name="Max guests:" xml:space="preserve">
+    <value>Maksimalan broj grostiju:</value>
+  </data>
+  <data name="Min days of reservation" xml:space="preserve">
+    <value>Min broj dana za rezervaciju</value>
+  </data>
+  <data name="Min days of reservation:" xml:space="preserve">
+    <value>Min broj dana za rezervaciju:</value>
+  </data>
+  <data name="My reservations" xml:space="preserve">
+    <value>Moje rezervacije</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ime</value>
+  </data>
+  <data name="Noise" xml:space="preserve">
+    <value>Buka</value>
+  </data>
+  <data name="Number of guests" xml:space="preserve">
+    <value>Broj gostiju</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>Pregled</value>
+  </data>
+  <data name="Owner corectness" xml:space="preserve">
+    <value>Korektnost vlasnika</value>
+  </data>
+  <data name="Owner name" xml:space="preserve">
+    <value>Ime vlasnika</value>
+  </data>
+  <data name="Owner reviews" xml:space="preserve">
+    <value>Ocene vlasnika</value>
+  </data>
+  <data name="Postpone resevation" xml:space="preserve">
+    <value>Pomeri rezervaciju</value>
+  </data>
+  <data name="Rate owner" xml:space="preserve">
+    <value>Oceni vlasnika</value>
+  </data>
+  <data name="Read more" xml:space="preserve">
+    <value>Ostali komentari</value>
+  </data>
+  <data name="Renovation Suggestion" xml:space="preserve">
+    <value>Preporuka za renoviranje</value>
+  </data>
+  <data name="Renovation Suggestions" xml:space="preserve">
+    <value>Predlog za renoviranje</value>
+  </data>
+  <data name="Reservation days" xml:space="preserve">
+    <value>Broj dana </value>
+  </data>
+  <data name="Reservation postponation" xml:space="preserve">
+    <value>Pomeranje rezervacije</value>
+  </data>
+  <data name="Reserve" xml:space="preserve">
+    <value>Rezervisi</value>
+  </data>
+  <data name="Reserved" xml:space="preserve">
+    <value>Rezervisani</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Pretraga</value>
+  </data>
+  <data name="Select city" xml:space="preserve">
+    <value>Izaberite grad</value>
+  </data>
+  <data name="Select number" xml:space="preserve">
+    <value>Izaberite broj</value>
+  </data>
+  <data name="Select owner corectness" xml:space="preserve">
+    <value>Korektnost vlasnika</value>
+  </data>
+  <data name="Select state" xml:space="preserve">
+    <value>Izaberite drzavu</value>
+  </data>
+  <data name="Select timeliness" xml:space="preserve">
+    <value>Postovanje roka</value>
+  </data>
+  <data name="Select type" xml:space="preserve">
+    <value>Izaberite tip</value>
+  </data>
+  <data name="Start date" xml:space="preserve">
+    <value>Pocetni datum</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Drzava</value>
+  </data>
+  <data name="State:" xml:space="preserve">
+    <value>Drzava:</value>
+  </data>
+  <data name="Timeliness" xml:space="preserve">
+    <value>Vremenski rok</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tip</value>
+  </data>
+  <data name="Type:" xml:space="preserve">
+    <value>Tip:</value>
+  </data>
+  <data name="What should we change?" xml:space="preserve">
+    <value>Sta treba da izmenimo?</value>
+  </data>
+</root>

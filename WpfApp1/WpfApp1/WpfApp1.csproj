@@ -8,7 +8,118 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <Compile Remove="Resources\Images\**" />
+    <EmbeddedResource Remove="Resources\Images\**" />
+    <None Remove="Resources\Images\**" />
+    <Page Remove="Resources\Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Images\chat %281%29.png" />
+    <None Remove="Images\file.png" />
+    <None Remove="Views\Image\Guest\tema.png" />
+    <None Remove="Views\Image\Guest\Translate.png" />
+    <None Remove="Views\Image\Owner\notification.webp" />
+    <None Remove="Views\Image\Owner\notification1.png" />
+    <None Remove="Views\Image\Owner\pdf.png" />
+    <None Remove="Views\Image\Owner\profile.png" />
+    <None Remove="Views\Image\Owner\wizard.png" />
+    <None Remove="Views\Image\Owner\wizard1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
+    <PackageReference Include="PDFsharp" Version="1.50.5147" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\chat (1).png" />
+    <Resource Include="Images\file.png" />
+    <Resource Include="Views\Image\Guest\tema.png" />
+    <Resource Include="Views\Image\Guest\Translate.png" />
+    <Resource Include="Views\Image\Owner\notification.webp" />
+    <Resource Include="Views\Image\Owner\notification1.png" />
+    <Resource Include="Views\Image\Owner\pdf.png" />
+    <Resource Include="Views\Image\Owner\profile.png" />
+    <Resource Include="Views\Image\Owner\wizard1.png" />
+    <None Remove="Images\average.png" />
+    <None Remove="Images\book.png" />
+    <None Remove="Images\calendar.png" />
+    <None Remove="Images\car.png" />
+    <None Remove="Images\check.png" />
+    <None Remove="Images\checklist.png" />
+    <None Remove="Images\close.png" />
+    <None Remove="Images\destination.png" />
+    <None Remove="Images\dot.png" />
+    <None Remove="Images\location-pin.png" />
+    <None Remove="Images\map.png" />
+    <None Remove="Images\out.png" />
+    <None Remove="Images\point.png" />
+    <None Remove="Images\profile.png" />
+    <None Remove="Images\rating.png" />
+    <None Remove="Images\refresh.png" />
+    <None Remove="Images\review.png" />
+    <None Remove="Images\ruta.png" />
+    <None Remove="Images\service.png" />
+    <None Remove="Images\travel-guide.png" />
+    <None Remove="Images\travelling.png" />
+    <None Remove="Images\vacation.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\average.png" />
+    <Resource Include="Images\calendar.png" />
+    <Resource Include="Images\check.png" />
+    <Resource Include="Images\checklist.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Resources\Images\" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Syncfusion.SfChart.WPF" Version="21.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\book.png" />
+    <Resource Include="Images\car.png" />
+    <Resource Include="Images\close.png" />
+    <Resource Include="Images\destination.png" />
+    <Resource Include="Images\dot.png" />
+    <Resource Include="Images\location-pin.png" />
+    <Resource Include="Images\map.png" />
+    <Resource Include="Images\out.png" />
+    <Resource Include="Images\point.png" />
+    <Resource Include="Images\profile.png" />
+    <Resource Include="Images\rating.png" />
+    <Resource Include="Images\refresh.png" />
+    <Resource Include="Images\review.png" />
+    <Resource Include="Images\ruta.png" />
+    <Resource Include="Images\service.png" />
+    <Resource Include="Images\travel-guide.png" />
+    <Resource Include="Images\travelling.png" />
+    <Resource Include="Images\vacation.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

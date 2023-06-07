@@ -13,6 +13,7 @@ using WpfApp1.Domain.Models;
 using WpfApp1.Domain.Domain.Models.Enums;
 using WpfApp1.Repository;
 using WpfApp1.Domain.Models.Enums;
+using WpfApp1.DTO;
 
 namespace WpfApp1.Service
 {
@@ -30,21 +31,50 @@ namespace WpfApp1.Service
             _reservationPostponementRepository = InjectorRepository.CreateInstance<IReservationPostponementRepository>();
             BindAccommodation();
             BindGuest();
+            SetKind();
         }
         private void BindAccommodation()
         {
             foreach (Reservation r in GetAll())
             {
-                r.Accommodation = _accommodationRepository.Get(r.IdAccommodation);
+                r.Accommodation = _accommodationRepository.Get(r.Accommodation.Id);
             }
         }
         private void BindGuest()
         {
             foreach (Reservation r in GetAll())
             {
-                r.Guest = _guestRepository.Get(r.IdGuest);
+                r.Guest = _guestRepository.Get(r.Guest.Id);
+                r.Guest.Reservations.Add(r);
             }
         }
+
+        private void SetKind()
+        {
+            foreach (Guest g in _guestRepository.GetAll())
+            {
+
+                if(g.Super)
+                {
+                    continue;
+                }
+                if (g.Reservations.Count >= 10)
+                {
+                    g.Super = true;
+                    g.BonusPoints = 5;
+                    g.SuperGuestExpirationDate = DateTime.Now.AddYears(1);
+                }
+                else
+                {
+                    g.Super = false;
+                    g.BonusPoints = 0;
+                    g.SuperGuestExpirationDate = DateTime.MinValue;
+                }
+            }
+        }
+
+
+
         public void Save()
         {
             _reservationRepository.Save();
@@ -53,10 +83,22 @@ namespace WpfApp1.Service
         {
             return _reservationRepository.Get(id);
         }
+
+        public Reservation GetWithDeleted(int id)
+        {
+            return _reservationRepository.GetWithDeleted(id);
+        }
+
         public List<Reservation> GetAll()
         {
             return _reservationRepository.GetAll();
         }
+
+        public List<Reservation> GetAllWithDeleted()
+        {
+            return _reservationRepository.GetAllWithDeleted();
+        }
+
         public void Create(Reservation reservation)
         {
             _reservationRepository.Create(reservation);
@@ -91,7 +133,18 @@ namespace WpfApp1.Service
         }
         public List<Reservation> GetUnratedById(int id)
         {
-            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.Status == GuestRatingStatus.Unrated && r.Accommodation.OwnerId == id).ToList();
+            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.Status == GuestRatingStatus.Unrated && r.Accommodation.Owner.Id == id).ToList();
+            if (list == null)
+            {
+                return new List<Reservation>();
+            }
+            
+            return list;
+        }
+
+        public List<Reservation> GetGuestReservations(int id)
+        {
+            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.Guest.Id == id).ToList();
             if (list == null)
             {
                 return new List<Reservation>();
@@ -99,9 +152,9 @@ namespace WpfApp1.Service
             return list;
         }
 
-        public List<Reservation> GetGuestReservations(int id)
+        public List<Reservation> GetFutureReseravtions(int id)
         {
-            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.IdGuest == id).ToList();
+            List<Reservation> list = _reservationRepository.GetAll().FindAll(r => r.Guest.Id == id && r.Status == GuestRatingStatus.Reserved).ToList();
             if (list == null)
             {
                 return new List<Reservation>();
@@ -116,11 +169,11 @@ namespace WpfApp1.Service
         {
             while ((endDate - startDate).Days >= duration)
             {
-                if (IsDateInRange(r, startDate))
+                if (IsDateInRange(r, startDate) && InjectorService.CreateInstance<IRenovationService>().IsDateFree(startDate, r.Accommodation.Id))
                 {
                     startDate = r.EndDate.AddDays(1);
                 }
-                else if (IsDateInRange(r, startDate.AddDays(duration)))
+                else if (IsDateInRange(r, startDate.AddDays(duration)) && InjectorService.CreateInstance<IRenovationService>().IsDateFree(startDate.AddDays(duration), r.Accommodation.Id))
                 {
                     startDate = r.EndDate.AddDays(1);
                 }
@@ -151,7 +204,7 @@ namespace WpfApp1.Service
         {
             try
             {
-                return GetAll().Where(r => r.IdAccommodation == idAccommodation && (r.Status == Domain.Models.Enums.GuestRatingStatus.Inprogres || r.Status == Domain.Models.Enums.GuestRatingStatus.Reserved)).ToList();
+                return GetAll().Where(r => r.Accommodation.Id == idAccommodation && (r.Status == Domain.Models.Enums.GuestRatingStatus.Inprogres || r.Status == Domain.Models.Enums.GuestRatingStatus.Reserved)).ToList();
             }
             catch
             {
@@ -160,13 +213,14 @@ namespace WpfApp1.Service
         }
         public bool IsDateFree(int idAccommodation, DateTime date)
         {
-            bool retVal = true;
-
             foreach (Reservation r in GetAheadReservationsForAccommodation(idAccommodation))
             {
-                retVal = retVal && !IsDateInRange(r, date);
+                if(IsDateInRange(r, date))
+                {
+                    return false;
+                }
             }
-            return retVal;
+            return true; 
         }
         public Dictionary<DateTime, DateTime> GetAvailableDates(int idAccommodation, DateTime endDate, int duration)
         {
@@ -178,7 +232,7 @@ namespace WpfApp1.Service
             {
                 endDate = temp.AddDays(duration);
 
-                if (IsDateFree(idAccommodation, endDate.AddDays(i)) && IsDateFree(idAccommodation, endDate.AddDays(duration)))
+                if (InjectorService.CreateInstance<IRenovationService>().IsDateFree(endDate.AddDays(i), idAccommodation) && InjectorService.CreateInstance<IRenovationService>().IsDateFree(endDate.AddDays(duration), idAccommodation) && IsDateFree(idAccommodation, endDate.AddDays(i)) && IsDateFree(idAccommodation, endDate.AddDays(duration)))
                 {
                       availableDates.Add(endDate.AddDays(i), temp.AddDays(i)); //contra bind
                 }
@@ -186,5 +240,8 @@ namespace WpfApp1.Service
             }
             return availableDates;
         }
+
+        
+
     }
 }

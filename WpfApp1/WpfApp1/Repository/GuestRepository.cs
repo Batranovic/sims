@@ -66,12 +66,19 @@ namespace WpfApp1.Repository
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _serializer.ToCSV(_filePath, _guests);
         }
 
         public Guest Update(Guest entity)
         {
-            throw new NotImplementedException();
+            var oldEntity = Get(entity.Id);
+            if (oldEntity == null)
+            {
+                return null;
+            }
+            oldEntity = entity;
+            Save();
+            return oldEntity;
         }
     }
 }

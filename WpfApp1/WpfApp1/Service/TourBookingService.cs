@@ -8,17 +8,18 @@ using WpfApp1.Domain.Models;
 using WpfApp.Observer;
 using WpfApp1.Domain.ServiceInterfaces;
 using WpfApp1.Domain.RepositoryInterfaces;
+using System.Windows;
 
 namespace WpfApp1.Service 
 {
     public class TourBookingService : ITourBookingService
     {
         private ITourBookingRepository _tourBookingRepository;
-        private VoucherService _voucherService;
+        private IVoucherRepository _voucherRepository;
         public TourBookingService()
         {
             _tourBookingRepository = InjectorRepository.CreateInstance<ITourBookingRepository>();
-            _voucherService = new VoucherService();
+            _voucherRepository = InjectorRepository.CreateInstance<IVoucherRepository>();
             BindTourEvent();
             BindVoucher();
         }
@@ -80,7 +81,7 @@ namespace WpfApp1.Service
             if (tourBooking.Voucher.Id != -1)
             {
                 tourBooking.Voucher.IsUsed = true;
-                _voucherService.Update(tourBooking.Voucher);
+                _voucherRepository.Update(tourBooking.Voucher);
             }
 
 
@@ -112,11 +113,11 @@ namespace WpfApp1.Service
         public List<TourEvent> TouristTourEvents(int userId)
         {
             List<TourEvent> tourEvents = new List<TourEvent>();
-            foreach (TourBooking tourReservation in _tourBookingRepository.GetAll())
+            foreach (TourBooking tourBooking in _tourBookingRepository.GetAll())
             {
-                if (tourReservation.Tourist.Id == userId)
+                if (tourBooking.Tourist.Id == userId)
                 {
-                    tourEvents.Add(tourReservation.TourEvent);
+                    tourEvents.Add(tourBooking.TourEvent);
                 }
             }
             return tourEvents;
@@ -124,16 +125,32 @@ namespace WpfApp1.Service
 
         public TourBooking GetTourBookingForTourEventAndUser(int tourEventId, int userId)
         {
-            foreach (TourBooking tourReservation in _tourBookingRepository.GetAll())
+            foreach (TourBooking tourBooking in _tourBookingRepository.GetAll())
             {
-                if (tourReservation.Tourist.Id == userId && tourReservation.TourEvent.Id == tourEventId)
+                if (tourBooking.Tourist.Id == userId && tourBooking.TourEvent.Id == tourEventId)
                 {
-                    return tourReservation;
+                    return tourBooking;
                 }
             }
             return null;
 
         }
+
+        public List<TourBooking> GetTourBookingsForTourist(int userId)
+        {
+            List<TourBooking> bookings = new List<TourBooking>();
+            foreach (TourBooking tourBooking in _tourBookingRepository.GetAll())
+            {
+                if (tourBooking.Tourist.Id == userId)
+                {
+                    bookings.Add(tourBooking);
+                }
+            }
+            return bookings;
+        }
+
+
+
 
         public void GetExistingTourBooking(int tourEvent, int user, int numOfPeople)
         {
@@ -144,6 +161,44 @@ namespace WpfApp1.Service
                 Update(existingTourBooking);
             }
         }
+
+        public Voucher WonVoucher(int userId, int tourB, DateTime time)
+        {
+            int currentYear = DateTime.Now.Year;
+            List<TourBooking> tourBookings = _tourBookingRepository.GetAll();
+            List<TourBooking> currentYearTours = new List<TourBooking>();
+
+            foreach (TourBooking tourBooking in tourBookings)
+            {
+                if (tourBooking.Tourist.Id == userId && tourBooking.TourEvent.StartTime.Year == currentYear)
+                {
+                    currentYearTours.Add(tourBooking);
+                }
+            }
+
+            int currentYearTourCount = currentYearTours.Count;
+
+            if (currentYearTourCount > 0 && currentYearTourCount % 5 == 0)
+            {
+                DateTime sixMonthsLater = DateTime.Now.AddMonths(6);
+
+                Voucher newVoucher = new Voucher
+                {
+                    Tourist = new Tourist { Id = userId },
+                    ExpirationDate = sixMonthsLater,
+                    Name = "voucher"
+                };
+
+                _voucherRepository.Create(newVoucher);
+                _voucherRepository.Update(newVoucher);
+
+                return newVoucher;
+            }
+
+            return null;
+        }
+
+
 
 
 

@@ -12,14 +12,13 @@ namespace WpfApp1.Domain.Models
     {
         private int _id;
         private string _name;
-        private int _idLocation;
         private Location _location;
         private string _description;
         private double _duration;
         private string _language;        
         private int _maxGuests;
         public List<string> KeyPoints { get; set; }
-        public List<string> Images { get; set; }
+        public string Image { get; set; }
         public List<DateTime> Date { get; set; }
         public List<TourEvent> TourEvents { get; set; }
 
@@ -50,17 +49,6 @@ namespace WpfApp1.Domain.Models
             }
         }
 
-        public int IdLocation
-        {
-            get => _idLocation;
-            set
-            {
-                if (value != null)
-                {
-                    _idLocation = value;
-                }
-            }
-        }
 
         public Location Location
         {
@@ -128,18 +116,18 @@ namespace WpfApp1.Domain.Models
             TourPoints = new List<TourPoint>();
         }
 
-        public Tour(int id, string name, int idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<string> images, List<DateTime> date)
+        public Tour(int id, string name, Location idLocation, string description, double duration, string  language, int maxGuests, List<string> keyPoints, List<DateTime> date, string image)
         {
-            Id = id;
+            Id = id; 
             Name = name;
-            IdLocation = idLocation;
+            Location = idLocation;
             Description = description;
             Duration = duration;
             Languages = language;
             MaxGuests = maxGuests;
             KeyPoints = keyPoints;
-            Images = images;
             Date = date;
+            Image = image;
             TourEvents = new List<TourEvent>();
             TourPoints = new List<TourPoint>();
 
@@ -152,11 +140,12 @@ namespace WpfApp1.Domain.Models
            {
                     Id.ToString(),
                     Name,
-                    IdLocation.ToString(), 
+                    Location.Id.ToString(), 
                     Description.ToString(),
                     Duration.ToString(),
                     Languages,
                     MaxGuests.ToString(),
+                    Image,
                 };
             return csvValues;
         }
@@ -165,11 +154,12 @@ namespace WpfApp1.Domain.Models
         {
             Id = int.Parse(values[0]);
             Name = values[1];
-            IdLocation = int.Parse(values[2]);
+            Location = new Location() { Id = Convert.ToInt32(values[2]) };
             Description = values[3];
             Duration = Double.Parse(values[4]);
             Languages = values[5];
             MaxGuests = int.Parse(values[6]);
+            Image = values[7];
         }
     }
 }

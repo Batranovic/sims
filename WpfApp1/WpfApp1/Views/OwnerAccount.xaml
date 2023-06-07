@@ -1,0 +1,316 @@
+﻿<Window x:Class="WpfApp1.Views.OwnerAccount"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:WpfApp1.ViewModel"
+        xmlns:view="clr-namespace:WpfApp1.Views"
+        xmlns:local="clr-namespace:WpfApp1.Views"
+        mc:Ignorable="d"
+        Title="OwnerAccount" Height="650" Width="967" ResizeMode="NoResize"
+        Name="OwnerStart" Background="#B8E1CF" >
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:OwnerProfileViewModel}">
+            <view:OwnerProfile/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SignInAccommodationViewModel}">
+            <view:SignInAccommodation/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ReservationOverviewViewModel}">
+            <view:ReservationOvewview/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:RenovationOverviewViewModel}">
+            <view:RenovationOverview/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ForumOverviewViewModel}">
+            <view:ForumOverview/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <DockPanel  Width="950" >
+            <DockPanel DockPanel.Dock="Top" Background="blue" Height="80" >
+                <WrapPanel Background="#B8E1CF">
+                    <WrapPanel Width="100" Height="80">
+
+                    </WrapPanel>
+
+                    <WrapPanel  Height="80" Width="600" >
+                        <Button Background="#79CDA8" Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="1" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}" Content="Acommodations">
+                            <Button.ToolTip>
+                                <ToolTip Content="Press for accommodation section" />
+                            </Button.ToolTip>
+                        </Button>
+                        <Button Background="#79CDA8" Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="2" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}" Content="Reservations">
+                            <Button.ToolTip>
+                                <ToolTip Content="Press for reservation section" />
+                            </Button.ToolTip>
+                        </Button>
+                        <Button Background="#79CDA8" Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="3" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}" Content="Renovations">
+                            <Button.ToolTip>
+                                <ToolTip Content="Press for renovation section" />
+                            </Button.ToolTip>
+                        </Button>
+                        <Button Background="#79CDA8" Height="50" Width="95" Margin="14" Command="{Binding NavCommand}" CommandParameter="4" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}" Content="Forum">
+                            <Button.ToolTip>
+                                <ToolTip Content="Forum button" />
+                            </Button.ToolTip>
+                        </Button>
+
+                    </WrapPanel>
+
+                    <WrapPanel  Height="80" Width="250" >
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding VisibilityPDFCommand}" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}">
+                            <Image Source="../Views/Image/Owner/pdf.png" Width="40" Height="40" />
+                            <Button.ToolTip>
+                                <ToolTip Content="PDF button" />
+                            </Button.ToolTip>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#79CDA8 " />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="#B8E1CF" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+
+
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding WizardCommand}" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}">
+                            <Image Source="../Views/Image/Owner/wizard1.png" Width="40" Height="40" />
+                            <Button.ToolTip>
+                                <ToolTip Content="Wizzard button" />
+                            </Button.ToolTip>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#79CDA8 " />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="#B8E1CF" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+
+                        
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NotificationCommand}"  CommandParameter="0" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable)}">
+                            <Image Source="../Views/Image/Owner/notification1.png" Width="40" Height="40" />
+                            <Button.ToolTip>
+                                <ToolTip Content="Notification button" />
+                            </Button.ToolTip>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <Canvas Height="10" Width="10"   Margin="18, 0,0, 24" Visibility="{Binding HaveNotification}" Panel.ZIndex="10000">
+                                                        <Ellipse  Height="10" Width="10" Fill="Red">
+                                                              
+                                                        </Ellipse>
+                                                    </Canvas>
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#79CDA8 " />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="#B8E1CF" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        
+
+                        <Button Width="50" Height="50" Padding="0" Margin="8, 15, 0, 10" Command="{Binding NavCommand}"  CommandParameter="0" ToolTipService.IsEnabled="{Binding Path=(viewModel:OwnerAccountViewModel.ToolTipEnable), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Image Source="../Views/Image/Owner/profile.png" Width="40" Height="40" />
+                            <Button.ToolTip>
+                                <ToolTip Content="Account button" />
+                            </Button.ToolTip>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseEnter">
+                                    <i:InvokeCommandAction Command="{Binding ShowCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Ellipse Fill="{TemplateBinding Background}" />
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#79CDA8 " />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="#B8E1CF" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Popup IsOpen="{Binding VisibilityPopUp}"
+                               Width="250" 
+                                Height="200" 
+                                Margin="0,100,10,0"
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right" 
+                                Panel.ZIndex="1000">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding ShowCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                                    <Label Width="200" Height="40" FontSize="25" Content="{Binding NameSurname}"></Label>
+                                    <Label Content="{Binding UserType}" FontSize="25" Width="200" Height="40"/>
+                                    <WrapPanel Orientation="Horizontal" Margin="0, 10, 0, 0" >
+                                        <Label Content="Tool tip"  FontSize="20"/>
+                                        <Button Content="{Binding ToolTipStatus}" Width="60" Margin="10, 0, 0, 0" Command="{Binding TogleCommand}" ></Button>
+                                    </WrapPanel>
+
+                                    <Button Margin="25, 24, 0, 0" Height="30" Width="70" Content="Log out" Command="{Binding LogoutCommand}"/>
+                                </WrapPanel>
+                            </Border>
+                        </Popup>
+
+
+                        <Popup IsOpen="{Binding VisibilityPDF}"
+                                Width="470" 
+                                Height="550" 
+                                PlacementTarget="{Binding ElementName=OwnerStart}"
+                                Placement="Center"
+                                Margin="0,70,10,0"
+                                Panel.ZIndex="1">
+
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <WrapPanel Width="470" Height="550" Orientation="Vertical" Background="AliceBlue">
+                                    <WrapPanel Orientation="Vertical">
+                                        <Label FontSize="20">Choose accommodation</Label>
+                                        <ListView Height="350" Width="470" ItemsSource="{Binding Accommodations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Photo" Width="250">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Image Margin="32, 0, 0, 0" Height="100" Width="150" Source="{Binding MainImage.Path}"></Image>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Name" Width="192" DisplayMemberBinding="{Binding Name}" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <WrapPanel Margin="0, 30, 0, 0">
+                                            <Label Content="Year: " FontSize="18"></Label>
+                                            <ComboBox  Width="150" Margin="0, 0, 20, 0"  ItemsSource="{Binding Years, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedYear}"></ComboBox>
+                                            <Label Content="Accommodation doesnt have reservation." Visibility="{Binding LabelVisibility}" FontWeight="Bold" Foreground="red"></Label>
+                                        </WrapPanel>
+                                        <WrapPanel  Margin="0, 20, 0, 0">
+                                            <Button Command="{Binding CreatePdfCommand}" FontSize="20" Margin="140, 20, 0, 0">Confirm</Button>
+                                            <Button Command="{Binding VisibilityPDFCommand}" FontSize="20" Margin="25, 20, 0, 0">Cancel</Button>
+                                        </WrapPanel>
+                                    </WrapPanel>
+                                </WrapPanel>
+                            </Border>
+                        </Popup>
+
+
+                        <Popup IsOpen="{Binding VisibilityNotification}"
+                                Width="250" 
+                                Height="200" 
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right" 
+                                Panel.ZIndex="1000">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding NotificationCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                                    <ListView Height="135" ItemsSource="{Binding LoggedOwner.Notifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedNotificationBase}" >
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Message" Width="225" DisplayMemberBinding="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <WrapPanel Orientation="Horizontal">
+                                        <Button Margin="32, 20, 0, 0" Height="30" Width="70" Content="Delete" Command="{Binding DeleteNotificationCommand}"/>
+                                        <Button Margin="35, 20, 0, 0" Height="30" Width="70" Content="Delete all" Command="{Binding DeleteAllNotificationCommand}"/>
+                                    </WrapPanel>
+                                </WrapPanel>
+                            </Border>
+                        </Popup>
+                        
+                        <Popup IsOpen="{Binding VisibilityWizard}"
+                               Width="350" 
+                                Height="270" 
+                                PlacementTarget="{Binding ElementName=OwnerStart}"
+                                Placement="Center"
+                                Margin="0,70,10,0"
+                                Panel.ZIndex="1000">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <i:InvokeCommandAction Command="{Binding WizardCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <WrapPanel Width="350" Height="270" Orientation="Vertical" Background="AliceBlue">
+                                    <TextBlock FontSize="15" TextWrapping="Wrap" Text="{Binding WizardMessage}" ></TextBlock>
+                                </WrapPanel>
+                            </Border>
+                        </Popup>
+
+                    </WrapPanel>
+                </WrapPanel>
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Bottom"  Width="950" >
+                <ContentControl Content="{Binding CurrentViewModel}"/>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -22,7 +22,7 @@ namespace WpfApp1.Domain.Models
 
         public OwnerRating(Reservation reservation, string comment, int cleanliness, int ownerCorrectness, int timeliness)
         {
-            IdReservation = reservation.Id;
+            
             Reservation = reservation;
             Comment = comment;
             Cleanliness = cleanliness;
@@ -32,7 +32,7 @@ namespace WpfApp1.Domain.Models
         
         public OwnerRating() 
         {
-
+            Reservation = new();
         }
 
         public int Id
@@ -130,7 +130,7 @@ namespace WpfApp1.Domain.Models
             string[] result =
             {
                 Id.ToString(),
-                IdReservation.ToString(),
+                Reservation.Id.ToString(),
                 Comment,
                 Cleanliness.ToString(),
                 OwnerCorrectness.ToString(),
@@ -142,7 +142,7 @@ namespace WpfApp1.Domain.Models
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            IdReservation = Convert.ToInt32(values[1]);
+            Reservation.Id = Convert.ToInt32(values[1]);
             Comment = values[2];
             Cleanliness = Convert.ToInt32(values[3]);
             OwnerCorrectness = Convert.ToInt32(values[4]);

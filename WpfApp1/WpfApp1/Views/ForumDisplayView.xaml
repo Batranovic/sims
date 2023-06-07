@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="WpfApp1.Views.ForumDisplayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:ns="clr-namespace:WpfApp1.Localization"
+             mc:Ignorable="d" 
+             d:DesignHeight="655" d:DesignWidth="1024"
+             Background="{Binding DataContext.Color5, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+    <Grid>
+        <Grid Height="655" Margin="0 0 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Foreground="Black" FontSize="36" FontStyle="Italic" Content="{ns:Loc Cant find what you are looking for? Create forum}"></Label>
+            <WrapPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Content="{ns:Loc Create forum}" Margin="0 0 40 0" Height="30" Width="80" Command="{Binding ShowCommand}">
+                    <Button.Effect>
+                        <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                    </Button.Effect>
+                </Button>
+                <Popup IsOpen="{Binding VisibilityPopUp}"
+                               Width="350" 
+                                Height="450" 
+                                Margin="0,0,0,0"
+                                PlacementTarget="{Binding ElementName=AccommodationViewName}"
+                                Placement="Center"
+                                Panel.ZIndex="1000">
+                    <WrapPanel Width="350" Height="450" Orientation="Vertical" Background="AliceBlue">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="250"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Width="100" Height="30">State:</Label>
+                            <Label Grid.Row="1" Grid.Column="0" Width="100" Height="30">City:</Label>
+                            <Label Grid.Row="2" Grid.Column="0" Width="100" Height="50">Comment:</Label>
+                            <ComboBox Grid.Row="0" Grid.Column="1" Width="100" Height="30" ItemsSource="{Binding States}" SelectedItem="{Binding State}"></ComboBox>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Width="100" Height="30" ItemsSource="{Binding Cities}" SelectedItem="{Binding City}"></ComboBox>
+                            <TextBox TextWrapping="Wrap" Grid.Row="2" Grid.Column="1" Width="170" Height="100" Text="{Binding Text}"></TextBox>
+                            <Button Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="50" Content="Create" Command="{Binding CreateForumCommand}">
+                                <Button.Effect>
+                                    <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+                                </Button.Effect>
+                            </Button>
+                        </Grid>
+                    </WrapPanel>
+                </Popup>
+                <Label Foreground="Black" FontSize="40" FontStyle="Italic"  Margin="0 0 0 -5"></Label>
+            </WrapPanel>
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Width="964" Height="495" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="17,28,17,28" Background="{Binding DataContext.Color2, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                <ItemsControl ItemsSource="{Binding Path=Forums}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Border BorderBrush="Black" BorderThickness="2" CornerRadius="20" Margin="10" Height="240">
+                                    <StackPanel>
+                                        <Label Content="{Binding Location.City}" HorizontalAlignment="Center" Margin="10" />
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="0" Margin="10" Height="120">
+                                            <TextBlock Text="{Binding FirstComment.Comment}" Margin="10"/>
+                                        </Border>
+                                        <Button Content="{ns:Loc Read more}" Width="100" Height="30" HorizontalAlignment="Center" Margin="10"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

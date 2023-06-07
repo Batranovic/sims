@@ -20,19 +20,9 @@ namespace WpfApp1.Service
             _ownerRepository = InjectorRepository.CreateInstance<IOwnerRepository>();
             _ownerRatingRepository = InjectorRepository.CreateInstance<IOwnerRatingRepository>();
         }
-        public void SetKind()
+        public void SetKind(Owner owner)
         {
-            foreach (Owner o in GetAll())
-            {
-                if (o.AverageRating >= 4.5)
-                {
-                    o.Super = true;
-                }
-                else
-                {
-                    o.Super = false;
-                }
-            }
+            owner.Super = owner.AverageRating >= 4.5 && owner.Ratings.Count >= 50 ? true : false;
             Save();
         }
 
@@ -52,13 +42,12 @@ namespace WpfApp1.Service
             {
                 o.AverageRating = GetAverageRating(o.Ratings);
             }
-            SetKind();
         }
         private void BindRating()
         {
             foreach (OwnerRating ro in _ownerRatingRepository.GetAll())
             {
-                Get(ro.Reservation.Accommodation.OwnerId).Ratings.Add(ro);
+                Get(ro.Reservation.Accommodation.Owner.Id).Ratings.Add(ro);
             }
         }
 

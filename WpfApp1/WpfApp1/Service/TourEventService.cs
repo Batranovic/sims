@@ -138,6 +138,13 @@ namespace WpfApp1.Service
                     tourEventsNotPassed.Add(tourEvent);
                 }
             }
+            foreach (TourEvent tourEvent1 in _tourEventRepository.GetAll())
+            {
+                if (tourEvent1.Tour.Location.City == tour.Location.City)
+                {
+                    tourEventsNotPassed.Add(tourEvent1);
+                }
+            }
 
             return tourEventsNotPassed;
         }

@@ -1,0 +1,147 @@
+﻿<Window x:Class="WpfApp1.Views.AccommodationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:vm="clr-namespace:WpfApp1.ViewModel"
+        xmlns:v="clr-namespace:WpfApp1.Views"
+        xmlns:ns="clr-namespace:WpfApp1.Localization"
+        xmlns:local="clr-namespace:WpfApp1.Views" d:DataContext="{d:DesignInstance Type=vm:AccommodationViewModel}"
+        mc:Ignorable="d"
+        Title="{ns:Loc Accommodation view}" Name="AccommodationViewName"  Height="768" Width="1024">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:AccommodationDisplayViewModel}">
+            <v:AccommodationDisplay/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UnratedReservationDisplay}">
+            <v:PastReservationsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:OwnerReviewsDisplayViewModel}">
+            <v:OwnerReviewsDisplay/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ReservationDisplayViewModel}">
+            <v:ReservationDisplayView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ForumGuestOverviewViewModel}">
+            <v:ForumDisplayView/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid Background="{Binding Color1}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="655"/>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Booking"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="{Binding Color2}"
+                   FontSize="25"/>
+        </WrapPanel>
+        <TabControl Grid.Row="1" Grid.ColumnSpan="2"  Margin="0,0,0,0" SelectedIndex="{Binding TabPosition}">
+            <TabItem Header="{ns:Loc Overview}" FontSize=" 12" Background="{Binding Color2}" >
+                <StackPanel>
+                    <ContentControl Content="{Binding AccommodationDisplayViewModel}"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="{ns:Loc Leave a review}" FontSize=" 12" Background="{Binding Color2}">
+                <StackPanel>
+                    <ContentControl Content="{Binding UnratedReservationDisplay}"/>
+                 </StackPanel>
+            </TabItem>
+            <TabItem Header="{ns:Loc Owner reviews}" FontSize=" 12" Background="{Binding Color2}">
+                <StackPanel>
+                    <ContentControl Content="{Binding OwnerReviewsDisplayViewModel}"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="{ns:Loc My reservations}" FontSize="12" Background="{Binding Color2}">
+                <StackPanel>
+                    <ContentControl Content="{Binding ReservationDisplayViewModel}" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="{ns:Loc Forum}" FontSize=" 12" Background="{Binding Color2}">
+                <StackPanel>
+                    <ContentControl Content="{Binding ForumGuestOverviewViewModel}"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <Button Width="50" Height="50" Margin="5" Background="{Binding Color2}" Opacity="1" Command="{Binding ChangeLanguageCommand}">
+            <Image Source="../Views/Image/Guest/Translate.png"/>
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Width="50" Height="50" Margin="5" Background="{Binding Color2}" Command="{Binding ColorCommand}">
+                <Image Source="../Views/Image/Guest/tema.png"/>
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Width="50" Height="50" Margin="5" Background="{Binding Color2}">
+                <Image Source="../Views/Image/Owner/notification1.png"/>
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Width="80" Height="80" Background="{Binding Color2}" BorderThickness="0" Command="{Binding PopUpCommand}"  CommandParameter="0" Margin="10 10 10 10">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Ellipse Fill="{TemplateBinding Background}" />
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#EFEAD8" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="White" />
+                    </Style>
+                </Button.Style>
+                <StackPanel>
+                    <Image Source="../Views/Image/Owner/profile.png" Width="60" Height="60" Margin="5"/>
+                </StackPanel>
+            </Button>
+
+            <Popup IsOpen="{Binding VisibilityPopUp}"
+                               Width="250" 
+                                Height="150" 
+                                Margin="0,100,10,0"
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right" 
+                                Panel.ZIndex="1000">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding ShowCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <WrapPanel Width="250" Height="200" Orientation="Vertical" Background="AliceBlue">
+                    <Label Width="200" Height="40" FontSize="25" Content="{Binding NameSurname}"></Label>
+                    <Label Content="{Binding UserType}" FontSize="25" Width="200" Height="40"/>
+                    <Button Margin="20" Height="30" Width="70" Content="Log out" Command="{Binding LogoutCommand}"/>
+                </WrapPanel>
+            </Popup>
+        </StackPanel>
+        <Canvas x:Name="TransitionContainer" />
+    </Grid>
+</Window>

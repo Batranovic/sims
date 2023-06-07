@@ -73,7 +73,45 @@ namespace WpfApp1.Service
             return _locationRepository.GetAll().Find(l => l.State.ToLower().Equals(state.ToLower()) && l.City.ToLower().Equals(city.ToLower()));
         }
 
-    
-   
+        private int SumReservationDaysForLocation(List<Reservation>  reservations)
+        {
+            int reservationDate = 0;
+            foreach (var reservation in reservations)
+            {
+                reservationDate += (reservation.EndDate.Date - reservation.StartDate.Date).Days;
+            }
+            return reservationDate;
+        }
+
+        public List<Location> GetPopularLocations()
+        {
+            IReservationService reservationService = InjectorService.CreateInstance<IReservationService>();
+            List<Location> hotLocations = new();
+            foreach(Location l in GetAll())
+            {
+                int days = SumReservationDaysForLocation(reservationService.GetAll().FindAll(r => r.Accommodation.Location.Id == l.Id && r.StartDate.Date > DateTime.Now.Date.AddMonths(-6)));
+                if((double)days/180.0 >= 0.6)
+                {
+                    hotLocations.Add(l);
+                }
+            }
+            return hotLocations;
+        }
+
+        public List<Location> GetUnpopularLocation()
+        {
+            IReservationService reservationService = InjectorService.CreateInstance<IReservationService>();
+            List<Location> coldLocations = new();
+            foreach (Location l in GetAll())
+            {
+                int days = SumReservationDaysForLocation(reservationService.GetAll().FindAll(r => r.Accommodation.Location.Id == l.Id && r.StartDate.Date > DateTime.Now.Date.AddMonths(-6)));
+                if ((double)days/180.0 < 0.6)
+                {
+                    coldLocations.Add(l);
+                }
+            }
+            return coldLocations;
+        }
+
     }
 }

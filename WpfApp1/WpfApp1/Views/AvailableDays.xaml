@@ -1,0 +1,39 @@
+﻿<Window x:Class="WpfApp1.Views.AvailableDays"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Views"
+        xmlns:ns="clr-namespace:WpfApp1.Localization"
+        mc:Ignorable="d"
+        Title="{ns:Loc Available days}" Name="AvailableDaysName" Height="450" Width="800"
+        Background="#F5F0BB">
+    <Grid>
+        <DataGrid
+            AutoGenerateColumns="False"
+            ItemsSource="{Binding Range}"
+            x:Name="DataGrid"
+            SelectedItem="{Binding SelectedRange}"
+            Background="#F5F0BB"
+            >
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{ns:Loc Start date}" Binding="{Binding Value}" Width="*" />
+                <DataGridTextColumn Header="{ns:Loc End date}" Binding="{Binding Key}" Width="*" />
+                
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Content="{ns:Loc Reserve}" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 5, 150, 5" Command="{Binding ConfirmCommand}">
+            <Button.Effect>
+                <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+            </Button.Effect>
+        </Button>
+        <Button Content="{ns:Loc Cancel}" IsCancel="True" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="150, 5, 20, 5" Command="{Binding CancelCommand}">
+            <Button.Effect>
+                <DropShadowEffect Color="Black" Direction="300" ShadowDepth="5" Opacity="0.7"/>
+            </Button.Effect>
+        </Button>
+
+    </Grid>
+</Window>

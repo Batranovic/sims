@@ -13,11 +13,11 @@ namespace WpfApp1.Service
     {
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
+            { typeof(ILocationService), new LocationService() },
             { typeof(IAccommodationService), new AccommodationService() },
             { typeof(IGuestRatingService), new GuestRatingService() },
             { typeof(IImageService), new ImageService() },
             { typeof(IGuestService), new GuestService() },
-            { typeof(ILocationService), new LocationService() },
             { typeof(IOwnerRatingService), new OwnerRatingService() },
             { typeof(IOwnerService), new OwnerService() },
             { typeof(IReservationPostponementService), new ReservationPostponementService() },
@@ -29,7 +29,19 @@ namespace WpfApp1.Service
             { typeof(ITourEventService), new TourEventService() },
             { typeof(ITourBookingService), new TourBookingService() },
             { typeof(IRatingTourAndGuideService), new RatingTourAndGuideService() },
-            { typeof(INotificationService), new NotificationService() }
+            { typeof(INotificationService), new NotificationService() },
+            { typeof(IAccommodationRenovationSuggestionService), new AccommodationRenovationSuggestionService() },
+            { typeof(IRenovationService), new RenovationService() },
+            { typeof(ISimpleTourRequestService), new SimpleTourRequestService() },
+            { typeof(IRequestNotifactionService), new RequestNotificationService() },
+            { typeof(INewTourNotificationService), new NewTourNotificationService() },
+            { typeof(IForumService), new ForumService() },
+            { typeof(INotificationAccommodationReleaseService), new NotificationAccommodationReleaseService() },
+            { typeof(IForumCommentsService), new ForumCommentsService() },
+            { typeof(IComplexTourRequestService), new ComplexTourRequestService() },
+            { typeof(IForumNotificationService), new ForumNotificationService() },
+            { typeof(IAcceptedRequestService), new AcceptedRequestGuideService() },
+            { typeof(IReportForumService), new ReportForumService() }
         };
         public static T CreateInstance<T>()
         {

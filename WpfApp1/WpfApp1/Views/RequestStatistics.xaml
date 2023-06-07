@@ -1,0 +1,102 @@
+﻿<Window x:Class="WpfApp1.Views.RequestStatistics"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Views"
+        xmlns:syncfusion="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        Title="RequestStatistics" Height="370" Width="600">
+    <TabControl Background="#f3dcc4" BorderBrush="Black" BorderThickness="1.5">
+        <TabItem Header="Statistics">
+            <TabItem.Background>
+                <SolidColorBrush Color="#f3dcc4"/>
+            </TabItem.Background>
+
+
+            <Grid Margin="45,0,-1,0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="60"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="38.8"/>
+                    <ColumnDefinition Width="241.2"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" Margin="22,48,0,0" Grid.RowSpan="2">Year:</TextBlock>
+                <ComboBox  ItemsSource="{Binding Years}" SelectedItem="{Binding Path=SelectedYear, UpdateSourceTrigger=PropertyChanged}" Margin="71,36,92,53" Grid.RowSpan="2" RenderTransformOrigin="0.553,0.139" Grid.Column="1"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" FontSize="13" Margin="22,55,100,105" Grid.RowSpan="2">Accepted requests:</TextBlock>
+                <Border BorderBrush="Black" BorderThickness="0.5" Grid.Row="1" Margin="190,45,0,105" Grid.RowSpan="2" Grid.Column="1">
+                    <TextBlock Text="{Binding AcceptedNumber, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Background="WhiteSmoke" />
+                </Border>
+                <TextBlock Grid.Row="2" Grid.Column="1" FontSize="13"  Margin="22,66,100,34">Denied requests:</TextBlock>
+                <Border BorderBrush="Black" BorderThickness="0.5" Grid.Row="2"  Margin="190,55,0,37" Grid.Column="1">
+                    <TextBlock  Text="{Binding DeniedNumber, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Background="WhiteSmoke" />
+                </Border>
+                <TextBlock Grid.Row="3" Grid.Column="1" FontSize="13"  Margin="20,15,59,25">Average number of people:</TextBlock>
+                <Border BorderBrush="Black" BorderThickness="0.5" Grid.Row="3" Margin="190,9,0,24" Grid.Column="1">
+                    <TextBlock Text="{Binding AverageNumber, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Background="WhiteSmoke" />
+                </Border>
+                <TextBlock Grid.Row="3" Grid.Column="1" FontSize="12" Margin="35,35,82,1">(in accepted requests)</TextBlock>
+                <Image Margin="13,36,237,54" Height="30" Width="30" Grid.RowSpan="2" Source="/Images/calendar.png" Stretch="Fill" RenderTransformOrigin="0.57,1.339" Grid.ColumnSpan="2"/>
+                <Image Width="30" Height="30" Margin="13,45,237,105" Grid.Row="1" Source="/Images/check.png" Stretch="Fill" RenderTransformOrigin="0.457,0.393" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                <Image Margin="13,55,237,37" Width="30" Grid.Row="2" Source="/Images/close.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+                <Image Margin="13,10,237,20"  Width="30" Height="30" Grid.Row="3" Source="/Images/average.png" Stretch="Fill" RenderTransformOrigin="0.517,-0.041" Grid.ColumnSpan="2"/>
+                <Button  Content="Close" HorizontalAlignment="Left" Margin="39,13,0,0" Grid.Row="3" Grid.Column="4" VerticalAlignment="Top" Command="{Binding CloseCommand}" Width="60" Height="25"/>
+            </Grid>
+
+        </TabItem>
+        <TabItem Header="Language Graph">
+            <TabItem.Background>
+                <SolidColorBrush Color="#f3dcc4"/>
+            </TabItem.Background>
+            <syncfusion:SfChart Height="280" Width="450">
+                <syncfusion:SfChart.PrimaryAxis>
+                    <syncfusion:CategoryAxis Header="Language" />
+                </syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:SfChart.SecondaryAxis>
+                    <syncfusion:NumericalAxis Header="Number of Requests" />
+                </syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:SfChart.Series>
+                    <syncfusion:ColumnSeries ItemsSource="{Binding RequestsByLanguage}"
+                                  XBindingPath="Key"
+                                  YBindingPath="Value"
+                                  Label="Number of Requests" >
+                    </syncfusion:ColumnSeries>
+                </syncfusion:SfChart.Series>
+            </syncfusion:SfChart>
+        </TabItem>
+
+        <TabItem Header="Location Graph">
+            <TabItem.Background>
+                <SolidColorBrush Color="#f3dcc4"/>
+            </TabItem.Background>
+            <syncfusion:SfChart Height="280" Width="450">
+                <syncfusion:SfChart.PrimaryAxis>
+                    <syncfusion:CategoryAxis Header="Location" />
+                </syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:SfChart.SecondaryAxis>
+                    <syncfusion:NumericalAxis Header="Number of Requests" />
+                </syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:SfChart.Series>
+                    <syncfusion:ColumnSeries ItemsSource="{Binding RequestsByLocation}"
+                                  XBindingPath="Key"
+                                  YBindingPath="Value"
+                                  Label="Number of Requests" >
+                    </syncfusion:ColumnSeries>
+                </syncfusion:SfChart.Series>
+            </syncfusion:SfChart>
+
+
+
+
+        </TabItem>
+    </TabControl>
+</Window>

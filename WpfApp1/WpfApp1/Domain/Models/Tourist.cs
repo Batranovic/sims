@@ -10,13 +10,13 @@ namespace WpfApp1.Domain.Models
     public class Tourist : User
     {
         
-        public List<Tour> Tours { get; set; }
+        //public List<Tour> Tours { get; set; }
 
         public List<Voucher> Vouchers { get; set; }
 
         public Tourist() : base()
         {
-            Tours = new List<Tour>();
+           // Tours = new List<Tour>();
         }
 
         public override string[] ToCSV()
